@@ -9,24 +9,26 @@
 /* Begin PBXBuildFile section */
 		6838F9532366984900FCC0D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F9522366984900FCC0D0 /* AppDelegate.swift */; };
 		6838F9552366984900FCC0D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F9542366984900FCC0D0 /* SceneDelegate.swift */; };
-		6838F9572366984900FCC0D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F9562366984900FCC0D0 /* ViewController.swift */; };
 		6838F95A2366984900FCC0D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F9582366984900FCC0D0 /* Main.storyboard */; };
 		6838F95C2366984E00FCC0D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6838F95B2366984E00FCC0D0 /* Assets.xcassets */; };
 		6838F95F2366984E00FCC0D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F95D2366984E00FCC0D0 /* LaunchScreen.storyboard */; };
 		6838F971236FD33700FCC0D0 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6838F970236FD33700FCC0D0 /* CloudKit.framework */; };
+		6838F973236FD93000FCC0D0 /* InventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F972236FD93000FCC0D0 /* InventoryViewController.swift */; };
+		6838F975236FD95900FCC0D0 /* AddInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F974236FD95900FCC0D0 /* AddInventoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6838F94F2366984900FCC0D0 /* Toko Papa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toko Papa.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6838F9522366984900FCC0D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6838F9542366984900FCC0D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6838F9562366984900FCC0D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6838F9592366984900FCC0D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6838F95B2366984E00FCC0D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6838F95E2366984E00FCC0D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6838F9602366984E00FCC0D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6838F96E236FD33400FCC0D0 /* Toko Papa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Toko Papa.entitlements"; sourceTree = "<group>"; };
 		6838F970236FD33700FCC0D0 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		6838F972236FD93000FCC0D0 /* InventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewController.swift; sourceTree = "<group>"; };
+		6838F974236FD95900FCC0D0 /* AddInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInventoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,11 +66,12 @@
 				6838F96E236FD33400FCC0D0 /* Toko Papa.entitlements */,
 				6838F9522366984900FCC0D0 /* AppDelegate.swift */,
 				6838F9542366984900FCC0D0 /* SceneDelegate.swift */,
-				6838F9562366984900FCC0D0 /* ViewController.swift */,
 				6838F9582366984900FCC0D0 /* Main.storyboard */,
 				6838F95B2366984E00FCC0D0 /* Assets.xcassets */,
 				6838F95D2366984E00FCC0D0 /* LaunchScreen.storyboard */,
 				6838F9602366984E00FCC0D0 /* Info.plist */,
+				6838F972236FD93000FCC0D0 /* InventoryViewController.swift */,
+				6838F974236FD95900FCC0D0 /* AddInventoryViewController.swift */,
 			);
 			path = "Toko Papa";
 			sourceTree = "<group>";
@@ -152,8 +155,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6838F9572366984900FCC0D0 /* ViewController.swift in Sources */,
 				6838F9532366984900FCC0D0 /* AppDelegate.swift in Sources */,
+				6838F973236FD93000FCC0D0 /* InventoryViewController.swift in Sources */,
+				6838F975236FD95900FCC0D0 /* AddInventoryViewController.swift in Sources */,
 				6838F9552366984900FCC0D0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
             <objects>
-                <viewController id="jYQ-Ft-IOO" sceneMemberID="viewController">
+                <viewController id="jYQ-Ft-IOO" customClass="InventoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rw3-dq-5cW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,6 +24,16 @@
                                 <rect key="frame" x="0.0" y="132" width="414" height="681"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="MmH-fC-FVI">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MmH-fC-FVI" id="9CN-8W-hV7">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -37,6 +47,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="9vc-0W-vag" id="uAl-OP-At5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoU-nt-aT4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -189,7 +202,7 @@
         <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
             <objects>
-                <viewController id="9CH-4x-q2b" sceneMemberID="viewController">
+                <viewController id="9CH-4x-q2b" customClass="AddInventoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="en0-g4-bY9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -236,8 +249,20 @@
                     </view>
                     <navigationItem key="navigationItem" title="Tambah Barang" leftItemsSupplementBackButton="YES" id="nXc-1c-ZBa">
                         <barButtonItem key="backBarButtonItem" title="Kembali" id="xiW-L9-21W"/>
-                        <barButtonItem key="rightBarButtonItem" title="Selesai" id="sB9-ur-sRm"/>
+                        <barButtonItem key="rightBarButtonItem" title="Selesai" id="sB9-ur-sRm">
+                            <connections>
+                                <action selector="doneButton:" destination="9CH-4x-q2b" id="Njz-C6-vux"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="barcode" destination="4FR-DX-vRf" id="hxL-5f-wBY"/>
+                        <outlet property="category" destination="yMC-g7-gFf" id="PMb-af-lUm"/>
+                        <outlet property="distributorName" destination="ndI-Jz-p4R" id="3pR-zH-le8"/>
+                        <outlet property="nameProduct" destination="Ul1-BH-b5L" id="Rgb-t9-n3N"/>
+                        <outlet property="price" destination="bj7-jZ-ubC" id="coh-wR-zRo"/>
+                        <outlet property="stock" destination="E5X-mt-qiK" id="xTk-1r-9gY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT4-bt-oSZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
