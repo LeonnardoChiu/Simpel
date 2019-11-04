@@ -13,6 +13,7 @@
 		6838F95A2366984900FCC0D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F9582366984900FCC0D0 /* Main.storyboard */; };
 		6838F95C2366984E00FCC0D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6838F95B2366984E00FCC0D0 /* Assets.xcassets */; };
 		6838F95F2366984E00FCC0D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F95D2366984E00FCC0D0 /* LaunchScreen.storyboard */; };
+		6838F971236FD33700FCC0D0 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6838F970236FD33700FCC0D0 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,8 @@
 		6838F95B2366984E00FCC0D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6838F95E2366984E00FCC0D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6838F9602366984E00FCC0D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6838F96E236FD33400FCC0D0 /* Toko Papa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Toko Papa.entitlements"; sourceTree = "<group>"; };
+		6838F970236FD33700FCC0D0 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6838F971236FD33700FCC0D0 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +46,7 @@
 			children = (
 				6838F9512366984900FCC0D0 /* Toko Papa */,
 				6838F9502366984900FCC0D0 /* Products */,
+				6838F96F236FD33700FCC0D0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +61,7 @@
 		6838F9512366984900FCC0D0 /* Toko Papa */ = {
 			isa = PBXGroup;
 			children = (
+				6838F96E236FD33400FCC0D0 /* Toko Papa.entitlements */,
 				6838F9522366984900FCC0D0 /* AppDelegate.swift */,
 				6838F9542366984900FCC0D0 /* SceneDelegate.swift */,
 				6838F9562366984900FCC0D0 /* ViewController.swift */,
@@ -65,6 +71,14 @@
 				6838F9602366984E00FCC0D0 /* Info.plist */,
 			);
 			path = "Toko Papa";
+			sourceTree = "<group>";
+		};
+		6838F96F236FD33700FCC0D0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6838F970236FD33700FCC0D0 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Toko Papa/Toko Papa.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26ZYWVZUYT;
 				INFOPLIST_FILE = "Toko Papa/Info.plist";
@@ -302,6 +317,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Toko Papa/Toko Papa.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26ZYWVZUYT;
 				INFOPLIST_FILE = "Toko Papa/Info.plist";
