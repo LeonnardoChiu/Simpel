@@ -41,10 +41,7 @@ class AddInventoryViewController: UIViewController {
     }
 
     @IBAction func doneButton(_ sender: Any) {
-       print("buka save")
         self.saveToCloud(Barcode: barcode.text!, Name: nameProduct.text!, Category: category.text!, Distributor: distributorName.text!, Stock: Int(stock.text!)!, Price: Int(price.text!)!)
-        
-    
     }
 
 }

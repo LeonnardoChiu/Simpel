@@ -10,7 +10,8 @@ import UIKit
 import CloudKit
 
 class InventoryViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
-    
+    let refeeshControl = UIRefreshControl()
+    let database = CKContainer.default().publicCloudDatabase
      var data = [CKRecord]()
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,6 +25,10 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PostView
+        let nama = data[indexPath.row].value(forKey: "NameProduct") as! String
+        let stock = data[indexPath.row].value(forKey: "Stock") as! Int
+        cell.namaProductLabel.text = nama
+        cell.stockLabel.text = "Stock Left \(stock)"
         return cell
     }
     
@@ -32,8 +37,24 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
+        self.tableView.refreshControl = refeeshControl
     }
     
+    @objc func QueryDatabase(){
+          let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
+          database.perform(query, inZoneWith: nil) { (record, _) in
+              guard let record = record else {return}
+              let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
+              self.data = sortedRecord
+              DispatchQueue.main.async {
+                  self.tableView.refreshControl?.endRefreshing()
+                  self.tableView.reloadData()
+              }
+          }
+      }
 
     /*
     // MARK: - Navigation
@@ -49,5 +70,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
 
 
 class PostView: UITableViewCell{
+    @IBOutlet weak var namaProductLabel: UILabel!
+    @IBOutlet weak var stockLabel: UILabel!
     
 }
