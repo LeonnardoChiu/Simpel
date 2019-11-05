@@ -19,10 +19,7 @@
 		6838F98D237130A900FCC0D0 /* Inventory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F98C237130A900FCC0D0 /* Inventory.storyboard */; };
 		6838F990237130B800FCC0D0 /* Cashier.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F98E237130B800FCC0D0 /* Cashier.storyboard */; };
 		6838F992237130CA00FCC0D0 /* Access.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F991237130CA00FCC0D0 /* Access.storyboard */; };
-		BD48592D2371699A0058A360 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48592C2371699A0058A360 /* EmployeeListViewController.swift */; };
-		BD48592F23716ADB0058A360 /* EmployeeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48592E23716ADB0058A360 /* EmployeeListCell.swift */; };
-		BD485931237170230058A360 /* EmployeeAddProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD485930237170230058A360 /* EmployeeAddProfileViewController.swift */; };
-		BD8D64AA2371864500A2080D /* EmployeeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D64A92371864500A2080D /* EmployeeProfileViewController.swift */; };
+		6838F9992371713300FCC0D0 /* SatuanBarangTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F9982371713300FCC0D0 /* SatuanBarangTableViewController.swift */; };
 		FE906417237129D2002F3463 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE906416237129D2002F3463 /* DateCollectionViewCell.swift */; };
 		FE906419237129F5002F3463 /* reportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE906418237129F5002F3463 /* reportViewController.swift */; };
 /* End PBXBuildFile section */
@@ -127,6 +124,7 @@
 		6838F995237130F800FCC0D0 /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				6838F9982371713300FCC0D0 /* SatuanBarangTableViewController.swift */,
 				6838F972236FD93000FCC0D0 /* InventoryViewController.swift */,
 				6838F974236FD95900FCC0D0 /* AddInventoryViewController.swift */,
 			);
