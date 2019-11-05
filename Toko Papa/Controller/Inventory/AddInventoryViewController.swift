@@ -9,7 +9,7 @@
 import UIKit
 import CloudKit
 
-class AddInventoryViewController: UIViewController {
+class AddInventoryViewController: UIViewController{
     let database = CKContainer.default().publicCloudDatabase
     
     @IBOutlet weak var barcode: UITextField!
