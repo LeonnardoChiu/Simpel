@@ -276,8 +276,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM"/>
+                    <connections>
+                        <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromSatuanVCWithSegue:" id="hbo-nO-eTC"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rb3-L1-Hsf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="A0t-tW-j9G" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="564" y="2272"/>
         </scene>

@@ -11,7 +11,9 @@ protocol SatuanDelegate {
     func satuan(data: String)
 }
 
-class SatuanBarangTableViewController: UITableViewController {
+class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
+    var selectedUnit: String?
+    
     let uoms: [String] = ["Unit", "Kilogram"]
     
     var delegate: SatuanDelegate? = nil
@@ -24,6 +26,8 @@ class SatuanBarangTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    
 
     // MARK: - Table view data source
 
@@ -38,9 +42,13 @@ class SatuanBarangTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cellUnit = uoms[indexPath.row]
+        cell.textLabel?.text = cellUnit
         
-        cell.textLabel?.text = uoms[indexPath.row]
-        
+        if let selected = selectedUnit,selected == cellUnit{
+            cell.accessoryType = .checkmark
+        }
+    
         return cell
     }
     
@@ -52,10 +60,13 @@ class SatuanBarangTableViewController: UITableViewController {
        
         guard let cell = tableView.cellForRow(at: indexPath) else {return}
         cell.accessoryType = .checkmark
-        delegate?.satuan(data: uoms[indexPath.row])
-        print(uoms[indexPath.row])
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        
+        self.selectedUnit = uoms[indexPath.row]
+        performSegue(withIdentifier: "backToAddVC", sender: nil)
     }
+    
+
 
     
     /*

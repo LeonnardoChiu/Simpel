@@ -17,15 +17,16 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     func satuan(data: String) {
         satuanSekarang = data
     }
-    var satuanSekarang: String?
+    var satuanSekarang: String? = "Unit"
+
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     let database = CKContainer.default().publicCloudDatabase
     @IBOutlet weak var tableView: UITableView!
     
     var images:[UIImage] = [UIImage]()
     var collection:UICollectionView!
-    let imageWidth = 150
-    let imageHeight = 150
+    let imageWidth = 130
+    let imageHeight = 130
     let buttonSize = 25
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
@@ -39,7 +40,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
       }
       
       override func viewWillAppear(_ animated: Bool) {
-          print(satuanSekarang)
+            print(satuanSekarang)
+            self.tableView.reloadData()
       }
     
     
@@ -77,7 +79,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         case 1:
             if indexPath.row == 0 {
                 cell.tambahBarangTextField.placeholder = "Harga per"
-                    cell.PieceLabel.text = satuanSekarang
+                cell.PieceLabel.text = satuanSekarang
+                
                 cell.accessoryType = .disclosureIndicator
                 return cell
             }
@@ -98,10 +101,17 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "satuan"{
-            let vc = segue.destination as! SatuanBarangTableViewController
-//            vc.ceklis = sender as! [Bool]
+            guard let vc = segue.destination as? SatuanBarangTableViewController else { return }
+            if let satuan = satuanSekarang{
+                vc.selectedUnit = satuan
+            }
             
         }
+    }
+    
+    @IBAction func unwindFromSatuanVC(segue: UIStoryboardSegue){
+        guard let satuanVC = segue.source as? SatuanBarangTableViewController else { return }
+        self.satuanSekarang = satuanVC.selectedUnit
     }
     
    
