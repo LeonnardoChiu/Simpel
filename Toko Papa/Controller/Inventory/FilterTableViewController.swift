@@ -1,23 +1,18 @@
 //
-//  SatuanBarangTableViewController.swift
+//  FilterTableViewController.swift
 //  Toko Papa
 //
-//  Created by Louis  Valen on 05/11/19.
+//  Created by Louis  Valen on 06/11/19.
 //  Copyright © 2019 Louis  Valen. All rights reserved.
 //
 
 import UIKit
-protocol SatuanDelegate {
-    func satuan(data: String)
-}
 
-class SatuanBarangTableViewController: UITableViewController {
-    let uoms: [String] = ["Unit", "Kilogram"]
-    
-    var delegate: SatuanDelegate? = nil
+class FilterTableViewController: UITableViewController {
+    let filter: [String] = ["Alphabetical (A-Z)", "Category"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        print()
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -33,15 +28,17 @@ class SatuanBarangTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return uoms.count
+        // #warning Incomplete implementation, return the number of rows
+        return filter.count
     }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
-        cell.textLabel?.text = uoms[indexPath.row]
-        
-        return cell
+          let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+              
+              cell.textLabel?.text = filter[indexPath.row]
+              
+              return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -52,12 +49,8 @@ class SatuanBarangTableViewController: UITableViewController {
        
         guard let cell = tableView.cellForRow(at: indexPath) else {return}
         cell.accessoryType = .checkmark
-        delegate?.satuan(data: uoms[indexPath.row])
-        print(uoms[indexPath.row])
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
-
-    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
