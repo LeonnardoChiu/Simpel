@@ -1,5 +1,5 @@
 //
-//  EmployeeAddProfileViewController.swift
+//  AddEmployeeViewController.swift
 //  Toko Papa
 //
 //  Created by Ricky Erdiansyah on 05/11/19.
@@ -8,11 +8,7 @@
 
 import UIKit
 
-class EmployeeAddProfileViewController: UIViewController {
-
-    var profile: [String] = ["Budi", "Stevenson"]
-    var list: [String] = ["First Name", "Last Name", "Store", "Role", "Email", "Phone"]
-    
+class AddEmployeeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
