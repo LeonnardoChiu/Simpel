@@ -1,28 +1,24 @@
 //
-//  SatuanBarangTableViewController.swift
+//  FilterTableViewController.swift
 //  Toko Papa
 //
-//  Created by Louis  Valen on 05/11/19.
+//  Created by Louis  Valen on 06/11/19.
 //  Copyright © 2019 Louis  Valen. All rights reserved.
 //
 
 import UIKit
 
-
-class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
-    var selectedUnit: String?
-    let uoms: [String] = ["Unit", "Kilogram"]
+class FilterTableViewController: UITableViewController {
+    let filter: [String] = ["Alphabetical (A-Z)", "Category"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        print()
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    
 
     // MARK: - Table view data source
 
@@ -32,19 +28,17 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return uoms.count
+        // #warning Incomplete implementation, return the number of rows
+        return filter.count
     }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let cellUnit = uoms[indexPath.row]
-        cell.textLabel?.text = cellUnit
-        
-        if let selected = selectedUnit,selected == cellUnit{
-            cell.accessoryType = .checkmark
-        }
-    
-        return cell
+          let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+              
+              cell.textLabel?.text = filter[indexPath.row]
+              
+              return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -56,14 +50,7 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
         guard let cell = tableView.cellForRow(at: indexPath) else {return}
         cell.accessoryType = .checkmark
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-        
-        self.selectedUnit = uoms[indexPath.row]
-        performSegue(withIdentifier: "backToAddVC", sender: nil)
     }
-    
-
-
-    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
