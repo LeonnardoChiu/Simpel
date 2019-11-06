@@ -7,16 +7,11 @@
 //
 
 import UIKit
-protocol SatuanDelegate {
-    func satuan(data: String)
-}
+
 
 class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
     var selectedUnit: String?
-    
     let uoms: [String] = ["Unit", "Kilogram"]
-    
-    var delegate: SatuanDelegate? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         print()

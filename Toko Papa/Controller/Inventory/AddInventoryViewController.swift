@@ -9,19 +9,16 @@
 import UIKit
 import CloudKit
 
-class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,SatuanDelegate, UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
-    
-    
-   
-    
-    func satuan(data: String) {
-        satuanSekarang = data
-    }
+class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
     var satuanSekarang: String? = "Unit"
 
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     let database = CKContainer.default().publicCloudDatabase
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.tableFooterView = UIView(frame: .zero)
+        }
+    }
     
     var images:[UIImage] = [UIImage]()
     var collection:UICollectionView!
@@ -198,10 +195,10 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     func checkImagesCount(){
         if images.count < 3{
-            self.addImageButton.isEnabled = true
+            self.addImageButton.isHidden = false
             
         }else{
-            self.addImageButton.isEnabled = false
+            self.addImageButton.isHidden = true
         }
     }
     
