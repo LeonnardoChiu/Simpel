@@ -34,7 +34,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
           self.tableView.delegate = self
           self.tableView.dataSource = self
           initCollection()
-        viewForCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
           // Do any additional setup after loading the view.
       }
       
