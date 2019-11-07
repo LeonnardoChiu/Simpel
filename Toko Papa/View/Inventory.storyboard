@@ -199,7 +199,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ssn-5x-Nr5">
-                                                    <rect key="frame" x="60" y="0.0" width="218" height="44"/>
+                                                    <rect key="frame" x="89" y="0.0" width="189" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -212,15 +212,20 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rp." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kP0-nl-8kw">
-                                                    <rect key="frame" x="20" y="0.0" width="38" height="44"/>
+                                                    <rect key="frame" x="51" y="-1" width="38" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Mines" translatesAutoresizingMaskIntoConstraints="NO" id="T2B-1W-PuZ">
+                                                    <rect key="frame" x="7" y="7" width="31" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="MinesImage" destination="T2B-1W-PuZ" id="pEr-CA-6sb"/>
                                             <outlet property="PieceLabel" destination="TsH-jh-JGP" id="hFm-mr-4Rq"/>
                                             <outlet property="tambahBarangTextField" destination="Ssn-5x-Nr5" id="Cyz-Ze-3Ge"/>
                                         </connections>
@@ -329,6 +334,7 @@
     <resources>
         <image name="Import Image" width="214" height="214"/>
         <image name="Inventory" width="32" height="31"/>
+        <image name="Mines" width="516" height="522"/>
         <image name="Plus" width="22" height="22"/>
     </resources>
 </document>
