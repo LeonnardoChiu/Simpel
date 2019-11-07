@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Hello-->
+        <!--reportViewController-->
         <scene sceneID="WEp-KA-q02">
             <objects>
-                <viewController storyboardIdentifier="reportViewController" id="dJq-4D-OZY" customClass="reportViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="reportViewController" title="reportViewController" id="dJq-4D-OZY" customClass="reportViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5gX-Iu-Na3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -35,13 +35,6 @@
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Prev" image="chevron.left" catalog="system"/>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTA-eT-1IL">
-                                <rect key="frame" x="186" y="270" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="eRz-W0-79h"/>
@@ -105,6 +98,7 @@
                                         <connections>
                                             <outlet property="circle" destination="Lhp-Wg-n1a" id="H8j-fG-07K"/>
                                             <outlet property="dateLabel" destination="piw-tP-Nnd" id="0Pr-FN-Gh0"/>
+                                            <segue destination="1aJ-DC-Nno" kind="unwind" identifier="goBackToReport" unwindAction="unwindToReportVC:" id="TvQ-oC-0Zk"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -205,6 +199,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g4U-57-ZmU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1aJ-DC-Nno" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1971.0144927536232" y="2270.7589285714284"/>
         </scene>
