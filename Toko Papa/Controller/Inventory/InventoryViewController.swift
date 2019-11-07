@@ -43,6 +43,10 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         self.tableView.refreshControl = refeeshControl
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+       
+    }
+    
     @objc func QueryDatabase(){
           let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
           database.perform(query, inZoneWith: nil) { (record, _) in
