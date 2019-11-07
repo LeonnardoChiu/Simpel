@@ -51,6 +51,10 @@ class EmployeeListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        print("Total Employee : \(peoples.count)")
+        print("New added : \(peoples.last?.firstName) \(peoples.last?.lastName) to your list!")
+        tableList.reloadData()
     }
     
     /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,6 +66,13 @@ class EmployeeListViewController: UIViewController {
             
         }
     }*/
+    
+    
+    @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
+        print(#function)
+        guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else {return}
+        self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
+    }
     
 }
 
@@ -98,7 +109,6 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         if segue.identifier == "employeeProfileSegue" {
             let vc = segue.destination as? EmployeeProfileViewController
             vc?.employee = peoples[temp]
-            
         }
     }
     
