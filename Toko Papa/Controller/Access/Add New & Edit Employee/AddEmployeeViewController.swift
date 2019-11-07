@@ -94,15 +94,16 @@ class AddEmployeeViewController: UIViewController {
             alert.addAction(confirm)
         }*/
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
-            self.employeeArray.append(People(firstName: self.firstNameTemp, lastName: self.lastNameTemp, store: self.storeTemp, role: self.roleTemp, email: self.emailTemp, phone: self.phoneTemp))
+            //self.employeeArray.append(People(firstName: self.firstNameTemp, lastName: self.lastNameTemp, store: self.storeTemp, role: self.roleTemp, email: self.emailTemp, phone: self.phoneTemp))
 //            self.peoples.firstName = firstName!
 //            self.peoples.lastName = lastName!
 //            self.peoples.store = store!
 //            self.peoples.firstName = role!
 //            self.peoples.firstName = email!
 //            self.peoples.phone = phone!
+            self.performSegue(withIdentifier: "backToList", sender: nil)
         }
-        alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert = UIAlertController(title: "Sukses Bos", message: "Ada orang baru nih join!", preferredStyle: .alert)
         //alert.addAction(ok)
         alert.addAction(confirm)
         alert.addAction(cancel)
@@ -120,10 +121,10 @@ class AddEmployeeViewController: UIViewController {
 //        self.roleTemp = role!
 //        self.emailTemp = firstName!
 //        self.phoneTemp = phone!
-        
-        performSegue(withIdentifier: "backToList", sender: nil)
-        
         present(alert, animated: true, completion: nil)
+        
+        
+       
         
 //        if textField.text == nil {
 //            let alert1 = UIAlertController(title: "Data ada yang kosong", message: "Data harus diisi semuanya", preferredStyle: .alert)
@@ -140,7 +141,6 @@ class AddEmployeeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
