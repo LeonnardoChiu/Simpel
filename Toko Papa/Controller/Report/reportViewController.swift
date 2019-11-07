@@ -8,23 +8,50 @@
 
 import UIKit
 
-class reportViewController: UIViewController {
+class reportViewController: UIViewController{
 
+    @IBOutlet weak var selectedDateButton: UIButton!
+    
+    var selectedDay:Int = day
+    var selectedMonth:String = ""
+    var selectedYear:Int = year
+    var titleText = "asd"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //        print("\(selectedDay) \(selectedMonth) \(selectedYear)")
+        let calendarVC: calendarViewController = self.storyboard?.instantiateViewController(identifier: "calendarViewController") as! calendarViewController
+        print("helo")
+        print(calendarVC.selectedDate)
+        titleText = calendarVC.selectedDate
+        
+        print(titleText)
+            
+        if let dateButton = selectedDateButton {
+            print("masuk ganti")
+            dateButton.setTitle(titleText, for: .normal)
+            
+        }
+    
+//        let titleTextForce:String! = titleText
+//        let theTitle = titleTextForce
+//        let theButton: UIButton = selectedDateButton
+//        theButton.setTitle(theTitle, for: .normal)
+    
+        print("\(titleText) done")
+    }
 
-        // Do any additional setup after loading the view.
+    @IBAction func DateButtonClick(_ sender: Any) {
+       let nextVC:calendarViewController = self.storyboard?.instantiateViewController(withIdentifier: "calendarViewController") as! calendarViewController
+        
+        present(nextVC, animated: true, completion: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setButtonTitle() {
+        if let dateButton = selectedDateButton {
+            print("masuk")
+            dateButton.setTitle(titleText, for: .normal)
+        }
     }
-    */
 
 }

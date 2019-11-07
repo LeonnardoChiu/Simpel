@@ -19,6 +19,8 @@
 		6838F98D237130A900FCC0D0 /* Inventory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F98C237130A900FCC0D0 /* Inventory.storyboard */; };
 		6838F990237130B800FCC0D0 /* Cashier.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F98E237130B800FCC0D0 /* Cashier.storyboard */; };
 		6838F992237130CA00FCC0D0 /* Access.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F991237130CA00FCC0D0 /* Access.storyboard */; };
+		FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBC82372756700E19665 /* CalendarVars.swift */; };
+		FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBCC237278D400E19665 /* calendarViewController.swift */; };
 		6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */; };
 		6838F99D237276D700FCC0D0 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */; };
 		6838F99F23727D7A00FCC0D0 /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99E23727D7A00FCC0D0 /* ImagePickerManager.swift */; };
@@ -52,6 +54,8 @@
 		6838F98C237130A900FCC0D0 /* Inventory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Inventory.storyboard; sourceTree = "<group>"; };
 		6838F98F237130B800FCC0D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Toko Papa/Base.lproj/Cashier.storyboard"; sourceTree = "<group>"; };
 		6838F991237130CA00FCC0D0 /* Access.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Access.storyboard; sourceTree = "<group>"; };
+		FE3ABBC82372756700E19665 /* CalendarVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVars.swift; sourceTree = "<group>"; };
+		FE3ABBCC237278D400E19665 /* calendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarViewController.swift; sourceTree = "<group>"; };
 		6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatuanBarangTableViewController.swift; sourceTree = "<group>"; };
 		6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		6838F99E23727D7A00FCC0D0 /* ImagePickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerManager.swift; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 			children = (
 				FE906416237129D2002F3463 /* DateCollectionViewCell.swift */,
 				FE906418237129F5002F3463 /* reportViewController.swift */,
+				FE3ABBC82372756700E19665 /* CalendarVars.swift */,
+				FE3ABBCC237278D400E19665 /* calendarViewController.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -286,6 +292,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */,
+				FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */,
 				6838F9532366984900FCC0D0 /* AppDelegate.swift in Sources */,
 				BD0487822372703D002E0586 /* EmployeeProfileCell.swift in Sources */,
 				6838F973236FD93000FCC0D0 /* InventoryViewController.swift in Sources */,
