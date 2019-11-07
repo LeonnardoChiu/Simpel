@@ -8,3 +8,9 @@
 
 import UIKit
 
+class AddEmployeeCell: UITableViewCell {
+    
+    @IBOutlet weak var addFormField: UITextField!
+    
+    
+}

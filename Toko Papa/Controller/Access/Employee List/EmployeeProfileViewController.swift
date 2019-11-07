@@ -84,5 +84,4 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
-    
 }
