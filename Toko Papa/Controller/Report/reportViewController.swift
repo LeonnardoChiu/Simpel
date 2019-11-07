@@ -12,33 +12,18 @@ class reportViewController: UIViewController{
 
     @IBOutlet weak var selectedDateButton: UIButton!
     
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     var selectedDay:Int = day
-    var selectedMonth:String = ""
+    var selectedMonth:String = String()
     var selectedYear:Int = year
-    var titleText = "asd"
+    var titleText = ""
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //        print("\(selectedDay) \(selectedMonth) \(selectedYear)")
-        let calendarVC: calendarViewController = self.storyboard?.instantiateViewController(identifier: "calendarViewController") as! calendarViewController
-        print("helo")
-        print(calendarVC.selectedDate)
-        titleText = calendarVC.selectedDate
-        
-        print(titleText)
-            
-        if let dateButton = selectedDateButton {
-            print("masuk ganti")
-            dateButton.setTitle(titleText, for: .normal)
-            
-        }
-    
-//        let titleTextForce:String! = titleText
-//        let theTitle = titleTextForce
-//        let theButton: UIButton = selectedDateButton
-//        theButton.setTitle(theTitle, for: .normal)
-    
-        print("\(titleText) done")
+    override func viewWillAppear(_ animated: Bool) {
+        print("appear")
+        selectedDay = day
+        selectedMonth = "\(months[month])"
+        selectedYear = year
+        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
     }
 
     @IBAction func DateButtonClick(_ sender: Any) {
@@ -47,11 +32,13 @@ class reportViewController: UIViewController{
         present(nextVC, animated: true, completion: nil)
     }
     
-    func setButtonTitle() {
-        if let dateButton = selectedDateButton {
-            print("masuk")
-            dateButton.setTitle(titleText, for: .normal)
-        }
+    @IBAction func unwindToReportVC(_ unwindSegue: UIStoryboardSegue) {
+        guard let calendarVC = unwindSegue.source as? calendarViewController else {return}
+        self.selectedDay = calendarVC.selectedDay
+        self.selectedMonth = calendarVC.selectedMonth
+        self.selectedYear = calendarVC.selectedYear
+        self.selectedDateButton.setTitle(calendarVC.selectedDate, for: .normal)
+//        print("\(selectedDay) \(selectedMonth) \(selectedYear)")
     }
 
 }
