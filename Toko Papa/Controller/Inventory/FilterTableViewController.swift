@@ -50,7 +50,9 @@ class FilterTableViewController: UITableViewController {
         guard let cell = tableView.cellForRow(at: indexPath) else {return}
         cell.accessoryType = .checkmark
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        performSegue(withIdentifier: "backToAddVCfilter", sender: nil)
     }
+    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

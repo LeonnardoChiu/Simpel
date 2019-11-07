@@ -19,8 +19,6 @@
 		6838F98D237130A900FCC0D0 /* Inventory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F98C237130A900FCC0D0 /* Inventory.storyboard */; };
 		6838F990237130B800FCC0D0 /* Cashier.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F98E237130B800FCC0D0 /* Cashier.storyboard */; };
 		6838F992237130CA00FCC0D0 /* Access.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838F991237130CA00FCC0D0 /* Access.storyboard */; };
-		FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBC82372756700E19665 /* CalendarVars.swift */; };
-		FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBCC237278D400E19665 /* calendarViewController.swift */; };
 		6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */; };
 		6838F99D237276D700FCC0D0 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */; };
 		6838F99F23727D7A00FCC0D0 /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99E23727D7A00FCC0D0 /* ImagePickerManager.swift */; };
@@ -33,7 +31,8 @@
 		BD48592D2371699A0058A360 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48592C2371699A0058A360 /* EmployeeListViewController.swift */; };
 		BD48592F23716ADB0058A360 /* EmployeeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48592E23716ADB0058A360 /* EmployeeListCell.swift */; };
 		BD8D64AA2371864500A2080D /* EmployeeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D64A92371864500A2080D /* EmployeeProfileViewController.swift */; };
-		6838F9992371713300FCC0D0 /* SatuanBarangTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F9982371713300FCC0D0 /* SatuanBarangTableViewController.swift */; };
+		FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBC82372756700E19665 /* CalendarVars.swift */; };
+		FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBCC237278D400E19665 /* calendarViewController.swift */; };
 		FE906417237129D2002F3463 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE906416237129D2002F3463 /* DateCollectionViewCell.swift */; };
 		FE906419237129F5002F3463 /* reportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE906418237129F5002F3463 /* reportViewController.swift */; };
 /* End PBXBuildFile section */
@@ -54,8 +53,6 @@
 		6838F98C237130A900FCC0D0 /* Inventory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Inventory.storyboard; sourceTree = "<group>"; };
 		6838F98F237130B800FCC0D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Toko Papa/Base.lproj/Cashier.storyboard"; sourceTree = "<group>"; };
 		6838F991237130CA00FCC0D0 /* Access.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Access.storyboard; sourceTree = "<group>"; };
-		FE3ABBC82372756700E19665 /* CalendarVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVars.swift; sourceTree = "<group>"; };
-		FE3ABBCC237278D400E19665 /* calendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarViewController.swift; sourceTree = "<group>"; };
 		6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatuanBarangTableViewController.swift; sourceTree = "<group>"; };
 		6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		6838F99E23727D7A00FCC0D0 /* ImagePickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerManager.swift; sourceTree = "<group>"; };
@@ -68,6 +65,8 @@
 		BD48592C2371699A0058A360 /* EmployeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmployeeListViewController.swift; path = "Toko Papa/Controller/Access/Employee List/EmployeeListViewController.swift"; sourceTree = SOURCE_ROOT; };
 		BD48592E23716ADB0058A360 /* EmployeeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmployeeListCell.swift; path = "Toko Papa/Controller/Access/Employee List/EmployeeListCell.swift"; sourceTree = SOURCE_ROOT; };
 		BD8D64A92371864500A2080D /* EmployeeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeProfileViewController.swift; sourceTree = "<group>"; };
+		FE3ABBC82372756700E19665 /* CalendarVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVars.swift; sourceTree = "<group>"; };
+		FE3ABBCC237278D400E19665 /* calendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarViewController.swift; sourceTree = "<group>"; };
 		FE906416237129D2002F3463 /* DateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCollectionViewCell.swift; sourceTree = "<group>"; };
 		FE906418237129F5002F3463 /* reportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reportViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -473,7 +472,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Toko Papa/Toko Papa.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VZX6G92869;
+				DEVELOPMENT_TEAM = 26ZYWVZUYT;
 				INFOPLIST_FILE = "Toko Papa/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -493,7 +492,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Toko Papa/Toko Papa.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VZX6G92869;
+				DEVELOPMENT_TEAM = 26ZYWVZUYT;
 				INFOPLIST_FILE = "Toko Papa/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

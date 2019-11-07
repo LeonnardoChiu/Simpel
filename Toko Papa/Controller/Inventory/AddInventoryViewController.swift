@@ -25,6 +25,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     let imageWidth = 130
     let imageHeight = 130
     let buttonSize = 25
+    var rowPricelist = 2
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
     override func viewDidLoad() {
@@ -59,41 +60,61 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         if section == 0 {
             return 5
         }else if section == 1 {
-            return 1
+            return rowPricelist
         }else {
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Tambahbarangcell
+        let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
+        
+        let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
+        
+        let cellplus = tableView.dequeueReusableCell(withIdentifier: "plus", for: indexPath) as! TambahBarangCellPlus
+        
         let cells = UITableViewCell()
         switch indexPath.section {
         case 0:
-                cell.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
-                cell.PieceLabel.text = ""
-                return cell
+                cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
+                return cellBiasa
         case 1:
-            if indexPath.row == 0 {
-                cell.tambahBarangTextField.placeholder = "Harga per"
-                cell.PieceLabel.text = satuanSekarang
+            var temp = rowPricelist-1
+            if indexPath.row >= 0 && indexPath.row < temp {
+                cellPrice.tambahBarangTextField.placeholder = "Harga per"
+                cellPrice.PieceLabel.text = satuanSekarang
                 
-                cell.accessoryType = .disclosureIndicator
-                return cell
+                cellPrice.accessoryType = .disclosureIndicator
+                return cellPrice
             }
+            if indexPath.row == temp{
+               
+                return cellplus
+            }
+            
+            
         default:
              return cells
         }
-        return cell
+        return cells
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            if indexPath.row == 0 {
+            var temp = rowPricelist-1
+            if indexPath.row >= 0 && indexPath.row < temp  {
                 performSegue(withIdentifier: "satuan", sender: satuanSekarang)
-                tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+               
+            }
+            if indexPath.row == temp{
+               
+                rowPricelist = rowPricelist + 1
+                self.tableView.reloadData()
             }
         }
+        
+        
+         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -111,7 +132,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         self.satuanSekarang = satuanVC.selectedUnit
     }
     
-   
+    
+    
     
     
   
@@ -237,9 +259,19 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
 
 }
 
-class Tambahbarangcell: UITableViewCell{
+class TambahBarangCellPriceList: UITableViewCell{
     
     @IBOutlet weak var tambahBarangTextField: UITextField!
     @IBOutlet weak var PieceLabel: UILabel!
+    
+}
+
+
+class TambahBarangCellBiasa: UITableViewCell{
+    
+    @IBOutlet weak var tambahBarangTextField: UITextField!
+}
+
+class TambahBarangCellPlus: UITableViewCell{
     
 }
