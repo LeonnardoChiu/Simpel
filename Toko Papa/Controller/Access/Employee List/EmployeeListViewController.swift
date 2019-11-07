@@ -53,6 +53,7 @@ class EmployeeListViewController: UIViewController {
         super.viewWillAppear(animated)
 
         print(peoples.count)
+        print(peoples.last?.firstName)
         tableList.reloadData()
     }
     
@@ -73,7 +74,6 @@ class EmployeeListViewController: UIViewController {
         self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
             //self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
             //self.peoples.append(AddEmployeeVC.peoples!)
-        
     }
     
 }

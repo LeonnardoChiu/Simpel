@@ -321,13 +321,13 @@
                         <barButtonItem key="rightBarButtonItem" title="Done" id="rED-sP-tz2">
                             <connections>
                                 <action selector="doneBtn:" destination="tAP-TY-hmV" id="rgv-Pq-zrm"/>
-                                <segue destination="5r4-of-1Gx" kind="unwind" identifier="backToList" unwindAction="unwindToEmployeeAccess:" id="B8r-RX-zNv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addTableView" destination="jft-zh-in1" id="1g3-RS-nTz"/>
                         <outlet property="profileImages" destination="VJc-PM-Asp" id="tZM-tL-Hrl"/>
+                        <segue destination="5r4-of-1Gx" kind="unwind" identifier="backToList" unwindAction="unwindToEmployeeAccess:" id="wmF-0b-FMz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r2P-mh-HbK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
