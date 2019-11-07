@@ -11,7 +11,7 @@ import UIKit
 
 class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
     var selectedUnit: String?
-    let uoms: [String] = ["Unit", "Kilogram"]
+    let uoms: [String] = ["Unit", "Kilogram", "Kaki"]
     override func viewDidLoad() {
         super.viewDidLoad()
         print()

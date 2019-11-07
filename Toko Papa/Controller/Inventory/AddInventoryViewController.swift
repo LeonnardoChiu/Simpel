@@ -10,7 +10,7 @@ import UIKit
 import CloudKit
 
 class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
-    var satuanSekarang: String? = "Unit"
+    var satuanSekarang: [String?] = ["Unit","Unit"]
 
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     let database = CKContainer.default().publicCloudDatabase
@@ -25,6 +25,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     let imageWidth = 130
     let imageHeight = 130
     let buttonSize = 25
+    var cekSatuanBarang: Int?
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
     override func viewDidLoad() {
@@ -59,47 +60,78 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         if section == 0 {
             return 5
         }else if section == 1 {
-            return 1
+            return satuanSekarang.count
         }else {
             return 0
         }
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Tambahbarangcell
+        let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
+        
+        let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
+        
+        let cellplus = tableView.dequeueReusableCell(withIdentifier: "plus", for: indexPath) as! TambahBarangCellPlus
+        
         let cells = UITableViewCell()
         switch indexPath.section {
         case 0:
-                cell.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
-                cell.PieceLabel.text = ""
-                return cell
+                cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
+                return cellBiasa
         case 1:
-            if indexPath.row == 0 {
-                cell.tambahBarangTextField.placeholder = "Harga per"
-                cell.PieceLabel.text = satuanSekarang
-                
-                cell.accessoryType = .disclosureIndicator
-                return cell
+            var temp = satuanSekarang.count - 1 // 2
+            if indexPath.row >= 0 && indexPath.row < temp  {
+                cellPrice.tambahBarangTextField.placeholder = "Harga per"
+                cellPrice.PieceLabel.text = satuanSekarang[indexPath.row]
+                cellPrice.accessoryType = .disclosureIndicator
+                cellPrice.MinesImage.isHidden = true
+                if indexPath.row != 0{
+                    cellPrice.MinesImage.isHidden = false
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+                   cellPrice.MinesImage.isUserInteractionEnabled = true
+                   cellPrice.MinesImage.addGestureRecognizer(tapGestureRecognizer)
+                }
+                return cellPrice
+            }
+            if indexPath.row == temp{ // 2
+               
+                return cellplus
             }
         default:
              return cells
         }
-        return cell
+        return cells
+    }
+
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer){
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        satuanSekarang.remove(at: 1)
+        self.tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                performSegue(withIdentifier: "satuan", sender: satuanSekarang)
-                tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+            var temp = satuanSekarang.count - 1
+            if indexPath.row >= 0 && indexPath.row < temp  {
+                cekSatuanBarang = indexPath.row
+                performSegue(withIdentifier: "satuan", sender: satuanSekarang[cekSatuanBarang!])
+            }
+            if indexPath.row == temp{
+                satuanSekarang.append("Unit")
+                self.tableView.reloadData()
             }
         }
+        
+        
+         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "satuan"{
             guard let vc = segue.destination as? SatuanBarangTableViewController else { return }
-            if let satuan = satuanSekarang{
+            if let satuan = satuanSekarang[cekSatuanBarang!]{
                 vc.selectedUnit = satuan
             }
             
@@ -108,10 +140,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBAction func unwindFromSatuanVC(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? SatuanBarangTableViewController else { return }
-        self.satuanSekarang = satuanVC.selectedUnit
+        self.satuanSekarang[cekSatuanBarang!] = satuanVC.selectedUnit!
     }
     
-   
+    
+    
     
     
   
@@ -237,9 +270,19 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
 
 }
 
-class Tambahbarangcell: UITableViewCell{
+class TambahBarangCellPriceList: UITableViewCell{
     
     @IBOutlet weak var tambahBarangTextField: UITextField!
     @IBOutlet weak var PieceLabel: UILabel!
+    @IBOutlet weak var MinesImage: UIImageView!
+}
+
+
+class TambahBarangCellBiasa: UITableViewCell{
+    
+    @IBOutlet weak var tambahBarangTextField: UITextField!
+}
+
+class TambahBarangCellPlus: UITableViewCell{
     
 }

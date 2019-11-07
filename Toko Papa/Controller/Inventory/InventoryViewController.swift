@@ -14,7 +14,6 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     let database = CKContainer.default().publicCloudDatabase
      var data = [CKRecord]()
     @IBOutlet weak var tableView: UITableView!
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -41,7 +40,11 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
         self.tableView.refreshControl = refeeshControl
+        
+
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
        
@@ -49,10 +52,13 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     @objc func QueryDatabase(){
           let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
+          let sortDesc = NSSortDescriptor(key: "Stock", ascending: false)
+        query.sortDescriptors = [sortDesc]
           database.perform(query, inZoneWith: nil) { (record, _) in
               guard let record = record else {return}
-              let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
-              self.data = sortedRecord
+//              let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
+            
+              self.data = record
               DispatchQueue.main.async {
                   self.tableView.refreshControl?.endRefreshing()
                   self.tableView.reloadData()
