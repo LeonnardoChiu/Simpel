@@ -18,28 +18,25 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     
     var currentMonth = String()
-    
     var currentDate = Int()
-    
     var numberOfEmptyBox = Int() // the number of "empty boxes" at the start of the current month
-    
     var nextNumberOfEmptyBox = Int() // the same with above but with the next month
-    
     var prevNumberOfEmptyBox = 0 // the same with above with the prev month
-    
     var direction = 0 // =0 if we are at the current month, = -1 if we are in a future month, =-1 if we are in past month
-    
     var positionIndex = 0 // here we will store the above vers of the empty boxes
-    
     var leapYearCounter = 2 //its 2 because the next time february has 29 days
-    
     var dayCounter = 0
-    
     var selectedDate = ""
+    
+    var selectedDay = Int()
+    var selectedMonth = String()
+    var selectedYear = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("did load")
+        month = 10
         currentMonth = months[month]
         
         monthLabel.text = "\(currentMonth) \(year)"
@@ -86,6 +83,8 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         default:
             fatalError()
         }
+        print(positionIndex)
+        print(currentMonth)
     }
     
     @IBAction func nextButton(_ sender: Any) {
@@ -205,7 +204,7 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
             break
         }
         
-        //mark red the cell of the current date
+        //mark grey the cell of the current date
         if currentMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 - numberOfEmptyBox == day{
             cell.dateLabel.textColor = UIColor.white
             cell.Circle.isHidden = false
@@ -218,30 +217,18 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let selectedCell = collectionView.cellForItem(at: indexPath) as! DateCollectionViewCell
-        let selectedDay = selectedCell.dateLabel!.text!
-        selectedDate = "\(selectedDay) \(months[month]) \(year)"
-        monthLabel.text = selectedCell.dateLabel.text
+        let selectedDay = Int(selectedCell.dateLabel!.text!)!
+        let selectedMonth = months[month]
+        let selectedYear = year
         selectedCell.dateLabel.textColor = UIColor.white
         selectedCell.Circle.isHidden = false
         selectedCell.DrawCircle()
         
-//        let firstViewController = reportViewController()
-//        firstViewController.selectedDay = Int(selectedDay)!
-//        firstViewController.selectedMonth = months[month]
-//        firstViewController.selectedYear = Int(year)
-//
-//        popViewController()
-//        let navController = UINavigationController(rootViewController: firstViewController)
-//        present(navController, animated: true, completion: nil)
-        
-        let firstVC: reportViewController = self.storyboard?.instantiateViewController(identifier: "reportViewController") as! reportViewController
-        
-        print(selectedDate)
-        firstVC.titleText = selectedDate
-        firstVC.viewDidLoad()
-//        firstVC.selectedDateButton?.setTitle(selectedDate, for: .normal)
-        dismiss(animated: true, completion: nil)
-        print(selectedDate)
+        self.selectedDate = "\(selectedDay) \(months[month]) \(year)"
+        self.selectedDay = Int(selectedCell.dateLabel!.text!)!
+        self.selectedMonth = months[month]
+        self.selectedYear = year
+        performSegue(withIdentifier: "goBackToReport", sender: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -249,12 +236,6 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         cell.dateLabel.textColor = UIColor.black
         cell.Circle.isHidden = true
-    }
-    
-    func popViewController() {
-        navigationController?.popViewController(animated: true)
-        
-        dismiss(animated: true, completion: nil)
     }
 
 }
