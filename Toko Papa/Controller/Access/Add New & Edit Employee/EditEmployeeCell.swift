@@ -7,3 +7,10 @@
 //
 
 import UIKit
+
+class EditEmployeeCell: UITableViewCell {
+    
+    @IBOutlet weak var editTextField: UITextField!
+    @IBOutlet weak var leftLbl: UILabel!
+    
+}

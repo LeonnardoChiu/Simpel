@@ -20,6 +20,12 @@ class EmployeeProfileViewController: UIViewController {
     
     @IBAction func editBtn(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "editProfileSegue", sender: nil)
+        firstNameTemp = employee!.firstName
+        lastNameTemp = employee!.lastName
+        storeTemp = employee!.store
+        roleTemp = employee!.role
+        emailTemp = employee!.email
+        phoneTemp = employee!.phone
     }
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -29,8 +35,15 @@ class EmployeeProfileViewController: UIViewController {
     var textLbl: [String] = ["Store", "Role", "Email", "Phone"]
     var image: UIImage = UIImage()
     var name: String = ""
-    var tempName: String = ""
+    var firstNameTemp: String = ""
+    var lastNameTemp: String = ""
+    var storeTemp: String = ""
+    var roleTemp: String = ""
+    var emailTemp: String = ""
+    var phoneTemp: String = ""
+    var peoples: [People] = []
     var employee: People?
+    var idx: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +55,7 @@ class EmployeeProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // MARK: - Init profile picture
-        profileImage.layer.cornerRadius = profileImage.frame.width / 2
+        //profileImage.layer.cornerRadius = profileImage.frame.width / 2
         
         if self.profileImage.image == nil {
             self.profileImage.image = UIImage.init(systemName: "camera")
@@ -54,6 +67,11 @@ class EmployeeProfileViewController: UIViewController {
         
     }
 
+    @IBAction func unwindToEmployeeProfile(_ unwindSegue: UIStoryboardSegue) {
+        guard let EditEmployeeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
+        
+    }
+    
 }
 
 extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -80,8 +98,21 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
             }
         }
         
+        idx = indexPath.row
         
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editProfileSegue" {
+            let vc = segue.destination as? EditEmployeeProfileViewController
+            vc?.firstNameTemp = employee!.firstName
+            vc?.lastNameTemp = employee!.lastName
+            vc?.storeTemp = employee!.store
+            vc?.roleTemp = employee!.role
+            vc?.emailTemp = employee!.email
+            vc?.phoneTemp = employee!.phone
+            
+        }
+    }
 }
