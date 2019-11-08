@@ -38,7 +38,7 @@ class EmployeeListViewController: UIViewController {
     
     var Avira = People(firstName: "Avira", lastName: "Santoso", store: "Toko Papa Jaya", role: "Anak Bungsu", email: "viravira@gmail.com", phone: "13219541")
     
-    var temp: Int = 0
+    var idx: Int = 0
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +100,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         
         print("\(self.peoples[indexPath.row].firstName) \(self.peoples[indexPath.row].lastName)")
         
-        temp = indexPath.row
+        idx = indexPath.row
 
         performSegue(withIdentifier: "employeeProfileSegue", sender: peoples[indexPath.row])
     }
@@ -108,7 +108,8 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "employeeProfileSegue" {
             let vc = segue.destination as? EmployeeProfileViewController
-            vc?.employee = peoples[temp]
+            vc?.employee = peoples[idx]
+            //vc?.peoples.append(peoples[idx])
         }
     }
     

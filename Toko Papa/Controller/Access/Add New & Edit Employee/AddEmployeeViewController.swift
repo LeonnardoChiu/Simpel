@@ -37,25 +37,7 @@ class AddEmployeeViewController: UIViewController {
         // MARK: - Check if text field empty by row
         //guard let cell = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
        
-        guard let cell1 = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
-        let firstName = cell1.addFormField.text
-        self.firstNameTemp = firstName!
-        guard let cell2 = addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AddEmployeeCell else { return }
-        let lastName = cell2.addFormField.text
-        self.lastNameTemp = lastName!
-        guard let cell3 = addTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? AddEmployeeCell else { return }
-        let store = cell3.addFormField.text
-        self.storeTemp = store!
-        guard let cell4 = addTableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? AddEmployeeCell else { return }
-        let role = cell4.addFormField.text
-        self.roleTemp = role!
-        guard let cell5 = addTableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? AddEmployeeCell else { return }
-        let email = cell5.addFormField.text
-        self.emailTemp = email!
-        guard let cell6 = addTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? AddEmployeeCell else { return }
-        let phone = cell6.addFormField.text
-        self.phoneTemp = phone!
-        
+        appendAdd()
         // employeeArray.append(People(firstName: firstNameTemp, lastName: lastNameTemp, store: storeTemp, role: roleTemp, email: emailTemp, phone: phoneTemp))
         
         /*if firstName == "" {
@@ -122,10 +104,7 @@ class AddEmployeeViewController: UIViewController {
 //        self.emailTemp = firstName!
 //        self.phoneTemp = phone!
         present(alert, animated: true, completion: nil)
-        
-        
-       
-        
+   
 //        if textField.text == nil {
 //            let alert1 = UIAlertController(title: "Data ada yang kosong", message: "Data harus diisi semuanya", preferredStyle: .alert)
 //            alert1.addAction(ok)
@@ -153,7 +132,26 @@ class AddEmployeeViewController: UIViewController {
         }
     }
 
-    
+    func appendAdd() {
+        guard let cell1 = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
+        let firstName = cell1.addFormField.text
+        self.firstNameTemp = firstName!
+        guard let cell2 = addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AddEmployeeCell else { return }
+        let lastName = cell2.addFormField.text
+        self.lastNameTemp = lastName!
+        guard let cell3 = addTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? AddEmployeeCell else { return }
+        let store = cell3.addFormField.text
+        self.storeTemp = store!
+        guard let cell4 = addTableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? AddEmployeeCell else { return }
+        let role = cell4.addFormField.text
+        self.roleTemp = role!
+        guard let cell5 = addTableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? AddEmployeeCell else { return }
+        let email = cell5.addFormField.text
+        self.emailTemp = email!
+        guard let cell6 = addTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? AddEmployeeCell else { return }
+        let phone = cell6.addFormField.text
+        self.phoneTemp = phone!
+    }
 }
 
 extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource {

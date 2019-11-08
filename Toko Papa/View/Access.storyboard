@@ -203,37 +203,43 @@
                                 <rect key="frame" x="0.0" y="301" width="414" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="0ad-ju-dKj">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="editFormCell" id="0ad-ju-dKj" customClass="EditEmployeeCell" customModule="Toko_Papa" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ad-ju-dKj" id="PZN-Do-N9f">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WlG-8v-9K5">
-                                                    <rect key="frame" x="20" y="11" width="76" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Right Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qv-Xv-tyV">
-                                                    <rect key="frame" x="308" y="11" width="86" height="21"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="umn-hp-3pr">
+                                                    <rect key="frame" x="82" y="14" width="312" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGa-4i-Nzi">
+                                                    <rect key="frame" x="20" y="11.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="4qv-Xv-tyV" firstAttribute="top" secondItem="PZN-Do-N9f" secondAttribute="top" constant="11" id="GSE-0q-mEu"/>
-                                                <constraint firstAttribute="bottom" secondItem="4qv-Xv-tyV" secondAttribute="bottom" constant="11.5" id="Ykf-kL-M9A"/>
-                                                <constraint firstItem="WlG-8v-9K5" firstAttribute="top" secondItem="PZN-Do-N9f" secondAttribute="top" constant="11" id="bRK-Rs-QcL"/>
-                                                <constraint firstItem="WlG-8v-9K5" firstAttribute="leading" secondItem="PZN-Do-N9f" secondAttribute="leading" constant="20" id="cvB-U8-5P1"/>
-                                                <constraint firstAttribute="bottom" secondItem="WlG-8v-9K5" secondAttribute="bottom" constant="11.5" id="oAG-yn-5xL"/>
-                                                <constraint firstAttribute="trailing" secondItem="4qv-Xv-tyV" secondAttribute="trailing" constant="20" id="obX-bs-5sl"/>
+                                                <constraint firstItem="umn-hp-3pr" firstAttribute="firstBaseline" secondItem="aGa-4i-Nzi" secondAttribute="firstBaseline" id="EFh-yI-8x3"/>
+                                                <constraint firstItem="aGa-4i-Nzi" firstAttribute="leading" secondItem="PZN-Do-N9f" secondAttribute="leading" constant="20" id="Rrf-Ve-PvI"/>
+                                                <constraint firstAttribute="trailing" secondItem="umn-hp-3pr" secondAttribute="trailing" constant="20" id="VRW-2n-jSp"/>
+                                                <constraint firstItem="umn-hp-3pr" firstAttribute="leading" secondItem="aGa-4i-Nzi" secondAttribute="trailing" constant="20" id="lq4-nl-j9P"/>
+                                                <constraint firstItem="aGa-4i-Nzi" firstAttribute="centerY" secondItem="PZN-Do-N9f" secondAttribute="centerY" id="yAI-XN-NBs"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="editTextField" destination="umn-hp-3pr" id="XkN-Uh-Imx"/>
+                                            <outlet property="leftLbl" destination="aGa-4i-Nzi" id="iLk-eE-jf5"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="ogX-2Q-lkT" id="7tn-pB-u7Q"/>
+                                    <outlet property="delegate" destination="ogX-2Q-lkT" id="1PZ-X5-chK"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -248,10 +254,19 @@
                         <viewLayoutGuide key="safeArea" id="yGp-h4-czd"/>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Profile" id="G7x-UG-6ck">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="rVV-BN-ZpS"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="rVV-BN-ZpS">
+                            <connections>
+                                <action selector="doneBtn:" destination="ogX-2Q-lkT" id="IP4-g9-6OG"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="editTableView" destination="iGo-Br-x6r" id="m68-az-wzP"/>
+                        <segue destination="olg-Hj-ot5" kind="unwind" identifier="backToEmployeProfile" unwindAction="unwindToEmployeeProfile:" id="BD8-55-4uC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mtd-Ub-CGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="olg-Hj-ot5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2450.7246376811595" y="2307.5892857142858"/>
         </scene>
