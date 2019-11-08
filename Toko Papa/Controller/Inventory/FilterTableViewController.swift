@@ -9,7 +9,9 @@
 import UIKit
 
 class FilterTableViewController: UITableViewController {
-    let filter: [String] = ["Alphabetical (A-Z)", "Category"]
+    let filter: [String] = ["Alphabetical (A-Z)", "Category", "Stock"]
+    let stringFilterAtCloudKit = ["NameProduct", "Category", "Stock"]
+    var SelectedUnit: String?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,6 +52,7 @@ class FilterTableViewController: UITableViewController {
         guard let cell = tableView.cellForRow(at: indexPath) else {return}
         cell.accessoryType = .checkmark
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        self.SelectedUnit = stringFilterAtCloudKit[indexPath.row]
         performSegue(withIdentifier: "backToAddVCfilter", sender: nil)
     }
     
