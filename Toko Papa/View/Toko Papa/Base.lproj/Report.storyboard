@@ -109,7 +109,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="4Wy-FF-g1B"/>
                     </view>
-                    <navigationItem key="navigationItem" id="9ar-nV-ZcB"/>
+                    <navigationItem key="navigationItem" id="9ar-nV-ZcB">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="CWM-Rk-OAC"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="hi6-cO-kjs" id="3jP-hE-uVF"/>
                     </connections>
