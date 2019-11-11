@@ -13,6 +13,7 @@ class AddEmployeeViewController: UIViewController {
     
     // MARK: - Database Cloudkit
     let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
     
     // MARK: - Variable
     var peoples: People!
@@ -136,6 +137,7 @@ class AddEmployeeViewController: UIViewController {
         ImagePickerManager().pickImage(self) { image in
             self.images = image
             self.profileImages.image = self.images
+            self.profileImages.contentMode = .scaleAspectFill
         }
     }
     
@@ -147,8 +149,10 @@ class AddEmployeeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         profileImages.layer.cornerRadius = profileImages.frame.height / 2
+        
         if profileImages.image == nil {
             profileImages.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
+            profileImages.contentMode = .scaleAspectFit
         }
     }
 
@@ -172,6 +176,7 @@ class AddEmployeeViewController: UIViewController {
         let phone = cell6.addFormField.text
         self.phoneTemp = phone!
     }
+    
 }
 
 extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource {
