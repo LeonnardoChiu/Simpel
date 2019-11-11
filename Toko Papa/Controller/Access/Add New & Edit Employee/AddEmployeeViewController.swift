@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import CloudKit
 
 class AddEmployeeViewController: UIViewController {
-        
+    
+    // MARK: - Database Cloudkit
+    let database = CKContainer.default().publicCloudDatabase
+    
+    // MARK: - Variable
     var peoples: People!
     var employeeArray: [People] = []
     var firstNameTemp: String = ""
@@ -19,6 +24,10 @@ class AddEmployeeViewController: UIViewController {
     var emailTemp: String = ""
     var phoneTemp: String = ""
     
+    let imagePicker = UIImagePickerController()
+    var images = UIImage()
+    
+    // MARK: - IBOutlet
     @IBOutlet weak var addTableView: UITableView! {
         didSet {
             addTableView.tableFooterView = UIView(frame: .zero)
@@ -117,6 +126,19 @@ class AddEmployeeViewController: UIViewController {
 //        }
     }
     
+    // MARK : - Method untuk Profile Pictures
+    @objc func imageTap(tapGestureRecoginizer: UITapGestureRecognizer) {
+        let tapImage = tapGestureRecoginizer.view as! UIImageView
+    }
+    
+    @IBOutlet weak var addImageButton: UIButton!
+    @IBAction func imageButtonTapped(_ sender: Any) {
+        ImagePickerManager().pickImage(self) { image in
+            self.images = image
+            self.profileImages.image = self.images
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -124,11 +146,9 @@ class AddEmployeeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        profileImages.layer.cornerRadius = profileImages.frame.width / 2
+        profileImages.layer.cornerRadius = profileImages.frame.height / 2
         if profileImages.image == nil {
             profileImages.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
-        } else {
-            profileImages.image = UIImage.init(systemName: "check")
         }
     }
 

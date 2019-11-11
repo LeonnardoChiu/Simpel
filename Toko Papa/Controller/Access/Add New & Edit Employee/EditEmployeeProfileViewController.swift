@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import CloudKit
 
 class EditEmployeeProfileViewController: UIViewController {
+    
+    // MARK: - Database CloudKit
+    let database = CKContainer.default().publicCloudDatabase
     
     // MARK: - Variable
     var textHolder: [String] = ["First name", "Last name", "Store", "Role", "Email", "Phone"]
@@ -21,14 +25,16 @@ class EditEmployeeProfileViewController: UIViewController {
     var peoples: [People] = []
     var employee: People?
     var idx: Int = 0
+    
+    let imagePicker = UIImagePickerController()
+    var images = UIImage()
 
-    // MARK: - IBOutlet list
+    // MARK: - IBOutlet
     @IBOutlet weak var editTableView: UITableView! {
         didSet {
             editTableView.tableFooterView = UIView(frame: .zero)
         }
     }
-    
     
     @IBAction func doneBtn(_ sender: UIBarButtonItem) {
         var alert: UIAlertController = UIAlertController()
@@ -45,11 +51,30 @@ class EditEmployeeProfileViewController: UIViewController {
         
     }
     
+    @IBOutlet weak var profileImages: UIImageView!
+    
+    @IBAction func imageButtonTapped(_ sender: Any) {
+        ImagePickerManager().pickImage(self) { image in
+            self.images = image
+            self.profileImages.image = self.images
+        }
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        profileImages.layer.cornerRadius = profileImages.frame.height / 2
+        if profileImages.image == nil {
+            profileImages.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
+        }
+    }
+    
     func updateProfile() {
         guard let cell1 = editTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditEmployeeCell else { return }
         let firstName = cell1.editTextField.text

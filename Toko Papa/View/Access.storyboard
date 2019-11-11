@@ -193,10 +193,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oam-S6-f4D">
-                                <rect key="frame" x="157" y="120" width="100" height="100"/>
+                                <rect key="frame" x="147" y="120" width="120" height="120"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="sgu-XJ-Qhl"/>
-                                    <constraint firstAttribute="height" constant="100" id="z1I-eI-nqi"/>
+                                    <constraint firstAttribute="width" constant="120" id="sgu-XJ-Qhl"/>
+                                    <constraint firstAttribute="height" constant="120" id="z1I-eI-nqi"/>
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iGo-Br-x6r">
@@ -241,13 +242,21 @@
                                     <outlet property="delegate" destination="ogX-2Q-lkT" id="1PZ-X5-chK"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3U2-jG-iZU">
+                                <rect key="frame" x="165" y="250" width="85" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Pilih gambar"/>
+                                <connections>
+                                    <action selector="imageButtonTapped:" destination="ogX-2Q-lkT" eventType="touchUpInside" id="c4K-Yp-2xA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="iGo-Br-x6r" firstAttribute="trailing" secondItem="yGp-h4-czd" secondAttribute="trailing" id="HG8-Af-ax4"/>
-                            <constraint firstItem="oam-S6-f4D" firstAttribute="centerY" secondItem="Jt8-mY-th3" secondAttribute="centerY" constant="-278" id="feD-9b-2Fr"/>
+                            <constraint firstItem="oam-S6-f4D" firstAttribute="centerY" secondItem="Jt8-mY-th3" secondAttribute="centerY" constant="-268" id="feD-9b-2Fr"/>
                             <constraint firstItem="iGo-Br-x6r" firstAttribute="bottom" secondItem="yGp-h4-czd" secondAttribute="bottom" id="gin-Sy-59s"/>
-                            <constraint firstItem="iGo-Br-x6r" firstAttribute="top" secondItem="oam-S6-f4D" secondAttribute="bottom" constant="81" id="mxO-0l-Ki7"/>
+                            <constraint firstItem="iGo-Br-x6r" firstAttribute="top" secondItem="oam-S6-f4D" secondAttribute="bottom" constant="61" id="mxO-0l-Ki7"/>
                             <constraint firstItem="oam-S6-f4D" firstAttribute="centerX" secondItem="Jt8-mY-th3" secondAttribute="centerX" id="qOE-RP-L06"/>
                             <constraint firstItem="iGo-Br-x6r" firstAttribute="leading" secondItem="yGp-h4-czd" secondAttribute="leading" id="tUQ-Ek-Bd0"/>
                         </constraints>
@@ -262,6 +271,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="editTableView" destination="iGo-Br-x6r" id="m68-az-wzP"/>
+                        <outlet property="profileImages" destination="oam-S6-f4D" id="hGf-q7-uhe"/>
                         <segue destination="olg-Hj-ot5" kind="unwind" identifier="backToEmployeProfile" unwindAction="unwindToEmployeeProfile:" id="BD8-55-4uC"/>
                     </connections>
                 </viewController>
@@ -278,14 +288,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VJc-PM-Asp">
-                                <rect key="frame" x="157" y="120" width="100" height="100"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="Wld-Hj-Fez"/>
-                                    <constraint firstAttribute="width" constant="100" id="pFv-jq-hgc"/>
-                                </constraints>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jft-zh-in1">
                                 <rect key="frame" x="0.0" y="301" width="414" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -320,13 +322,29 @@
                                     <outlet property="delegate" destination="tAP-TY-hmV" id="C7Z-TS-STs"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kbj-rm-bGd">
+                                <rect key="frame" x="165" y="250" width="85" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Pilih gambar"/>
+                                <connections>
+                                    <action selector="imageButtonTapped:" destination="tAP-TY-hmV" eventType="touchUpInside" id="EzP-1n-tLa"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VJc-PM-Asp">
+                                <rect key="frame" x="147" y="120" width="120" height="120"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Wld-Hj-Fez"/>
+                                    <constraint firstAttribute="width" constant="120" id="pFv-jq-hgc"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="VJc-PM-Asp" firstAttribute="centerY" secondItem="CWg-jf-HCx" secondAttribute="centerY" constant="-278" id="1Nh-5B-VgI"/>
+                            <constraint firstItem="VJc-PM-Asp" firstAttribute="centerY" secondItem="CWg-jf-HCx" secondAttribute="centerY" constant="-268" id="1Nh-5B-VgI"/>
                             <constraint firstItem="kYK-hg-cyg" firstAttribute="trailing" secondItem="jft-zh-in1" secondAttribute="trailing" id="8Qr-SS-y1d"/>
                             <constraint firstItem="kYK-hg-cyg" firstAttribute="bottom" secondItem="jft-zh-in1" secondAttribute="bottom" id="Z2U-QV-rsw"/>
-                            <constraint firstItem="jft-zh-in1" firstAttribute="top" secondItem="VJc-PM-Asp" secondAttribute="bottom" constant="81" id="cPd-cH-9ug"/>
+                            <constraint firstItem="jft-zh-in1" firstAttribute="top" secondItem="VJc-PM-Asp" secondAttribute="bottom" constant="61" id="cPd-cH-9ug"/>
                             <constraint firstItem="jft-zh-in1" firstAttribute="leading" secondItem="kYK-hg-cyg" secondAttribute="leading" id="dBd-U7-DwT"/>
                             <constraint firstItem="VJc-PM-Asp" firstAttribute="centerX" secondItem="CWg-jf-HCx" secondAttribute="centerX" id="g1Q-gg-Cyo"/>
                         </constraints>
@@ -340,6 +358,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addImageButton" destination="kbj-rm-bGd" id="Lwt-Q9-wzT"/>
                         <outlet property="addTableView" destination="jft-zh-in1" id="1g3-RS-nTz"/>
                         <outlet property="profileImages" destination="VJc-PM-Asp" id="tZM-tL-Hrl"/>
                         <segue destination="5r4-of-1Gx" kind="unwind" identifier="backToList" unwindAction="unwindToEmployeeAccess:" id="wmF-0b-FMz"/>
