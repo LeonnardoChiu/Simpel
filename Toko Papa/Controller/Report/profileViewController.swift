@@ -12,6 +12,7 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var nameLabel: UILabel!
     var peoples: [People] = []
     // Delegate
     weak var delegate: EmployeeListViewController?
@@ -19,12 +20,21 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // init model
     var Budi = People(firstName: "Budi", lastName: "Santoso", store: "Toko Papa Jaya", role: "Papa", email: "budibudi@gmail.com", phone: "0812314123")
     
+    var firstNameTemp = String()
+    var lastNameTemp = String()
+    var storeTemp = String()
+    var roleTemp = String()
+    var emailTemp = String()
+    var phoneTemp = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView()
         
+        nameLabel.text = "\(Budi.firstName) \(Budi.lastName)"
         // Do any additional setup after loading the view.
     }
     
@@ -92,5 +102,18 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editProfileSegue" {
+            let destinationVC = segue.destination as? editProfileViewController
+            
+            destinationVC!.firstName = Budi.firstName
+            destinationVC!.lastName = Budi.lastName
+            destinationVC!.store = Budi.store
+            destinationVC!.role =  Budi.role
+            destinationVC!.email = Budi.email
+            destinationVC!.phone = Budi.phone
+            
+        }
+    }
 
 }
