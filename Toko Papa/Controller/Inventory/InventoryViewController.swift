@@ -54,9 +54,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     
     override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async{
-            self.tableView.reloadData()
-        }
+            self.QueryDatabase()
     }
     
     @objc func QueryDatabase(){
@@ -89,8 +87,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             sortButton.setImage(imageAsce, for: .normal)
          print("b")
         }
-       
-        
+        self.QueryDatabase()
     }
     
     
