@@ -13,6 +13,7 @@ class EditEmployeeProfileViewController: UIViewController {
     
     // MARK: - Database CloudKit
     let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
     
     // MARK: - Variable
     var textHolder: [String] = ["First name", "Last name", "Store", "Role", "Email", "Phone"]
@@ -27,7 +28,8 @@ class EditEmployeeProfileViewController: UIViewController {
     var idx: Int = 0
     
     let imagePicker = UIImagePickerController()
-    var images = UIImage()
+    var image: CKAsset?
+    var imageTemp = UIImage()
 
     // MARK: - IBOutlet
     @IBOutlet weak var editTableView: UITableView! {
@@ -53,18 +55,21 @@ class EditEmployeeProfileViewController: UIViewController {
     
     @IBOutlet weak var profileImages: UIImageView!
     
-    @IBAction func imageButtonTapped(_ sender: Any) {
+    // MARK: - Selector method untuk tap image ambil gambar
+    @objc func imageTap() {
         ImagePickerManager().pickImage(self) { image in
-            self.images = image
-            self.profileImages.image = self.images
+            self.imageTemp = image
+            self.profileImages.image = self.imageTemp
+            self.profileImages.contentMode = .scaleAspectFill
         }
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // MARK: - Load tap gesture & add ke image view
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
+        profileImages.addGestureRecognizer(tap)
+        profileImages.isUserInteractionEnabled = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +77,16 @@ class EditEmployeeProfileViewController: UIViewController {
         profileImages.layer.cornerRadius = profileImages.frame.height / 2
         if profileImages.image == nil {
             profileImages.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
+        }
+    }
+    
+    // MARK: - Save to cloud
+    func saveToCloud(img: CKAsset) {
+        let record = CKRecord(recordType: "Profile")
+        record.setValue(img, forKey: "profileImage")
+        
+        database.save(record) { (record, _) in
+            guard record != nil else { return }
         }
     }
     

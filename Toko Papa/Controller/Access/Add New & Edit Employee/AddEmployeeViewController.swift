@@ -126,14 +126,9 @@ class AddEmployeeViewController: UIViewController {
 //            present(alert2, animated: true, completion: nil)
 //        }
     }
-    
-    // MARK : - Method untuk Profile Pictures
-    @objc func imageTap(tapGestureRecoginizer: UITapGestureRecognizer) {
-        let tapImage = tapGestureRecoginizer.view as! UIImageView
-    }
-    
-    @IBOutlet weak var addImageButton: UIButton!
-    @IBAction func imageButtonTapped(_ sender: Any) {
+
+    // MARK: - Selector method untuk tap image ambil gambar
+    @objc func imageTap() {
         ImagePickerManager().pickImage(self) { image in
             self.images = image
             self.profileImages.image = self.images
@@ -143,7 +138,10 @@ class AddEmployeeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // MARK: - Load tap gesture & add ke image view
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
+        profileImages.addGestureRecognizer(tap)
+        profileImages.isUserInteractionEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
