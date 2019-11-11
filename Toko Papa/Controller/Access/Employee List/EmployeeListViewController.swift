@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import CloudKit
 
 class EmployeeListViewController: UIViewController {
+    
+    // MARK: - Variable
+    var peoples: [People] = []
+    
+    // MARK: - Database Cloudkit
+    let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
     
     // MARK: - IBOutlet list
     @IBOutlet weak var tableList: UITableView! {
@@ -21,13 +29,6 @@ class EmployeeListViewController: UIViewController {
     @IBAction func addBtn(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "addNewEmployeeSegue", sender: nil)
     }
-    
-    // MARK: - Variable
-    // var people: [String] = ["Budi", "Ade", "Andi"]
-    // var access: [String] = ["Owner", "Cashier", "Inventorist"]
-    var peoples: [People] = []
-    // Delegate
-    weak var delegate: EmployeeListViewController?
     
     // init model
     var Budi = People(firstName: "Budi", lastName: "Santoso", store: "Toko Papa Jaya", role: "Papa", email: "budibudi@gmail.com", phone: "0812314123")
@@ -72,6 +73,22 @@ class EmployeeListViewController: UIViewController {
         print(#function)
         guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else {return}
         self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
+    }
+    
+    // MARK: - obj function for Query Database
+    @objc func QueryDatabase(){
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+      //query.sortDescriptors = [sortDesc]
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+              //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
+            self.data = record
+            DispatchQueue.main.async {
+                self.tableList.refreshControl?.endRefreshing()
+                self.tableList.reloadData()
+            }
+        }
     }
     
 }
