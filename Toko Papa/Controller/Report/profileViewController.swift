@@ -1,10 +1,3 @@
-//
-//  profileViewController.swift
-//  Toko Papa
-//
-//  Created by Leonnardo Benjamin Hutama on 08/11/19.
-//  Copyright © 2019 Louis  Valen. All rights reserved.
-//
 
 import UIKit
 
@@ -42,12 +35,39 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 2
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 35
+        }
+        else{
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerFrame = tableView.frame
+
+        let title = UILabel()
+        
+        title.frame =  CGRect(x: 10, y: 13, width: headerFrame.size.width-20, height: 20) //width equals to parent view with 10 left and right margin
+        title.text = self.tableView(tableView, titleForHeaderInSection: section) //This will take title of section from 'titleForHeaderInSection' method or you can write directly
+        title.font = UIFont.systemFont(ofSize: 14)
+        title.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+
+        let headerView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: headerFrame.size.width, height: headerFrame.size.height))
+        headerView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        headerView.addSubview(title)
+
+        return headerView
+        
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return ""
         }
         else {
-            return "Settings"
+            return "SETTINGS"
         }
     }
     
@@ -115,5 +135,10 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
             
         }
     }
+    
+    @IBAction func unwindToProfileVC(segue: UIStoryboardSegue) {
+        print("updated")
+    }
+    
 
 }
