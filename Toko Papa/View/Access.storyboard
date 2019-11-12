@@ -192,7 +192,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oam-S6-f4D">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oam-S6-f4D">
                                 <rect key="frame" x="147" y="120" width="120" height="120"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -242,14 +242,6 @@
                                     <outlet property="delegate" destination="ogX-2Q-lkT" id="1PZ-X5-chK"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3U2-jG-iZU">
-                                <rect key="frame" x="165" y="250" width="85" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Pilih gambar"/>
-                                <connections>
-                                    <action selector="imageButtonTapped:" destination="ogX-2Q-lkT" eventType="touchUpInside" id="c4K-Yp-2xA"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -272,7 +264,7 @@
                     <connections>
                         <outlet property="editTableView" destination="iGo-Br-x6r" id="m68-az-wzP"/>
                         <outlet property="profileImages" destination="oam-S6-f4D" id="hGf-q7-uhe"/>
-                        <segue destination="olg-Hj-ot5" kind="unwind" identifier="backToEmployeProfile" unwindAction="unwindToEmployeeProfile:" id="BD8-55-4uC"/>
+                        <segue destination="olg-Hj-ot5" kind="unwind" identifier="backToEmployeeProfile" unwindAction="unwindToEmployeeProfile:" id="BD8-55-4uC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mtd-Ub-CGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -322,15 +314,7 @@
                                     <outlet property="delegate" destination="tAP-TY-hmV" id="C7Z-TS-STs"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kbj-rm-bGd">
-                                <rect key="frame" x="165" y="250" width="85" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Pilih gambar"/>
-                                <connections>
-                                    <action selector="imageButtonTapped:" destination="tAP-TY-hmV" eventType="touchUpInside" id="EzP-1n-tLa"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VJc-PM-Asp">
+                            <imageView clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VJc-PM-Asp">
                                 <rect key="frame" x="147" y="120" width="120" height="120"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -358,7 +342,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addImageButton" destination="kbj-rm-bGd" id="Lwt-Q9-wzT"/>
                         <outlet property="addTableView" destination="jft-zh-in1" id="1g3-RS-nTz"/>
                         <outlet property="profileImages" destination="VJc-PM-Asp" id="tZM-tL-Hrl"/>
                         <segue destination="5r4-of-1Gx" kind="unwind" identifier="backToList" unwindAction="unwindToEmployeeAccess:" id="wmF-0b-FMz"/>

@@ -27,6 +27,7 @@ class AddEmployeeViewController: UIViewController {
     
     let imagePicker = UIImagePickerController()
     var images = UIImage()
+    var image: CKAsset?
     
     // MARK: - IBOutlet
     @IBOutlet weak var addTableView: UITableView! {
@@ -39,101 +40,27 @@ class AddEmployeeViewController: UIViewController {
     
     @IBAction func doneBtn(_ sender: UIBarButtonItem) {
         var alert: UIAlertController = UIAlertController()
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        //let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        var text = ""
-        var title = ""
+        //var text = ""
+        //var title = ""
         
-        // MARK: - Check if text field empty by row
-        //guard let cell = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
-       
         appendAdd()
-        // employeeArray.append(People(firstName: firstNameTemp, lastName: lastNameTemp, store: storeTemp, role: roleTemp, email: emailTemp, phone: phoneTemp))
-        
-        /*if firstName == "" {
-            text = "Nama depan harus diisi"
-            title = "Ada yang kosong bos"
-        } else if lastName == "" {
-            text = "Nama belakang harus diisi"
-            title = "Ada yang kosong bos"
-        } else if store == "" {
-            text = "Nama toko harus diisi"
-            title = "Ada yang kosong bos"
-        } else if role == "" {
-            text = "Jabatan dalam toko harus diisi"
-            title = "Ada yang kosong bos"
-        } else if email == "" {
-            text = "Email harus diisi"
-            title = "Ada yang kosong bos"
-        } else if phone == "" {
-            text = "Nomor handphone harus diisi"
-            title = "Ada yang kosong bos"
-        } else if firstName != "" && lastName != "" && store != "" && role != "" && email != "" && phone != ""{
-            print("ga ad aisi")
-            //peoples.append(People(firstName: firstName!, lastName: lastName!, store: store!, role: role!, email: email!, phone: phone!))
-            title = "Sukses"
-            text = "Berhasil menambahkan karyawan baru"
-            let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
-                self.peoples.firstName = firstName!
-                self.peoples.lastName = lastName!
-                self.peoples.store = store!
-                self.peoples.firstName = role!
-                self.peoples.firstName = email!
-                self.peoples.phone = phone!
-            }
-            
-            alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-            alert.addAction(confirm)
-        }*/
+    
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
-            //self.employeeArray.append(People(firstName: self.firstNameTemp, lastName: self.lastNameTemp, store: self.storeTemp, role: self.roleTemp, email: self.emailTemp, phone: self.phoneTemp))
-//            self.peoples.firstName = firstName!
-//            self.peoples.lastName = lastName!
-//            self.peoples.store = store!
-//            self.peoples.firstName = role!
-//            self.peoples.firstName = email!
-//            self.peoples.phone = phone!
             self.performSegue(withIdentifier: "backToList", sender: nil)
         }
+        
         alert = UIAlertController(title: "Sukses Bos", message: "Ada orang baru nih join!", preferredStyle: .alert)
         //alert.addAction(ok)
         alert.addAction(confirm)
         alert.addAction(cancel)
-        
-//        peoples?.firstName = firstName!
-//        peoples?.lastName = lastName!
-//        peoples?.store = store!
-//        peoples?.role = role!
-//        peoples?.email = email!
-//        peoples?.phone = phone!
-
-//        self.firstNameTemp = firstName!
-//        self.lastNameTemp = lastName!
-//        self.storeTemp = store!
-//        self.roleTemp = role!
-//        self.emailTemp = firstName!
-//        self.phoneTemp = phone!
+    
         present(alert, animated: true, completion: nil)
-   
-//        if textField.text == nil {
-//            let alert1 = UIAlertController(title: "Data ada yang kosong", message: "Data harus diisi semuanya", preferredStyle: .alert)
-//            alert1.addAction(ok)
-//            present(alert1, animated: true, completion: nil)
-//        } else {
-//            let alert2 = UIAlertController(title: "Sukses", message: "Berhasil menambahkan data baru", preferredStyle: .alert)
-//            alert2.addAction(ok)
-//            alert2.addAction(cancel)
-//            present(alert2, animated: true, completion: nil)
-//        }
     }
-    
-    // MARK : - Method untuk Profile Pictures
-    @objc func imageTap(tapGestureRecoginizer: UITapGestureRecognizer) {
-        let tapImage = tapGestureRecoginizer.view as! UIImageView
-    }
-    
-    @IBOutlet weak var addImageButton: UIButton!
-    @IBAction func imageButtonTapped(_ sender: Any) {
+
+    // MARK: - Selector method untuk tap image ambil gambar
+    @objc func imageTap() {
         ImagePickerManager().pickImage(self) { image in
             self.images = image
             self.profileImages.image = self.images
@@ -141,23 +68,102 @@ class AddEmployeeViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    // MARK: - show query database
+    @objc func QueryDatabase() {
+        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
+        
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else { return }
+            
+            self.data = record
+            DispatchQueue.main.async {
+                self.addTableView.refreshControl?.endRefreshing()
+                self.addTableView.reloadData()
+            }
+        }
     }
     
+    // MARK: - Save to cloud function
+    func saveToCloud(img: UIImage, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String) {
+        let record = CKRecord(recordType: "Profile")
+       
+        record.setValue(firstName, forKey: "firstName")
+        record.setValue(lastName, forKey: "lastName")
+        record.setValue(storeName, forKey: "storeName")
+        record.setValue(role, forKey: "role")
+        record.setValue(email, forKey: "email")
+        record.setValue(phoneNumber, forKey: "phoneNumber")
+        
+        var imageURL = CKAsset(fileURL: getUrl(images)!)
+        record.setValue(imageURL, forKey: "profileImage")
+        
+        database.save(record) { (record, _) in
+            guard record != nil else { return }
+            print("Data saved to Cloud!")
+        }
+    }
+    
+    /*func saveToClouds(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage]){
+            let NewNote = CKRecord(recordType: "Inventory")//ini buat data base baru
+            NewNote.setValue(Barcode, forKey: "Barcode")//ini ke tablenya
+            NewNote.setValue(Category, forKey: "Category")
+            NewNote.setValue(Distributor, forKey: "Distributor")
+            NewNote.setValue(Name, forKey: "NameProduct")
+            NewNote.setValue(Price, forKey: "Price")
+            NewNote.setValue(Stock, forKey: "Stock")
+        
+            var imageAsset: [CKAsset] = []
+               
+            for gambar in image {
+                var asset = CKAsset(fileURL: getUrl(gambar)!)
+                imageAsset.append(asset)
+                print("aaa")
+            }
+       
+            NewNote.setValue(imageAsset, forKey: "Image")
+        
+        
+         database.save(NewNote) { (record, error) in
+             print(error)
+             guard record != nil else { return}
+             print("savaedddd")
+         }
+    }*/
+    
+    func getUrl(_ images: UIImage) -> URL?{
+        let data = images.pngData(); // UIImage -> NSData, see also UIImageJPEGRepresentation
+        let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
+        do {
+            try data!.write(to:url!, options: [])
+            
+        } catch let e as NSError {
+            print("Error! \(e)");
+            return nil
+        }
+        
+        return url
+    }
+    
+    // MARK: - viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Load tap gesture & add ke image view
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
+        profileImages.addGestureRecognizer(tap)
+        profileImages.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        profileImages.layer.cornerRadius = profileImages.frame.height / 2
         
-        if profileImages.image == nil {
-            profileImages.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
-            profileImages.contentMode = .scaleAspectFit
-        }
+        // MARK: - Init profile picture
+        profileImages.layer.cornerRadius = profileImages.frame.height / 2
+        self.profileImages.image = UIImage.init(systemName: "camera")
     }
 
     func appendAdd() {
-        guard let cell1 = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
+        /*guard let cell1 = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
         let firstName = cell1.addFormField.text
         self.firstNameTemp = firstName!
         guard let cell2 = addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AddEmployeeCell else { return }
@@ -174,7 +180,23 @@ class AddEmployeeViewController: UIViewController {
         self.emailTemp = email!
         guard let cell6 = addTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? AddEmployeeCell else { return }
         let phone = cell6.addFormField.text
-        self.phoneTemp = phone!
+        self.phoneTemp = phone!*/
+        
+        let firstName = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell
+        let lastName = addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AddEmployeeCell
+        let store = addTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? AddEmployeeCell
+        let role = addTableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? AddEmployeeCell
+        let email = addTableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? AddEmployeeCell
+        let phone = addTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? AddEmployeeCell
+        
+        firstNameTemp = firstName!.addFormField.text!
+        lastNameTemp = lastName!.addFormField.text!
+        storeTemp = store!.addFormField.text!
+        roleTemp = role!.addFormField.text!
+        emailTemp = email!.addFormField.text!
+        phoneTemp  = phone!.addFormField.text!
+        
+        self.saveToCloud(img: images, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp)
     }
     
 }
