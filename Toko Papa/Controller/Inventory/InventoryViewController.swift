@@ -97,6 +97,10 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         self.filterString = satuanVC.SelectedUnit!
     }
     
+    @IBAction func unwindToVCInventory(_ unwindSegue: UIStoryboardSegue) {
+        guard let sourceViewController = unwindSegue.source as? InventoryViewController else { return }
+        // Use data from the view controller which initiated the unwind segue
+    }
     /*
     // MARK: - Navigation
 

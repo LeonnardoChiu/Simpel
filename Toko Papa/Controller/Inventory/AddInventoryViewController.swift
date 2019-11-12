@@ -23,7 +23,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     var images:[UIImage] = [UIImage]()
     var collection:UICollectionView!
     let imageWidth = 160
-    let imageHeight = 160
+    let imageHeight = 195
     let buttonSize = 25
     var cekSatuanBarang: Int?
     @IBOutlet weak var addImageButton: UIButton!
@@ -137,7 +137,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             var imageAsset: [CKAsset] = []
                
             for gambar in image {
-                var asset = CKAsset(fileURL: getUrl(gambar)!)
+                let resizedImage = gambar.resizedTo1MB()
+                var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
                 imageAsset.append(asset)
                 print("aaa")
             }
@@ -165,19 +166,33 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         
         return url
     }
+    
+    func tambahBarang(){
+        guard let barcode = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TambahBarangCellBiasa else {return}
+         guard let name = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TambahBarangCellBiasa else {return}
+         guard let category = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TambahBarangCellBiasa else {return}
+         guard let distributor = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TambahBarangCellBiasa else {return}
+         guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
+         guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
+        
+         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: (category.tambahBarangTextField.text)!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images)
+    }
 
     @IBAction func doneButton(_ sender: Any) {
-//        let cellPrice = tableView.dequeueReusableCell(withIdentifier: "", for: <#T##IndexPath#>)
-        let barcode = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TambahBarangCellBiasa
-        let name = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TambahBarangCellBiasa
-        let category = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TambahBarangCellBiasa
-        let distributor = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TambahBarangCellBiasa
-        let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa
-        let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList
-       
-        self.saveToCloud(Barcode: (barcode?.tambahBarangTextField.text)!, Name: (name?.tambahBarangTextField.text)!, Category: (category?.tambahBarangTextField.text)!, Distributor: (distributor?.tambahBarangTextField.text)!, Stock: Int((stock?.tambahBarangTextField.text)!)!, Price: Int((price?.tambahBarangTextField.text)!)!, image: images)
+        var alert: UIAlertController = UIAlertController()
         
+        
+        tambahBarang()
+        
+        let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
+            self.performSegue(withIdentifier: "backToInventory", sender: nil)
+        }
+      alert = UIAlertController(title: "Sukses", message: "Berhasil Menambah barang", preferredStyle: .alert)
+      alert.addAction(ok)
+      present(alert, animated: true, completion: nil)
     }
+    
+    
     
     func collectionView(_ collection: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if images.count > 3{
