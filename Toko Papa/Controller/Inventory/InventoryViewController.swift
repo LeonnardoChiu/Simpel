@@ -54,6 +54,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     
     override func viewWillAppear(_ animated: Bool) {
+           
             self.QueryDatabase()
     }
     
