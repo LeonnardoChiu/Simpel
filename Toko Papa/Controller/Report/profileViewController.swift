@@ -1,10 +1,3 @@
-//
-//  profileViewController.swift
-//  Toko Papa
-//
-//  Created by Leonnardo Benjamin Hutama on 08/11/19.
-//  Copyright © 2019 Louis  Valen. All rights reserved.
-//
 
 import UIKit
 
@@ -12,6 +5,7 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var nameLabel: UILabel!
     var peoples: [People] = []
     // Delegate
     weak var delegate: EmployeeListViewController?
@@ -19,12 +13,21 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // init model
     var Budi = People(firstName: "Budi", lastName: "Santoso", store: "Toko Papa Jaya", role: "Papa", email: "budibudi@gmail.com", phone: "0812314123")
     
+    var firstNameTemp = String()
+    var lastNameTemp = String()
+    var storeTemp = String()
+    var roleTemp = String()
+    var emailTemp = String()
+    var phoneTemp = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView()
         
+        nameLabel.text = "\(Budi.firstName) \(Budi.lastName)"
         // Do any additional setup after loading the view.
     }
     
@@ -32,12 +35,39 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 2
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 35
+        }
+        else{
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerFrame = tableView.frame
+
+        let title = UILabel()
+        
+        title.frame =  CGRect(x: 10, y: 13, width: headerFrame.size.width-20, height: 20) //width equals to parent view with 10 left and right margin
+        title.text = self.tableView(tableView, titleForHeaderInSection: section) //This will take title of section from 'titleForHeaderInSection' method or you can write directly
+        title.font = UIFont.systemFont(ofSize: 14)
+        title.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+
+        let headerView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: headerFrame.size.width, height: headerFrame.size.height))
+        headerView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        headerView.addSubview(title)
+
+        return headerView
+        
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return ""
         }
         else {
-            return "Settings"
+            return "SETTINGS"
         }
     }
     
@@ -90,6 +120,24 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editProfileSegue" {
+            let destinationVC = segue.destination as? editProfileViewController
+            
+            destinationVC!.firstName = Budi.firstName
+            destinationVC!.lastName = Budi.lastName
+            destinationVC!.store = Budi.store
+            destinationVC!.role =  Budi.role
+            destinationVC!.email = Budi.email
+            destinationVC!.phone = Budi.phone
+            
+        }
+    }
+    
+    @IBAction func unwindToProfileVC(segue: UIStoryboardSegue) {
+        print("updated")
     }
     
 
