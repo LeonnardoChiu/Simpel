@@ -77,7 +77,7 @@ class EmployeeListViewController: UIViewController {
     @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
         print(#function)
         guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else {return}
-        self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
+        //self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
     }
     
     // MARK: - obj function untuk nampilin data Query Database
@@ -160,7 +160,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             vc?.roleTemp = data[idx].value(forKey: "role") as! String
             vc?.emailTemp = data[idx].value(forKey: "email") as! String
             vc?.phoneTemp = data[idx].value(forKey: "phoneNumber") as! String
-            vc?.image = data[idx].value(forKey: "profileImage") as! CKAsset
+            vc?.image = data[idx].value(forKey: "profileImage") as? CKAsset
             //vc?.employee = peoples[idx]
             //vc?.peoples.append(peoples[idx])
         }

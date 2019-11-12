@@ -264,7 +264,7 @@
                     <connections>
                         <outlet property="editTableView" destination="iGo-Br-x6r" id="m68-az-wzP"/>
                         <outlet property="profileImages" destination="oam-S6-f4D" id="hGf-q7-uhe"/>
-                        <segue destination="olg-Hj-ot5" kind="unwind" identifier="backToEmployeProfile" unwindAction="unwindToEmployeeProfile:" id="BD8-55-4uC"/>
+                        <segue destination="olg-Hj-ot5" kind="unwind" identifier="backToEmployeeProfile" unwindAction="unwindToEmployeeProfile:" id="BD8-55-4uC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mtd-Ub-CGP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

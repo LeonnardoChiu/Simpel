@@ -11,27 +11,10 @@ import CloudKit
 
 class EmployeeProfileViewController: UIViewController {
     
-    // MARK: - IBOutlet List
-    @IBOutlet weak var tableView: UITableView! {
-        // hilangin sisa row table
-        didSet {
-            tableView.tableFooterView = UIView(frame: .zero)
-        }
-    }
+    // MARK: - Database Cloudkit
+    let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
     
-    @IBAction func editBtn(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "editProfileSegue", sender: nil)
-        firstNameTemp = employee!.firstName
-        lastNameTemp = employee!.lastName
-        storeTemp = employee!.store
-        roleTemp = employee!.role
-        emailTemp = employee!.email
-        phoneTemp = employee!.phone
-    }
-    
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var namaLbl: UILabel!
-
     // MARK: - Variable
     var textLbl: [String] = ["Store", "Role", "Email", "Phone"]
     var image: CKAsset?
@@ -46,8 +29,20 @@ class EmployeeProfileViewController: UIViewController {
     var employee: People?
     var idx: Int = 0
     
-    let database = CKContainer.default().publicCloudDatabase
-    var data = [CKRecord]()
+    // MARK: - IBOutlet List
+    @IBOutlet weak var tableView: UITableView! {
+        // hilangin sisa row table
+        didSet {
+            tableView.tableFooterView = UIView(frame: .zero)
+        }
+    }
+    
+    @IBAction func editBtn(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "editProfileSegue", sender: nil)
+    }
+    
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var namaLbl: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +56,8 @@ class EmployeeProfileViewController: UIViewController {
         // MARK: - Init profile picture
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
         // MARK: - ambil data dari cloudkit dalam bentuk URL
+        // image harus diload dengan type NSData fileURL
+
             if let data = NSData(contentsOf: image!.fileURL!) {
                 self.profileImage.image = UIImage(data: data as Data)
                 self.profileImage.contentMode = .scaleAspectFill
@@ -90,7 +87,6 @@ class EmployeeProfileViewController: UIViewController {
 
     @IBAction func unwindToEmployeeProfile(_ unwindSegue: UIStoryboardSegue) {
         guard let EditEmployeeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
-        
     }
     
 }
@@ -133,7 +129,7 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
             vc?.roleTemp = roleTemp
             vc?.emailTemp = emailTemp
             vc?.phoneTemp = phoneTemp
-            //vc?.images = image
+            vc?.image = image
         }
     }
 }
