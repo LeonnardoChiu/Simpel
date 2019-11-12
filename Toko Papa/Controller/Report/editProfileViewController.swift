@@ -1,10 +1,3 @@
-//
-//  editProfileViewController.swift
-//  Toko Papa
-//
-//  Created by Leonnardo Benjamin Hutama on 11/11/19.
-//  Copyright © 2019 Louis  Valen. All rights reserved.
-//
 
 import UIKit
 
@@ -12,18 +5,36 @@ class editProfileViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var imageView: UIImageView!
+    
     var firstName = String()
     var lastName = String()
     var store = String()
     var role = String()
     var email = String()
     var phone = String()
+    var image = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+
+        ImagePickerManager().pickImage(self) { image in
+            self.image = image
+            self.imageView.image = self.image
+            self.imageView.contentMode = .scaleAspectFill
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,8 +48,6 @@ class editProfileViewController: UIViewController, UITableViewDelegate, UITableV
         let valueText = cell.contentView.viewWithTag(2) as! UITextField
         
         valueText.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        
-        nameLabel.text = "\(indexPath)"
         
         if indexPath.row == 0 {
             nameLabel.text = "First Name"
@@ -68,4 +77,10 @@ class editProfileViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
        
+    @IBAction func doneClick(_ sender: Any) {
+        
+        //edit CLOUDKIT
+        performSegue(withIdentifier: "goBackToProfile", sender: self)
+        
+    }
 }
