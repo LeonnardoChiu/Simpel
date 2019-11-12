@@ -60,5 +60,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi ini membutuhkan Acces untuk membuka kamera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aplikasi ini Membutuh access ke Gallery</string>
 </dict>
 </plist>
