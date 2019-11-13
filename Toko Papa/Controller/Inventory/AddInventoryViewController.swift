@@ -33,6 +33,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
           self.tableView.delegate = self
           self.tableView.dataSource = self
           initCollection()
+            self.collection.isHidden = true
        
           // Do any additional setup after loading the view.
       }
@@ -40,6 +41,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
       override func viewWillAppear(_ animated: Bool) {
             print(satuanSekarang)
             self.tableView.reloadData()
+            
       }
     
     
@@ -83,7 +85,6 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
                 cellPrice.PieceLabel.text = satuanSekarang
                 cellPrice.accessoryType = .disclosureIndicator
-                cellPrice.MinesImage.isHidden = true
                 return cellPrice
         default:
              return cells
@@ -125,7 +126,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
   
     
-    func saveToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage]){
+    func saveToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String){
             let NewNote = CKRecord(recordType: "Inventory")//ini buat data base baru
             NewNote.setValue(Barcode, forKey: "Barcode")//ini ke tablenya
             NewNote.setValue(Category, forKey: "Category")
@@ -143,8 +144,9 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 print("aaa")
             }
        
-            NewNote.setValue(imageAsset, forKey: "Image")
-        
+            NewNote.setValue(imageAsset, forKey: "Images")
+            NewNote.setValue(unit, forKey: "Unit")
+            NewNote.setValue(1, forKey: "Version")
         
          database.save(NewNote) { (record, error) in
              print(error)
@@ -175,7 +177,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
          guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
         
-         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: (category.tambahBarangTextField.text)!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images)
+         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: (category.tambahBarangTextField.text)!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!)
     }
 
     @IBAction func doneButton(_ sender: Any) {
@@ -252,9 +254,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     func checkImagesCount(){
         if images.count < 1{
             self.addImageButton.isHidden = false
+              self.collection.isHidden = true
             
         }else{
             self.addImageButton.isHidden = true
+            self.collection.isHidden = false
         }
     }
     
@@ -297,7 +301,6 @@ class TambahBarangCellPriceList: UITableViewCell{
     
     @IBOutlet weak var tambahBarangTextField: UITextField!
     @IBOutlet weak var PieceLabel: UILabel!
-    @IBOutlet weak var MinesImage: UIImageView!
 }
 
 
@@ -306,6 +309,4 @@ class TambahBarangCellBiasa: UITableViewCell{
     @IBOutlet weak var tambahBarangTextField: UITextField!
 }
 
-class TambahBarangCellPlus: UITableViewCell{
-    
-}
+

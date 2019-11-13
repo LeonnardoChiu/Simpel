@@ -117,3 +117,17 @@ func resizedTo1MB() -> UIImage? {
     return resizingImage
 }
 }
+
+extension Int {
+
+    private static var commaFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.groupingSeparator = "."
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+
+    internal var commaRepresentation: String {
+        return Int.commaFormatter.string(from: NSNumber(value: self)) ?? "."
+    }
+}
