@@ -51,14 +51,12 @@ class EmployeeListViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
         self.tableList.refreshControl = refreshControl
         self.QueryDatabase()
-        /*peoples.append(Budi)
-        peoples.append(Ade)
-        peoples.append(Andi)
-        peoples.append(Avira)*/
     }
     
+    // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.QueryDatabase()
         tableList.reloadData()
         //print("New added : \(peoples.last?.firstName) \(peoples.last?.lastName) to your list!")
     }
@@ -140,13 +138,9 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
         tableView.deselectRow(at: indexPath, animated: true)
-        //print(self.people[indexPath.row], " \(self.access[indexPath.row])")
-        
-        //print("\(self.peoples[indexPath.row].firstName) \(self.peoples[indexPath.row].lastName)")
-        
+
         idx = indexPath.row
 
-        //performSegue(withIdentifier: "employeeProfileSegue", sender: peoples[indexPath.row])
         performSegue(withIdentifier: "employeeProfileSegue", sender: data[indexPath.row])
     }
     

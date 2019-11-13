@@ -92,18 +92,18 @@ class EditEmployeeProfileViewController: UIViewController {
     }
     
     // MARK: - Update data cloud
-    func UpdateToCloud(img: UIImage, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String, editRecord: CKRecord){
+    func UpdateToCloud(img: CKAsset, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String, editRecord: CKRecord){
         //let record = CKRecord(recordType: "Profile")
         var user = editRecord
-            //let NewNote = CKRecord(recordType: "Data")//ini buat data base baru
-            user.setValue(firstName, forKey: "firstName")
-            user.setValue(lastName, forKey: "lastName")
-            user.setValue(storeName, forKey: "storeName")
-            user.setValue(role, forKey: "role")
-            user.setValue(email, forKey: "email")
-            user.setValue(phoneNumber, forKey: "phoneNumber")
-        
         var imageURL = CKAsset(fileURL: getUrl(images)!)
+
+        //let NewNote = CKRecord(recordType: "Data")//ini buat data base baru
+        user.setValue(firstName, forKey: "firstName")
+        user.setValue(lastName, forKey: "lastName")
+        user.setValue(storeName, forKey: "storeName")
+        user.setValue(role, forKey: "role")
+        user.setValue(email, forKey: "email")
+        user.setValue(phoneNumber, forKey: "phoneNumber")
         user.setValue(imageURL, forKey: "profileImage")
         
          database.save(user) { (record, error) in
@@ -159,7 +159,7 @@ class EditEmployeeProfileViewController: UIViewController {
         emailTemp = email!.editTextField.text!
         phoneTemp  = phone!.editTextField.text!
         
-        UpdateToCloud(img: images, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp, editRecord: editData)
+        UpdateToCloud(img: image!, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp, editRecord: editData)
     }
     
 }

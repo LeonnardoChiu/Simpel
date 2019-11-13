@@ -159,7 +159,7 @@ class AddEmployeeViewController: UIViewController {
         
         // MARK: - Init profile picture
         profileImages.layer.cornerRadius = profileImages.frame.height / 2
-        self.profileImages.image = UIImage.init(systemName: "camera")
+        //self.profileImages.image = UIImage.init(systemName: "camera")
     }
 
     func appendAdd() {

@@ -46,13 +46,14 @@ class EmployeeProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.QueryDatabase()
         //print(orang?.firstName)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        //self.QueryDatabase()
         // MARK: - Init profile picture
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
         // MARK: - ambil data dari cloudkit dalam bentuk URL
@@ -130,6 +131,8 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
             vc?.emailTemp = emailTemp
             vc?.phoneTemp = phoneTemp
             vc?.image = image
+            
+            vc?.editData = sender as? CKRecord
         }
     }
 }

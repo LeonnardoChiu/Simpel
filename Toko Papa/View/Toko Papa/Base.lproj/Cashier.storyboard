@@ -1,26 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IFx-6o-QCy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IFx-6o-QCy">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Payment Method-->
+        <scene sceneID="DGy-g5-CpX">
+            <objects>
+                <viewController id="q2V-DQ-kNV" customClass="PaymentMethodViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wtM-WA-Q2m">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s1D-az-DCo">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="q2V-DQ-kNV" id="E6L-Ej-L1T"/>
+                                    <outlet property="delegate" destination="q2V-DQ-kNV" id="Xbi-fN-ECS"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="s1D-az-DCo" firstAttribute="top" secondItem="1sv-hS-S3Q" secondAttribute="top" id="1ZN-3I-uht"/>
+                            <constraint firstItem="1sv-hS-S3Q" firstAttribute="bottom" secondItem="s1D-az-DCo" secondAttribute="bottom" id="2J3-XS-7l9"/>
+                            <constraint firstItem="1sv-hS-S3Q" firstAttribute="trailing" secondItem="s1D-az-DCo" secondAttribute="trailing" id="SGZ-nx-3hc"/>
+                            <constraint firstItem="s1D-az-DCo" firstAttribute="leading" secondItem="1sv-hS-S3Q" secondAttribute="leading" id="YJH-Xy-MWj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="1sv-hS-S3Q"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Payment Method" id="bFv-4S-UL7"/>
+                    <connections>
+                        <outlet property="paymentTableView" destination="s1D-az-DCo" id="PVi-5V-SRu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1eS-sN-k63" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1283" y="2304"/>
+        </scene>
+        <!--Cashier-->
         <scene sceneID="Mhl-pD-sqx">
             <objects>
-                <viewController id="cR7-dq-Cdy" sceneMemberID="viewController">
+                <viewController id="cR7-dq-Cdy" customClass="CashierViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3fq-Jc-Drv">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3ac-u3-xqF">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemListCell" id="qG4-qG-5oV" customClass="itemListTableCell" customModule="Toko_Papa" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qG4-qG-5oV" id="MUS-Pe-Zoz">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="cR7-dq-Cdy" id="oTM-C6-aC8"/>
+                                    <outlet property="delegate" destination="cR7-dq-Cdy" id="DOl-jp-TKh"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="3ac-u3-xqF" firstAttribute="bottom" secondItem="ddN-8O-GAr" secondAttribute="bottom" id="EZW-ul-Txa"/>
+                            <constraint firstItem="3ac-u3-xqF" firstAttribute="top" secondItem="ddN-8O-GAr" secondAttribute="top" id="S71-Tt-hjR"/>
+                            <constraint firstItem="3ac-u3-xqF" firstAttribute="trailing" secondItem="ddN-8O-GAr" secondAttribute="trailing" id="nzU-eT-Rra"/>
+                            <constraint firstItem="3ac-u3-xqF" firstAttribute="leading" secondItem="ddN-8O-GAr" secondAttribute="leading" id="sj2-jp-XxM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ddN-8O-GAr"/>
                     </view>
-                    <navigationItem key="navigationItem" id="2Dw-uu-cba"/>
+                    <navigationItem key="navigationItem" title="Cashier" id="2Dw-uu-cba">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="ZGq-XE-yWL"/>
+                        <barButtonItem key="rightBarButtonItem" title="Finish" id="d6P-7u-wVD"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cashierTableView" destination="3ac-u3-xqF" id="0zD-bQ-rB1"/>
+                        <segue destination="byY-BW-mKE" kind="show" identifier="toView" id="TsW-7h-NP7"/>
+                        <segue destination="q2V-DQ-kNV" kind="show" identifier="toPaymentMethod" id="HU1-DT-vVT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJP-aC-v6s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1283" y="1584"/>
+            <point key="canvasLocation" x="1282.608695652174" y="1583.7053571428571"/>
+        </scene>
+        <!--Cashier Item List View Controller-->
+        <scene sceneID="XKK-lS-VPz">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="byY-BW-mKE" customClass="CashierItemListViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VgV-9e-doL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="CVT-Te-lxM"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="PLN-mv-L6L"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IaX-nJ-h3b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2090" y="1584"/>
         </scene>
         <!--Cashier-->
         <scene sceneID="wfB-RN-hcq">
