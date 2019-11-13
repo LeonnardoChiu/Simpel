@@ -95,6 +95,10 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
         
         return cellDetail
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
     /*
     // MARK: - Navigation
 
