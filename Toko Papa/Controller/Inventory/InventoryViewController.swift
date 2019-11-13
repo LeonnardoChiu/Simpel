@@ -14,6 +14,10 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
     var filterString: String? = "NameProduct"
+    
+   
+    var image: CKAsset?
+    
     var sorting = false
     @IBOutlet weak var tableView: UITableView!{
         didSet {
@@ -32,9 +36,27 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PostView
         let nama = data[indexPath.row].value(forKey: "NameProduct") as! String
         let stock = data[indexPath.row].value(forKey: "Stock") as! Int
+        image = (data[indexPath.row].value(forKey: "Images") as? [CKAsset])?.first
+        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+            cell.gambarCell.image = UIImage(data: data as Data)
+            cell.gambarCell.contentMode = .scaleAspectFill
+        }
         cell.namaProductLabel.text = nama
         cell.stockLabel.text = "Stock Left \(stock)"
+        cell.accessoryType = .disclosureIndicator
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "detail", sender: data[indexPath.row])
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail"{
+            let destData = segue.destination as! DetailBarangViewController
+            destData.detailBarangCkrecord = sender as! CKRecord
+        }
     }
     
 
@@ -54,7 +76,6 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     
     override func viewWillAppear(_ animated: Bool) {
-           
             self.QueryDatabase()
     }
     
@@ -117,5 +138,5 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
 class PostView: UITableViewCell{
     @IBOutlet weak var namaProductLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
-    
+    @IBOutlet weak var gambarCell: UIImageView!
 }
