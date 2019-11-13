@@ -90,10 +90,10 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nama" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1q4-2z-Gav">
-                                                    <rect key="frame" x="69" y="11" width="260" height="21"/>
+                                                    <rect key="frame" x="69" y="11" width="260" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="260" id="0BP-19-Hx5"/>
-                                                        <constraint firstAttribute="height" constant="21" id="aft-Ee-Ive"/>
+                                                        <constraint firstAttribute="height" constant="30" id="8NF-Vw-2vG"/>
+                                                        <constraint firstAttribute="width" constant="260" id="wk7-LL-4rp"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -101,15 +101,14 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="dlB-QF-krz" firstAttribute="top" secondItem="1q4-2z-Gav" secondAttribute="bottom" constant="8" id="10S-LV-Oeu"/>
                                                 <constraint firstItem="PmK-oe-Prf" firstAttribute="top" secondItem="9CN-8W-hV7" secondAttribute="top" constant="8" id="2A8-w9-Hqc"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="dlB-QF-krz" secondAttribute="trailing" constant="94" id="Aqp-Ec-Qof"/>
                                                 <constraint firstItem="PmK-oe-Prf" firstAttribute="leading" secondItem="9CN-8W-hV7" secondAttribute="leading" constant="11" id="GnW-xX-PHy"/>
-                                                <constraint firstItem="dlB-QF-krz" firstAttribute="top" secondItem="1q4-2z-Gav" secondAttribute="bottom" constant="8" id="dwQ-iJ-s55"/>
-                                                <constraint firstItem="1q4-2z-Gav" firstAttribute="top" secondItem="9CN-8W-hV7" secondAttribute="topMargin" id="exd-CZ-7eR"/>
+                                                <constraint firstItem="1q4-2z-Gav" firstAttribute="leading" secondItem="PmK-oe-Prf" secondAttribute="trailing" constant="13" id="KJu-BD-pbD"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="1q4-2z-Gav" secondAttribute="bottom" constant="23" id="T4f-Qa-BLT"/>
+                                                <constraint firstItem="1q4-2z-Gav" firstAttribute="top" secondItem="9CN-8W-hV7" secondAttribute="topMargin" id="Vev-r5-nt5"/>
                                                 <constraint firstItem="dlB-QF-krz" firstAttribute="leading" secondItem="PmK-oe-Prf" secondAttribute="trailing" constant="13" id="rw9-82-egO"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="1q4-2z-Gav" secondAttribute="trailing" constant="65" id="s1J-J4-NeV"/>
-                                                <constraint firstItem="1q4-2z-Gav" firstAttribute="leading" secondItem="PmK-oe-Prf" secondAttribute="trailing" constant="13" id="t8E-tj-tML"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="1q4-2z-Gav" secondAttribute="trailing" constant="65" id="txk-gw-SkT"/>
                                                 <constraint firstAttribute="bottom" secondItem="PmK-oe-Prf" secondAttribute="bottom" constant="7" id="uRh-mJ-GIT"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="dlB-QF-krz" secondAttribute="bottom" constant="3" id="vUA-Rj-ips"/>
                                             </constraints>
@@ -181,7 +180,7 @@
             </objects>
             <point key="canvasLocation" x="-439" y="800"/>
         </scene>
-        <!--Tambah/Edit Barang-->
+        <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
             <objects>
                 <viewController id="9CH-4x-q2b" customClass="AddInventoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
@@ -300,7 +299,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="r5D-qM-1Es"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Tambah/Edit Barang" leftItemsSupplementBackButton="YES" id="nXc-1c-ZBa">
+                    <navigationItem key="navigationItem" title="Tambah Barang" leftItemsSupplementBackButton="YES" id="nXc-1c-ZBa">
                         <barButtonItem key="backBarButtonItem" title="Kembali" id="xiW-L9-21W"/>
                         <barButtonItem key="rightBarButtonItem" title="Selesai" id="sB9-ur-sRm">
                             <connections>
@@ -403,7 +402,7 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcV-4a-kMt">
                                 <rect key="frame" x="20" y="307" width="374" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -548,6 +547,9 @@
                     <navigationItem key="navigationItem" title="Edit Barang" id="vIj-BH-Lid">
                         <barButtonItem key="rightBarButtonItem" title="Selesai" id="yBa-bQ-UYM"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="Bvb-vz-JKL" id="YZh-oh-PeW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uoc-RX-AuR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
