@@ -40,6 +40,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
       override func viewWillAppear(_ animated: Bool) {
             print(satuanSekarang)
             self.tableView.reloadData()
+            self.collection.isHidden = true
       }
     
     
@@ -83,7 +84,6 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
                 cellPrice.PieceLabel.text = satuanSekarang
                 cellPrice.accessoryType = .disclosureIndicator
-                cellPrice.MinesImage.isHidden = true
                 return cellPrice
         default:
              return cells
@@ -252,9 +252,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     func checkImagesCount(){
         if images.count < 1{
             self.addImageButton.isHidden = false
+              self.collection.isHidden = true
             
         }else{
             self.addImageButton.isHidden = true
+            self.collection.isHidden = false
         }
     }
     
@@ -297,7 +299,6 @@ class TambahBarangCellPriceList: UITableViewCell{
     
     @IBOutlet weak var tambahBarangTextField: UITextField!
     @IBOutlet weak var PieceLabel: UILabel!
-    @IBOutlet weak var MinesImage: UIImageView!
 }
 
 
@@ -306,6 +307,4 @@ class TambahBarangCellBiasa: UITableViewCell{
     @IBOutlet weak var tambahBarangTextField: UITextField!
 }
 
-class TambahBarangCellPlus: UITableViewCell{
-    
-}
+

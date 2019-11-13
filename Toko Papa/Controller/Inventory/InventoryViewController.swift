@@ -37,6 +37,18 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "detail", sender: data[indexPath.row])
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail"{
+            let destData = segue.destination as! DetailBarangViewController
+            destData.detailBarangCkrecord = sender as! CKRecord
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
