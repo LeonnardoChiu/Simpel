@@ -13,7 +13,6 @@ class AddEmployeeViewController: UIViewController {
     
     // MARK: - Database Cloudkit
     let database = CKContainer.default().publicCloudDatabase
-    var data = [CKRecord]()
     
     // MARK: - Variable
     var peoples: People!
@@ -65,21 +64,6 @@ class AddEmployeeViewController: UIViewController {
             self.images = image
             self.profileImages.image = self.images
             self.profileImages.contentMode = .scaleAspectFill
-        }
-    }
-    
-    // MARK: - show query database
-    @objc func QueryDatabase() {
-        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
-        
-        database.perform(query, inZoneWith: nil) { (record, _) in
-            guard let record = record else { return }
-            
-            self.data = record
-            DispatchQueue.main.async {
-                self.addTableView.refreshControl?.endRefreshing()
-                self.addTableView.reloadData()
-            }
         }
     }
     
@@ -232,5 +216,8 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
     
 }

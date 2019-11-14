@@ -31,20 +31,10 @@ class EmployeeListViewController: UIViewController {
         performSegue(withIdentifier: "addNewEmployeeSegue", sender: nil)
     }
     
-   /* // init model
-    var Budi = People(firstName: "Budi", lastName: "Santoso", store: "Toko Papa Jaya", role: "Papa", email: "budibudi@gmail.com", phone: "0812314123")
-    
-    var Ade = People(firstName: "Ade", lastName: "Liason", store: "Toko Papa Jaya", role: "Paman", email: "adeade@gmail.com", phone: "2131412312")
-    
-    var Andi = People(firstName: "Andi", lastName: "Karim", store: "Toko Papa Jaya", role: "Anak Sulung", email: "andiandi@gmail.com", phone: "90839184")
-    
-    var Avira = People(firstName: "Avira", lastName: "Santoso", store: "Toko Papa Jaya", role: "Anak Bungsu", email: "viravira@gmail.com", phone: "13219541")*/
-    
     var idx: Int = 0
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // self.navigationItem.titleView = UIImageView(image: UIImage.init(systemName: "person.fill"))
         //self.QueryDatabase()
         // MARK: - buat pull to refresh
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -137,8 +127,8 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
-        tableView.deselectRow(at: indexPath, animated: true)
-
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        
         idx = indexPath.row
 
         performSegue(withIdentifier: "employeeProfileSegue", sender: data[indexPath.row])

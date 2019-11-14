@@ -145,6 +145,7 @@ class EditEmployeeProfileViewController: UIViewController {
     
     // MARK: - Update function
     func updateProfile() {
+        
         let firstName = editTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditEmployeeCell
         let lastName = editTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? EditEmployeeCell
         let store = editTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? EditEmployeeCell
@@ -203,5 +204,8 @@ extension EditEmployeeProfileViewController: UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
     
 }
