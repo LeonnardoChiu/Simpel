@@ -39,7 +39,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K9t-HF-y3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="U9V-Qw-Onj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1341" y="1584"/>
+            <point key="canvasLocation" x="-2159" y="1606"/>
         </scene>
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
@@ -159,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoU-nt-aT4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-439.13043478260875" y="1583.7053571428571"/>
+            <point key="canvasLocation" x="-1342" y="1565"/>
         </scene>
         <!--Inventory-->
         <scene sceneID="geb-G7-4fh">
@@ -318,7 +318,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT4-bt-oSZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="D4e-Iz-ADd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="563.768115942029" y="1583.7053571428571"/>
+            <point key="canvasLocation" x="-439" y="1565"/>
         </scene>
         <!--Detail Barang-->
         <scene sceneID="1RJ-WP-SLr">
@@ -427,7 +427,7 @@
                     <navigationItem key="navigationItem" title="Detail Barang" id="5EJ-7c-C0a">
                         <barButtonItem key="rightBarButtonItem" title="Ubah" id="PCt-xf-Kzh">
                             <connections>
-                                <segue destination="33u-lV-6zC" kind="show" id="CTc-xA-81h"/>
+                                <action selector="editButton:" destination="dcj-tc-6mU" id="JdK-sw-jwH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -435,11 +435,12 @@
                         <outlet property="gambar" destination="94A-tt-IRE" id="SOe-4M-Ehe"/>
                         <outlet property="namaBarangDetailLabel" destination="hcV-4a-kMt" id="tPF-cP-lwc"/>
                         <outlet property="tableView" destination="kca-gd-H2X" id="rkX-B4-cPX"/>
+                        <segue destination="33u-lV-6zC" kind="show" identifier="edit" id="5Zp-Qw-cv4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ppd-EZ-gpo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-439.13043478260875" y="2351.7857142857142"/>
+            <point key="canvasLocation" x="-1342" y="2308"/>
         </scene>
         <!--Edit Barang-->
         <scene sceneID="58l-CH-Fqu">
@@ -449,19 +450,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fj8-Zj-Lgh">
-                                <rect key="frame" x="246" y="121" width="150" height="150"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="Import Image">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="addPhotoButton:" destination="9CH-4x-q2b" eventType="touchUpInside" id="qCB-pK-zqX"/>
-                                </connections>
-                            </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uR5-eh-Y9l">
-                                <rect key="frame" x="58" y="130" width="110" height="111"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uR5-eh-Y9l">
+                                <rect key="frame" x="127" y="93" width="160" height="195"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xxP-NQ-Ndf">
                                     <size key="itemSize" width="50" height="50"/>
@@ -480,16 +470,15 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bvb-vz-JKL">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bvb-vz-JKL">
                                 <rect key="frame" x="0.0" y="293" width="414" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="biasa" id="5QW-8f-B0F" customClass="TambahBarangCellBiasa" customModule="Toko_Papa" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5QW-8f-B0F" id="tuN-yd-QHb">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kuk-ZL-Vg0">
@@ -505,10 +494,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="okx-U8-ZuA" customClass="TambahBarangCellPriceList" customModule="Toko_Papa" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="okx-U8-ZuA" id="AOf-hv-M0E">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4va-5E-xms">
@@ -540,20 +529,57 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fj8-Zj-Lgh">
+                                <rect key="frame" x="132" y="115" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="fEd-Sr-dfr"/>
+                                    <constraint firstAttribute="width" constant="150" id="mln-NA-1MN"/>
+                                </constraints>
+                                <state key="normal" image="Import Image">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="addPhotoButton:" destination="33u-lV-6zC" eventType="touchUpInside" id="PMa-06-5kf"/>
+                                    <action selector="addPhotoButton:" destination="9CH-4x-q2b" eventType="touchUpInside" id="qCB-pK-zqX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Bvb-vz-JKL" firstAttribute="top" secondItem="uR5-eh-Y9l" secondAttribute="bottom" constant="5" id="1BP-Xx-TD9"/>
+                            <constraint firstItem="Bvb-vz-JKL" firstAttribute="top" secondItem="fj8-Zj-Lgh" secondAttribute="bottom" constant="28" id="CZD-mC-UpC"/>
+                            <constraint firstItem="Bvb-vz-JKL" firstAttribute="leading" secondItem="zBB-yE-gnj" secondAttribute="leading" id="D7f-0V-RtU"/>
+                            <constraint firstItem="Bvb-vz-JKL" firstAttribute="trailing" secondItem="zBB-yE-gnj" secondAttribute="trailing" id="GVO-h6-DBZ"/>
+                            <constraint firstItem="fj8-Zj-Lgh" firstAttribute="leading" secondItem="zBB-yE-gnj" secondAttribute="leading" constant="132" id="IbS-X5-cVR"/>
+                            <constraint firstItem="fj8-Zj-Lgh" firstAttribute="top" secondItem="zBB-yE-gnj" secondAttribute="top" constant="27" id="Vt4-4S-xkZ"/>
+                            <constraint firstItem="Bvb-vz-JKL" firstAttribute="top" secondItem="zBB-yE-gnj" secondAttribute="top" constant="205" id="ZCe-tC-pey"/>
+                            <constraint firstItem="uR5-eh-Y9l" firstAttribute="top" secondItem="zBB-yE-gnj" secondAttribute="top" constant="5" id="gfc-Tm-IRi"/>
+                            <constraint firstItem="zBB-yE-gnj" firstAttribute="trailing" secondItem="fj8-Zj-Lgh" secondAttribute="trailing" constant="132" id="hxC-kg-XQ1"/>
+                            <constraint firstItem="zBB-yE-gnj" firstAttribute="trailing" secondItem="uR5-eh-Y9l" secondAttribute="trailing" constant="127" id="mkK-Hj-FeE"/>
+                            <constraint firstAttribute="bottom" secondItem="Bvb-vz-JKL" secondAttribute="bottom" id="okb-vX-l3j"/>
+                            <constraint firstItem="uR5-eh-Y9l" firstAttribute="leading" secondItem="zBB-yE-gnj" secondAttribute="leading" constant="127" id="wwx-lT-sqa"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="zBB-yE-gnj"/>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Barang" id="vIj-BH-Lid">
-                        <barButtonItem key="rightBarButtonItem" title="Selesai" id="yBa-bQ-UYM"/>
+                        <barButtonItem key="rightBarButtonItem" title="Selesai" id="yBa-bQ-UYM">
+                            <connections>
+                                <action selector="doneEditButton:" destination="33u-lV-6zC" id="hr2-5N-Mi2"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addImageButton" destination="fj8-Zj-Lgh" id="2hp-kB-Bdy"/>
                         <outlet property="tableView" destination="Bvb-vz-JKL" id="YZh-oh-PeW"/>
+                        <outlet property="viewForCollectionView" destination="uR5-eh-Y9l" id="cza-s9-q1n"/>
+                        <segue destination="g6F-ma-CJb" kind="show" identifier="satuan" id="kMb-ag-Gc0"/>
+                        <segue destination="mZe-7l-Aol" kind="unwind" identifier="backToInventory" unwindAction="unwindToVCInventory:" id="7Rg-Ac-hNh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uoc-RX-AuR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="mZe-7l-Aol" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-459" y="3090"/>
+            <point key="canvasLocation" x="-439" y="2308"/>
         </scene>
         <!--Satuan Barang-->
         <scene sceneID="kbg-E1-1FY">
@@ -580,13 +606,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM"/>
                     <connections>
-                        <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromSatuanVCWithSegue:" id="hbo-nO-eTC"/>
+                        <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromSatuanVCTambahBarangWithSegue:" id="hbo-nO-eTC"/>
+                        <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToEditVC" unwindAction="unwindFromSatuanVCEditWithSegue:" id="VgN-Si-mis"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rb3-L1-Hsf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="A0t-tW-j9G" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="564" y="2272"/>
+            <point key="canvasLocation" x="472" y="1910"/>
         </scene>
     </scenes>
     <resources>
@@ -594,4 +621,7 @@
         <image name="Inventory" width="32" height="31"/>
         <image name="descen" width="32" height="51"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="kMb-ag-Gc0"/>
+    </inferredMetricsTieBreakers>
 </document>
