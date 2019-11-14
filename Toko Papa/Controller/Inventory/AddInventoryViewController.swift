@@ -10,10 +10,13 @@ import UIKit
 import CloudKit
 
 class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
+   
+    
     var satuanSekarang: String? = "Unit"
-
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     let database = CKContainer.default().publicCloudDatabase
+    
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.tableFooterView = UIView(frame: .zero)
@@ -29,14 +32,15 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
     override func viewDidLoad() {
-          super.viewDidLoad()
-          self.tableView.delegate = self
-          self.tableView.dataSource = self
-          initCollection()
-            self.collection.isHidden = true
+        super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        initCollection()
+        self.collection.isHidden = true
        
           // Do any additional setup after loading the view.
-      }
+    }
       
       override func viewWillAppear(_ animated: Bool) {
             print(satuanSekarang)
@@ -53,7 +57,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         if section == 0 {
             return ""
         }else if section == 1 {
-            return "Price List"
+            return "Daftar Harga"
         }
         return ""
     }
@@ -80,9 +84,13 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         switch indexPath.section {
         case 0:
                 cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
+                if indexPath.row == 4 {
+                    cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
+                }
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
+                cellPrice.tambahBarangTextField.keyboardType = .decimalPad
                 cellPrice.PieceLabel.text = satuanSekarang
                 cellPrice.accessoryType = .disclosureIndicator
                 return cellPrice
@@ -96,7 +104,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            performSegue(withIdentifier: "satuan", sender: satuanSekarang)
+            performSegue(withIdentifier: "satuan", sender: 0)
         }
         
         
@@ -108,12 +116,13 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             guard let vc = segue.destination as? SatuanBarangTableViewController else { return }
             if let satuan = satuanSekarang{
                 vc.selectedUnit = satuan
+                vc.pemelihVC = sender as! Int
             }
             
         }
     }
     
-    @IBAction func unwindFromSatuanVC(segue: UIStoryboardSegue){
+    @IBAction func unwindFromSatuanVCTambahBarang(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? SatuanBarangTableViewController else { return }
         self.satuanSekarang = satuanVC.selectedUnit!
     }
