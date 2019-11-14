@@ -62,6 +62,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround() 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         DispatchQueue.main.async{

@@ -10,14 +10,14 @@ import UIKit
 import CloudKit
 
 class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
-    
+    let refeeshControl = UIRefreshControl()
     let database = CKContainer.default().publicCloudDatabase
     var detailBarangCkrecord: CKRecord!
     @IBOutlet weak var namaBarangDetailLabel: UILabel!
     @IBOutlet weak var gambar: UIImageView!
     var img: CKAsset?
     
-    var namaCell: [String] = ["Barcode", "Category","Company Name", "Stock Quantity"]
+    var namaCell: [String] = ["Barcode", "Kategori","Distributor", "Stok"]
     var isiCell:[String] = []
     @IBOutlet weak var tableView: UITableView!{
         didSet {
@@ -33,30 +33,28 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     
     }
     func showImage(){
-        
         img = (detailBarangCkrecord.value(forKey: "Images") as? [CKAsset])?.first
         if let image = img, let url = image.fileURL, let data = NSData(contentsOf: url) {
             self.gambar.image = UIImage(data: data as Data)
             self.gambar.contentMode = .scaleAspectFill
-        } else {
-
-
         }
-        
-        
-        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround() 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         appendIsiCell()
         namaBarangDetailLabel.text = detailBarangCkrecord.value(forKey: "NameProduct") as! String
-        print(detailBarangCkrecord.value(forKey: "Category"))
-        
         showImage()
+        
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.view.reloadInputViews()
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
@@ -68,7 +66,7 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1{
-            return "Price List"
+            return "Daftar Harga"
         }
         return ""
     }
@@ -98,6 +96,23 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
+    
+    @IBAction func unwindToDetailtVC(_ unwindSegue: UIStoryboardSegue) {
+       guard let sourceViewController = unwindSegue.source as? DetailBarangViewController else { return }
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
+    
+    @IBAction func editButton(_ sender: Any) {
+        performSegue(withIdentifier: "edit", sender: detailBarangCkrecord)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "edit"{
+            let destData = segue.destination as! EditBarangViewController
+            destData.editCKrecord = sender as! CKRecord
+        }
     }
     /*
     // MARK: - Navigation
