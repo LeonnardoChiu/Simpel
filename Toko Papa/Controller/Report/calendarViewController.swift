@@ -32,6 +32,8 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     var selectedMonth = String()
     var selectedYear = Int()
     
+    var prevVC = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -228,7 +230,8 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.selectedDay = Int(selectedCell.dateLabel!.text!)!
         self.selectedMonth = months[month]
         self.selectedYear = year
-        performSegue(withIdentifier: "goBackToReport", sender: nil)
+        
+        performSegue(withIdentifier: "goBackFromCalendar", sender: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

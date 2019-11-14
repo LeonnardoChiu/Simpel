@@ -11,10 +11,13 @@ import UIKit
 
 class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
     var selectedUnit: String?
+    var pemelihVC = 0 // 1 dari edit, 0 dari add
     let uoms: [String] = ["Unit", "Kilogram", "Kaki"]
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround() 
         print()
+        tableView.tableFooterView = UIView(frame: .zero)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -58,7 +61,12 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
         
         self.selectedUnit = uoms[indexPath.row]
-        performSegue(withIdentifier: "backToAddVC", sender: nil)
+        if pemelihVC == 0 {
+            performSegue(withIdentifier: "backToAddVC", sender: nil)
+        }else if pemelihVC == 1 {
+            performSegue(withIdentifier: "backToEditVC", sender: nil)
+        }
+        
     }
     
 
