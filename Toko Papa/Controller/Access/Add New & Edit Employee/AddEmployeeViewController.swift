@@ -39,11 +39,7 @@ class AddEmployeeViewController: UIViewController {
     
     @IBAction func doneBtn(_ sender: UIBarButtonItem) {
         var alert: UIAlertController = UIAlertController()
-        //let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        //var text = ""
-        //var title = ""
-        
         appendAdd()
     
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
@@ -51,10 +47,8 @@ class AddEmployeeViewController: UIViewController {
         }
         
         alert = UIAlertController(title: "Sukses Bos", message: "Ada orang baru nih join!", preferredStyle: .alert)
-        //alert.addAction(ok)
+        
         alert.addAction(confirm)
-        alert.addAction(cancel)
-    
         present(alert, animated: true, completion: nil)
     }
 

@@ -13,8 +13,8 @@ class EditEmployeeProfileViewController: UIViewController {
     
     // MARK: - Database CloudKit
     let database = CKContainer.default().publicCloudDatabase
-    var data = [CKRecord]()
     var editData: CKRecord!
+    var textFieldTemp: [String] = []
     
     // MARK: - Variable
     var textHolder: [String] = ["First name", "Last name", "Store", "Role", "Email", "Phone"]
@@ -41,12 +41,11 @@ class EditEmployeeProfileViewController: UIViewController {
     
     @IBAction func doneBtn(_ sender: UIBarButtonItem) {
         var alert: UIAlertController = UIAlertController()
-        let cell = EditEmployeeCell()
-        
+        //let cell = EditEmployeeCell()
         updateProfile()
         
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
-            self.performSegue(withIdentifier: "backToEmployeeProfile", sender: nil)
+            self.performSegue(withIdentifier: "backToList", sender: nil)
             
             //self.firstNameTemp = cell.editTextField.text!
             //self.updateProfile()
@@ -75,6 +74,7 @@ class EditEmployeeProfileViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
         profileImages.addGestureRecognizer(tap)
         profileImages.isUserInteractionEnabled = true
+        showImage()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -91,20 +91,34 @@ class EditEmployeeProfileViewController: UIViewController {
         
     }
     
+    func showImage() {
+        image = editData.value(forKey: "profileImage") as? CKAsset
+        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+            self.profileImages.image = UIImage(data: data as Data)
+            self.profileImages.contentMode = .scaleAspectFill
+        } else {
+            self.profileImages.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
+        }
+    }
+    
     // MARK: - Update data cloud
-    func UpdateToCloud(img: CKAsset, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String, editRecord: CKRecord){
+    func UpdateToCloud(img: UIImage, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String, editRecord: CKRecord){
         //let record = CKRecord(recordType: "Profile")
         var user = editRecord
         var imageURL = CKAsset(fileURL: getUrl(images)!)
 
-        //let NewNote = CKRecord(recordType: "Data")//ini buat data base baru
+                
+        let resizedImage = img.resizedTo1MB()
+        var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
+        
+        user.setValue(asset, forKey: "profileImage")
         user.setValue(firstName, forKey: "firstName")
         user.setValue(lastName, forKey: "lastName")
         user.setValue(storeName, forKey: "storeName")
         user.setValue(role, forKey: "role")
         user.setValue(email, forKey: "email")
         user.setValue(phoneNumber, forKey: "phoneNumber")
-        user.setValue(imageURL, forKey: "profileImage")
+        
         
          database.save(user) { (record, error) in
              guard record != nil else { return}
@@ -126,41 +140,26 @@ class EditEmployeeProfileViewController: UIViewController {
         return url
     }
     
-    // MARK: - Save to cloud function
-    func saveToCloud(img: CKAsset, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String) {
-        let record = CKRecord(recordType: "Profile")
-        
-        record.setValue(img, forKey: "profileImage")
-        record.setValue(firstName, forKey: "firstName")
-        record.setValue(lastName, forKey: "lastName")
-        record.setValue(storeName, forKey: "storeName")
-        record.setValue(role, forKey: "role")
-        record.setValue(email, forKey: "email")
-        record.setValue(phoneNumber, forKey: "phoneNumber")
-        
-        database.save(record) { (record, _) in
-            guard record != nil else { return }
-        }
-    }
-    
     // MARK: - Update function
     func updateProfile() {
         
-        let firstName = editTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditEmployeeCell
-        let lastName = editTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? EditEmployeeCell
-        let store = editTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? EditEmployeeCell
-        let role = editTableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? EditEmployeeCell
-        let email = editTableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? EditEmployeeCell
-        let phone = editTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? EditEmployeeCell
+        guard let firstName = editTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? EditEmployeeCell else { return }
+        guard let lastName = editTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? EditEmployeeCell else { return }
+        guard let store = editTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? EditEmployeeCell else { return }
+        guard let role = editTableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? EditEmployeeCell else { return }
+        guard let email = editTableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? EditEmployeeCell else { return }
+        guard let phone = editTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? EditEmployeeCell else { return }
         
-        firstNameTemp = firstName!.editTextField.text!
-        lastNameTemp = lastName!.editTextField.text!
-        storeTemp = store!.editTextField.text!
-        roleTemp = role!.editTextField.text!
-        emailTemp = email!.editTextField.text!
-        phoneTemp  = phone!.editTextField.text!
+        self.UpdateToCloud(img: images, firstName: (firstName.editTextField.text)!, lastName: (lastName.editTextField.text)!, storeName: (store.editTextField.text)!, role: (role.editTextField.text)!, email: (email.editTextField.text)!, phoneNumber: (phone.editTextField.text)!, editRecord: editData)
         
-        UpdateToCloud(img: image!, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp, editRecord: editData)
+//        firstNameTemp = firstName!.editTextField.text!
+//        lastNameTemp = lastName!.editTextField.text!
+//        storeTemp = store!.editTextField.text!
+//        roleTemp = role!.editTextField.text!
+//        emailTemp = email!.editTextField.text!
+//        phoneTemp  = phone!.editTextField.text!
+        
+        //UpdateToCloud(img: image!, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp, editRecord: editData)
     }
     
 }

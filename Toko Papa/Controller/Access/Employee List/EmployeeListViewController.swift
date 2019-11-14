@@ -65,6 +65,8 @@ class EmployeeListViewController: UIViewController {
     @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
         print(#function)
         guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else {return}
+        
+        guard let EditEmployeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
         //self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
     }
     
@@ -127,24 +129,25 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
-        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-        
         idx = indexPath.row
-
         performSegue(withIdentifier: "employeeProfileSegue", sender: data[indexPath.row])
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "employeeProfileSegue" {
-            let vc = segue.destination as? EmployeeProfileViewController
+            let vc = segue.destination as! EmployeeProfileViewController
             
-            vc?.firstNameTemp = data[idx].value(forKey: "firstName") as! String
+            vc.data = sender as! CKRecord
+            
+            /*vc?.firstNameTemp = data[idx].value(forKey: "firstName") as! String
             vc?.lastNameTemp = data[idx].value(forKey: "lastName") as! String
             vc?.storeTemp = data[idx].value(forKey: "storeName") as! String
             vc?.roleTemp = data[idx].value(forKey: "role") as! String
             vc?.emailTemp = data[idx].value(forKey: "email") as! String
             vc?.phoneTemp = data[idx].value(forKey: "phoneNumber") as! String
             vc?.image = data[idx].value(forKey: "profileImage") as? CKAsset
+             */
             //vc?.employee = peoples[idx]
             //vc?.peoples.append(peoples[idx])
         }
