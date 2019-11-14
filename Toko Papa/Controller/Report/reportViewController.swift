@@ -1,10 +1,3 @@
-//
-//  reportViewController.swift
-//  Toko Papa
-//
-//  Created by Leonnardo Benjamin Hutama on 05/11/19.
-//  Copyright © 2019 Louis  Valen. All rights reserved.
-//
 
 import UIKit
 
@@ -33,6 +26,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var selectedYear:Int = year
     var titleText = ""
     
+    var selectedEditedItem = ""
+    
     override func viewDidLoad() {
         selectedDay = day
         selectedMonth = "\(months[month])"
@@ -43,7 +38,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
-//        tableView.bounces = false
     }
     
     @IBAction func nextButtonClick(_ sender: Any) {
@@ -139,7 +133,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "dashboardTableCellID", for: indexPath) as! dashboardTableCell
         
         cell.selectionStyle = .none
-//        cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
         cell.dropShadow()
         
         cell.backgroundColor = .clear
@@ -270,7 +263,12 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.chevronButton.isHidden = true
             cell.cellView.frame.size.height = 31
             cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+            
         }
+        
+        cell.detailButton.tag = indexPath.section
+        cell.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+        
         return cell
      }
     
@@ -280,8 +278,20 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 0 {
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
-        else if indexPath.section == 1 {
-            performSegue(withIdentifier: "segueToHighestSales", sender: self)
+        else if indexPath.section == 3{
+            if indexPath.row < 3 {
+                selectedEditedItem = editItem[indexPath.row]
+                performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
+            }
+        }
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueToEditItemDetails"{
+            print("segue")
+            let nextVC = segue.destination as! editItemDetailViewController
+            nextVC.itemName = selectedEditedItem
         }
     }
     
@@ -297,6 +307,20 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.selectedMonth = calendarVC.selectedMonth
         self.selectedYear = calendarVC.selectedYear
         self.selectedDateButton.setTitle(calendarVC.selectedDate, for: .normal)
+    }
+    
+    @objc func onClickDetailButton (_ sender: UIButton){
+        let buttonSection = sender.tag
+        print(buttonSection)
+        switch buttonSection {
+        case 1:
+            performSegue(withIdentifier: "segueToHighestSales", sender: self)
+        case 2:
+            performSegue(withIdentifier: "segueToNewItem", sender: self)
+        default:
+            performSegue(withIdentifier: "segueToEditItem", sender: self)
+        }
+        
     }
 
 }
