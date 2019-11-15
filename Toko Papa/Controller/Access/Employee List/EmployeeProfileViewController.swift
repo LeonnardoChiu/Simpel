@@ -44,9 +44,10 @@ class EmployeeProfileViewController: UIViewController {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var namaLbl: UILabel!
     
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        appendArray()
+        appendToArray()
         firstNameTemp = data.value(forKey: "firstName") as! String
         lastNameTemp = data.value(forKey: "lastName") as! String
         //self.QueryDatabase()
@@ -55,27 +56,17 @@ class EmployeeProfileViewController: UIViewController {
         
     }
     
+    // MARK: - viewDidAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.QueryDatabase()
-        // MARK: - Init profile picture
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
-        // MARK: - ambil data dari cloudkit dalam bentuk URL
-        // image harus diload dengan type NSData fileURL
         
-            /*
-            if let data = NSData(contentsOf: image!.fileURL!) {
-                self.profileImage.image = UIImage(data: data as Data)
-                self.profileImage.contentMode = .scaleAspectFill
-            } else {
-                self.profileImage.image = UIImage.init(systemName: "camera")
-
-            }*/
-
         namaLbl.text = "\(firstNameTemp) \(lastNameTemp)"
     }
     
+    // MARK: - function to show image
     func showImage() {
+        // image harus diload dengan type NSData fileURL
         image = data.value(forKey: "profileImage") as? CKAsset
         if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
             self.profileImage.image = UIImage(data: data as Data)
@@ -85,7 +76,8 @@ class EmployeeProfileViewController: UIViewController {
         }
     }
     
-    func appendArray() {
+    // MARK: - function append cloud data to array
+    func appendToArray() {
         //profileCell.append(data.value(forKey: "firstName") as! String)
         //profileCell.append(data.value(forKey: "lastName") as! String)
         profileCell.append(data.value(forKey: "storeName") as! String)

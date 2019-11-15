@@ -14,7 +14,7 @@ class EditEmployeeProfileViewController: UIViewController {
     // MARK: - Database CloudKit
     let database = CKContainer.default().publicCloudDatabase
     var editData: CKRecord!
-    var textFieldTemp: [String] = []
+    var profileCell: [String] = []
     
     // MARK: - Variable
     var textHolder: [String] = ["First name", "Last name", "Store", "Role", "Email", "Phone"]
@@ -24,8 +24,6 @@ class EditEmployeeProfileViewController: UIViewController {
     var roleTemp: String = ""
     var emailTemp: String = ""
     var phoneTemp: String = ""
-    var peoples: [People] = []
-    var employee: People?
     var idx: Int = 0
     
     let imagePicker = UIImagePickerController()
@@ -68,8 +66,11 @@ class EditEmployeeProfileViewController: UIViewController {
         }
     }
     
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        appendToArray()
+        print(profileCell[0])
         // MARK: - Load tap gesture & add ke image view
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
         profileImages.addGestureRecognizer(tap)
@@ -77,6 +78,7 @@ class EditEmployeeProfileViewController: UIViewController {
         showImage()
     }
 
+    // MARK: viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         profileImages.layer.cornerRadius = profileImages.frame.height / 2
@@ -91,6 +93,7 @@ class EditEmployeeProfileViewController: UIViewController {
         
     }
     
+    // MARK: - function for show image
     func showImage() {
         image = editData.value(forKey: "profileImage") as? CKAsset
         if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
@@ -101,13 +104,22 @@ class EditEmployeeProfileViewController: UIViewController {
         }
     }
     
+    // MARK: - function for appending cloud data to array
+    func appendToArray() {
+        profileCell.append(editData.value(forKey: "firstName") as! String)
+        profileCell.append(editData.value(forKey: "lastName") as! String)
+        profileCell.append(editData.value(forKey: "storeName") as! String)
+        profileCell.append(editData.value(forKey: "role") as! String)
+        profileCell.append(editData.value(forKey: "email") as! String)
+        profileCell.append(editData.value(forKey: "phoneNumber") as! String)
+    }
+    
     // MARK: - Update data cloud
     func UpdateToCloud(img: UIImage, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String, editRecord: CKRecord){
         //let record = CKRecord(recordType: "Profile")
         var user = editRecord
         var imageURL = CKAsset(fileURL: getUrl(images)!)
 
-                
         let resizedImage = img.resizedTo1MB()
         var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
         
@@ -175,28 +187,28 @@ extension EditEmployeeProfileViewController: UITableViewDelegate, UITableViewDat
         let firstController = EmployeeProfileViewController()
         
         if indexPath.row == 0 {
-            cell.editTextField.placeholder = "First name"
-            cell.editTextField.text = firstNameTemp
+            cell.editTextField.placeholder = profileCell[indexPath.row]
+            //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 1 {
-            cell.editTextField.placeholder = "Last name"
-            cell.editTextField.text = lastNameTemp
+            cell.editTextField.placeholder = profileCell[indexPath.row]
+            //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 2 {
-            cell.editTextField.placeholder = "Store"
-            cell.editTextField.text = storeTemp
+            cell.editTextField.placeholder = profileCell[indexPath.row]
+            //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 3 {
-            cell.editTextField.placeholder = "Role"
-            cell.editTextField.text = roleTemp
+            cell.editTextField.placeholder = profileCell[indexPath.row]
+            //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 4 {
-            cell.editTextField.placeholder = "Email"
-            cell.editTextField.text = emailTemp
+            cell.editTextField.placeholder = profileCell[indexPath.row]
+            //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 5 {
-            cell.editTextField.placeholder = "Phone"
-            cell.editTextField.text = phoneTemp
+            cell.editTextField.placeholder = profileCell[indexPath.row]
+            //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         }
         

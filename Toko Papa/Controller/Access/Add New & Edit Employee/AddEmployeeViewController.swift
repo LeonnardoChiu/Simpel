@@ -64,49 +64,26 @@ class AddEmployeeViewController: UIViewController {
     // MARK: - Save to cloud function
     func saveToCloud(img: UIImage, firstName: String, lastName: String, storeName: String, role: String, email: String, phoneNumber: String) {
         let record = CKRecord(recordType: "Profile")
-       
+        var imageURL = CKAsset(fileURL: getUrl(images)!)
+                
+        let resizedImage = img.resizedTo1MB()
+        var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
+        record.setValue(asset, forKey: "profileImage")
+        
         record.setValue(firstName, forKey: "firstName")
         record.setValue(lastName, forKey: "lastName")
         record.setValue(storeName, forKey: "storeName")
         record.setValue(role, forKey: "role")
         record.setValue(email, forKey: "email")
         record.setValue(phoneNumber, forKey: "phoneNumber")
+
         
-        var imageURL = CKAsset(fileURL: getUrl(images)!)
-        record.setValue(imageURL, forKey: "profileImage")
         
         database.save(record) { (record, _) in
             guard record != nil else { return }
             print("Data saved to Cloud!")
         }
     }
-    
-    /*func saveToClouds(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage]){
-            let NewNote = CKRecord(recordType: "Inventory")//ini buat data base baru
-            NewNote.setValue(Barcode, forKey: "Barcode")//ini ke tablenya
-            NewNote.setValue(Category, forKey: "Category")
-            NewNote.setValue(Distributor, forKey: "Distributor")
-            NewNote.setValue(Name, forKey: "NameProduct")
-            NewNote.setValue(Price, forKey: "Price")
-            NewNote.setValue(Stock, forKey: "Stock")
-        
-            var imageAsset: [CKAsset] = []
-               
-            for gambar in image {
-                var asset = CKAsset(fileURL: getUrl(gambar)!)
-                imageAsset.append(asset)
-                print("aaa")
-            }
-       
-            NewNote.setValue(imageAsset, forKey: "Image")
-        
-        
-         database.save(NewNote) { (record, error) in
-             print(error)
-             guard record != nil else { return}
-             print("savaedddd")
-         }
-    }*/
     
     func getUrl(_ images: UIImage) -> URL?{
         let data = images.pngData(); // UIImage -> NSData, see also UIImageJPEGRepresentation
@@ -141,25 +118,6 @@ class AddEmployeeViewController: UIViewController {
     }
 
     func appendAdd() {
-        /*guard let cell1 = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell else { return }
-        let firstName = cell1.addFormField.text
-        self.firstNameTemp = firstName!
-        guard let cell2 = addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AddEmployeeCell else { return }
-        let lastName = cell2.addFormField.text
-        self.lastNameTemp = lastName!
-        guard let cell3 = addTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? AddEmployeeCell else { return }
-        let store = cell3.addFormField.text
-        self.storeTemp = store!
-        guard let cell4 = addTableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? AddEmployeeCell else { return }
-        let role = cell4.addFormField.text
-        self.roleTemp = role!
-        guard let cell5 = addTableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? AddEmployeeCell else { return }
-        let email = cell5.addFormField.text
-        self.emailTemp = email!
-        guard let cell6 = addTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? AddEmployeeCell else { return }
-        let phone = cell6.addFormField.text
-        self.phoneTemp = phone!*/
-        
         let firstName = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell
         let lastName = addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AddEmployeeCell
         let store = addTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? AddEmployeeCell
