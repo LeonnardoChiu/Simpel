@@ -43,10 +43,8 @@ class EditEmployeeProfileViewController: UIViewController {
         updateProfile()
         
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
-            self.performSegue(withIdentifier: "backToList", sender: nil)
+            self.performSegue(withIdentifier: "backToListFromEdit", sender: nil)
             
-            //self.firstNameTemp = cell.editTextField.text!
-            //self.updateProfile()
         }
         
         alert = UIAlertController(title: "Berhasil Edit", message: "Data profile berhasil diperbarui", preferredStyle: .alert)
@@ -130,7 +128,6 @@ class EditEmployeeProfileViewController: UIViewController {
         user.setValue(role, forKey: "role")
         user.setValue(email, forKey: "email")
         user.setValue(phoneNumber, forKey: "phoneNumber")
-        
         
          database.save(user) { (record, error) in
              guard record != nil else { return}

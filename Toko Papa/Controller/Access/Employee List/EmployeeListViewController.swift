@@ -61,13 +61,19 @@ class EmployeeListViewController: UIViewController {
         }
     }*/
     
-    
+    // MARK: - Unwind untuk Add
     @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
         print(#function)
-        guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else {return}
+        guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else { return }
         
-        guard let EditEmployeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
+        
         //self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
+    }
+    
+    // MARK: - Unwind untuk Edit
+    @IBAction func unwindToEditVc(_ unwindSegue: UIStoryboardSegue) {
+        guard let EditEmployeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
+        // Use data from the view controller which initiated the unwind segue
     }
     
     // MARK: - obj function untuk nampilin data Query Database
