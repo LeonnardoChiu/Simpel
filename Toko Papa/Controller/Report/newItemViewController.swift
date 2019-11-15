@@ -1,15 +1,8 @@
-//
-//  highestSalesViewController.swift
-//  Toko Papa
-//
-//  Created by Leonnardo Benjamin Hutama on 14/11/19.
-//  Copyright © 2019 Louis  Valen. All rights reserved.
-//
 
 import UIKit
 
-class highestSalesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class newItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
     @IBOutlet weak var selectedDateButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
@@ -21,39 +14,43 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
     var titleText = ""
     
     var items = ["DVD Samsung", "TV Phillips 32\" LED", "Bluray Recorder Polytron", "Mesin Cuci Samsung 10 L"]
-    var units = [50, 10, 42, 21]
-
+    var units = [10, 20, 22, 11]
+    var times = ["20:00", "19:33", "13:41", "09:00"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         selectedDay = day
         selectedMonth = "\(months[month])"
         selectedYear = year
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
-        
+
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.rowHeight = 61
         tableView.tableFooterView = UIView()
         
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "highestSalesTableCellID", for: indexPath)
-//        let itemImage = cell.contentView.viewWithTag(1) as! UIImageView
+        let cell = tableView.dequeueReusableCell(withIdentifier: "newItemTableCellID", for: indexPath)
+        
         let itemNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         let itemUnitLabel = cell.contentView.viewWithTag(3) as! UILabel
+        let itemTimeLabel = cell.contentView.viewWithTag(4) as! UILabel
         
         cell.selectionStyle = .none
         
         itemNameLabel.text = items[indexPath.row]
-        itemUnitLabel.text = "\(units[indexPath.row]) Unit Terjual"
+        itemUnitLabel.text = "\(units[indexPath.row]) Unit Masuk"
+        itemTimeLabel.text = times[indexPath.row]
         
         return cell
     }
-    
-    
     
     @IBAction func dateButtonClick(_ sender: Any) {
         let nextVC:calendarViewController = self.storyboard?.instantiateViewController(withIdentifier: "calendarViewController") as! calendarViewController
@@ -77,6 +74,7 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
                 selectedMonth = months[month]
             }
         }
+        print(selectedMonth)
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
     }
     

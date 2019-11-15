@@ -57,6 +57,9 @@
 		FEB1D525237BDAD90082F13A /* totalSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */; };
 		FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */; };
 		FEB1D529237D14530082F13A /* highestSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D528237D14530082F13A /* highestSalesViewController.swift */; };
+		FEB1D52B237D52590082F13A /* newItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D52A237D52580082F13A /* newItemViewController.swift */; };
+		FEB1D52D237D97250082F13A /* editItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D52C237D97250082F13A /* editItemViewController.swift */; };
+		FEB1D52F237DB21F0082F13A /* editItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D52E237DB21F0082F13A /* editItemDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +116,9 @@
 		FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = totalSalesViewController.swift; sourceTree = "<group>"; };
 		FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = salesDetailViewController.swift; sourceTree = "<group>"; };
 		FEB1D528237D14530082F13A /* highestSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = highestSalesViewController.swift; sourceTree = "<group>"; };
+		FEB1D52A237D52580082F13A /* newItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newItemViewController.swift; sourceTree = "<group>"; };
+		FEB1D52C237D97250082F13A /* editItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editItemViewController.swift; sourceTree = "<group>"; };
+		FEB1D52E237DB21F0082F13A /* editItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editItemDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +199,9 @@
 				FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */,
 				FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */,
 				FEB1D528237D14530082F13A /* highestSalesViewController.swift */,
+				FEB1D52A237D52580082F13A /* newItemViewController.swift */,
+				FEB1D52C237D97250082F13A /* editItemViewController.swift */,
+				FEB1D52E237DB21F0082F13A /* editItemDetailViewController.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -395,8 +404,10 @@
 				FEB1D523237BAD1C0082F13A /* dashboardTableCell.swift in Sources */,
 				BDA38F4A237BD15800FCD5BC /* PaymentMethodCell.swift in Sources */,
 				6838F975236FD95900FCC0D0 /* AddInventoryViewController.swift in Sources */,
+				FEB1D52D237D97250082F13A /* editItemViewController.swift in Sources */,
 				FEB1D525237BDAD90082F13A /* totalSalesViewController.swift in Sources */,
 				FEB1D529237D14530082F13A /* highestSalesViewController.swift in Sources */,
+				FEB1D52F237DB21F0082F13A /* editItemDetailViewController.swift in Sources */,
 				BDA38F46237BCA4900FCD5BC /* itemAddedCell.swift in Sources */,
 				BD04878723729EF1002E0586 /* AddEmployeeViewController.swift in Sources */,
 				BD13BF65237BFFC600172A92 /* PaymentMethodViewController.swift in Sources */,
@@ -415,6 +426,7 @@
 				FE906417237129D2002F3463 /* DateCollectionViewCell.swift in Sources */,
 				6838F99D237276D700FCC0D0 /* FilterTableViewController.swift in Sources */,
 				681E97AC237BB5E00047DE10 /* DetailBarangViewController.swift in Sources */,
+				FEB1D52B237D52590082F13A /* newItemViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
