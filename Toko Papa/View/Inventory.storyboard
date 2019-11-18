@@ -313,6 +313,7 @@
                         <outlet property="viewForCollectionView" destination="ajS-lH-EeR" id="qzE-Ca-2nq"/>
                         <segue destination="g6F-ma-CJb" kind="show" identifier="satuan" id="4fJ-Jo-81d"/>
                         <segue destination="D4e-Iz-ADd" kind="unwind" identifier="backToInventory" unwindAction="unwindToVCInventory:" id="MV4-gJ-haZ"/>
+                        <segue destination="Hp3-vn-QCu" kind="show" identifier="kategori" id="jHl-9J-Y9i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT4-bt-oSZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -574,12 +575,69 @@
                         <outlet property="viewForCollectionView" destination="uR5-eh-Y9l" id="cza-s9-q1n"/>
                         <segue destination="g6F-ma-CJb" kind="show" identifier="satuan" id="kMb-ag-Gc0"/>
                         <segue destination="mZe-7l-Aol" kind="unwind" identifier="backToInventory" unwindAction="unwindToVCInventory:" id="7Rg-Ac-hNh"/>
+                        <segue destination="Hp3-vn-QCu" kind="show" identifier="kategori" id="50P-lu-ibA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uoc-RX-AuR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="mZe-7l-Aol" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-439" y="2308"/>
+        </scene>
+        <!--Kategori-->
+        <scene sceneID="CRF-ve-y63">
+            <objects>
+                <tableViewController id="Hp3-vn-QCu" customClass="KategoriTableViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="em2-zG-ILe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="JKo-qo-c7e">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JKo-qo-c7e" id="Ag7-Mu-cr8">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Hp3-vn-QCu" id="dHY-Zc-dsW"/>
+                            <outlet property="delegate" destination="Hp3-vn-QCu" id="tcX-bC-r5z"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Kategori" id="qZS-05-iLl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Sb4-0Z-M3D">
+                            <connections>
+                                <segue destination="iF7-n9-Ump" kind="show" id="ZbU-zl-teI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="1aA-rL-ueb" kind="unwind" identifier="backToEditVC" unwindAction="unwindToKategoriVcEditWithSegue:" id="i13-3e-bJM"/>
+                        <segue destination="1aA-rL-ueb" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromKategoriVCTambahbarangWithSegue:" id="eme-Tx-XE5"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uvm-wD-0gy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1aA-rL-ueb" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1193" y="2308"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Gnf-CG-9gN">
+            <objects>
+                <viewController id="iF7-n9-Ump" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YeN-PI-hqx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="mbL-Mm-BUT"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ntf-51-DRl"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aDR-WB-UE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2022" y="2308"/>
         </scene>
         <!--Satuan Barang-->
         <scene sceneID="kbg-E1-1FY">
@@ -604,7 +662,13 @@
                             <outlet property="delegate" destination="g6F-ma-CJb" id="zPD-Tf-71J"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM"/>
+                    <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lbS-1r-Mgp">
+                            <connections>
+                                <segue destination="4cv-A0-GWI" kind="show" id="2Co-eY-w2a"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromSatuanVCTambahBarangWithSegue:" id="hbo-nO-eTC"/>
                         <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToEditVC" unwindAction="unwindFromSatuanVCEditWithSegue:" id="VgN-Si-mis"/>
@@ -613,7 +677,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rb3-L1-Hsf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="A0t-tW-j9G" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="472" y="1910"/>
+            <point key="canvasLocation" x="1193" y="1565"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="EO9-2Y-DD4">
+            <objects>
+                <viewController id="4cv-A0-GWI" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mpv-oX-i0i">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="pRH-QO-OuF"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="SqF-Rk-4fw"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yRa-SW-LWN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1986" y="1568"/>
         </scene>
     </scenes>
     <resources>
@@ -622,6 +702,7 @@
         <image name="descen" width="32" height="51"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kMb-ag-Gc0"/>
+        <segue reference="4fJ-Jo-81d"/>
+        <segue reference="jHl-9J-Y9i"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -13,7 +13,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
    
     
     var satuanSekarang: String? = "Unit"
-    var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
+    var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "", "Distributor", "Stok"]
+    var kategoriSekarang: String? = "Kategori"
     let database = CKContainer.default().publicCloudDatabase
     
     
@@ -87,6 +88,17 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 if indexPath.row == 4 {
                     cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
                 }
+                if indexPath.row == 2 {
+                    cellBiasa.accessoryType = .disclosureIndicator
+                    if kategoriSekarang != "Kategori"{
+                        cellBiasa.textLabel?.textColor = .black
+                    }else {
+                        cellBiasa.textLabel?.textColor = .lightGray
+                    }
+                    cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
+                    cellBiasa.textLabel!.text = kategoriSekarang
+                    cellBiasa.tambahBarangTextField.isHidden = true
+                }
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
@@ -107,6 +119,10 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             performSegue(withIdentifier: "satuan", sender: 0)
         }
         
+        if indexPath.section == 0 && indexPath.row == 2{
+            performSegue(withIdentifier: "kategori", sender: 0)
+        }
+        
         
          tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
@@ -118,13 +134,26 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 vc.selectedUnit = satuan
                 vc.pemelihVC = sender as! Int
             }
-            
+        }
+        
+        if segue.identifier == "kategori" {
+            guard let vc = segue.destination as? KategoriTableViewController else {return}
+            if let kategori = kategoriSekarang{
+                vc.selectedKategori = kategori
+                vc.pemilihVC = sender as! Int
+            }
         }
     }
     
     @IBAction func unwindFromSatuanVCTambahBarang(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? SatuanBarangTableViewController else { return }
         self.satuanSekarang = satuanVC.selectedUnit!
+    }
+    
+    
+    @IBAction func unwindFromKategoriVCTambahbarang(segue: UIStoryboardSegue){
+        guard let kategoriVC = segue.source as? KategoriTableViewController else { return }
+        self.kategoriSekarang = kategoriVC.selectedKategori!
     }
     
     
@@ -181,12 +210,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     func tambahBarang(){
         guard let barcode = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let name = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TambahBarangCellBiasa else {return}
-         guard let category = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let distributor = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
         
-         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: (category.tambahBarangTextField.text)!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!)
+         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!)
     }
 
     @IBAction func doneButton(_ sender: Any) {

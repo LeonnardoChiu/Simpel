@@ -58,7 +58,7 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-              return namaCell.count
+            return namaCell.count
         }
         
       return 1
@@ -82,11 +82,13 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
         if indexPath.section == 0{
             cellDetail.namaCellDetailLabel.text = namaCell[indexPath.row]
             cellDetail.isiCellDetailLabel.text = isiCell[indexPath.row]
+            cellDetail.namaCellDetailLabel.font = UIFont.systemFont(ofSize: 14)
             return cellDetail
         }
         if indexPath.section == 1 {
             let price = detailBarangCkrecord.value(forKey: "Price") as! Int
             cellPrice.Pricelist.text = price.commaRepresentation
+            cellPrice.Pricelist.font = UIFont.systemFont(ofSize: 14)
             cellPrice.unitcelLabel.text = detailBarangCkrecord.value(forKey: "Unit") as! String
             return cellPrice
         }

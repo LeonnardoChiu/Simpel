@@ -1,23 +1,22 @@
 //
-//  SatuanBarangTableViewController.swift
+//  KategoriTableViewController.swift
 //  Toko Papa
 //
-//  Created by Louis  Valen on 05/11/19.
+//  Created by Louis  Valen on 15/11/19.
 //  Copyright © 2019 Louis  Valen. All rights reserved.
 //
 
 import UIKit
 import CloudKit
 
-class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
-    var selectedUnit: String?
-    var pemelihVC = 0 // 1 dari edit, 0 dari add
-    var satuanCloud = [CKRecord]()
+class KategoriTableViewController: UITableViewController {
+    
+    var selectedKategori: String?
+    var pemilihVC: Int?
     let database = CKContainer.default().publicCloudDatabase
+    var kategoriCloud = [CKRecord]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround() 
-        print()
         tableView.tableFooterView = UIView(frame: .zero)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -25,11 +24,9 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         self.QueryDatabase()
     }
-    
 
     // MARK: - Table view data source
 
@@ -39,55 +36,53 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return satuanCloud.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let satuan = satuanCloud[indexPath.row].value(forKey: "SatuanBarang") as! String
-        cell.textLabel?.text = satuan
-        
-        if let selected = selectedUnit,selected == satuan{
-            cell.accessoryType = .checkmark
-        }
-    
-        return cell
+        // #warning Incomplete implementation, return the number of rows
+        return kategoriCloud.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cells = tableView.visibleCells
-        for myCell in cells {
-            myCell.accessoryType = .none
-        }
-       
-        guard let cell = tableView.cellForRow(at: indexPath) else {return}
-        cell.accessoryType = .checkmark
-        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+         for myCell in cells {
+             myCell.accessoryType = .none
+         }
         
-        self.selectedUnit = cell.textLabel?.text
-        if pemelihVC == 0 {
-            performSegue(withIdentifier: "backToAddVC", sender: nil)
-        }else if pemelihVC == 1 {
-            performSegue(withIdentifier: "backToEditVC", sender: nil)
-        }
-        
+         guard let cell = tableView.cellForRow(at: indexPath) else {return}
+         cell.accessoryType = .checkmark
+         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+         
+        self.selectedKategori = cell.textLabel?.text
+         if pemilihVC == 0 {
+             performSegue(withIdentifier: "backToAddVC", sender: nil)
+         }else if pemilihVC == 1 {
+             performSegue(withIdentifier: "backToEditVC", sender: nil)
+         }
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let kategori = kategoriCloud[indexPath.row].value(forKey: "CategoryName") as! String
+        if let selected = selectedKategori,selected == kategori{
+            cell.accessoryType = .checkmark
+        }
+        cell.textLabel?.text = kategori
+        return cell
+    }
 
+   
     @objc func QueryDatabase(){
-            let query = CKQuery(recordType: "Satuan", predicate: NSPredicate(value: true))
-            database.perform(query, inZoneWith: nil) { (record, _) in
-                guard let record = record else {return}
-                  //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
-                self.satuanCloud = record
-                DispatchQueue.main.async {
-                    self.tableView.refreshControl?.endRefreshing()
-                    self.tableView.reloadData()
-                }
+        let query = CKQuery(recordType: "Category", predicate: NSPredicate(value: true))
+//        let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+//      query.sortDescriptors = [sortDesc]
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+              //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
+            self.kategoriCloud = record
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
             }
         }
-
-    
+    }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
