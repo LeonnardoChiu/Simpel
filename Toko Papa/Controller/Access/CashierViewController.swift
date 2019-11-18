@@ -12,12 +12,21 @@ import CloudKit
 class CashierViewController: UIViewController {
     
     // MARK: - Variable
-    var item: [String] = ["Indomie kari", "Helm", "Tolak angin", "Kolor"]
+    var item: [String] = []//["Indomie kari", "Helm", "Tolak angin", "Kolor"]
+    var items: [String] = []
     //var cash: [String] = ["a", "v", "c", "w"]
     var price: [Int] = [5000, 50000, 4600, 7400]
     var qty: [Int] = [3, 5, 21, 11]
     
+    var originalItem: [String]!
+    var originalPrice: [Int]!
+    var originalQty: [Int]!
+    
     let searchController = UISearchController(searchResultsController: nil)
+    
+    // MARK: - Database
+    let database = CKContainer.default().publicCloudDatabase
+    //let data = [ckre]
     
     // MARK: - IBOutlet
     @IBOutlet weak var cashierTableView: UITableView! {
@@ -26,7 +35,7 @@ class CashierViewController: UIViewController {
         }
     }
     @IBAction func finishBtn(_ sender: Any) {
-        let alert = UIAlertController(title: "Purchased", message: "Item purchased", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Sukses", message: "Barang telah terjual", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         
         alert.addAction(ok)
@@ -60,6 +69,20 @@ class CashierViewController: UIViewController {
         
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            if item.count == 0 {
+                return 188
+            }
+            else{
+                return 44
+            }
+        }
+        else{
+            return 44
+        }
+    }
+    
     // MARK: - Search Bar in navigation
     func initSearchBar() {
         //searchController.searchResultsUpdater = self
@@ -78,6 +101,11 @@ class CashierViewController: UIViewController {
 //    func setupSearchBarAction() {
 //        searchController.searchBar.add
 //    }
+    
+    @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
+        guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
+        // Use data from the view controller which initiated the unwind segue
+    }
     
 }
 
@@ -149,7 +177,7 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             // MARK: - nampilin cell payment method
             let paymentMethodCell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell") as! PaymentMethodCell
-            
+            paymentMethodCell.accessoryType = .disclosureIndicator
             return paymentMethodCell
         }
         return cell

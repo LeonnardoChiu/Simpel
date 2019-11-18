@@ -12,6 +12,8 @@ class SearchFooter: UIView {
 
     let label = UILabel()
     
+    let searchBar = CashierItemListViewController()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -34,8 +36,9 @@ class SearchFooter: UIView {
     func setIsFilteringToShow(filteredItemCount: Int, of totalItemCount: Int) {
         if (filteredItemCount == totalItemCount) {
             setNotFiltering()
-        } else if (filteredItemCount == 0) {
-            label.text = "No items match your search"
+        } else if /*(filteredItemCount == 0) &&*/ searchBar.searchController.searchBar.text == "" {
+            label.text = "Tidak ada barang sesuai pencarian"
+            showFooter()
         } else {
             label.text = "Filtering \(filteredItemCount) of \(totalItemCount)"
             showFooter()

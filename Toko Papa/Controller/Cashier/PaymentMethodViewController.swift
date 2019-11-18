@@ -11,7 +11,7 @@ import UIKit
 class PaymentMethodViewController: UIViewController {
 
     // MARK: - Variable
-    
+
     // MARK: - IBOutlet
     @IBOutlet weak var paymentTableView: UITableView! {
         didSet {
