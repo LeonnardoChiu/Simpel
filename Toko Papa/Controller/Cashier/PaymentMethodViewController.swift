@@ -42,24 +42,27 @@ extension PaymentMethodViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
-               if cell.accessoryType == .checkmark {
-                   cell.accessoryType = .none
-               } else {
-                   cell.accessoryType = .checkmark
-               }
+        print(indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell", for: indexPath) as! PaymentMethodCell
+        
+        if tableView.cellForRow(at: indexPath)?.accessoryType == UITableViewCell.AccessoryType.none {
+             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
+        else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        }
+        
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
-               if cell.accessoryType == .checkmark {
-                   cell.accessoryType = .none
-               } else {
-                   cell.accessoryType = .checkmark
-               }
+        if tableView.cellForRow(at: indexPath)?.accessoryType == UITableViewCell.AccessoryType.checkmark {
+             tableView.cellForRow(at: indexPath)?.accessoryType = .none
         }
+        else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        }
+        
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
@@ -68,9 +71,11 @@ extension PaymentMethodViewController: UITableViewDelegate, UITableViewDataSourc
         
         if indexPath.row == 0 {
             paymentCell.cashLbl.text = "Cash"
+            paymentCell.accessoryType = .checkmark
         }
         if indexPath.row == 1 {
             paymentCell.cashLbl.text = "Cashless"
+            paymentCell.accessoryType = .none
 
         }
         

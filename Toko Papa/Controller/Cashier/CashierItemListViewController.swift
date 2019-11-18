@@ -144,6 +144,8 @@ extension CashierItemListViewController: UISearchResultsUpdating {
     }
 }
 
+// MARK: - Extension text field
+
 // MARK: - Extension table view
 extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
