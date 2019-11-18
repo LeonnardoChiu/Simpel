@@ -92,6 +92,19 @@ class KategoriTableViewController: UITableViewController {
     @IBAction func unwindFromKategoriBarang(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? TambahCategoryViewController else { return }
     }
+    
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+              print("Deleted")
+                let deleteCategori: CKRecord?
+                deleteCategori = kategoriCloud[indexPath.row]
+    //          self.catNames.remove(at: indexPath.row)
+               database.delete(withRecordID: deleteCategori!.recordID) { (record, error) in
+                    print("delete sukses")
+                }
+                self.QueryDatabase()
+            }
+        }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

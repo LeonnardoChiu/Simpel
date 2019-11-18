@@ -98,9 +98,13 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
           print("Deleted")
-
+            let deleteSatuan: CKRecord?
+            deleteSatuan = satuanCloud[indexPath.row]
 //          self.catNames.remove(at: indexPath.row)
-          self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            database.delete(withRecordID: deleteSatuan!.recordID) { (record, error) in
+                print("delete sukses")
+            }
+            self.QueryDatabase()
         }
     }
     

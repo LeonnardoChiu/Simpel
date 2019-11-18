@@ -219,16 +219,13 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
 
     @IBAction func doneButton(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
-        
-        
         tambahBarang()
-        
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.performSegue(withIdentifier: "backToInventory", sender: nil)
         }
-      alert = UIAlertController(title: "Sukses", message: "Berhasil Menambah barang", preferredStyle: .alert)
-      alert.addAction(ok)
-      present(alert, animated: true, completion: nil)
+        alert = UIAlertController(title: "Sukses", message: "Berhasil Menambah barang", preferredStyle: .alert)
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
     }
     
     
