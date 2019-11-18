@@ -11,13 +11,18 @@ import CloudKit
 
 class KategoriTableViewController: UITableViewController {
     
+    let refeeshControl = UIRefreshControl()
     var selectedKategori: String?
     var pemilihVC: Int?
     let database = CKContainer.default().publicCloudDatabase
     var kategoriCloud = [CKRecord]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         tableView.tableFooterView = UIView(frame: .zero)
+        refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
+        self.tableView.refreshControl = refeeshControl
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -82,6 +87,10 @@ class KategoriTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    @IBAction func unwindFromKategoriBarang(segue: UIStoryboardSegue){
+        guard let satuanVC = segue.source as? TambahCategoryViewController else { return }
     }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

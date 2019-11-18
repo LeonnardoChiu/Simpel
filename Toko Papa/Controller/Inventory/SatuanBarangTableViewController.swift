@@ -10,6 +10,7 @@ import UIKit
 import CloudKit
 
 class SatuanBarangTableViewController: UITableViewController,UINavigationControllerDelegate {
+    let refeeshControl = UIRefreshControl()
     var selectedUnit: String?
     var pemelihVC = 0 // 1 dari edit, 0 dari add
     var satuanCloud = [CKRecord]()
@@ -19,6 +20,9 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
         self.hideKeyboardWhenTappedAround() 
         print()
         tableView.tableFooterView = UIView(frame: .zero)
+        refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
+        self.tableView.refreshControl = refeeshControl
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -85,8 +89,21 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
                     self.tableView.reloadData()
                 }
             }
-        }
+    }
+    
+    @IBAction func unwindFromSatuanBarang(segue: UIStoryboardSegue){
+        guard let satuanVC = segue.source as? TambahSatuanViewController else { return }
+    }
 
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+          print("Deleted")
+
+//          self.catNames.remove(at: indexPath.row)
+          self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
     
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
