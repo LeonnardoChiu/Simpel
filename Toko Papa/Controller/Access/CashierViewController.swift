@@ -25,12 +25,19 @@ class CashierViewController: UIViewController {
             cashierTableView.tableFooterView = UIView(frame: .zero)
         }
     }
+    @IBAction func finishBtn(_ sender: Any) {
+        let alert = UIAlertController(title: "Purchased", message: "Item purchased", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(ok)
+        present(alert, animated: true)
+    }
     
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         print(price.reduce(0, +))
-        createSearchBar()
+        initSearchBar()
         
         // MARK: - add xib pakai UINib
         let nibItem = UINib(nibName: "CashierCell", bundle: nil)
@@ -54,14 +61,17 @@ class CashierViewController: UIViewController {
     }
     
     // MARK: - Search Bar in navigation
-    func createSearchBar() {
+    func initSearchBar() {
         //searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.placeholder = "Cari produk"
         
+        // memasukkan search bar ke navigation bar
         navigationItem.searchController = searchController
-        definesPresentationContext = true
+        definesPresentationContext = false
         
+        // nampilin scope button search bar
+        searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc"]
         searchController.searchBar.delegate = self
     }
     
@@ -91,6 +101,7 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
         if indexPath.section == 1 {
             print("tekan")
             performSegue(withIdentifier: "toPaymentMethod", sender: nil)
@@ -144,13 +155,18 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+
 }
 
 extension CashierViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("abc")
+        print("Pindah")
         
-        performSegue(withIdentifier: "toView", sender: nil)
+        performSegue(withIdentifier: "toSearchView", sender: nil)
+    }
+    
+    // kalo button search di keyboard ditekan
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //performSegue(withIdentifier: "toSearchView", sender: nil)
     }
 }

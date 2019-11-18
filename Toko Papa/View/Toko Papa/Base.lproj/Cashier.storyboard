@@ -40,7 +40,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1eS-sN-k63" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1283" y="2304"/>
+            <point key="canvasLocation" x="1282.608695652174" y="2303.5714285714284"/>
         </scene>
         <!--Cashier-->
         <scene sceneID="Mhl-pD-sqx">
@@ -80,11 +80,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="Cashier" id="2Dw-uu-cba">
                         <barButtonItem key="backBarButtonItem" title="Back" id="ZGq-XE-yWL"/>
-                        <barButtonItem key="rightBarButtonItem" title="Finish" id="d6P-7u-wVD"/>
+                        <barButtonItem key="rightBarButtonItem" title="Finish" id="d6P-7u-wVD">
+                            <connections>
+                                <action selector="finishBtn:" destination="cR7-dq-Cdy" id="rpa-Cv-fMh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="cashierTableView" destination="3ac-u3-xqF" id="0zD-bQ-rB1"/>
-                        <segue destination="byY-BW-mKE" kind="show" identifier="toView" id="TsW-7h-NP7"/>
+                        <segue destination="byY-BW-mKE" kind="show" identifier="toSearchView" id="TsW-7h-NP7"/>
                         <segue destination="q2V-DQ-kNV" kind="show" identifier="toPaymentMethod" id="HU1-DT-vVT"/>
                     </connections>
                 </viewController>
@@ -99,14 +103,44 @@
                     <view key="view" contentMode="scaleToFill" id="VgV-9e-doL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vhc-xY-19N">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="byY-BW-mKE" id="9dC-AD-L8m"/>
+                                    <outlet property="delegate" destination="byY-BW-mKE" id="YDy-Uo-De9"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3P-hU-B9K" customClass="SearchFooter" customModule="Toko_Papa" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="852" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="vmD-sT-tq9"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="D3P-hU-B9K" secondAttribute="trailing" id="5kC-c9-JFr"/>
+                            <constraint firstItem="CVT-Te-lxM" firstAttribute="bottom" secondItem="vhc-xY-19N" secondAttribute="bottom" id="CtA-hu-PKs"/>
+                            <constraint firstItem="vhc-xY-19N" firstAttribute="top" secondItem="CVT-Te-lxM" secondAttribute="top" id="e4j-Po-Iyd"/>
+                            <constraint firstItem="CVT-Te-lxM" firstAttribute="trailing" secondItem="vhc-xY-19N" secondAttribute="trailing" id="ohv-IP-8Dh"/>
+                            <constraint firstItem="vhc-xY-19N" firstAttribute="leading" secondItem="CVT-Te-lxM" secondAttribute="leading" id="sgB-4f-6cd"/>
+                            <constraint firstItem="D3P-hU-B9K" firstAttribute="leading" secondItem="VgV-9e-doL" secondAttribute="leading" id="tKS-oh-S0X"/>
+                            <constraint firstAttribute="bottom" secondItem="D3P-hU-B9K" secondAttribute="bottom" id="zMs-4q-BiT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="CVT-Te-lxM"/>
                     </view>
-                    <navigationItem key="navigationItem" id="PLN-mv-L6L"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="PLN-mv-L6L"/>
+                    <connections>
+                        <outlet property="searchFooter" destination="D3P-hU-B9K" id="aJ0-6v-PQP"/>
+                        <outlet property="searchFooterBottomConstraint" destination="zMs-4q-BiT" id="P8o-RS-ReT"/>
+                        <outlet property="searchTableView" destination="vhc-xY-19N" id="Ilz-Z7-s6b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IaX-nJ-h3b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2090" y="1584"/>
+            <point key="canvasLocation" x="2089.8550724637685" y="1583.7053571428571"/>
         </scene>
         <!--Cashier-->
         <scene sceneID="wfB-RN-hcq">

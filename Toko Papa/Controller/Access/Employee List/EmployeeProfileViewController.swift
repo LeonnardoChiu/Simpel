@@ -13,7 +13,7 @@ class EmployeeProfileViewController: UIViewController {
     
     // MARK: - Database Cloudkit
     let database = CKContainer.default().publicCloudDatabase
-    var data = [CKRecord]()
+    var data: CKRecord!
     
     // MARK: - Variable
     var textLbl: [String] = ["Store", "Role", "Email", "Phone"]
@@ -25,8 +25,8 @@ class EmployeeProfileViewController: UIViewController {
     var roleTemp: String = ""
     var emailTemp: String = ""
     var phoneTemp: String = ""
-    var peoples: [People] = []
-    var employee: People?
+    
+    var profileCell: [String] = []
     var idx: Int = 0
     
     // MARK: - IBOutlet List
@@ -38,56 +38,52 @@ class EmployeeProfileViewController: UIViewController {
     }
     
     @IBAction func editBtn(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "editProfileSegue", sender: nil)
+        performSegue(withIdentifier: "editProfileSegue", sender: data)
     }
     
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var namaLbl: UILabel!
     
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.QueryDatabase()
+        appendToArray()
+        firstNameTemp = data.value(forKey: "firstName") as! String
+        lastNameTemp = data.value(forKey: "lastName") as! String
+        //self.QueryDatabase()
         //print(orang?.firstName)
+        showImage()
         
     }
     
+    // MARK: - viewDidAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.QueryDatabase()
-        // MARK: - Init profile picture
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
-        // MARK: - ambil data dari cloudkit dalam bentuk URL
-        // image harus diload dengan type NSData fileURL
-
-            if let data = NSData(contentsOf: image!.fileURL!) {
-                self.profileImage.image = UIImage(data: data as Data)
-                self.profileImage.contentMode = .scaleAspectFill
-            } else {
-                self.profileImage.image = UIImage.init(systemName: "camera")
-
-            }
         
-        //namaLbl?.text = "\(employee!.firstName) \(employee!.lastName)"
         namaLbl.text = "\(firstNameTemp) \(lastNameTemp)"
     }
     
-    // MARK: - show query database
-    @objc func QueryDatabase() {
-        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
-        
-        database.perform(query, inZoneWith: nil) { (record, _) in
-            guard let record = record else { return }
-            
-            self.data = record
-            DispatchQueue.main.async {
-                self.tableView.refreshControl?.endRefreshing()
-                self.tableView.reloadData()
-            }
+    // MARK: - function to show image
+    func showImage() {
+        // image harus diload dengan type NSData fileURL
+        image = data.value(forKey: "profileImage") as? CKAsset
+        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+            self.profileImage.image = UIImage(data: data as Data)
+            self.profileImage.contentMode = .scaleAspectFill
+        } else {
+            self.profileImage.image = UIImage.init(systemName: "camera")
         }
     }
-
-    @IBAction func unwindToEmployeeProfile(_ unwindSegue: UIStoryboardSegue) {
-        guard let EditEmployeeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
+    
+    // MARK: - function append cloud data to array
+    func appendToArray() {
+        //profileCell.append(data.value(forKey: "firstName") as! String)
+        //profileCell.append(data.value(forKey: "lastName") as! String)
+        profileCell.append(data.value(forKey: "storeName") as! String)
+        profileCell.append(data.value(forKey: "role") as! String)
+        profileCell.append(data.value(forKey: "email") as! String)
+        profileCell.append(data.value(forKey: "phoneNumber") as! String)
     }
     
 }
@@ -103,16 +99,20 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
         if  indexPath.section == 0 {
             if indexPath.row == 0 {
                 cell.leftText.text = textLbl[indexPath.row]
-                cell.rightLbl.text = storeTemp
+                //cell.rightLbl.text = storeTemp
+                cell.rightLbl.text = profileCell[indexPath.row]
             }else if indexPath.row == 1 {
                 cell.leftText.text = textLbl[indexPath.row]
-                cell.rightLbl.text = roleTemp
+                //cell.rightLbl.text = roleTemp
+                cell.rightLbl.text = (data.value(forKey: "role") as! String)
             }else if indexPath.row == 2 {
                 cell.leftText.text = textLbl[indexPath.row]
-                cell.rightLbl.text = emailTemp
+                //cell.rightLbl.text = emailTemp
+                cell.rightLbl.text = (data.value(forKey: "email") as! String)
             }else if indexPath.row == 3 {
                 cell.leftText.text = textLbl[indexPath.row]
-                cell.rightLbl.text = phoneTemp
+                //cell.rightLbl.text = phoneTemp
+                cell.rightLbl.text = (data.value(forKey: "phoneNumber") as! String)
             }
         }
         
@@ -121,18 +121,22 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editProfileSegue" {
-            let vc = segue.destination as? EditEmployeeProfileViewController
-            vc?.firstNameTemp = firstNameTemp
-            vc?.lastNameTemp = lastNameTemp
-            vc?.storeTemp = storeTemp
-            vc?.roleTemp = roleTemp
-            vc?.emailTemp = emailTemp
-            vc?.phoneTemp = phoneTemp
-            vc?.image = image
+            let vc = segue.destination as! EditEmployeeProfileViewController
+//            vc?.firstNameTemp = firstNameTemp
+//            vc?.lastNameTemp = lastNameTemp
+//            vc?.storeTemp = storeTemp
+//            vc?.roleTemp = roleTemp
+//            vc?.emailTemp = emailTemp
+//            vc?.phoneTemp = phoneTemp
+//            vc?.image = image
             
-            vc?.editData = sender as? CKRecord
+            vc.editData = sender as! CKRecord
         }
     }
 }
