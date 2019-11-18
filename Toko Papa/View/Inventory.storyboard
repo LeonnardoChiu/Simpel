@@ -180,6 +180,22 @@
             </objects>
             <point key="canvasLocation" x="-439" y="800"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="3zL-C8-fLJ">
+            <objects>
+                <viewController storyboardIdentifier="camera" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vb1-M7-SQI" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9gC-yy-BQB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <viewLayoutGuide key="safeArea" id="yg3-Q2-ZZq"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2UJ-qU-oom"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZS6-M6-mbe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="676" y="793"/>
+        </scene>
         <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
             <objects>
@@ -229,9 +245,18 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUk-hx-qvb">
+                                                    <rect key="frame" x="359" y="10" width="45" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="B" image="barcode"/>
+                                                    <connections>
+                                                        <segue destination="Vb1-M7-SQI" kind="show" identifier="openCam" id="g6j-fR-aHj"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="barcodeScannerButton" destination="XUk-hx-qvb" id="T5b-m6-FjY"/>
                                             <outlet property="tambahBarangTextField" destination="DRH-Ml-yzL" id="qeT-2x-zff"/>
                                         </connections>
                                     </tableViewCell>
@@ -319,7 +344,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT4-bt-oSZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="D4e-Iz-ADd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="1565"/>
+            <point key="canvasLocation" x="-439.13043478260875" y="1564.9553571428571"/>
         </scene>
         <!--Detail Barang-->
         <scene sceneID="1RJ-WP-SLr">
@@ -765,6 +790,7 @@
     <resources>
         <image name="Import Image" width="214" height="214"/>
         <image name="Inventory" width="32" height="31"/>
+        <image name="barcode" width="33" height="25"/>
         <image name="descen" width="32" height="51"/>
     </resources>
     <inferredMetricsTieBreakers>

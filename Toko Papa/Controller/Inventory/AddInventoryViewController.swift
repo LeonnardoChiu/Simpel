@@ -18,6 +18,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     let database = CKContainer.default().publicCloudDatabase
     
     
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.tableFooterView = UIView(frame: .zero)
@@ -85,20 +86,25 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         switch indexPath.section {
         case 0:
                 cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
+               
+                if indexPath.row != 0 {
+                     cellBiasa.barcodeScannerButton.isHidden = true
+                }
+                if indexPath.row == 2 {
+                   cellBiasa.accessoryType = .disclosureIndicator
+                   if kategoriSekarang != "Kategori"{
+                       cellBiasa.textLabel?.textColor = .black
+                   }else {
+                       cellBiasa.textLabel?.textColor = .lightGray
+                   }
+                   cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
+                   cellBiasa.textLabel!.text = kategoriSekarang
+                   cellBiasa.tambahBarangTextField.isHidden = true
+                }
                 if indexPath.row == 4 {
                     cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
                 }
-                if indexPath.row == 2 {
-                    cellBiasa.accessoryType = .disclosureIndicator
-                    if kategoriSekarang != "Kategori"{
-                        cellBiasa.textLabel?.textColor = .black
-                    }else {
-                        cellBiasa.textLabel?.textColor = .lightGray
-                    }
-                    cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
-                    cellBiasa.textLabel!.text = kategoriSekarang
-                    cellBiasa.tambahBarangTextField.isHidden = true
-                }
+                
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
@@ -339,8 +345,9 @@ class TambahBarangCellPriceList: UITableViewCell{
 
 
 class TambahBarangCellBiasa: UITableViewCell{
-    
+    @IBOutlet weak var barcodeScannerButton: UIButton!
     @IBOutlet weak var tambahBarangTextField: UITextField!
+
 }
 
 
