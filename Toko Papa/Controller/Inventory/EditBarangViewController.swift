@@ -193,8 +193,8 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
         case 0:
                 cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
                 cellBiasa.tambahBarangTextField.text = isiTextField[indexPath.row]
-                if indexPath.row == 4 {
-                    cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
+                if indexPath.row != 0 {
+                    cellBiasa.barcodeScannerButton.isHidden = true
                 }
                 if indexPath.row == 2 {
                     cellBiasa.accessoryType = .disclosureIndicator
@@ -207,6 +207,10 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
                     cellBiasa.textLabel!.text = kategoriSekarang
                     cellBiasa.tambahBarangTextField.isHidden = true
                 }
+                if indexPath.row == 4 {
+                    cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
+                }
+                
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"

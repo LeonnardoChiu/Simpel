@@ -180,22 +180,6 @@
             </objects>
             <point key="canvasLocation" x="-439" y="800"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="3zL-C8-fLJ">
-            <objects>
-                <viewController storyboardIdentifier="camera" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vb1-M7-SQI" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9gC-yy-BQB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <viewLayoutGuide key="safeArea" id="yg3-Q2-ZZq"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="2UJ-qU-oom"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZS6-M6-mbe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="676" y="793"/>
-        </scene>
         <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
             <objects>
@@ -246,12 +230,9 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUk-hx-qvb">
-                                                    <rect key="frame" x="359" y="10" width="45" height="25"/>
+                                                    <rect key="frame" x="360" y="-1" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="B" image="barcode"/>
-                                                    <connections>
-                                                        <segue destination="Vb1-M7-SQI" kind="show" identifier="openCam" id="g6j-fR-aHj"/>
-                                                    </connections>
+                                                    <state key="normal" image="barcode"/>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -513,9 +494,15 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="775-yQ-sJL">
+                                                    <rect key="frame" x="350" y="-1" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="barcode"/>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="barcodeScannerButton" destination="775-yQ-sJL" id="LuE-ek-0I2"/>
                                             <outlet property="tambahBarangTextField" destination="Kuk-ZL-Vg0" id="jyM-nM-Hhr"/>
                                         </connections>
                                     </tableViewCell>
@@ -794,7 +781,7 @@
         <image name="descen" width="32" height="51"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4fJ-Jo-81d"/>
-        <segue reference="jHl-9J-Y9i"/>
+        <segue reference="kMb-ag-Gc0"/>
+        <segue reference="50P-lu-ibA"/>
     </inferredMetricsTieBreakers>
 </document>
