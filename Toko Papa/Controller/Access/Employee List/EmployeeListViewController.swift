@@ -31,20 +31,10 @@ class EmployeeListViewController: UIViewController {
         performSegue(withIdentifier: "addNewEmployeeSegue", sender: nil)
     }
     
-   /* // init model
-    var Budi = People(firstName: "Budi", lastName: "Santoso", store: "Toko Papa Jaya", role: "Papa", email: "budibudi@gmail.com", phone: "0812314123")
-    
-    var Ade = People(firstName: "Ade", lastName: "Liason", store: "Toko Papa Jaya", role: "Paman", email: "adeade@gmail.com", phone: "2131412312")
-    
-    var Andi = People(firstName: "Andi", lastName: "Karim", store: "Toko Papa Jaya", role: "Anak Sulung", email: "andiandi@gmail.com", phone: "90839184")
-    
-    var Avira = People(firstName: "Avira", lastName: "Santoso", store: "Toko Papa Jaya", role: "Anak Bungsu", email: "viravira@gmail.com", phone: "13219541")*/
-    
     var idx: Int = 0
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // self.navigationItem.titleView = UIImageView(image: UIImage.init(systemName: "person.fill"))
         //self.QueryDatabase()
         // MARK: - buat pull to refresh
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -71,11 +61,19 @@ class EmployeeListViewController: UIViewController {
         }
     }*/
     
-    
+    // MARK: - Unwind untuk Add
     @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
         print(#function)
-        guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else {return}
+        guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else { return }
+        
+        
         //self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
+    }
+    
+    // MARK: - Unwind untuk Edit
+    @IBAction func unwindToEditVc(_ unwindSegue: UIStoryboardSegue) {
+        guard let EditEmployeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
+        // Use data from the view controller which initiated the unwind segue
     }
     
     // MARK: - obj function untuk nampilin data Query Database
@@ -137,24 +135,25 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
-        tableView.deselectRow(at: indexPath, animated: true)
-
         idx = indexPath.row
-
         performSegue(withIdentifier: "employeeProfileSegue", sender: data[indexPath.row])
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "employeeProfileSegue" {
-            let vc = segue.destination as? EmployeeProfileViewController
+            let vc = segue.destination as! EmployeeProfileViewController
             
-            vc?.firstNameTemp = data[idx].value(forKey: "firstName") as! String
+            vc.data = sender as! CKRecord
+            
+            /*vc?.firstNameTemp = data[idx].value(forKey: "firstName") as! String
             vc?.lastNameTemp = data[idx].value(forKey: "lastName") as! String
             vc?.storeTemp = data[idx].value(forKey: "storeName") as! String
             vc?.roleTemp = data[idx].value(forKey: "role") as! String
             vc?.emailTemp = data[idx].value(forKey: "email") as! String
             vc?.phoneTemp = data[idx].value(forKey: "phoneNumber") as! String
             vc?.image = data[idx].value(forKey: "profileImage") as? CKAsset
+             */
             //vc?.employee = peoples[idx]
             //vc?.peoples.append(peoples[idx])
         }
