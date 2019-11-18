@@ -9,9 +9,10 @@
 import UIKit
 import CloudKit
 
-class EditBarangViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+class EditBarangViewController: UIViewController{
     
     var satuanSekarang: String? = "Unit"
+   
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     @IBOutlet weak var tableView: UITableView!{
         didSet {
@@ -26,6 +27,7 @@ class EditBarangViewController: UIViewController, UITableViewDelegate,UITableVie
     let imageHeight = 195
     let buttonSize = 25
     var editCKrecord: CKRecord!
+     var kategoriSekarang: String?
     var isiTextField: [String] = []
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
@@ -53,81 +55,19 @@ class EditBarangViewController: UIViewController, UITableViewDelegate,UITableVie
         initCollection()
         appendTextField()
         showImage()
+        kategoriSekarang = editCKrecord?.value(forKey: "Category") as! String
         self.addImageButton.isHidden = true
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         print(satuanSekarang)
         self.tableView.reloadData()
+        
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 5
-        }else if section == 1 {
-            return 1
-        }else {
-            return 0
-        }
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
-           
-           let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
-           let cells = UITableViewCell()
-           switch indexPath.section {
-           case 0:
-                   cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
-                   cellBiasa.tambahBarangTextField.text = isiTextField[indexPath.row]
-                   if indexPath.row == 4 {
-                       cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
-                   }
-                   return cellBiasa
-           case 1:
-                   cellPrice.tambahBarangTextField.placeholder = "Harga per"
-                   cellPrice.tambahBarangTextField.text = String(editCKrecord?.value(forKey: "Price") as! Int)
-                   cellPrice.tambahBarangTextField.keyboardType = .decimalPad
-                   cellPrice.PieceLabel.text = satuanSekarang
-                   cellPrice.accessoryType = .disclosureIndicator
-                   return cellPrice
-           default:
-                return cells
-           }
-           return cells
-    }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return ""
-        }else if section == 1 {
-            return "Daftar Harga"
-        }
-        return ""
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            if indexPath.section == 1 {
-                performSegue(withIdentifier: "satuan", sender: 1)
-            }
-            
-            
-             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "satuan"{
-            guard let vc = segue.destination as? SatuanBarangTableViewController else { return }
-            if let satuan = satuanSekarang{
-                vc.selectedUnit = satuan
-            }
-            vc.pemelihVC = sender as! Int
-        }
-    }
 
 
     @IBAction func unwindFromSatuanVCEdit(segue: UIStoryboardSegue){
@@ -135,6 +75,12 @@ class EditBarangViewController: UIViewController, UITableViewDelegate,UITableVie
         self.satuanSekarang = satuanVC.selectedUnit!
     }
     
+    
+    @IBAction func unwindToKategoriVcEdit(segue: UIStoryboardSegue) {
+        guard let satuanVC = segue.source as? KategoriTableViewController else {return}
+        self.kategoriSekarang = satuanVC.selectedKategori
+        // Use data from the view controller which initiated the unwind segue
+    }
     
     
     
@@ -199,14 +145,128 @@ class EditBarangViewController: UIViewController, UITableViewDelegate,UITableVie
     func updateBarang(){
         guard let barcode = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let name = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TambahBarangCellBiasa else {return}
-         guard let category = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TambahBarangCellBiasa else {return}
+        
          guard let distributor = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
         
-        self.updateToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: (category.tambahBarangTextField.text)!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!, edit: editCKrecord)
+        self.updateToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!, edit: editCKrecord)
     }
     
+    
+    
+    @IBAction func addPhotoButton(_ sender: Any) {
+        if images.count < 3{
+            ImagePickerManager().pickImage(self){ image in
+                self.images.append(image)
+                //                print(image.)
+                self.collection.reloadData()
+                self.checkImagesCount()
+            }
+        }
+        
+    }
+
+}
+
+extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 5
+        }else if section == 1 {
+            return 1
+        }else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
+           
+        let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
+        let cells = UITableViewCell()
+        switch indexPath.section {
+        case 0:
+                cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
+                cellBiasa.tambahBarangTextField.text = isiTextField[indexPath.row]
+                if indexPath.row != 0 {
+                    cellBiasa.barcodeScannerButton.isHidden = true
+                }
+                if indexPath.row == 2 {
+                    cellBiasa.accessoryType = .disclosureIndicator
+                    if kategoriSekarang != "Kategori"{
+                        cellBiasa.textLabel?.textColor = .black
+                    }else {
+                        cellBiasa.textLabel?.textColor = .lightGray
+                    }
+                    cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
+                    cellBiasa.textLabel!.text = kategoriSekarang
+                    cellBiasa.tambahBarangTextField.isHidden = true
+                }
+                if indexPath.row == 4 {
+                    cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
+                }
+                
+                return cellBiasa
+        case 1:
+                cellPrice.tambahBarangTextField.placeholder = "Harga per"
+                cellPrice.tambahBarangTextField.text = String(editCKrecord?.value(forKey: "Price") as! Int)
+                cellPrice.tambahBarangTextField.keyboardType = .decimalPad
+                cellPrice.PieceLabel.text = satuanSekarang
+                cellPrice.accessoryType = .disclosureIndicator
+                return cellPrice
+        default:
+            return cells
+        }
+        return cells
+}
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return ""
+        }else if section == 1 {
+            return "Daftar Harga"
+        }
+        return ""
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+                performSegue(withIdentifier: "satuan", sender: 1)
+            }
+        if indexPath.section == 0, indexPath.row == 2 {
+            performSegue(withIdentifier: "kategori", sender: 1)
+        }
+        
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "satuan"{
+            guard let vc = segue.destination as? SatuanBarangTableViewController else { return }
+            if let satuan = satuanSekarang{
+                vc.selectedUnit = satuan
+            }
+            vc.pemelihVC = sender as! Int
+        }
+        
+        if segue.identifier == "kategori" {
+            guard let vc = segue.destination as? KategoriTableViewController else {return}
+            if let kategori = kategoriSekarang{
+                vc.selectedKategori = kategori
+                vc.pemilihVC = sender as! Int
+            }
+        }
+    }
+}
+
+
+extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+   
     func collectionView(_ collection: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if images.count > 3{
             while(images.count > 3){
@@ -291,27 +351,4 @@ class EditBarangViewController: UIViewController, UITableViewDelegate,UITableVie
         collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         self.viewForCollectionView.addSubview(collection)
     }
-    
-    @IBAction func addPhotoButton(_ sender: Any) {
-        if images.count < 3{
-            ImagePickerManager().pickImage(self){ image in
-                self.images.append(image)
-                //                print(image.)
-                self.collection.reloadData()
-                self.checkImagesCount()
-            }
-        }
-        
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
