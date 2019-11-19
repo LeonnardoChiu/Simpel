@@ -33,11 +33,13 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     var cekSatuanBarang: Int?
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
+    
+    @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
     var barcode: QRData?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        doneBtnOutlet.isEnabled = false
         self.hideKeyboardWhenTappedAround()
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -111,17 +113,21 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 if indexPath.row == 4 {
                     cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
                 }
-                
+                cellBiasa.tambahBarangTextField.tag = indexPath.row
+                cellBiasa.tambahBarangTextField.addTarget(self, action: #selector(AddInventoryViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
                 cellPrice.tambahBarangTextField.keyboardType = .decimalPad
                 cellPrice.PieceLabel.text = satuanSekarang
                 cellPrice.accessoryType = .disclosureIndicator
+                cellPrice.tambahBarangTextField.tag = indexPath.row
+                cellPrice.tambahBarangTextField.addTarget(self, action: #selector(AddInventoryViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
                 return cellPrice
         default:
              return cells
         }
+        
         return cells
     }
     
@@ -232,7 +238,65 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         
          self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!)
     }
-
+    var valid1 = false
+    var valid2 = false
+    var valid3 = false
+    var valid4 = false
+    @objc func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        let textFieldRow = textField.tag
+        print(textFieldRow)
+        
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Must input barcode", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                 doneBtnOutlet.isEnabled = false
+                valid1 = false
+            }
+            else{
+                valid1 = true
+            }
+        }else if textFieldRow == 1 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                 doneBtnOutlet.isEnabled = false
+                valid2 = false
+            }
+            else{
+                valid2 = true
+            }
+        }else if textFieldRow == 3 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                 doneBtnOutlet.isEnabled = false
+                valid3 = false
+            }
+            else{
+                valid3 = true
+            }
+        }else if textFieldRow == 4 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                 doneBtnOutlet.isEnabled = false
+                valid4 = false
+            }
+            else{
+                valid4 = true
+            }
+        }
+        print(valid1)
+        print(valid2)
+        print(valid3)
+        print(valid4)
+        if valid1 == true, valid2 == true, valid3 == true, valid4 == true {
+            doneBtnOutlet.isEnabled = true
+        }
+        else{
+            doneBtnOutlet.isEnabled = false
+        }
+        
+        
+    }
+    
     @IBAction func doneButton(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
         tambahBarang()
@@ -361,3 +425,14 @@ class TambahBarangCellBiasa: UITableViewCell{
 }
 
 
+extension AddInventoryViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let textFieldTag = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
+        if (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil) {
+            print("row 1")
+        }
+        if (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) != nil) {
+            print("row 222222")
+        }
+    }
+}

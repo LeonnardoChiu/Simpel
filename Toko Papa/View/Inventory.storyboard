@@ -228,6 +228,9 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="9CH-4x-q2b" id="kOh-wG-bcR"/>
+                                                    </connections>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUk-hx-qvb">
                                                     <rect key="frame" x="360" y="-1" width="44" height="44"/>
@@ -318,6 +321,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addImageButton" destination="fN1-mv-qj6" id="0Xu-dU-Yrq"/>
+                        <outlet property="doneBtnOutlet" destination="sB9-ur-sRm" id="UJX-jM-oQF"/>
                         <outlet property="tableView" destination="oNX-sH-X7e" id="oPl-A4-WVT"/>
                         <outlet property="viewForCollectionView" destination="ajS-lH-EeR" id="qzE-Ca-2nq"/>
                         <segue destination="g6F-ma-CJb" kind="show" identifier="satuan" id="4fJ-Jo-81d"/>
