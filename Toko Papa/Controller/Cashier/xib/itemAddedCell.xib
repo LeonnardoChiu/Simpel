@@ -9,60 +9,75 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="itemAddedCell" customModule="Toko_Papa" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="KGk-i7-Jjw" customClass="itemAddedCell" customModule="Toko_Papa" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EJe-XK-A3c">
-                        <rect key="frame" x="20" y="6" width="32" height="32"/>
+                        <rect key="frame" x="20" y="6" width="45" height="60"/>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="32" id="HZ2-2J-BQE"/>
+                            <constraint firstAttribute="height" constant="60" id="SHe-qV-34C"/>
+                            <constraint firstAttribute="width" constant="45" id="iWK-Qb-FuR"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vO-Jd-jMg">
-                        <rect key="frame" x="67" y="23.5" width="48.5" height="14.5"/>
+                        <rect key="frame" x="75" y="24" width="113" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Ytt-qI-gEj"/>
+                            <constraint firstAttribute="width" constant="113" id="Zu7-fv-bWV"/>
+                        </constraints>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-IM-ZkB">
-                        <rect key="frame" x="272" y="12" width="39" height="20"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oFL-MN-O36">
-                        <rect key="frame" x="67" y="6" width="84" height="20.5"/>
+                        <rect key="frame" x="75" y="6" width="229" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="229" id="8Ws-eG-Oql"/>
+                            <constraint firstAttribute="height" constant="21" id="zf3-mc-jOO"/>
+                        </constraints>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-IM-ZkB">
+                        <rect key="frame" x="165" y="46" width="135" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="135" id="ZD6-sF-zZi"/>
+                            <constraint firstAttribute="height" constant="20" id="hQp-G2-IH9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="ohD-IM-ZkB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="00A-kP-yDH"/>
-                    <constraint firstAttribute="bottom" secondItem="EJe-XK-A3c" secondAttribute="bottom" constant="6" id="21m-v5-zdZ"/>
-                    <constraint firstItem="EJe-XK-A3c" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="HWW-tM-6ie"/>
-                    <constraint firstItem="EJe-XK-A3c" firstAttribute="centerY" secondItem="ohD-IM-ZkB" secondAttribute="centerY" id="K8i-7o-IYc"/>
-                    <constraint firstItem="7vO-Jd-jMg" firstAttribute="leading" secondItem="EJe-XK-A3c" secondAttribute="trailing" constant="15" id="V4g-mU-j9n"/>
-                    <constraint firstAttribute="bottom" secondItem="7vO-Jd-jMg" secondAttribute="bottom" constant="6" id="XVH-SH-MTy"/>
-                    <constraint firstItem="EJe-XK-A3c" firstAttribute="top" secondItem="oFL-MN-O36" secondAttribute="top" id="YJ8-GH-gcf"/>
-                    <constraint firstAttribute="trailing" secondItem="ohD-IM-ZkB" secondAttribute="trailing" constant="9" id="ba0-ks-YEs"/>
-                    <constraint firstItem="oFL-MN-O36" firstAttribute="leading" secondItem="EJe-XK-A3c" secondAttribute="trailing" constant="15" id="jGy-z1-193"/>
-                    <constraint firstItem="EJe-XK-A3c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="jgg-Ye-xsH"/>
-                    <constraint firstItem="EJe-XK-A3c" firstAttribute="bottom" secondItem="7vO-Jd-jMg" secondAttribute="bottom" id="vxY-an-wYp"/>
+                    <constraint firstAttribute="trailing" secondItem="oFL-MN-O36" secondAttribute="trailing" constant="16" id="2YP-Sn-suA"/>
+                    <constraint firstItem="EJe-XK-A3c" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="52K-eM-vaC"/>
+                    <constraint firstItem="oFL-MN-O36" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="8SG-Jr-DEh"/>
+                    <constraint firstAttribute="bottom" secondItem="EJe-XK-A3c" secondAttribute="bottom" constant="9" id="G3G-nx-5Fo"/>
+                    <constraint firstAttribute="trailing" secondItem="ohD-IM-ZkB" secondAttribute="trailing" constant="20" id="TI9-BS-0jv"/>
+                    <constraint firstAttribute="bottom" secondItem="ohD-IM-ZkB" secondAttribute="bottom" constant="9" id="UlN-Zg-Ymy"/>
+                    <constraint firstItem="7vO-Jd-jMg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="aiF-XT-Jln"/>
+                    <constraint firstItem="EJe-XK-A3c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="b26-SF-ToS"/>
+                    <constraint firstItem="oFL-MN-O36" firstAttribute="leading" secondItem="EJe-XK-A3c" secondAttribute="trailing" constant="10" id="cVH-jh-ptu"/>
+                    <constraint firstItem="7vO-Jd-jMg" firstAttribute="leading" secondItem="EJe-XK-A3c" secondAttribute="trailing" constant="10" id="dXY-gV-200"/>
+                    <constraint firstAttribute="trailing" secondItem="7vO-Jd-jMg" secondAttribute="trailing" constant="132" id="f0S-24-dkc"/>
+                    <constraint firstItem="ohD-IM-ZkB" firstAttribute="leading" secondItem="EJe-XK-A3c" secondAttribute="trailing" constant="100" id="st6-E4-ecS"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="itemImage" destination="EJe-XK-A3c" id="SAI-OM-1GD"/>
                 <outlet property="itemNameLbl" destination="oFL-MN-O36" id="MIc-oR-Xhi"/>
                 <outlet property="priceLbl" destination="ohD-IM-ZkB" id="cb6-aE-hbS"/>
                 <outlet property="quantityLbl" destination="7vO-Jd-jMg" id="FVZ-XH-95U"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
+            <point key="canvasLocation" x="137.68115942028987" y="152.34375"/>
         </tableViewCell>
     </objects>
 </document>

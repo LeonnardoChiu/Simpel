@@ -14,7 +14,7 @@ class itemAddedCell: UITableViewCell {
     @IBOutlet weak var itemNameLbl: UILabel!
     @IBOutlet weak var quantityLbl: UILabel!
     @IBOutlet weak var priceLbl: UILabel!
-    
+    @IBOutlet weak var itemImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
