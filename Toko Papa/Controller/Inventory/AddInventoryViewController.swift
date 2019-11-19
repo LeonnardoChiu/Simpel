@@ -242,6 +242,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     var valid2 = false
     var valid3 = false
     var valid4 = false
+    
+    
     @objc func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         let textFieldRow = textField.tag
         print(textFieldRow)
