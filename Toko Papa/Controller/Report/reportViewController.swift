@@ -38,6 +38,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
+    
     }
     
     @IBAction func nextButtonClick(_ sender: Any) {
@@ -124,7 +125,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
      }
 
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.tintColor = UIColor.systemBackground
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
@@ -138,8 +140,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.backgroundColor = .clear
         
         if indexPath == [0,0] {
-            cell.itemLabel.text = "Rp. \(totalSales)"
-            cell.itemLabel.isHidden = false
+            cell.totalSaleslabel.text = "Rp. \(totalSales)"
+            cell.totalSaleslabel.isHidden = false
+            cell.itemLabel.isHidden = true
             cell.unitLabel.isHidden = true
             cell.updateLabel.isHidden = true
             cell.detailButton.isHidden = true
@@ -151,6 +154,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -163,6 +167,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -175,6 +180,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -187,6 +193,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -199,6 +206,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -211,6 +219,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -223,6 +232,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -235,6 +245,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -247,6 +258,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -256,6 +268,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
         }
         else {
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = true
             cell.unitLabel.isHidden = true
             cell.updateLabel.isHidden = true
@@ -273,16 +286,12 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
      }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
-        
         if indexPath.section == 0 {
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
-        else if indexPath.section == 3{
-            if indexPath.row < 3 {
-                selectedEditedItem = editItem[indexPath.row]
-                performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
-            }
+        else if indexPath.section == 3 {
+            selectedEditedItem = editItem[indexPath.row]
+            performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
         }
         
     }
@@ -359,7 +368,7 @@ extension UIView {
 
 extension UIView {
     func dropShadow() {
-      layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor = UIColor.label.cgColor
       layer.shadowOpacity = 1
       layer.shadowOffset = CGSize(width: 0, height: 0)
       layer.shadowRadius = 2

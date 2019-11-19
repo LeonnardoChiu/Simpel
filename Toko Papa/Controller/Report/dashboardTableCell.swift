@@ -16,5 +16,11 @@ class dashboardTableCell: UITableViewCell {
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var chevronButton: UIButton!
-    
+    @IBOutlet weak var totalSaleslabel: UILabel!
+
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
 }

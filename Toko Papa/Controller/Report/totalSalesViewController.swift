@@ -33,6 +33,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         itemCount = items.count
         
+        tableView.rowHeight = 61
         tableView.tableFooterView = UIView()
     }
     
