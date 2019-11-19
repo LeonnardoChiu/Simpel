@@ -138,8 +138,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.backgroundColor = .clear
         
         if indexPath == [0,0] {
-            cell.itemLabel.text = "Rp. \(totalSales)"
-            cell.itemLabel.isHidden = false
+            cell.totalSaleslabel.text = "Rp. \(totalSales)"
+            cell.totalSaleslabel.isHidden = false
+            cell.itemLabel.isHidden = true
             cell.unitLabel.isHidden = true
             cell.updateLabel.isHidden = true
             cell.detailButton.isHidden = true
@@ -151,6 +152,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -163,6 +165,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -175,6 +178,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -187,6 +191,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -199,6 +204,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -211,6 +217,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -223,6 +230,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -235,6 +243,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -247,6 +256,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
             cell.updateLabel.isHidden = false
@@ -256,6 +266,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
         }
         else {
+            cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = true
             cell.unitLabel.isHidden = true
             cell.updateLabel.isHidden = true
@@ -273,16 +284,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
      }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
-        
         if indexPath.section == 0 {
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
-        }
-        else if indexPath.section == 3{
-            if indexPath.row < 3 {
-                selectedEditedItem = editItem[indexPath.row]
-                performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
-            }
         }
         
     }

@@ -20,13 +20,32 @@ class AddEmployeeViewController: UIViewController {
     var firstNameTemp: String = ""
     var lastNameTemp: String = ""
     var storeTemp: String = ""
-    var roleTemp: String = ""
+    var roleTemp: String = "Role"
     var emailTemp: String = ""
     var phoneTemp: String = ""
     
     let imagePicker = UIImagePickerController()
     var images = UIImage()
     var image: CKAsset?
+    
+    
+    // MARK: - viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Load tap gesture & add ke image view
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
+        profileImages.addGestureRecognizer(tap)
+        profileImages.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // MARK: - Init profile picture
+        profileImages.layer.cornerRadius = profileImages.frame.height / 2
+        //self.profileImages.image = UIImage.init(systemName: "camera")
+    }
     
     // MARK: - IBOutlet
     @IBOutlet weak var addTableView: UITableView! {
@@ -42,6 +61,8 @@ class AddEmployeeViewController: UIViewController {
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         appendAdd()
     
+        
+        
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.performSegue(withIdentifier: "backToList", sender: nil)
         }
@@ -99,23 +120,6 @@ class AddEmployeeViewController: UIViewController {
         return url
     }
     
-    // MARK: - viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Load tap gesture & add ke image view
-        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
-        profileImages.addGestureRecognizer(tap)
-        profileImages.isUserInteractionEnabled = true
-    }
-    
-    // MARK: - viewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // MARK: - Init profile picture
-        profileImages.layer.cornerRadius = profileImages.frame.height / 2
-        //self.profileImages.image = UIImage.init(systemName: "camera")
-    }
 
     func appendAdd() {
         let firstName = addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddEmployeeCell
@@ -137,6 +141,20 @@ class AddEmployeeViewController: UIViewController {
     
 }
 
+//EXTENSION STARTS HERE
+
+extension AddEmployeeViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let textFieldTag = addTableView.cellForRow(at: IndexPath(row: 0, section: 0))
+        if (addTableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil) {
+            print("row 1")
+        }
+        if (addTableView.cellForRow(at: IndexPath(row: 1, section: 0)) != nil) {
+            print("row 222222")
+        }
+    }
+}
+
 extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
@@ -147,29 +165,97 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
         
         if indexPath.row == 0 {
             cell.addFormField.placeholder = "First name"
-            cell.addFormField.textContentType = .givenName
+            cell.addFormField.isEnabled = true
         } else if indexPath.row == 1 {
             cell.addFormField.placeholder = "Last name"
-            cell.addFormField.textContentType = .familyName
+            cell.addFormField.isEnabled = true
         } else if indexPath.row == 2 {
             cell.addFormField.placeholder = "Store"
-            cell.addFormField.textContentType = .organizationName
+            cell.addFormField.isEnabled = true
         } else if indexPath.row == 3 {
-            cell.addFormField.placeholder = "Role"
-            cell.addFormField.textContentType = .jobTitle
+            cell.addFormField.placeholder = roleTemp
+            cell.addFormField.isEnabled = false
+            cell.accessoryType = .disclosureIndicator
         } else if indexPath.row == 4 {
             cell.addFormField.placeholder = "Email"
-            cell.addFormField.textContentType = .emailAddress
+            cell.addFormField.isEnabled = true
         } else if indexPath.row == 5 {
             cell.addFormField.placeholder = "Phone"
-            cell.addFormField.textContentType = .familyName
+            cell.addFormField.isEnabled = true
         }
+        
+        cell.addFormField.tag = indexPath.row
+        cell.addFormField.addTarget(self, action: #selector(AddEmployeeViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
         
         return cell
     }
     
+    @objc func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        let textFieldRow = textField.tag
+        print(textFieldRow)
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "First Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                
+            }
+        }
+        else if textFieldRow == 1 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                
+            }
+        }
+        else if textFieldRow == 2{
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Store Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                
+            }
+        }
+        else if textFieldRow == 3 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                
+            }
+        }
+        else if textFieldRow == 4 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+
+            }
+            else{
+                if isValidEmail(emailStr: textField.text!) == false {
+                    textField.textColor = UIColor.red
+                }
+                else{
+                    textField.textColor = UIColor.black
+                }
+            }
+        }
+        else if textFieldRow == 5 {
+            if textField.text == "" {
+            textField.attributedPlaceholder = NSAttributedString(string: "Phone must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+
+            }
+        }
+
+        
+    }
+    
+     func isValidEmail(emailStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: emailStr)
+    }
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "addFormCell") as! AddEmployeeCell
+        
+        if indexPath.row == 3 {
+            performSegue(withIdentifier: "segueToRole", sender: self)
+        }
     }
     
 }
