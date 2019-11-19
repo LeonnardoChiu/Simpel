@@ -16,5 +16,6 @@ class dashboardTableCell: UITableViewCell {
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var chevronButton: UIButton!
-    
+    @IBOutlet weak var totalSaleslabel: UILabel!
+
 }
