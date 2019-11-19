@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MeF-Xa-vcq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MeF-Xa-vcq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -358,9 +358,11 @@
                     <navigationItem key="navigationItem" title="Barcode" id="sEe-lN-7Yd"/>
                     <connections>
                         <outlet property="scannerView" destination="fwP-BW-1a4" id="7pE-Lv-llA"/>
+                        <segue destination="ag7-3r-QZq" kind="unwind" identifier="BacktoAdd" unwindAction="unwindFromKBarcodeWithSegue:" id="NFP-HC-JGy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b2q-6K-6Os" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="ag7-3r-QZq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1342" y="1688"/>
         </scene>
@@ -535,6 +537,9 @@
                                                     <rect key="frame" x="350" y="-1" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="barcode"/>
+                                                    <connections>
+                                                        <segue destination="mdQ-Yn-5GZ" kind="show" id="hW1-kf-wlV"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -820,5 +825,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="4fJ-Jo-81d"/>
         <segue reference="jHl-9J-Y9i"/>
+        <segue reference="amG-n9-aa0"/>
     </inferredMetricsTieBreakers>
 </document>

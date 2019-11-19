@@ -14,14 +14,15 @@ class BarcodeViewController: UIViewController {
     
     @IBOutlet weak var scannerView: QRScannerView! {
          didSet {
-                   scannerView.delegate = self
-               }
+                scannerView.delegate = self
+            }
     }
     
     var qrData: QRData? = nil {
         didSet {
             if qrData != nil {
-//                self.performSegue(withIdentifier: "detailSeuge", sender: self)
+                self.performSegue(withIdentifier: "BacktoAdd", sender: self)
+               
             }
         }
     }
@@ -56,11 +57,11 @@ extension BarcodeViewController: QRScannerViewDelegate {
     }
     
     func qrScanningDidFail() {
-//        presentAlert(withTitle: "Error", message: "Scanning Failed. Please try again")
+        presentAlert(withTitle: "Error", message: "Scanning Failed. Please try again")
     }
     
     func qrScanningSucceededWithCode(_ str: String?) {
-//        self.qrData = QRData(codeString: str)
+        self.qrData = QRData(codeString: str)
     }
     
     

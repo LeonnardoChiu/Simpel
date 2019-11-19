@@ -27,10 +27,11 @@ class EditBarangViewController: UIViewController{
     let imageHeight = 195
     let buttonSize = 25
     var editCKrecord: CKRecord!
-     var kategoriSekarang: String?
+    var kategoriSekarang: String?
     var isiTextField: [String] = []
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
+    var barcode: QRData?
     func appendTextField(){
         isiTextField.append(editCKrecord.value(forKey: "Barcode") as! String)
         isiTextField.append(editCKrecord.value(forKey: "NameProduct") as! String)
@@ -193,6 +194,11 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
         case 0:
                 cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
                 cellBiasa.tambahBarangTextField.text = isiTextField[indexPath.row]
+                if indexPath.row == 0 {
+                    if barcode != nil{
+                        cellBiasa.tambahBarangTextField.text = barcode?.codeString
+                    }
+                }
                 if indexPath.row != 0 {
                     cellBiasa.barcodeScannerButton.isHidden = true
                 }
@@ -350,5 +356,10 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
         collection.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         self.viewForCollectionView.addSubview(collection)
+    }
+    
+    @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
+        guard let barcodeVC = segue.source as? BarcodeViewController else { return }
+        self.barcode = barcodeVC.qrData
     }
 }

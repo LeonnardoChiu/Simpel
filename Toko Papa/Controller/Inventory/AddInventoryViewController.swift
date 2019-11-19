@@ -33,8 +33,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     var cekSatuanBarang: Int?
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
+    var barcode: QRData?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.hideKeyboardWhenTappedAround()
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -45,9 +48,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     }
       
       override func viewWillAppear(_ animated: Bool) {
-            print(satuanSekarang)
             self.tableView.reloadData()
-            
+            print(barcode?.codeString)
       }
     
     
@@ -89,6 +91,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                
                 if indexPath.row != 0 {
                      cellBiasa.barcodeScannerButton.isHidden = true
+                }
+                if indexPath.row == 0 {
+                    if barcode != nil{
+                        cellBiasa.tambahBarangTextField.text = barcode?.codeString
+                    }
                 }
                 if indexPath.row == 2 {
                    cellBiasa.accessoryType = .disclosureIndicator
@@ -162,7 +169,10 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         self.kategoriSekarang = kategoriVC.selectedKategori!
     }
     
-    
+    @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
+        guard let barcodeVC = segue.source as? BarcodeViewController else { return }
+        self.barcode = barcodeVC.qrData
+    }
     
     
     
