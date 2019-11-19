@@ -42,7 +42,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             cell.gambarCell.contentMode = .scaleAspectFill
         }
         cell.namaProductLabel.text = nama
-        cell.stockLabel.text = "Stock Left \(stock)"
+        cell.stockLabel.text = "Stock Left : \(stock)"
         cell.accessoryType = .disclosureIndicator
         return cell
     }

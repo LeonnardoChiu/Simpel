@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MeF-Xa-vcq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MeF-Xa-vcq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -39,7 +39,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K9t-HF-y3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="U9V-Qw-Onj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2159" y="1606"/>
+            <point key="canvasLocation" x="-2675" y="899"/>
         </scene>
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
@@ -159,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoU-nt-aT4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1342" y="1565"/>
+            <point key="canvasLocation" x="-1342" y="899"/>
         </scene>
         <!--Inventory-->
         <scene sceneID="geb-G7-4fh">
@@ -178,7 +178,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WJE-1F-6sW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="800"/>
+            <point key="canvasLocation" x="-1342" y="35"/>
         </scene>
         <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
@@ -233,6 +233,9 @@
                                                     <rect key="frame" x="360" y="-1" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="barcode"/>
+                                                    <connections>
+                                                        <segue destination="mdQ-Yn-5GZ" kind="show" id="amG-n9-aa0"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -325,7 +328,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT4-bt-oSZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="D4e-Iz-ADd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-439.13043478260875" y="1564.9553571428571"/>
+            <point key="canvasLocation" x="-2675" y="1688"/>
+        </scene>
+        <!--Barcode-->
+        <scene sceneID="cKJ-36-pGU">
+            <objects>
+                <viewController id="mdQ-Yn-5GZ" customClass="BarcodeViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KPN-bi-ih8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-BW-1a4">
+                                <rect key="frame" x="32" y="166" width="350" height="350"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="350" id="G13-KF-Riw"/>
+                                    <constraint firstAttribute="width" constant="350" id="er3-SB-L3k"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="fwP-BW-1a4" firstAttribute="top" secondItem="273-IW-QMc" secondAttribute="top" constant="78" id="9tZ-vL-7VV"/>
+                            <constraint firstItem="fwP-BW-1a4" firstAttribute="leading" secondItem="273-IW-QMc" secondAttribute="leading" constant="32" id="LUX-c9-k6a"/>
+                            <constraint firstItem="273-IW-QMc" firstAttribute="trailing" secondItem="fwP-BW-1a4" secondAttribute="trailing" constant="32" id="mWd-IX-i2w"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="273-IW-QMc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Barcode" id="sEe-lN-7Yd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b2q-6K-6Os" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1342" y="1688"/>
         </scene>
         <!--Detail Barang-->
         <scene sceneID="1RJ-WP-SLr">
@@ -447,7 +481,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ppd-EZ-gpo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1342" y="2308"/>
+            <point key="canvasLocation" x="-439" y="881"/>
         </scene>
         <!--Edit Barang-->
         <scene sceneID="58l-CH-Fqu">
@@ -593,7 +627,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uoc-RX-AuR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="mZe-7l-Aol" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="2308"/>
+            <point key="canvasLocation" x="935" y="1688"/>
         </scene>
         <!--Kategori-->
         <scene sceneID="CRF-ve-y63">
@@ -638,7 +672,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uvm-wD-0gy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="1aA-rL-ueb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1193" y="2308"/>
+            <point key="canvasLocation" x="-197" y="2513"/>
         </scene>
         <!--Tambah Kategori-->
         <scene sceneID="Gnf-CG-9gN">
@@ -682,7 +716,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDR-WB-UE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="qwt-mt-mMv" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2021.7391304347827" y="2307.5892857142858"/>
+            <point key="canvasLocation" x="-233" y="3442"/>
         </scene>
         <!--Satuan Barang-->
         <scene sceneID="kbg-E1-1FY">
@@ -727,7 +761,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rb3-L1-Hsf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="A0t-tW-j9G" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1193" y="1565"/>
+            <point key="canvasLocation" x="-1390" y="2571"/>
         </scene>
         <!--Tambah Satuan-->
         <scene sceneID="EO9-2Y-DD4">
@@ -771,7 +805,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yRa-SW-LWN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="6cy-rU-uYJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1985.5072463768117" y="1567.6339285714284"/>
+            <point key="canvasLocation" x="-1342" y="3427"/>
         </scene>
     </scenes>
     <resources>
@@ -782,5 +816,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="4fJ-Jo-81d"/>
+        <segue reference="jHl-9J-Y9i"/>
     </inferredMetricsTieBreakers>
 </document>
