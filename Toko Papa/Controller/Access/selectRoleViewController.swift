@@ -23,7 +23,12 @@ class selectRoleViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent{
+            print("balek")
+            
+            performSegue(withIdentifier: "backToAddEmployee", sender: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

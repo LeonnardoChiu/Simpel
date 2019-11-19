@@ -304,6 +304,9 @@
                                                 <constraint firstItem="HTm-0t-M7M" firstAttribute="leading" secondItem="zfO-YM-wua" secondAttribute="leadingMargin" id="y6T-fJ-Yjs"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="4w0-1M-4q1" kind="unwind" identifier="backToAddEmployee" unwindAction="unwindFromSelectRole:" id="K9J-Ju-G4a"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -327,6 +330,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhX-PA-XSW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="4w0-1M-4q1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2944.9275362318845" y="3052.9017857142858"/>
         </scene>

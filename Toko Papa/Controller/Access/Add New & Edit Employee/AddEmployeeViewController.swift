@@ -45,6 +45,7 @@ class AddEmployeeViewController: UIViewController {
         // MARK: - Init profile picture
         profileImages.layer.cornerRadius = profileImages.frame.height / 2
         //self.profileImages.image = UIImage.init(systemName: "camera")
+        print(roleTemp)
     }
     
     // MARK: - IBOutlet
@@ -139,6 +140,15 @@ class AddEmployeeViewController: UIViewController {
         self.saveToCloud(img: images, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp)
     }
     
+    @IBAction func unwindFromSelectRole (_ unwindSegue: UIStoryboardSegue){
+        guard let roleVC = unwindSegue.source as? selectRoleViewController else {return}
+        self.roleTemp = roleVC.selectedRole
+        print(self.roleTemp)
+        let indexPath = IndexPath(item: 3, section: 0)
+        addTableView.reloadRows(at: [indexPath], with: .top)
+        
+    }
+    
 }
 
 //EXTENSION STARTS HERE
@@ -162,6 +172,8 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addFormCell") as! AddEmployeeCell
+        
+        print(roleTemp)
         
         if indexPath.row == 0 {
             cell.addFormField.placeholder = "First name"
@@ -257,5 +269,6 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
             performSegue(withIdentifier: "segueToRole", sender: self)
         }
     }
+    
     
 }

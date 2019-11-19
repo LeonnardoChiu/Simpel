@@ -287,6 +287,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 0 {
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
+        else if indexPath.section == 3 {
+            selectedEditedItem = editItem[indexPath.row]
+            performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
+        }
         
     }
     
