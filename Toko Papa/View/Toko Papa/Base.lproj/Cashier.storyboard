@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Payment Method-->
+        <!--Metode Pembayaran-->
         <scene sceneID="DGy-g5-CpX">
             <objects>
                 <viewController id="q2V-DQ-kNV" customClass="PaymentMethodViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
@@ -33,7 +33,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1sv-hS-S3Q"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Payment Method" id="bFv-4S-UL7"/>
+                    <navigationItem key="navigationItem" title="Metode Pembayaran" id="bFv-4S-UL7"/>
                     <connections>
                         <outlet property="paymentTableView" destination="s1D-az-DCo" id="PVi-5V-SRu"/>
                     </connections>
@@ -42,7 +42,7 @@
             </objects>
             <point key="canvasLocation" x="1282.608695652174" y="2303.5714285714284"/>
         </scene>
-        <!--Cashier-->
+        <!--Kasir-->
         <scene sceneID="Mhl-pD-sqx">
             <objects>
                 <viewController id="cR7-dq-Cdy" customClass="CashierViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
@@ -78,9 +78,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ddN-8O-GAr"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Cashier" id="2Dw-uu-cba">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="ZGq-XE-yWL"/>
-                        <barButtonItem key="rightBarButtonItem" title="Finish" id="d6P-7u-wVD">
+                    <navigationItem key="navigationItem" title="Kasir" id="2Dw-uu-cba">
+                        <barButtonItem key="backBarButtonItem" title="Kembali" id="ZGq-XE-yWL"/>
+                        <barButtonItem key="rightBarButtonItem" title="Selesai" id="d6P-7u-wVD">
                             <connections>
                                 <action selector="finishBtn:" destination="cR7-dq-Cdy" id="rpa-Cv-fMh"/>
                             </connections>
@@ -136,9 +136,11 @@
                         <outlet property="searchFooter" destination="D3P-hU-B9K" id="aJ0-6v-PQP"/>
                         <outlet property="searchFooterBottomConstraint" destination="zMs-4q-BiT" id="P8o-RS-ReT"/>
                         <outlet property="searchTableView" destination="vhc-xY-19N" id="Ilz-Z7-s6b"/>
+                        <segue destination="7vy-ep-Abc" kind="unwind" identifier="backToCashier" unwindAction="unwindFromItemSearch:" id="mRm-f6-1Uh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IaX-nJ-h3b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="7vy-ep-Abc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2089.8550724637685" y="1583.7053571428571"/>
         </scene>

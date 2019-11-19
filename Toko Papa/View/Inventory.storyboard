@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MeF-Xa-vcq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MeF-Xa-vcq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -39,7 +39,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K9t-HF-y3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="U9V-Qw-Onj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2159" y="1606"/>
+            <point key="canvasLocation" x="-2675" y="899"/>
         </scene>
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
@@ -159,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoU-nt-aT4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1342" y="1565"/>
+            <point key="canvasLocation" x="-1342" y="899"/>
         </scene>
         <!--Inventory-->
         <scene sceneID="geb-G7-4fh">
@@ -178,7 +178,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WJE-1F-6sW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="800"/>
+            <point key="canvasLocation" x="-1342" y="35"/>
         </scene>
         <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
@@ -229,9 +229,18 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUk-hx-qvb">
+                                                    <rect key="frame" x="360" y="-1" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="barcode"/>
+                                                    <connections>
+                                                        <segue destination="mdQ-Yn-5GZ" kind="show" id="amG-n9-aa0"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="barcodeScannerButton" destination="XUk-hx-qvb" id="T5b-m6-FjY"/>
                                             <outlet property="tambahBarangTextField" destination="DRH-Ml-yzL" id="qeT-2x-zff"/>
                                         </connections>
                                     </tableViewCell>
@@ -313,12 +322,44 @@
                         <outlet property="viewForCollectionView" destination="ajS-lH-EeR" id="qzE-Ca-2nq"/>
                         <segue destination="g6F-ma-CJb" kind="show" identifier="satuan" id="4fJ-Jo-81d"/>
                         <segue destination="D4e-Iz-ADd" kind="unwind" identifier="backToInventory" unwindAction="unwindToVCInventory:" id="MV4-gJ-haZ"/>
+                        <segue destination="Hp3-vn-QCu" kind="show" identifier="kategori" id="jHl-9J-Y9i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KT4-bt-oSZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="D4e-Iz-ADd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="1565"/>
+            <point key="canvasLocation" x="-2675" y="1688"/>
+        </scene>
+        <!--Barcode-->
+        <scene sceneID="cKJ-36-pGU">
+            <objects>
+                <viewController id="mdQ-Yn-5GZ" customClass="BarcodeViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KPN-bi-ih8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-BW-1a4">
+                                <rect key="frame" x="32" y="166" width="350" height="350"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="350" id="G13-KF-Riw"/>
+                                    <constraint firstAttribute="width" constant="350" id="er3-SB-L3k"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="fwP-BW-1a4" firstAttribute="top" secondItem="273-IW-QMc" secondAttribute="top" constant="78" id="9tZ-vL-7VV"/>
+                            <constraint firstItem="fwP-BW-1a4" firstAttribute="leading" secondItem="273-IW-QMc" secondAttribute="leading" constant="32" id="LUX-c9-k6a"/>
+                            <constraint firstItem="273-IW-QMc" firstAttribute="trailing" secondItem="fwP-BW-1a4" secondAttribute="trailing" constant="32" id="mWd-IX-i2w"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="273-IW-QMc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Barcode" id="sEe-lN-7Yd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b2q-6K-6Os" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1342" y="1688"/>
         </scene>
         <!--Detail Barang-->
         <scene sceneID="1RJ-WP-SLr">
@@ -440,7 +481,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ppd-EZ-gpo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1342" y="2308"/>
+            <point key="canvasLocation" x="-439" y="881"/>
         </scene>
         <!--Edit Barang-->
         <scene sceneID="58l-CH-Fqu">
@@ -487,9 +528,15 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="775-yQ-sJL">
+                                                    <rect key="frame" x="350" y="-1" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="barcode"/>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="barcodeScannerButton" destination="775-yQ-sJL" id="LuE-ek-0I2"/>
                                             <outlet property="tambahBarangTextField" destination="Kuk-ZL-Vg0" id="jyM-nM-Hhr"/>
                                         </connections>
                                     </tableViewCell>
@@ -574,12 +621,102 @@
                         <outlet property="viewForCollectionView" destination="uR5-eh-Y9l" id="cza-s9-q1n"/>
                         <segue destination="g6F-ma-CJb" kind="show" identifier="satuan" id="kMb-ag-Gc0"/>
                         <segue destination="mZe-7l-Aol" kind="unwind" identifier="backToInventory" unwindAction="unwindToVCInventory:" id="7Rg-Ac-hNh"/>
+                        <segue destination="Hp3-vn-QCu" kind="show" identifier="kategori" id="50P-lu-ibA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uoc-RX-AuR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="mZe-7l-Aol" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="2308"/>
+            <point key="canvasLocation" x="935" y="1688"/>
+        </scene>
+        <!--Kategori-->
+        <scene sceneID="CRF-ve-y63">
+            <objects>
+                <tableViewController id="Hp3-vn-QCu" customClass="KategoriTableViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="em2-zG-ILe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="PEI-Iz-1t5">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="JKo-qo-c7e">
+                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JKo-qo-c7e" id="Ag7-Mu-cr8">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Hp3-vn-QCu" id="dHY-Zc-dsW"/>
+                            <outlet property="delegate" destination="Hp3-vn-QCu" id="tcX-bC-r5z"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Kategori" id="qZS-05-iLl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Sb4-0Z-M3D">
+                            <connections>
+                                <segue destination="iF7-n9-Ump" kind="show" id="ZbU-zl-teI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="1aA-rL-ueb" kind="unwind" identifier="backToEditVC" unwindAction="unwindToKategoriVcEditWithSegue:" id="i13-3e-bJM"/>
+                        <segue destination="1aA-rL-ueb" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromKategoriVCTambahbarangWithSegue:" id="eme-Tx-XE5"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uvm-wD-0gy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1aA-rL-ueb" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-197" y="2513"/>
+        </scene>
+        <!--Tambah Kategori-->
+        <scene sceneID="Gnf-CG-9gN">
+            <objects>
+                <viewController id="iF7-n9-Ump" customClass="TambahCategoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YeN-PI-hqx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tambah Kategori" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uWC-BV-GBQ">
+                                <rect key="frame" x="20" y="333" width="374" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="374" id="79L-oT-Dei"/>
+                                    <constraint firstAttribute="height" constant="34" id="cNI-U0-hgD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="uWC-BV-GBQ" firstAttribute="top" secondItem="mbL-Mm-BUT" secondAttribute="top" constant="245" id="2Fi-DC-KJV"/>
+                            <constraint firstItem="uWC-BV-GBQ" firstAttribute="leading" secondItem="mbL-Mm-BUT" secondAttribute="leading" constant="20" id="3bv-MM-oTg"/>
+                            <constraint firstItem="mbL-Mm-BUT" firstAttribute="bottom" secondItem="uWC-BV-GBQ" secondAttribute="bottom" constant="495" id="GRc-Nt-ZXt"/>
+                            <constraint firstItem="mbL-Mm-BUT" firstAttribute="trailing" secondItem="uWC-BV-GBQ" secondAttribute="trailing" constant="20" id="TSr-q7-oPo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="mbL-Mm-BUT"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Tambah Kategori" id="ntf-51-DRl">
+                        <barButtonItem key="rightBarButtonItem" title="Simpan" id="2Fc-9M-qr3">
+                            <connections>
+                                <action selector="simpanButton:" destination="iF7-n9-Ump" id="t2i-O9-xbl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tambahKategoriTextField" destination="uWC-BV-GBQ" id="nC7-Gs-WsG"/>
+                        <segue destination="qwt-mt-mMv" kind="unwind" identifier="backToCategory" unwindAction="unwindFromKategoriBarangWithSegue:" id="VOz-um-dnc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aDR-WB-UE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="qwt-mt-mMv" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-233" y="3442"/>
         </scene>
         <!--Satuan Barang-->
         <scene sceneID="kbg-E1-1FY">
@@ -589,9 +726,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="Z6e-8u-pNK">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="P6n-vU-FgK">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P6n-vU-FgK" id="wij-LB-ABz">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -604,7 +746,13 @@
                             <outlet property="delegate" destination="g6F-ma-CJb" id="zPD-Tf-71J"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM"/>
+                    <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lbS-1r-Mgp">
+                            <connections>
+                                <segue destination="4cv-A0-GWI" kind="show" id="2Co-eY-w2a"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToAddVC" unwindAction="unwindFromSatuanVCTambahBarangWithSegue:" id="hbo-nO-eTC"/>
                         <segue destination="A0t-tW-j9G" kind="unwind" identifier="backToEditVC" unwindAction="unwindFromSatuanVCEditWithSegue:" id="VgN-Si-mis"/>
@@ -613,15 +761,61 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rb3-L1-Hsf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="A0t-tW-j9G" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="472" y="1910"/>
+            <point key="canvasLocation" x="-1390" y="2571"/>
+        </scene>
+        <!--Tambah Satuan-->
+        <scene sceneID="EO9-2Y-DD4">
+            <objects>
+                <viewController id="4cv-A0-GWI" customClass="TambahSatuanViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mpv-oX-i0i">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tambah Satuan" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Xf-9i-c01">
+                                <rect key="frame" x="20" y="333" width="374" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="374" id="jdx-aR-yMt"/>
+                                    <constraint firstAttribute="height" constant="34" id="zVM-4E-wn1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="pRH-QO-OuF" firstAttribute="trailing" secondItem="5Xf-9i-c01" secondAttribute="trailing" constant="20" id="LXG-1O-IQ2"/>
+                            <constraint firstItem="5Xf-9i-c01" firstAttribute="top" secondItem="pRH-QO-OuF" secondAttribute="top" constant="245" id="VUe-4Q-kgu"/>
+                            <constraint firstItem="5Xf-9i-c01" firstAttribute="leading" secondItem="pRH-QO-OuF" secondAttribute="leading" constant="20" id="gS5-Wp-gqh"/>
+                            <constraint firstItem="pRH-QO-OuF" firstAttribute="bottom" secondItem="5Xf-9i-c01" secondAttribute="bottom" constant="495" id="jTw-x0-o85"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="pRH-QO-OuF"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Tambah Satuan" id="SqF-Rk-4fw">
+                        <barButtonItem key="rightBarButtonItem" title="Simpan" id="Edx-xW-I2R">
+                            <connections>
+                                <action selector="simpanButton:" destination="4cv-A0-GWI" id="NWm-js-FWu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tambahSatuanTextField" destination="5Xf-9i-c01" id="N9l-kQ-SKf"/>
+                        <segue destination="6cy-rU-uYJ" kind="unwind" identifier="backtoSatuan" unwindAction="unwindFromSatuanBarangWithSegue:" id="fks-sa-H8G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yRa-SW-LWN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="6cy-rU-uYJ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-1342" y="3427"/>
         </scene>
     </scenes>
     <resources>
         <image name="Import Image" width="214" height="214"/>
         <image name="Inventory" width="32" height="31"/>
+        <image name="barcode" width="33" height="25"/>
         <image name="descen" width="32" height="51"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kMb-ag-Gc0"/>
+        <segue reference="4fJ-Jo-81d"/>
+        <segue reference="jHl-9J-Y9i"/>
     </inferredMetricsTieBreakers>
 </document>
