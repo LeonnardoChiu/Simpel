@@ -38,6 +38,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
+    
     }
     
     @IBAction func nextButtonClick(_ sender: Any) {
@@ -124,7 +125,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
      }
 
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.tintColor = UIColor.systemBackground
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
@@ -366,7 +368,7 @@ extension UIView {
 
 extension UIView {
     func dropShadow() {
-      layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor = UIColor.label.cgColor
       layer.shadowOpacity = 1
       layer.shadowOffset = CGSize(width: 0, height: 0)
       layer.shadowRadius = 2
