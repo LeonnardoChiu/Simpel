@@ -51,6 +51,7 @@
 		BDA38F4E237BE47100FCD5BC /* CashierItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA38F4D237BE47100FCD5BC /* CashierItemListViewController.swift */; };
 		BDA38F51237BEB5B00FCD5BC /* TotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA38F4F237BEB5B00FCD5BC /* TotalPriceCell.swift */; };
 		BDA38F52237BEB5B00FCD5BC /* TotalPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA38F50237BEB5B00FCD5BC /* TotalPriceCell.xib */; };
+		BDDEB2BA2384DD540025F4CB /* BarcodeScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDEB2B92384DD540025F4CB /* BarcodeScannerController.swift */; };
 		FE01DFA62383A08D0098E54C /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01DFA52383A08D0098E54C /* QRScannerView.swift */; };
 		FE01DFA82383A2750098E54C /* QRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01DFA72383A2750098E54C /* QRData.swift */; };
 		FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBC82372756700E19665 /* CalendarVars.swift */; };
@@ -117,6 +118,7 @@
 		BDA38F4D237BE47100FCD5BC /* CashierItemListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashierItemListViewController.swift; sourceTree = "<group>"; };
 		BDA38F4F237BEB5B00FCD5BC /* TotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPriceCell.swift; sourceTree = "<group>"; };
 		BDA38F50237BEB5B00FCD5BC /* TotalPriceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TotalPriceCell.xib; sourceTree = "<group>"; };
+		BDDEB2B92384DD540025F4CB /* BarcodeScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerController.swift; sourceTree = "<group>"; };
 		FE01DFA52383A08D0098E54C /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		FE01DFA72383A2750098E54C /* QRData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRData.swift; sourceTree = "<group>"; };
 		FE3ABBC82372756700E19665 /* CalendarVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVars.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				BDA38F4D237BE47100FCD5BC /* CashierItemListViewController.swift */,
 				BD13BF64237BFFC600172A92 /* PaymentMethodViewController.swift */,
 				BD4A4B6B237D04CC00F9F1FE /* SearchFooter.swift */,
+				BDDEB2B92384DD540025F4CB /* BarcodeScannerController.swift */,
 			);
 			path = Cashier;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				BD4A4B6C237D04CC00F9F1FE /* SearchFooter.swift in Sources */,
 				BDA38F4E237BE47100FCD5BC /* CashierItemListViewController.swift in Sources */,
 				BD0487822372703D002E0586 /* EmployeeProfileCell.swift in Sources */,
+				BDDEB2BA2384DD540025F4CB /* BarcodeScannerController.swift in Sources */,
 				6838F973236FD93000FCC0D0 /* InventoryViewController.swift in Sources */,
 				6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */,
 				68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */,
@@ -623,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Louis.Toko-Papa";
+				PRODUCT_BUNDLE_IDENTIFIER = "Loui.Toko-Papa";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -643,7 +647,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Louis.Toko-Papa";
+				PRODUCT_BUNDLE_IDENTIFIER = "Loui.Toko-Papa";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

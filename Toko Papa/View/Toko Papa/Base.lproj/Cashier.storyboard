@@ -80,6 +80,7 @@
                         <outlet property="cashierTableView" destination="3ac-u3-xqF" id="0zD-bQ-rB1"/>
                         <segue destination="byY-BW-mKE" kind="show" identifier="toSearchView" id="TsW-7h-NP7"/>
                         <segue destination="q2V-DQ-kNV" kind="show" identifier="toPaymentMethod" id="HU1-DT-vVT"/>
+                        <segue destination="V7Q-vx-cNl" kind="show" identifier="toBarcodeScanner" id="saF-c9-vbz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJP-aC-v6s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -152,6 +153,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SL4-6U-mhh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1283" y="800"/>
+        </scene>
+        <!--Scan Barcode-->
+        <scene sceneID="ilC-da-Z6w">
+            <objects>
+                <viewController id="V7Q-vx-cNl" customClass="BarcodeScannerController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DQZ-FH-5lh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="137-ze-UNK" customClass="QRScannerView" customModule="Toko_Papa" customModuleProvider="target">
+                                <rect key="frame" x="57" y="147" width="300" height="300"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="DWL-6R-NAZ"/>
+                                    <constraint firstAttribute="width" constant="300" id="OCq-Kx-ZO5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="137-ze-UNK" firstAttribute="leading" secondItem="vMP-h0-TTM" secondAttribute="leading" constant="57" id="7XH-Kj-fvQ"/>
+                            <constraint firstItem="137-ze-UNK" firstAttribute="top" secondItem="vMP-h0-TTM" secondAttribute="top" constant="59" id="f21-c0-B1G"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="vMP-h0-TTM"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Scan Barcode" id="AOc-18-5R7"/>
+                    <connections>
+                        <outlet property="scannerView" destination="137-ze-UNK" id="dS9-O9-Hwd"/>
+                        <segue destination="l3S-UX-vwt" kind="unwind" identifier="backToCashier" unwindAction="unwindFromBarcodeScanner:" id="yUB-G2-g3Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IxS-kE-VTN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="l3S-UX-vwt" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="542" y="1584"/>
         </scene>
     </scenes>
 </document>

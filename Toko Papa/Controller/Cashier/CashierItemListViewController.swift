@@ -115,9 +115,6 @@ class CashierItemListViewController: UIViewController {
         definesPresentationContext = true
         
         //searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
-        searchController.searchBar.showsSearchResultsButton = true
-        self.searchController.searchBar.setImage(UIImage(systemName: "camera"), for: .resultsList, state: .normal)
-    
         searchController.searchBar.sizeToFit()
         searchController.searchBar.delegate = self
     }
