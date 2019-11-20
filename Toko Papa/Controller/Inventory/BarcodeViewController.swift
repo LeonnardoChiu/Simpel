@@ -64,6 +64,4 @@ extension BarcodeViewController: QRScannerViewDelegate {
         self.qrData = QRData(codeString: str)
     }
     
-    
-    
 }

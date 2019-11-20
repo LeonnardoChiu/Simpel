@@ -16,13 +16,9 @@ class CashierItemListViewController: UIViewController {
     var filteredItem: [Item] = []    
     var image: CKAsset?
     var selectedItem: Item!
-    
-    var itemIdx = 0
-    
     var isSearchBarEmpty: Bool {
            return searchController.searchBar.text?.isEmpty ?? true
        }
-    
     var isFiltering: Bool {
         return searchController.isActive && !isSearchBarEmpty
     }
@@ -50,14 +46,12 @@ class CashierItemListViewController: UIViewController {
         }
     }
 
-   
     // MARK: - IBOutlet
     @IBOutlet weak var searchTableView: UITableView! {
         didSet {
             searchTableView.tableFooterView = UIView(frame: .zero)
         }
     }
-    
     @IBOutlet weak var searchFooter: SearchFooter!
     @IBOutlet weak var searchFooterBottomConstraint: NSLayoutConstraint!
     
@@ -71,7 +65,6 @@ class CashierItemListViewController: UIViewController {
         let nibSearchedItem = UINib(nibName: "itemAddedCell", bundle: nil)
         searchTableView.register(nibSearchedItem, forCellReuseIdentifier: "itemAddedCell")
     }
-    
     
     // MARK: - viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
@@ -114,7 +107,7 @@ class CashierItemListViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        //searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
+        searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
         searchController.searchBar.sizeToFit()
         searchController.searchBar.delegate = self
     }
@@ -157,7 +150,7 @@ class CashierItemListViewController: UIViewController {
     func initAlert() {
         let addAlert = UIAlertController(title: "Tambah Jumlah", message: "Isi jumlah barang yang anda pilih", preferredStyle: .alert)
             
-        /// Textfield
+        /// add text field
         addAlert.addTextField { (textField) in
             textField.placeholder = "Masukkan jumlah barang"
             textField.keyboardType = .numberPad
@@ -166,6 +159,7 @@ class CashierItemListViewController: UIViewController {
         let add = UIAlertAction(title: "Tambah", style: .default) { ACTION in
             print(#function)
         }
+        
         let cancel = UIAlertAction(title: "Batal", style: .cancel)
         
         addAlert.addAction(add)
@@ -174,18 +168,6 @@ class CashierItemListViewController: UIViewController {
     }
     
     // MARK: - function untuk filtering item
-    /*func filterContentForSearchText(_ searchText: String, category: Item.Category? = nil) {
-        filteredItems = myItems.filter{ (item: Item) -> Bool in
-            let doesCategoryMatch = category == .All || item.category == category
-            
-            if isSearchBarEmpty {
-                return doesCategoryMatch
-            } else {
-                return doesCategoryMatch && item.name.lowercased().contains(searchText.lowercased())
-            }
-        }
-        searchTableView.reloadData()
-    }*/
     func filterContentsForSearch(_ searchText: String) {
         filteredItem = myItem.filter({ (item) -> Bool in
             return item.namaProduk.lowercased().contains(searchText.lowercased())
@@ -205,7 +187,7 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
             return myItem.count
         }
     }
-    
+    /// cell for row at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
         
@@ -228,7 +210,7 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         }
               
     }
-    
+    /// did select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFiltering {
             selectedItem = filteredItem[indexPath.row]
@@ -238,10 +220,11 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
             selectedItem = myItem[indexPath.row]
             //initAlert()
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+           
         }
-        performSegue(withIdentifier: "backToCashier", sender: selectedItem)
+         performSegue(withIdentifier: "backToCashier", sender: selectedItem)
     }
-    
+    /// prepare segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "backToCashier" {
             let vc = segue.destination as! CashierViewController
@@ -268,6 +251,7 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
     /// End editing
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchFooter.showText(text: searchBar.text!)
+        searchBar.text = ""
         //print(searchBar.text)
     }
     
@@ -280,6 +264,9 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
     
     /// Scope button index
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        /*selectedScopeButtonIndexDidChange selectedScope: Int) {
+        let category = Item.Category(rawValue: searchBar.scopeButtonTitles![selectedScope])
+        filterContentForSearchText(searchBar.text!, category: category)*/
         if searchBar.selectedScopeButtonIndex == 0 {
             print("Kolom All")
         } else if searchBar.selectedScopeButtonIndex == 1 {
@@ -288,13 +275,11 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
             print("Kolom Tools")
         } else if searchBar.selectedScopeButtonIndex == 3 {
             print("Kolom ALL")
+        } else if searchBar.selectedScopeButtonIndex == 4 {
+            performSegue(withIdentifier: "showFilterList", sender: nil)
+            searchBar.selectedScopeButtonIndex = 0
         }
         //print("Current scope index: \(selectedScope)")
     }
-    
-    /*func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        let category = Item.Category(rawValue: searchBar.scopeButtonTitles![selectedScope])
-        filterContentForSearchText(searchBar.text!, category: category)
-    }*/
-    
+
 }

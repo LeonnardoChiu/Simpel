@@ -268,6 +268,7 @@
 				6838F994237130EB00FCC0D0 /* Report */,
 				6838F99E23727D7A00FCC0D0 /* ClassManager.swift */,
 				FE01DFA52383A08D0098E54C /* QRScannerView.swift */,
+				BD4A4B6B237D04CC00F9F1FE /* SearchFooter.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -302,7 +303,6 @@
 				BD520A90237BB8B600B19D2C /* CashierViewController.swift */,
 				BDA38F4D237BE47100FCD5BC /* CashierItemListViewController.swift */,
 				BD13BF64237BFFC600172A92 /* PaymentMethodViewController.swift */,
-				BD4A4B6B237D04CC00F9F1FE /* SearchFooter.swift */,
 				BDDEB2B92384DD540025F4CB /* BarcodeScannerController.swift */,
 			);
 			path = Cashier;
@@ -627,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Loui.Toko-Papa";
+				PRODUCT_BUNDLE_IDENTIFIER = "Louis.Toko-Papa";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -647,7 +647,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Loui.Toko-Papa";
+				PRODUCT_BUNDLE_IDENTIFIER = "Louis.Toko-Papa";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -31,7 +31,10 @@ class CashierViewController: UIViewController {
     
     @IBAction func finishBtn(_ sender: Any) {
         let alert = UIAlertController(title: "Sukses", message: "Barang telah terjual", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
+            self.myItem.removeAll()
+            self.cashierTableView.reloadData()
+        }
         
         alert.addAction(ok)
         present(alert, animated: true)
@@ -145,10 +148,21 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-        if indexPath.section == 1 {
-            performSegue(withIdentifier: "toPaymentMethod", sender: nil)
+        /// validasi checkmark di cell payment
+        if indexPath.row == 0 {
+            tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
+            tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
+        } else {
+            tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
+            tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
         }
+        //performSegue(withIdentifier: "toPaymentMethod", sender: nil)
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+      
+        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -210,7 +224,6 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-
 
 // MARK: - Extension untuk search controller
 extension CashierViewController: UISearchBarDelegate {
