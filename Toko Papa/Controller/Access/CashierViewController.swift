@@ -84,15 +84,24 @@ class CashierViewController: UIViewController {
         //searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.placeholder = "Cari produk"
-        
+        searchController.searchBar.showsSearchResultsButton = true
+        searchController.searchBar.setImage(UIImage(systemName: "camera.fill"), for: .resultsList, state: .normal)
         // memasukkan search bar ke navigation bar
         navigationItem.searchController = searchController
         definesPresentationContext = false
         searchController.searchBar.delegate = self
     }
     
+    // MARK: - Unwind list
+    /// unwind dari search page
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
         guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
+    /// unwind dari barcode scan page
+    @IBAction func unwindFromBarcodeScanner(_ unwindSegue: UIStoryboardSegue) {
+        guard let BarcodeScanVC = unwindSegue.source as? BarcodeScannerController else { return }
         // Use data from the view controller which initiated the unwind segue
     }
     
@@ -202,13 +211,21 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+
+// MARK: - Extension untuk search controller
 extension CashierViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         performSegue(withIdentifier: "toSearchView", sender: nil)
     }
     
-    // kalo button search di keyboard ditekan
+    /// kalo button search di keyboard ditekan
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //performSegue(withIdentifier: "toSearchView", sender: nil)
+    }
+    
+    /// untuk barcode button dalam search bar
+    func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
+        print("tekan boss")
+        performSegue(withIdentifier: "toBarcodeScanner", sender: nil)
     }
 }
