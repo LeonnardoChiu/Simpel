@@ -12,21 +12,15 @@ import CloudKit
 class CashierViewController: UIViewController {
     
     // MARK: - Variable
-    var item: [String] = []//["Indomie kari", "Helm", "Tolak angin", "Kolor"]
-    var items: [String] = []
-    //var cash: [String] = ["a", "v", "c", "w"]
-    var price: [Int] = [5000, 50000, 4600, 7400]
-    var qty: [Int] = [3, 5, 21, 11]
-    
-    var originalItem: [String]!
-    var originalPrice: [Int]!
-    var originalQty: [Int]!
-    
+    var myItem: [Item] = []
+    var newItem: Item?
+    var priceTemp: [Int] = []
+    var totalPrice: Int = 0
+
     let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Database
     let database = CKContainer.default().publicCloudDatabase
-    //let data = [ckre]
     
     // MARK: - IBOutlet
     @IBOutlet weak var cashierTableView: UITableView! {
@@ -34,6 +28,7 @@ class CashierViewController: UIViewController {
             cashierTableView.tableFooterView = UIView(frame: .zero)
         }
     }
+    
     @IBAction func finishBtn(_ sender: Any) {
         let alert = UIAlertController(title: "Sukses", message: "Barang telah terjual", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -45,7 +40,6 @@ class CashierViewController: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(price.reduce(0, +))
         initSearchBar()
         
         // MARK: - add xib pakai UINib
@@ -67,19 +61,21 @@ class CashierViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            if item.count == 0 {
-                return 188
+        if newItem != nil {
+            totalPrice = 0
+            myItem.append(newItem!)
+            
+            for item in myItem {
+                totalPrice += item.price
             }
-            else{
-                return 44
-            }
+            
+            newItem = nil
         }
-        else{
-            return 44
+        
+        print("Total Price: \(totalPrice)")
+        
+        DispatchQueue.main.async{
+                   self.cashierTableView.reloadData()
         }
     }
     
@@ -92,15 +88,8 @@ class CashierViewController: UIViewController {
         // memasukkan search bar ke navigation bar
         navigationItem.searchController = searchController
         definesPresentationContext = false
-        
-        // nampilin scope button search bar
-        searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc"]
         searchController.searchBar.delegate = self
     }
-    
-//    func setupSearchBarAction() {
-//        searchController.searchBar.add
-//    }
     
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
         guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
@@ -111,16 +100,20 @@ class CashierViewController: UIViewController {
 
 extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         var row = 0
         
         switch section {
         case 0:
-            row = item.count + 1
+            if myItem.count == 0 {
+                row = 1
+            } else {
+                row = myItem.count + 1
+            }
+            
             break
         case 1:
             //row = cash.count
-            row = 1
+            row = 2
             break
         default:
             break
@@ -128,14 +121,26 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         return row
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            if myItem.count == 0 {
+                /// kosong barang
+                return 188
+            } else if indexPath.row < myItem.count {
+                /// ada barang
+                return 75
+            }
+        }
+        
+        return 44
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
         if indexPath.section == 1 {
-            print("tekan")
             performSegue(withIdentifier: "toPaymentMethod", sender: nil)
         }
     }
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -151,45 +156,54 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "itemListCell") as! itemListTableCell
-        
-        if item.count == 0 && indexPath.section == 0 {
+        if myItem.count == 0 && indexPath.section == 0 {
             // MARK: - Nampilin cell jika barang belum ada
             let noItemCell = tableView.dequeueReusableCell(withIdentifier: "CashierCell") as! CashierCell
 
             return noItemCell
-        } else if indexPath.row == item.count && indexPath.section == 0{
+        } else if indexPath.row == myItem.count && indexPath.section == 0 {
            // MARK: - Nampilin cell Total
             let totalCell = tableView.dequeueReusableCell(withIdentifier: "TotalPriceCell") as! TotalPriceCell
             
-            totalCell.priceNumericLbl.text = String("\(price.reduce(0, +)),00")
+            //totalCell.priceNumericLbl.text = String("\(price.reduce(0, +)),00")
+            totalCell.priceNumericLbl.text = "Rp. \(totalPrice.commaRepresentation)"
             
             return totalCell
-        } else if item.count != 0 && indexPath.section == 0 {
+        } else if myItem.count != 0 && indexPath.section == 0 {
             // MARK: - Nampilin cell barang yang dipilih
             let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
             
-            itemAddedCell.itemNameLbl.text = item[indexPath.row]
-            itemAddedCell.priceLbl.text = "\(String(price[indexPath.row])),00"
-            itemAddedCell.quantityLbl.text = String(qty[indexPath.row])
+            itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaProduk
+            itemAddedCell.priceLbl.text = "Rp. \(String(myItem[indexPath.row].price.commaRepresentation))"
+            itemAddedCell.quantityLbl.text = "Quantity: \(String(myItem[indexPath.row].qty))"
+            
+            itemAddedCell.itemImage.image = myItem[indexPath.row].itemImage
+            itemAddedCell.itemImage.contentMode = .scaleAspectFill
             
             return itemAddedCell
         } else if indexPath.section == 1 {
             // MARK: - nampilin cell payment method
             let paymentMethodCell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell") as! PaymentMethodCell
-            paymentMethodCell.accessoryType = .disclosureIndicator
+            
+            if indexPath.row == 0 {
+                paymentMethodCell.cashLbl.text = "Tunai"
+                paymentMethodCell.accessoryType = .checkmark
+            } else if indexPath.row == 1 {
+                paymentMethodCell.cashLbl.text = "Non tunai"
+                paymentMethodCell.accessoryType = .none
+            }
+            
+            
             return paymentMethodCell
         }
-        return cell
+        
+        return UITableViewCell()
     }
     
-
 }
 
 extension CashierViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("Pindah")
-        
         performSegue(withIdentifier: "toSearchView", sender: nil)
     }
     
