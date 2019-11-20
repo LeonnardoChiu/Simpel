@@ -15,11 +15,23 @@ class CashierItemListViewController: UIViewController {
     var myItem: [Item] = []
     var filteredItem: [Item] = []    
     var image: CKAsset?
+    var selectedItem: Item!
+    
+    var itemIdx = 0
+    
+    var isSearchBarEmpty: Bool {
+           return searchController.searchBar.text?.isEmpty ?? true
+       }
+    
+    var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
+    
+    let searchController = UISearchController(searchResultsController: nil)
 
     // MARK: - Database
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
-    var filteredData = [CKRecord]()
     
     // MARK: - objc untuk Query Database
     @objc func QueryDatabase(){
@@ -38,15 +50,7 @@ class CashierItemListViewController: UIViewController {
         }
     }
 
-    var isSearchBarEmpty: Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    var isFiltering: Bool {
-        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
-        return searchController.isActive && (!isSearchBarEmpty || searchBarScopeIsFiltering)
-    }
-    let searchController = UISearchController(searchResultsController: nil)
-
+   
     // MARK: - IBOutlet
     @IBOutlet weak var searchTableView: UITableView! {
         didSet {
@@ -60,9 +64,6 @@ class CashierItemListViewController: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.async{
-            self.searchTableView.reloadData()
-        }
         //self.navigationItem.setHidesBackButton(true, animated: true)
         initSearchBar()
         initNotification()
@@ -71,9 +72,14 @@ class CashierItemListViewController: UIViewController {
         searchTableView.register(nibSearchedItem, forCellReuseIdentifier: "itemAddedCell")
     }
     
+    
+    // MARK: - viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.QueryDatabase()
+        DispatchQueue.main.async{
+            self.searchTableView.reloadData()
+        }
         /*DispatchQueue.main.async {
             self.searchController.searchBar.becomeFirstResponder()
         }*/
@@ -100,15 +106,18 @@ class CashierItemListViewController: UIViewController {
     
     // MARK: - Init Search Bar in navigation
     func initSearchBar() {
-        //searchController.searchResultsUpdater = self
-        //searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Cari produk"
         
         // memasukkan search bar ke navigation bar
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc"]
+        //searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
+        searchController.searchBar.showsSearchResultsButton = true
+        self.searchController.searchBar.setImage(UIImage(systemName: "camera"), for: .resultsList, state: .normal)
+    
         searchController.searchBar.sizeToFit()
         searchController.searchBar.delegate = self
     }
@@ -180,123 +189,110 @@ class CashierItemListViewController: UIViewController {
         }
         searchTableView.reloadData()
     }*/
-    
+    func filterContentsForSearch(_ searchText: String) {
+        filteredItem = myItem.filter({ (item) -> Bool in
+            return item.namaProduk.lowercased().contains(searchText.lowercased())
+        })
+            searchTableView.reloadData()
+    }
 }
-
-//extension CashierItemListViewController: UISearchResultsUpdating {
-//    func updateSearchResults(for searchController: UISearchController) {
-//        let searchbar = searchController.searchBar
-//        //let category = Item.Category(rawValue: searchbar.scopeButtonTitles![searchbar.selectedScopeButtonIndex])
-//        //filterContentForSearchText(searchbar.text!, category: category)
-//
-//    }
-//}
-
-// MARK: - Extension text field
-//extension CashierItemListViewController: UISearchTextFieldDelegate {
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let subStrings = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-//
-//    }
-//}
 
 // MARK: - Extension table view
 extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive == true && searchController.searchBar.text != "" {
+        if isFiltering {
+            searchFooter.setIsFilteringToShow(filteredItemCount: filteredItem.count, of: myItem.count)
             return filteredItem.count
+        } else {
+            searchFooter.setNotFiltering()
+            return myItem.count
         }
-        return myItem.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
         
-        itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaProduk
-        itemAddedCell.priceLbl.text = "Rp. \(String(myItem[indexPath.row].price.commaRepresentation))"
-        itemAddedCell.quantityLbl.text = "Stock: \(String(myItem[indexPath.row].qty))"
-        
-        itemAddedCell.itemImage.image = myItem[indexPath.row].itemImage
-        itemAddedCell.itemImage.contentMode = .scaleAspectFill
-
-        /// untuk menampilkan hasil search
-        if searchController.isActive == true && searchController.searchBar.text != "" {
-            /// untuk menampilkan hasil search
+        if isFiltering {
             itemAddedCell.itemNameLbl.text = filteredItem[indexPath.row].namaProduk
-            itemAddedCell.priceLbl.text = "Rp. \(String(filteredItem[indexPath.row].price.commaRepresentation))"
-            itemAddedCell.quantityLbl.text = "Stock: \(String(filteredItem[indexPath.row].qty))"
+                 itemAddedCell.priceLbl.text = "Rp. \(String(filteredItem[indexPath.row].price.commaRepresentation))"
+                 itemAddedCell.quantityLbl.text = "Stock: \(String(filteredItem[indexPath.row].qty))"
+                 
+                 itemAddedCell.itemImage.image = filteredItem[indexPath.row].itemImage
+                 itemAddedCell.itemImage.contentMode = .scaleAspectFill
+                 return itemAddedCell
+        } else {
+            itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaProduk
+            itemAddedCell.priceLbl.text = "Rp. \(String(myItem[indexPath.row].price.commaRepresentation))"
+            itemAddedCell.quantityLbl.text = "Stock: \(String(myItem[indexPath.row].qty))"
             
-            itemAddedCell.itemImage.image = filteredItem[indexPath.row].itemImage
+            itemAddedCell.itemImage.image = myItem[indexPath.row].itemImage
             itemAddedCell.itemImage.contentMode = .scaleAspectFill
-       
             return itemAddedCell
         }
-        
-        return itemAddedCell
+              
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let searchedItem = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
-        
-        if searchController.isActive == true && searchController.searchBar.text != "" {
-            /// handle row selection from filtered data
-            
+        if isFiltering {
+            selectedItem = filteredItem[indexPath.row]
+            //initAlert()
+            tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        } else {
+            selectedItem = myItem[indexPath.row]
+            //initAlert()
+            tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
         }
-        /// handle row selection from original data
-        
-        //initAlert()
-        //performSegue(withIdentifier: "backToCashier", sender: nil)
-        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-        
+        performSegue(withIdentifier: "backToCashier", sender: selectedItem)
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "backToCashier" {
+            let vc = segue.destination as! CashierViewController
+            vc.newItem = selectedItem
+        }
+    }
     
 }
 
-// MARK: - Extension search bar
-extension CashierItemListViewController: UISearchBarDelegate {
+// MARK: - Extension untuk search controller delegate & results updating
+extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentsForSearch(searchController.searchBar.text!)
+    }
     
     /// Begin editing
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("Start edit")
         //performSegue(withIdentifier: "toView", sender: nil)
-        searchController.obscuresBackgroundDuringPresentation = true
-        searchFooter.setIsFilteringToShow(filteredItemCount: 5, of: 11)
+        //searchController.obscuresBackgroundDuringPresentation = true
         //searchFooter.setNotFiltering()
     }
     
     /// End editing
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("End edit")
-        
         searchFooter.showText(text: searchBar.text!)
         //print(searchBar.text)
     }
     
     /// Cancel button clicked
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.navigationController?.popViewController(animated: true)
-        //searchBar.text = ""
-        searchTableView.reloadData()
+        //self.navigationController?.popViewController(animated: true)
+        searchBar.text = ""
+        //searchTableView.reloadData()
     }
     
-    /// Text did change in search bar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let searchString = searchController.searchBar.text
-        filteredItem = myItem.filter({ (item) -> Bool in
-//            let value: NSString = item as NSString
-//            return (value.range(of: searchString!, options: .caseInsensitive).location != NSNotFound)
-            return item.namaProduk.lowercased().contains(searchString!.lowercased())
-        })
-        searchTableView.reloadData()
-    }
-    
-    /// Scope button index change
+    /// Scope button index
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if searchBar.selectedScopeButtonIndex == 0 {
-            print("All")
+            print("Kolom All")
+        } else if searchBar.selectedScopeButtonIndex == 1 {
+            print("Kolom Food")
+        } else if searchBar.selectedScopeButtonIndex == 2 {
+            print("Kolom Tools")
+        } else if searchBar.selectedScopeButtonIndex == 3 {
+            print("Kolom ALL")
         }
+        //print("Current scope index: \(selectedScope)")
     }
     
     /*func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {

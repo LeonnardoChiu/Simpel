@@ -36,7 +36,7 @@ class SearchFooter: UIView {
     func setIsFilteringToShow(filteredItemCount: Int, of totalItemCount: Int) {
         if (filteredItemCount == totalItemCount) {
             setNotFiltering()
-        } else if /*(filteredItemCount == 0) &&*/ searchBar.searchController.searchBar.text == "" {
+        } else if (filteredItemCount == 0) {
             label.text = "Tidak ada barang sesuai pencarian"
             showFooter()
         } else {
