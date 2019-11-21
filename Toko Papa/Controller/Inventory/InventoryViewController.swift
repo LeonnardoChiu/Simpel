@@ -59,6 +59,37 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         }
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as? PostView
+        let string = cell?.namaProductLabel.text
+        if editingStyle == .delete {
+        let alert = UIAlertController(title: "Hapus", message: "Yakin Menghapus \(string!) ?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { action in
+              switch action.style{
+              case .default:
+                    print("Deleted")
+                    let Barang: CKRecord?
+                    Barang = self.data[indexPath.row]
+                    self.database.delete(withRecordID: Barang!.recordID) { (record, error) in
+                        print("delete sukses")
+                    }
+                    self.QueryDatabase()
+                    self.tableView.reloadData()
+
+              case .cancel:
+                    print("cancel")
+
+              case .destructive:
+                    print("destructive")
+
+
+        }}))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+            
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
