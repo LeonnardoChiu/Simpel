@@ -31,6 +31,7 @@ class KategoriTableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         self.QueryDatabase()
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -94,15 +95,33 @@ class KategoriTableViewController: UITableViewController {
     }
     
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            let cell = tableView.cellForRow(at: indexPath)
+        let string = cell?.textLabel?.text
             if editingStyle == .delete {
-              print("Deleted")
-                let deleteCategori: CKRecord?
-                deleteCategori = kategoriCloud[indexPath.row]
-    //          self.catNames.remove(at: indexPath.row)
-               database.delete(withRecordID: deleteCategori!.recordID) { (record, error) in
-                    print("delete sukses")
-                }
-                self.QueryDatabase()
+            let alert = UIAlertController(title: "Hapus", message: "Yakin Menghapus \(string!) ?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { action in
+                  switch action.style{
+                  case .default:
+                        print("Deleted")
+                        let deleteCategori: CKRecord?
+                        deleteCategori = self.kategoriCloud[indexPath.row]
+                        self.database.delete(withRecordID: deleteCategori!.recordID) { (record, error) in
+                            print("delete sukses")
+                        }
+                        self.QueryDatabase()
+                        self.tableView.reloadData()
+
+                  case .cancel:
+                        print("cancel")
+
+                  case .destructive:
+                        print("destructive")
+
+
+            }}))
+            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+                
             }
         }
     /*
