@@ -70,7 +70,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Kasir" largeTitleDisplayMode="never" id="2Dw-uu-cba">
                         <barButtonItem key="backBarButtonItem" title="Kembali" id="ZGq-XE-yWL"/>
-                        <barButtonItem key="rightBarButtonItem" title="Selesai" id="d6P-7u-wVD">
+                        <barButtonItem key="rightBarButtonItem" title="Bayar" id="d6P-7u-wVD">
                             <connections>
                                 <action selector="finishBtn:" destination="cR7-dq-Cdy" id="rpa-Cv-fMh"/>
                             </connections>
@@ -78,6 +78,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cashierTableView" destination="3ac-u3-xqF" id="0zD-bQ-rB1"/>
+                        <outlet property="finishBtnOutlet" destination="d6P-7u-wVD" id="IGy-6t-GUq"/>
                         <segue destination="byY-BW-mKE" kind="show" identifier="toSearchView" id="TsW-7h-NP7"/>
                         <segue destination="q2V-DQ-kNV" kind="show" identifier="toPaymentMethod" id="HU1-DT-vVT"/>
                         <segue destination="V7Q-vx-cNl" kind="show" identifier="toBarcodeScanner" id="saF-c9-vbz"/>
@@ -87,7 +88,7 @@
             </objects>
             <point key="canvasLocation" x="1282.608695652174" y="1583.7053571428571"/>
         </scene>
-        <!--Cari barang-->
+        <!--Pencarian-->
         <scene sceneID="XKK-lS-VPz">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="byY-BW-mKE" customClass="CashierItemListViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
@@ -122,7 +123,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CVT-Te-lxM"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Cari barang" largeTitleDisplayMode="always" id="PLN-mv-L6L"/>
+                    <navigationItem key="navigationItem" title="Pencarian" largeTitleDisplayMode="always" id="PLN-mv-L6L"/>
                     <connections>
                         <outlet property="searchFooter" destination="D3P-hU-B9K" id="aJ0-6v-PQP"/>
                         <outlet property="searchFooterBottomConstraint" destination="zMs-4q-BiT" id="P8o-RS-ReT"/>

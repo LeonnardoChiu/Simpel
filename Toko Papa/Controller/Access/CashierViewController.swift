@@ -29,8 +29,10 @@ class CashierViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var finishBtnOutlet: UIBarButtonItem!
     @IBAction func finishBtn(_ sender: Any) {
-        let alert = UIAlertController(title: "Sukses", message: "Barang telah terjual", preferredStyle: .alert)
+       
+        let alert = UIAlertController(title: "Sukses", message: "Transaksi berhasil", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.myItem.removeAll()
             self.cashierTableView.reloadData()
@@ -63,7 +65,7 @@ class CashierViewController: UIViewController {
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        finishBtnOutlet.isEnabled = false
         if newItem != nil {
             totalPrice = 0
             myItem.append(newItem!)
@@ -71,7 +73,7 @@ class CashierViewController: UIViewController {
             for item in myItem {
                 totalPrice += item.price
             }
-            
+            finishBtnOutlet.isEnabled = true
             newItem = nil
         }
         

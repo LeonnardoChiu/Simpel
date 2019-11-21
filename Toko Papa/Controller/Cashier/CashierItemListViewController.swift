@@ -16,6 +16,7 @@ class CashierItemListViewController: UIViewController {
     var filteredItem: [Item] = []    
     var image: CKAsset?
     var selectedItem: Item!
+    var selectedStock: Int = 0
     var isSearchBarEmpty: Bool {
            return searchController.searchBar.text?.isEmpty ?? true
        }
@@ -162,6 +163,7 @@ class CashierItemListViewController: UIViewController {
         /// add button tambah
         let addBtn = UIAlertAction(title: "Tambah", style: .default) { ACTION in
             self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah")
+            self.selectedItem.qty = self.selectedStock
             self.performSegue(withIdentifier: "backToCashier", sender: self)
             //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
         }
@@ -176,6 +178,11 @@ class CashierItemListViewController: UIViewController {
         self.present(addAlert, animated: true, completion: nil)
         
         print(addAlert.actions)
+    }
+    
+    // MARK: - function untuk edit stock di cloudkit
+    func updateStock(){
+        
     }
     
     // MARK: - function untuk filtering item
@@ -235,7 +242,7 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         } else {
             initAlert()
             selectedItem = myItem[indexPath.row]
-            
+            selectedItem.qty = selectedStock
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
             performSegue(withIdentifier: "backToCashier", sender: selectedItem)
         }
@@ -304,8 +311,7 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
 
 extension CashierItemListViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print(#function, string)
-        
+
         let text = (textField.text as! NSString).replacingCharacters(in: range, with: string)
         
         if Int(text) != nil {
@@ -315,9 +321,12 @@ extension CashierItemListViewController: UITextFieldDelegate {
             /// text field is not
             addAction.isEnabled = false
         }
-
+        
         
         return true
     }
-    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        selectedStock = Int(textField.text!)!
+        print(selectedStock)
+    }
 }
