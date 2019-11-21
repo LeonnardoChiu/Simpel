@@ -12,7 +12,8 @@ import CloudKit
 class EditBarangViewController: UIViewController{
     
     var satuanSekarang: String? = "Unit"
-   
+    var editItem: Inventory?
+    
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     @IBOutlet weak var tableView: UITableView!{
         didSet {
@@ -34,19 +35,26 @@ class EditBarangViewController: UIViewController{
     @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
     var barcode: QRData?
     func appendTextField(){
-        isiTextField.append(editCKrecord.value(forKey: "Barcode") as! String)
+        /*isiTextField.append(editCKrecord.value(forKey: "Barcode") as! String)
         isiTextField.append(editCKrecord.value(forKey: "NameProduct") as! String)
         isiTextField.append(editCKrecord.value(forKey: "Category") as! String)
         isiTextField.append(editCKrecord.value(forKey: "Distributor") as! String)
         isiTextField.append(String(editCKrecord.value(forKey: "Stock") as! Int))
+        */
+        isiTextField.append(editItem!.barcode)
+        isiTextField.append(editItem!.namaItem)
+        isiTextField.append(editItem!.category)
+        isiTextField.append(editItem!.distributor)
+        isiTextField.append(String(editItem!.stock))
     
     }
     func showImage(){
-           img = (editCKrecord.value(forKey: "Images") as? [CKAsset])?.first
-           if let image = img, let url = image.fileURL, let data = NSData(contentsOf: url) {
-            images.append(UIImage(data: data as Data) as! UIImage)
+//           img = (editCKrecord.value(forKey: "Images") as? [CKAsset])?.first
+        img = editItem?.imageItem as? CKAsset
+        if let image = img, let url = image.fileURL, let data = NSData(contentsOf: url) {
+        images.append(UIImage(data: data as Data) as! UIImage)
             self.collection.reloadData()
-           }
+        }
     }
     
     override func viewDidLoad() {
@@ -57,6 +65,7 @@ class EditBarangViewController: UIViewController{
         initCollection()
         appendTextField()
         showImage()
+        
         kategoriSekarang = editCKrecord?.value(forKey: "Category") as! String
         self.addImageButton.isHidden = true
         // Do any additional setup after loading the view.

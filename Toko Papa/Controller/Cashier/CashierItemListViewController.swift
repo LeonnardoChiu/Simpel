@@ -19,7 +19,7 @@ class CashierItemListViewController: UIViewController {
     var selectedStock: Int = 0
     var isSearchBarEmpty: Bool {
            return searchController.searchBar.text?.isEmpty ?? true
-       }
+    }
     var isFiltering: Bool {
         return searchController.isActive && !isSearchBarEmpty
     }
@@ -196,6 +196,7 @@ class CashierItemListViewController: UIViewController {
 
 // MARK: - Extension table view
 extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering {
             searchFooter.setIsFilteringToShow(filteredItemCount: filteredItem.count, of: myItem.count)

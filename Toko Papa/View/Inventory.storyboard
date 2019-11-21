@@ -49,18 +49,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" horizontalHuggingPriority="229" translatesAutoresizingMaskIntoConstraints="NO" id="665-9U-sSV">
-                                <rect key="frame" x="0.0" y="88" width="360" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVX-dt-uHN">
-                                <rect key="frame" x="360" y="88" width="54" height="56"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" image="descen"/>
-                                <connections>
-                                    <action selector="SortAsceDesc:" destination="jYQ-Ft-IOO" eventType="touchUpInside" id="fqC-HL-0ia"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9vc-0W-vag">
                                 <rect key="frame" x="0.0" y="144" width="414" height="752"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -125,17 +113,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="9vc-0W-vag" firstAttribute="top" secondItem="Rw3-dq-5cW" secondAttribute="top" constant="144" id="1pO-cG-NOv"/>
-                            <constraint firstItem="9vc-0W-vag" firstAttribute="top" secondItem="gVX-dt-uHN" secondAttribute="bottom" id="Btz-qd-9GD"/>
                             <constraint firstItem="9vc-0W-vag" firstAttribute="trailing" secondItem="SID-UX-kek" secondAttribute="trailing" id="Bzx-1Y-vdx"/>
                             <constraint firstAttribute="bottom" secondItem="9vc-0W-vag" secondAttribute="bottom" id="Gfh-CI-9yf"/>
-                            <constraint firstItem="gVX-dt-uHN" firstAttribute="top" secondItem="SID-UX-kek" secondAttribute="top" id="M6y-AY-6fc"/>
-                            <constraint firstItem="gVX-dt-uHN" firstAttribute="leading" secondItem="665-9U-sSV" secondAttribute="trailing" id="OMb-Cy-rWp"/>
-                            <constraint firstItem="9vc-0W-vag" firstAttribute="top" secondItem="665-9U-sSV" secondAttribute="bottom" id="YFH-cV-lb3"/>
                             <constraint firstItem="9vc-0W-vag" firstAttribute="leading" secondItem="SID-UX-kek" secondAttribute="leading" id="YrX-mW-Qci"/>
-                            <constraint firstItem="665-9U-sSV" firstAttribute="top" secondItem="SID-UX-kek" secondAttribute="top" id="eyd-39-oVT"/>
-                            <constraint firstItem="665-9U-sSV" firstAttribute="leading" secondItem="SID-UX-kek" secondAttribute="leading" id="gHb-fY-Lsv"/>
-                            <constraint firstItem="gVX-dt-uHN" firstAttribute="leading" secondItem="Rw3-dq-5cW" secondAttribute="leading" constant="360" id="jlh-Eb-LZ5"/>
-                            <constraint firstItem="gVX-dt-uHN" firstAttribute="trailing" secondItem="SID-UX-kek" secondAttribute="trailing" id="lPN-1M-WGf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SID-UX-kek"/>
                     </view>
@@ -152,14 +132,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="sortButton" destination="gVX-dt-uHN" id="0f8-Rd-26y"/>
                         <outlet property="tableView" destination="9vc-0W-vag" id="uAl-OP-At5"/>
                         <segue destination="dcj-tc-6mU" kind="show" identifier="detail" id="19i-19-qQW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AoU-nt-aT4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1342" y="899"/>
+            <point key="canvasLocation" x="-1342.0289855072465" y="898.66071428571422"/>
         </scene>
         <!--Inventory-->
         <scene sceneID="geb-G7-4fh">
@@ -828,7 +807,6 @@
         <image name="Import Image" width="214" height="214"/>
         <image name="Inventory" width="32" height="31"/>
         <image name="barcode" width="33" height="25"/>
-        <image name="descen" width="32" height="51"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kMb-ag-Gc0"/>
