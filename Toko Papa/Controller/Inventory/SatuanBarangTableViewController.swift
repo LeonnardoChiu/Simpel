@@ -32,6 +32,7 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     
     override func viewWillAppear(_ animated: Bool) {
         self.QueryDatabase()
+        self.tableView.reloadData()
     }
     
 
@@ -96,15 +97,33 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        let string = cell?.textLabel?.text
         if editingStyle == .delete {
-          print("Deleted")
-            let deleteSatuan: CKRecord?
-            deleteSatuan = satuanCloud[indexPath.row]
-//          self.catNames.remove(at: indexPath.row)
-            database.delete(withRecordID: deleteSatuan!.recordID) { (record, error) in
-                print("delete sukses")
-            }
-            self.QueryDatabase()
+        let alert = UIAlertController(title: "Hapus", message: "Yakin Menghapus \(string!) ?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Hapus", style: .default, handler: { action in
+              switch action.style{
+              case .default:
+                    print("Deleted")
+                    let deleteSatuan: CKRecord?
+                    deleteSatuan = self.satuanCloud[indexPath.row]
+                    self.database.delete(withRecordID: deleteSatuan!.recordID) { (record, error) in
+                        print("delete sukses")
+                    }
+                    self.QueryDatabase()
+                    self.tableView.reloadData()
+
+              case .cancel:
+                    print("cancel")
+
+              case .destructive:
+                    print("destructive")
+
+
+        }}))
+        alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+            
         }
     }
     
