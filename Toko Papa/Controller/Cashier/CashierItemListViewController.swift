@@ -24,7 +24,8 @@ class CashierItemListViewController: UIViewController {
     }
     
     let searchController = UISearchController(searchResultsController: nil)
-
+    var addAction = UIAlertAction()
+    
     // MARK: - Database
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
@@ -58,12 +59,15 @@ class CashierItemListViewController: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        /// buat large title di nav bar
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         //self.navigationItem.setHidesBackButton(true, animated: true)
         initSearchBar()
         initNotification()
         
         let nibSearchedItem = UINib(nibName: "itemAddedCell", bundle: nil)
         searchTableView.register(nibSearchedItem, forCellReuseIdentifier: "itemAddedCell")
+        
     }
     
     // MARK: - viewDidAppear
@@ -102,10 +106,9 @@ class CashierItemListViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Cari produk"
-        
         // memasukkan search bar ke navigation bar
         navigationItem.searchController = searchController
-        definesPresentationContext = true
+        definesPresentationContext = false
         
         searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
         searchController.searchBar.sizeToFit()
@@ -149,22 +152,30 @@ class CashierItemListViewController: UIViewController {
     // MARK: - Function untuk buy alert
     func initAlert() {
         let addAlert = UIAlertController(title: "Tambah Jumlah", message: "Isi jumlah barang yang anda pilih", preferredStyle: .alert)
-            
         /// add text field
         addAlert.addTextField { (textField) in
             textField.placeholder = "Masukkan jumlah barang"
             textField.keyboardType = .numberPad
+            
+            textField.delegate = self
         }
-        
-        let add = UIAlertAction(title: "Tambah", style: .default) { ACTION in
-            print(#function)
+        /// add button tambah
+        let addBtn = UIAlertAction(title: "Tambah", style: .default) { ACTION in
+            self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah")
+            self.performSegue(withIdentifier: "backToCashier", sender: self)
+            //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
         }
+        /// add button batal
+        let cancelBtn = UIAlertAction(title: "Batal", style: .cancel)
         
-        let cancel = UIAlertAction(title: "Batal", style: .cancel)
+        addAction = addBtn
+        addAction.isEnabled = false
         
-        addAlert.addAction(add)
-        addAlert.addAction(cancel)
+        addAlert.addAction(addAction)
+        addAlert.addAction(cancelBtn)
         self.present(addAlert, animated: true, completion: nil)
+        
+        print(addAlert.actions)
     }
     
     // MARK: - function untuk filtering item
@@ -213,16 +224,22 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
     /// did select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFiltering {
+            initAlert()
             selectedItem = filteredItem[indexPath.row]
-            //initAlert()
+            
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+            /// karena saat search menampilkan search view controller, jadi dismiss dahulu view si search controller
+            presentedViewController?.dismiss(animated: false) {
+                self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+            }
         } else {
+            initAlert()
             selectedItem = myItem[indexPath.row]
-            //initAlert()
+            
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-           
+            performSegue(withIdentifier: "backToCashier", sender: selectedItem)
         }
-         performSegue(withIdentifier: "backToCashier", sender: selectedItem)
+         
     }
     /// prepare segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -282,4 +299,25 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
         //print("Current scope index: \(selectedScope)")
     }
 
+    
+}
+
+extension CashierItemListViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print(#function, string)
+        
+        let text = (textField.text as! NSString).replacingCharacters(in: range, with: string)
+        
+        if Int(text) != nil {
+            /// text field converted to an Int
+            addAction.isEnabled = true
+        } else {
+            /// text field is not
+            addAction.isEnabled = false
+        }
+
+        
+        return true
+    }
+    
 }

@@ -68,7 +68,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ddN-8O-GAr"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Kasir" id="2Dw-uu-cba">
+                    <navigationItem key="navigationItem" title="Kasir" largeTitleDisplayMode="never" id="2Dw-uu-cba">
                         <barButtonItem key="backBarButtonItem" title="Kembali" id="ZGq-XE-yWL"/>
                         <barButtonItem key="rightBarButtonItem" title="Selesai" id="d6P-7u-wVD">
                             <connections>
@@ -87,7 +87,7 @@
             </objects>
             <point key="canvasLocation" x="1282.608695652174" y="1583.7053571428571"/>
         </scene>
-        <!--Cashier Item List View Controller-->
+        <!--Cari barang-->
         <scene sceneID="XKK-lS-VPz">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="byY-BW-mKE" customClass="CashierItemListViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
@@ -122,7 +122,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CVT-Te-lxM"/>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="PLN-mv-L6L"/>
+                    <navigationItem key="navigationItem" title="Cari barang" largeTitleDisplayMode="always" id="PLN-mv-L6L"/>
                     <connections>
                         <outlet property="searchFooter" destination="D3P-hU-B9K" id="aJ0-6v-PQP"/>
                         <outlet property="searchFooterBottomConstraint" destination="zMs-4q-BiT" id="P8o-RS-ReT"/>
@@ -195,10 +195,22 @@
                                     <constraint firstAttribute="height" constant="300" id="xur-XY-NCa"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan barcode atau QR pada produk yang ingin dimasukkan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSm-Em-emx">
+                                <rect key="frame" x="57" y="491" width="300" height="30.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="rmj-8N-ecR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="pSm-Em-emx" firstAttribute="leading" secondItem="vMP-h0-TTM" secondAttribute="leading" constant="57" id="9yV-3y-wOe"/>
                             <constraint firstItem="vMP-h0-TTM" firstAttribute="trailing" secondItem="137-ze-UNK" secondAttribute="trailing" constant="57" id="Kfd-ic-tN7"/>
+                            <constraint firstItem="pSm-Em-emx" firstAttribute="top" secondItem="137-ze-UNK" secondAttribute="bottom" constant="44" id="QUo-Ng-xHa"/>
+                            <constraint firstItem="vMP-h0-TTM" firstAttribute="trailing" secondItem="pSm-Em-emx" secondAttribute="trailing" constant="57" id="Wxm-ws-8mP"/>
                             <constraint firstItem="137-ze-UNK" firstAttribute="leading" secondItem="vMP-h0-TTM" secondAttribute="leading" constant="57" id="fsa-J0-eYf"/>
                             <constraint firstItem="137-ze-UNK" firstAttribute="top" secondItem="vMP-h0-TTM" secondAttribute="top" constant="59" id="w6D-KO-QlN"/>
                         </constraints>
@@ -213,7 +225,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IxS-kE-VTN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="l3S-UX-vwt" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="542" y="1584"/>
+            <point key="canvasLocation" x="540.57971014492762" y="1583.7053571428571"/>
         </scene>
     </scenes>
 </document>

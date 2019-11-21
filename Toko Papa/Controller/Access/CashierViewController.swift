@@ -150,9 +150,11 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         /// validasi checkmark di cell payment
         if indexPath.row == 0 {
+            /// cell 0 section 1 -> tunai
             tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
             tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
         } else {
+            /// cell 1 section 1 -> non tunai
             tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
             tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
         }
