@@ -12,7 +12,7 @@ class selectRoleViewController: UIViewController, UITableViewDelegate, UITableVi
 
     @IBOutlet weak var tableView: UITableView!
     
-    var selectedRole = ""
+    var selectedRole = "Pemilik"
     
     override func viewDidLoad() {
         super.viewDidLoad()

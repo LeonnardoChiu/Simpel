@@ -36,6 +36,8 @@ class AddEmployeeViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
         profileImages.addGestureRecognizer(tap)
         profileImages.isUserInteractionEnabled = true
+        doneButton.isEnabled = false
+        profileImages.image = UIImage(systemName: "camera.circle")
     }
     
     // MARK: - viewWillAppear
@@ -45,7 +47,9 @@ class AddEmployeeViewController: UIViewController {
         // MARK: - Init profile picture
         profileImages.layer.cornerRadius = profileImages.frame.height / 2
         //self.profileImages.image = UIImage.init(systemName: "camera")
-        print(roleTemp)
+        if isValid() == true {
+            doneButton.isEnabled = true
+        }
     }
     
     // MARK: - IBOutlet
@@ -56,13 +60,14 @@ class AddEmployeeViewController: UIViewController {
     }
     
     @IBOutlet weak var profileImages: UIImageView!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
     
     @IBAction func doneBtn(_ sender: UIBarButtonItem) {
         var alert: UIAlertController = UIAlertController()
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         appendAdd()
-    
-        
         
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.performSegue(withIdentifier: "backToList", sender: nil)
@@ -80,7 +85,11 @@ class AddEmployeeViewController: UIViewController {
             self.images = image
             self.profileImages.image = self.images
             self.profileImages.contentMode = .scaleAspectFill
+            if self.isValid() {
+                self.doneButton.isEnabled = true
+            }
         }
+        
     }
     
     // MARK: - Save to cloud function
@@ -143,10 +152,8 @@ class AddEmployeeViewController: UIViewController {
     @IBAction func unwindFromSelectRole (_ unwindSegue: UIStoryboardSegue){
         guard let roleVC = unwindSegue.source as? selectRoleViewController else {return}
         self.roleTemp = roleVC.selectedRole
-        print(self.roleTemp)
         let indexPath = IndexPath(item: 3, section: 0)
-        addTableView.reloadRows(at: [indexPath], with: .top)
-        
+        addTableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
 }
@@ -185,7 +192,12 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
             cell.addFormField.placeholder = "Store"
             cell.addFormField.isEnabled = true
         } else if indexPath.row == 3 {
-            cell.addFormField.placeholder = roleTemp
+            if roleTemp == "Role"{
+                cell.addFormField.placeholder = roleTemp
+            }
+            else{
+                cell.addFormField.text = roleTemp
+            }
             cell.addFormField.isEnabled = false
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.row == 4 {
@@ -202,37 +214,36 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     
-    @objc func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         let textFieldRow = textField.tag
         print(textFieldRow)
         if textFieldRow == 0 {
             if textField.text == "" {
                 textField.attributedPlaceholder = NSAttributedString(string: "First Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                
             }
+            firstNameTemp = textField.text!
         }
-        else if textFieldRow == 1 {
+        if textFieldRow == 1 {
             if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                
+                textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
             }
+            lastNameTemp = textField.text!
         }
-        else if textFieldRow == 2{
+        if textFieldRow == 2{
             if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Store Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                
+                textField.attributedPlaceholder = NSAttributedString(string: "Store Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
             }
+            storeTemp = textField.text!
         }
-        else if textFieldRow == 3 {
+        if textFieldRow == 3 {
             if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                
+                textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
             }
+            roleTemp = textField.text!
         }
-        else if textFieldRow == 4 {
+        if textFieldRow == 4 {
             if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-
+                textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
             }
             else{
                 if isValidEmail(emailStr: textField.text!) == false {
@@ -242,15 +253,25 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
                     textField.textColor = UIColor.black
                 }
             }
+            emailTemp = textField.text!
         }
-        else if textFieldRow == 5 {
+        if textFieldRow == 5 {
             if textField.text == "" {
             textField.attributedPlaceholder = NSAttributedString(string: "Phone must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-
+                
+            doneButton.isEnabled = false
             }
+            phoneTemp = textField.text!
+            
+        }
+        
+        if isValid() == false {
+            doneButton.isEnabled = false
+        }
+        else{
+            doneButton.isEnabled = true
         }
 
-        
     }
     
      func isValidEmail(emailStr:String) -> Bool {
@@ -258,6 +279,15 @@ extension AddEmployeeViewController: UITableViewDelegate, UITableViewDataSource 
 
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: emailStr)
+    }
+    
+    func isValid() -> Bool {
+        if firstNameTemp == "" || lastNameTemp == "" || storeTemp == "" || roleTemp == "Role" || emailTemp == "" || phoneTemp == "" || isValidEmail(emailStr: emailTemp) == false || profileImages.image == UIImage(systemName: "camera.circle") {
+            return false
+        }
+        else{
+            return true
+        }
     }
     
     

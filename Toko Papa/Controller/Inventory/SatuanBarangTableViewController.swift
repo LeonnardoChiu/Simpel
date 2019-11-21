@@ -15,6 +15,8 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     var pemelihVC = 0 // 1 dari edit, 0 dari add
     var satuanCloud = [CKRecord]()
     let database = CKContainer.default().publicCloudDatabase
+    
+    var hargaTempSatuan: Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround() 

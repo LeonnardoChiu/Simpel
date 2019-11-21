@@ -17,6 +17,13 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     var kategoriSekarang: String? = "Kategori"
     let database = CKContainer.default().publicCloudDatabase
     
+    var barcodeTemp = ""
+    var namaTemp = ""
+    var kategoriTemp = ""
+    var distributorTemp = ""
+    var stokTemp:Int? = 0
+    var hargaTemp:Int? = 0
+    
     
     
     @IBOutlet weak var tableView: UITableView! {
@@ -45,12 +52,14 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         self.tableView.dataSource = self
         initCollection()
         self.collection.isHidden = true
-       
+        
+        enabledDoneButton()
           // Do any additional setup after loading the view.
     }
       
       override func viewWillAppear(_ animated: Bool) {
             self.tableView.reloadData()
+            enabledDoneButton()
             print(barcode?.codeString)
       }
     
@@ -101,10 +110,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 }
                 if indexPath.row == 2 {
                    cellBiasa.accessoryType = .disclosureIndicator
-                   if kategoriSekarang != "Kategori"{
-                       cellBiasa.textLabel?.textColor = .black
-                   }else {
-                       cellBiasa.textLabel?.textColor = .lightGray
+                   if kategoriSekarang == "Kategori"{
+                       cellBiasa.textLabel?.textColor = .systemGray3
                    }
                    cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
                    cellBiasa.textLabel!.text = kategoriSekarang
@@ -114,15 +121,16 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                     cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
                 }
                 cellBiasa.tambahBarangTextField.tag = indexPath.row
-                cellBiasa.tambahBarangTextField.addTarget(self, action: #selector(AddInventoryViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
+                if hargaTemp != 0 {
+                     cellPrice.tambahBarangTextField.text = "\(hargaTemp!)"
+                }
                 cellPrice.tambahBarangTextField.keyboardType = .decimalPad
                 cellPrice.PieceLabel.text = satuanSekarang
                 cellPrice.accessoryType = .disclosureIndicator
-                cellPrice.tambahBarangTextField.tag = indexPath.row
-                cellPrice.tambahBarangTextField.addTarget(self, action: #selector(AddInventoryViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
+                cellPrice.tambahBarangTextField.tag = 5
                 return cellPrice
         default:
              return cells
@@ -144,6 +152,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         
         
          tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        print()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -152,6 +161,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             if let satuan = satuanSekarang{
                 vc.selectedUnit = satuan
                 vc.pemelihVC = sender as! Int
+                vc.hargaTempSatuan = hargaTemp
             }
         }
         
@@ -167,17 +177,25 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBAction func unwindFromSatuanVCTambahBarang(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? SatuanBarangTableViewController else { return }
         self.satuanSekarang = satuanVC.selectedUnit!
+        hargaTemp = satuanVC.hargaTempSatuan
+        let indexPath = IndexPath(item: 0, section: 1)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     
     @IBAction func unwindFromKategoriVCTambahbarang(segue: UIStoryboardSegue){
         guard let kategoriVC = segue.source as? KategoriTableViewController else { return }
         self.kategoriSekarang = kategoriVC.selectedKategori!
+        self.kategoriTemp = kategoriVC.selectedKategori!
+        let indexPath = IndexPath(item: 2, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        enabledDoneButton()
     }
     
     @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
         guard let barcodeVC = segue.source as? BarcodeViewController else { return }
         self.barcode = barcodeVC.qrData
+        enabledDoneButton()
     }
     
     
@@ -238,66 +256,6 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         
          self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!)
     }
-    var valid1 = false
-    var valid2 = false
-    var valid3 = false
-    var valid4 = false
-    
-    
-    @objc func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        let textFieldRow = textField.tag
-        print(textFieldRow)
-        
-        if textFieldRow == 0 {
-            if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Must input barcode", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid1 = false
-            }
-            else{
-                valid1 = true
-            }
-        }else if textFieldRow == 1 {
-            if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid2 = false
-            }
-            else{
-                valid2 = true
-            }
-        }else if textFieldRow == 3 {
-            if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid3 = false
-            }
-            else{
-                valid3 = true
-            }
-        }else if textFieldRow == 4 {
-            if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid4 = false
-            }
-            else{
-                valid4 = true
-            }
-        }
-        print(valid1)
-        print(valid2)
-        print(valid3)
-        print(valid4)
-        if valid1 == true, valid2 == true, valid3 == true, valid4 == true {
-            doneBtnOutlet.isEnabled = true
-        }
-        else{
-            doneBtnOutlet.isEnabled = false
-        }
-        
-        
-    }
     
     @IBAction func doneButton(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
@@ -309,8 +267,6 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
     }
-    
-    
     
     func collectionView(_ collection: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if images.count > 3{
@@ -347,6 +303,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             print("error")
             break
         }
+        enabledDoneButton()
         return cell
     }
     
@@ -376,6 +333,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             self.addImageButton.isHidden = true
             self.collection.isHidden = false
         }
+        enabledDoneButton()
     }
     
     
@@ -406,7 +364,16 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 self.checkImagesCount()
             }
         }
-        
+        print(images.count)
+    }
+    
+    func enabledDoneButton() {
+        if barcodeTemp == "" || namaTemp == "" || kategoriTemp == "" || distributorTemp == "" || stokTemp == 0 || hargaTemp == 0 || images.count < 1 {
+            doneBtnOutlet.isEnabled = false
+        }
+        else{
+            doneBtnOutlet.isEnabled = true
+        }
     }
     
     
@@ -428,13 +395,63 @@ class TambahBarangCellBiasa: UITableViewCell{
 
 
 extension AddInventoryViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let textFieldTag = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
-        if (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil) {
-            print("row 1")
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let textFieldRow = textField.tag
+        
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Barcode harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            barcodeTemp = textField.text!
         }
-        if (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) != nil) {
-            print("row 222222")
+        
+        if textFieldRow == 1{
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama produk harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            namaTemp = textField.text!
         }
+        
+        if textFieldRow == 2 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Kategori harus dipilih", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            kategoriTemp = textField.text!
+        }
+        
+        if textFieldRow == 3 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Distributor harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            distributorTemp = textField.text!
+        }
+        
+        if textFieldRow == 4 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "stok harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                stokTemp = 0
+            }
+            else{
+                stokTemp = Int(textField.text!)
+            }
+        }
+        
+        if textFieldRow == 5 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Harga harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                hargaTemp = 0
+            }
+            else{
+                hargaTemp = Int(textField.text!)
+            }
+        }
+        print(barcodeTemp)
+        print(namaTemp)
+        print(kategoriTemp)
+        print(distributorTemp)
+        print("\(stokTemp!)")
+        print("\(hargaTemp!)")
+        enabledDoneButton()
     }
 }

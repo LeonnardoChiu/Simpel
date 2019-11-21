@@ -21,7 +21,7 @@ class EditEmployeeProfileViewController: UIViewController {
     var firstNameTemp: String = ""
     var lastNameTemp: String = ""
     var storeTemp: String = ""
-    var roleTemp: String = ""
+    var roleTemp: String = "Role"
     var emailTemp: String = ""
     var phoneTemp: String = ""
     var idx: Int = 0
@@ -36,6 +36,7 @@ class EditEmployeeProfileViewController: UIViewController {
             editTableView.tableFooterView = UIView(frame: .zero)
         }
     }
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     @IBAction func doneBtn(_ sender: UIBarButtonItem) {
         var alert: UIAlertController = UIAlertController()
@@ -69,11 +70,29 @@ class EditEmployeeProfileViewController: UIViewController {
         super.viewDidLoad()
         appendToArray()
         print(profileCell[0])
+        roleTemp = profileCell[3]
         // MARK: - Load tap gesture & add ke image view
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
         profileImages.addGestureRecognizer(tap)
         profileImages.isUserInteractionEnabled = true
         showImage()
+        doneButton.isEnabled = false
+        firstNameTemp = profileCell[0]
+        lastNameTemp = profileCell[1]
+        storeTemp = profileCell[2]
+        roleTemp = profileCell[3]
+        emailTemp = profileCell[4]
+        phoneTemp = profileCell[5]
+        print(firstNameTemp)
+        print(lastNameTemp)
+        print(storeTemp)
+        print(roleTemp)
+        print(emailTemp)
+        print(phoneTemp)
+        print(isValid())
+        if isValid() {
+            doneButton.isEnabled = true
+        }
     }
 
     // MARK: viewWillAppear
@@ -160,15 +179,92 @@ class EditEmployeeProfileViewController: UIViewController {
         guard let phone = editTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? EditEmployeeCell else { return }
         
         self.UpdateToCloud(img: images, firstName: (firstName.editTextField.text)!, lastName: (lastName.editTextField.text)!, storeName: (store.editTextField.text)!, role: (role.editTextField.text)!, email: (email.editTextField.text)!, phoneNumber: (phone.editTextField.text)!, editRecord: editData)
+    }
+    
+    
+    func isValid() -> Bool {
+        if firstNameTemp == "" || lastNameTemp == "" || storeTemp == "" || roleTemp == "Role" || emailTemp == "" || phoneTemp == "" || isValidEmail(emailStr: emailTemp) == false || profileImages.image == UIImage(systemName: "camera.circle") {
+            return false
+        }
+        else{
+            return true
+        }
+    }
+    
+    @objc func textFieldDidChangeSelection(_ textField: UITextField) {
+           let textFieldRow = textField.tag
+           print(textFieldRow)
+           if textFieldRow == 0 {
+               if textField.text == "" {
+                   textField.attributedPlaceholder = NSAttributedString(string: "First Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+               }
+               firstNameTemp = textField.text!
+           }
+           if textFieldRow == 1 {
+               if textField.text == "" {
+                   textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+               }
+               lastNameTemp = textField.text!
+           }
+           if textFieldRow == 2{
+               if textField.text == "" {
+                   textField.attributedPlaceholder = NSAttributedString(string: "Store Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+               }
+               storeTemp = textField.text!
+           }
+           if textFieldRow == 3 {
+               if textField.text == "" {
+                   textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+               }
+               roleTemp = textField.text!
+           }
+           if textFieldRow == 4 {
+               if textField.text == "" {
+                   textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+               }
+               else{
+                   if isValidEmail(emailStr: textField.text!) == false {
+                       textField.textColor = UIColor.red
+                   }
+                   else{
+                       textField.textColor = UIColor.black
+                   }
+               }
+               emailTemp = textField.text!
+           }
+           if textFieldRow == 5 {
+               if textField.text == "" {
+               textField.attributedPlaceholder = NSAttributedString(string: "Phone must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                   
+               doneButton.isEnabled = false
+               }
+               phoneTemp = textField.text!
+               
+           }
+           
+           if isValid() == false {
+               doneButton.isEnabled = false
+           }
+           else{
+               doneButton.isEnabled = true
+           }
+
+       }
+    
+     func isValidEmail(emailStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: emailStr)
+    }
+    
+    @IBAction func unwindFromSelectRole (_ unwindSegue: UIStoryboardSegue){
+        guard let roleVC = unwindSegue.source as? selectRoleViewController else {return}
+        self.roleTemp = roleVC.selectedRole
+        print(self.roleTemp)
+        let indexPath = IndexPath(item: 3, section: 0)
+        editTableView.reloadRows(at: [indexPath], with: .automatic)
         
-//        firstNameTemp = firstName!.editTextField.text!
-//        lastNameTemp = lastName!.editTextField.text!
-//        storeTemp = store!.editTextField.text!
-//        roleTemp = role!.editTextField.text!
-//        emailTemp = email!.editTextField.text!
-//        phoneTemp  = phone!.editTextField.text!
-        
-        //UpdateToCloud(img: image!, firstName: firstNameTemp, lastName: lastNameTemp, storeName: storeTemp, role: roleTemp, email: emailTemp, phoneNumber: phoneTemp, editRecord: editData)
     }
     
 }
@@ -181,39 +277,51 @@ extension EditEmployeeProfileViewController: UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editFormCell") as! EditEmployeeCell
         
-        let firstController = EmployeeProfileViewController()
-        
         if indexPath.row == 0 {
-            cell.editTextField.placeholder = profileCell[indexPath.row]
+            cell.editTextField.text = profileCell[indexPath.row]
+            cell.editTextField.isEnabled = true
             //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 1 {
-            cell.editTextField.placeholder = profileCell[indexPath.row]
+            cell.editTextField.text = profileCell[indexPath.row]
+            cell.editTextField.isEnabled = true
             //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 2 {
-            cell.editTextField.placeholder = profileCell[indexPath.row]
+            cell.editTextField.text = profileCell[indexPath.row]
+            cell.editTextField.isEnabled = true
             //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 3 {
-            cell.editTextField.placeholder = profileCell[indexPath.row]
+            cell.editTextField.text = roleTemp
+            cell.editTextField.isEnabled = false
             //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
+            cell.accessoryType = .disclosureIndicator
         } else if indexPath.row == 4 {
-            cell.editTextField.placeholder = profileCell[indexPath.row]
+            cell.editTextField.text = profileCell[indexPath.row]
+            cell.editTextField.isEnabled = true
             //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         } else if indexPath.row == 5 {
-            cell.editTextField.placeholder = profileCell[indexPath.row]
+            cell.editTextField.text = profileCell[indexPath.row]
+            cell.editTextField.isEnabled = true
             //cell.editTextField.text = profileCell[indexPath.row]
             cell.leftLbl.text = textHolder[indexPath.row]
         }
+        
+        cell.editTextField.tag = indexPath.row
+        cell.editTextField.addTarget(self, action: #selector(EditEmployeeProfileViewController.textFieldDidChangeSelection(_:)), for: UIControl.Event.editingChanged)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        
+        if indexPath.row == 3 {
+            performSegue(withIdentifier: "segueToRole", sender: self)
+        }
     }
     
 }

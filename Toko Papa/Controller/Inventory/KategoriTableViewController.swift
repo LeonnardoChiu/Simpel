@@ -16,6 +16,9 @@ class KategoriTableViewController: UITableViewController {
     var pemilihVC: Int?
     let database = CKContainer.default().publicCloudDatabase
     var kategoriCloud = [CKRecord]()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
