@@ -67,7 +67,7 @@ class CashierViewController: UIViewController {
         super.viewWillAppear(animated)
         finishBtnOutlet.isEnabled = false
         if newItem != nil {
-            totalPrice = 0
+            
             myItem.append(newItem!)
             
             for item in myItem {
@@ -75,6 +75,7 @@ class CashierViewController: UIViewController {
             }
             finishBtnOutlet.isEnabled = true
             newItem = nil
+            totalPrice = 0
         }
         
         print("Total Price: \(totalPrice)")
@@ -181,7 +182,7 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
             return "Metode Pembayaran"
         }
     }
-    
+    // MARK: - cell for row at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if myItem.count == 0 && indexPath.section == 0 {
             // MARK: - Nampilin cell jika barang belum ada
@@ -192,6 +193,7 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
            // MARK: - Nampilin cell Total
             let totalCell = tableView.dequeueReusableCell(withIdentifier: "TotalPriceCell") as! TotalPriceCell
             
+            
             //totalCell.priceNumericLbl.text = String("\(price.reduce(0, +)),00")
             totalCell.priceNumericLbl.text = "Rp. \(totalPrice.commaRepresentation)"
             
@@ -200,8 +202,12 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
             // MARK: - Nampilin cell barang yang dipilih
             let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
             
+            var angkaTotal = myItem[indexPath.row].price
+            angkaTotal = angkaTotal * myItem[indexPath.row].qty
+            totalPrice += angkaTotal
+        
             itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaProduk
-            itemAddedCell.priceLbl.text = "Rp. \(String(myItem[indexPath.row].price.commaRepresentation))"
+            itemAddedCell.priceLbl.text = "Rp. \(angkaTotal.commaRepresentation)"
             itemAddedCell.quantityLbl.text = "Quantity: \(String(myItem[indexPath.row].qty))"
             
             itemAddedCell.itemImage.image = myItem[indexPath.row].itemImage

@@ -78,9 +78,6 @@ class CashierItemListViewController: UIViewController {
         DispatchQueue.main.async{
             self.searchTableView.reloadData()
         }
-        /*DispatchQueue.main.async {
-            self.searchController.searchBar.becomeFirstResponder()
-        }*/
     }
     
     // MARK: - Init table model
@@ -116,7 +113,7 @@ class CashierItemListViewController: UIViewController {
         searchController.searchBar.delegate = self
     }
 
-    // MARK: - function untuk notification
+    // MARK: - init notification
     func initNotification() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { (notification) in
@@ -128,7 +125,7 @@ class CashierItemListViewController: UIViewController {
         }
     }
     
-    // MARK: - function untuk handle keyboard
+    // MARK: - handle keyboard
     func handleKeyboard(notification: Notification) {
         guard notification.name == UIResponder.keyboardWillChangeFrameNotification else {
             searchFooterBottomConstraint.constant = 0
@@ -150,14 +147,13 @@ class CashierItemListViewController: UIViewController {
         })
     }
     
-    // MARK: - Function untuk buy alert
+    // MARK: - init untuk buy alert
     func initAlert() {
         let addAlert = UIAlertController(title: "Tambah Jumlah", message: "Isi jumlah barang yang anda pilih", preferredStyle: .alert)
         /// add text field
         addAlert.addTextField { (textField) in
             textField.placeholder = "Masukkan jumlah barang"
             textField.keyboardType = .numberPad
-            
             textField.delegate = self
         }
         /// add button tambah
@@ -168,13 +164,16 @@ class CashierItemListViewController: UIViewController {
             //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
         }
         /// add button batal
-        let cancelBtn = UIAlertAction(title: "Batal", style: .cancel)
+        let batalBtn = UIAlertAction(title: "Batal", style: .cancel) { ACTION in
+            print("cancel")
+            
+        }
         
         addAction = addBtn
         addAction.isEnabled = false
         
         addAlert.addAction(addAction)
-        addAlert.addAction(cancelBtn)
+        addAlert.addAction(batalBtn)
         self.present(addAlert, animated: true, completion: nil)
         
         print(addAlert.actions)
@@ -234,7 +233,7 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         if isFiltering {
             initAlert()
             selectedItem = filteredItem[indexPath.row]
-            
+            selectedItem.qty = selectedStock
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
             /// karena saat search menampilkan search view controller, jadi dismiss dahulu view si search controller
             presentedViewController?.dismiss(animated: false) {
@@ -313,7 +312,7 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
 extension CashierItemListViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
-        let text = (textField.text as! NSString).replacingCharacters(in: range, with: string)
+        let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         
         if Int(text) != nil {
             /// text field converted to an Int
@@ -326,8 +325,12 @@ extension CashierItemListViewController: UITextFieldDelegate {
         
         return true
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        selectedStock = Int(textField.text!)!
+        if textField.text! != "" {
+            selectedStock = Int(textField.text!)!
+        }
+        
         print(selectedStock)
     }
 }
