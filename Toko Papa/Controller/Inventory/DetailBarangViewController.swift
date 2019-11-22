@@ -138,7 +138,6 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit"{
             let destData = segue.destination as! EditBarangViewController
-            destData.editCKrecord = sender as! CKRecord
             destData.editItem = itemDetail
         }
     }

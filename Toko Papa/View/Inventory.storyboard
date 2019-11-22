@@ -8,39 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Filter-->
-        <scene sceneID="hCK-gq-HWu">
-            <objects>
-                <tableViewController id="IZw-TY-e5H" customClass="FilterTableViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="XUB-Eg-quj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="SqA-ra-m7M">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SqA-ra-m7M" id="C2v-w7-3cF">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="IZw-TY-e5H" id="hqn-rf-m0g"/>
-                            <outlet property="delegate" destination="IZw-TY-e5H" id="XYE-Hi-duD"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Filter" id="KXA-cH-QhG"/>
-                    <connections>
-                        <segue destination="U9V-Qw-Onj" kind="unwind" identifier="backToAddVCfilter" unwindAction="unwindFromFilterVCWithSegue:" id="c0n-3B-Kq0"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="K9t-HF-y3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="U9V-Qw-Onj" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="-2675" y="899"/>
-        </scene>
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
             <objects>
@@ -50,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9vc-0W-vag">
-                                <rect key="frame" x="0.0" y="144" width="414" height="752"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="75" id="MmH-fC-FVI" customClass="PostView" customModule="Toko_Papa" customModuleProvider="target">
@@ -112,7 +79,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="9vc-0W-vag" firstAttribute="top" secondItem="Rw3-dq-5cW" secondAttribute="top" constant="144" id="1pO-cG-NOv"/>
+                            <constraint firstItem="9vc-0W-vag" firstAttribute="top" secondItem="Rw3-dq-5cW" secondAttribute="top" constant="88" id="1pO-cG-NOv"/>
                             <constraint firstItem="9vc-0W-vag" firstAttribute="trailing" secondItem="SID-UX-kek" secondAttribute="trailing" id="Bzx-1Y-vdx"/>
                             <constraint firstAttribute="bottom" secondItem="9vc-0W-vag" secondAttribute="bottom" id="Gfh-CI-9yf"/>
                             <constraint firstItem="9vc-0W-vag" firstAttribute="leading" secondItem="SID-UX-kek" secondAttribute="leading" id="YrX-mW-Qci"/>
@@ -120,11 +87,6 @@
                         <viewLayoutGuide key="safeArea" id="SID-UX-kek"/>
                     </view>
                     <navigationItem key="navigationItem" title="Barang" id="OJ2-1T-eVz">
-                        <barButtonItem key="leftBarButtonItem" title="Filter" id="O24-aa-h0V">
-                            <connections>
-                                <segue destination="IZw-TY-e5H" kind="show" id="kcf-Zv-6eH"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="p1A-1D-Ky7">
                             <connections>
                                 <segue destination="9CH-4x-q2b" kind="show" id="ufC-ec-ard"/>
@@ -293,7 +255,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="r5D-qM-1Es"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Tambah Barang" leftItemsSupplementBackButton="YES" id="nXc-1c-ZBa">
+                    <navigationItem key="navigationItem" title="Tambah Barang" leftItemsSupplementBackButton="YES" largeTitleDisplayMode="never" id="nXc-1c-ZBa">
                         <barButtonItem key="backBarButtonItem" title="Kembali" id="xiW-L9-21W"/>
                         <barButtonItem key="rightBarButtonItem" title="Selesai" id="sB9-ur-sRm">
                             <connections>
@@ -341,7 +303,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="273-IW-QMc"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Barcode" id="sEe-lN-7Yd"/>
+                    <navigationItem key="navigationItem" title="Barcode" largeTitleDisplayMode="never" id="sEe-lN-7Yd"/>
                     <connections>
                         <outlet property="scannerView" destination="fwP-BW-1a4" id="7pE-Lv-llA"/>
                         <segue destination="ag7-3r-QZq" kind="unwind" identifier="BacktoAdd" unwindAction="unwindFromKBarcodeWithSegue:" id="NFP-HC-JGy"/>
@@ -456,7 +418,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YsV-x2-54c"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Detail Barang" id="5EJ-7c-C0a">
+                    <navigationItem key="navigationItem" title="Detail Barang" largeTitleDisplayMode="never" id="5EJ-7c-C0a">
                         <barButtonItem key="rightBarButtonItem" title="Ubah" id="PCt-xf-Kzh">
                             <connections>
                                 <action selector="editButton:" destination="dcj-tc-6mU" id="JdK-sw-jwH"/>
@@ -608,7 +570,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zBB-yE-gnj"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit Barang" id="vIj-BH-Lid">
+                    <navigationItem key="navigationItem" title="Edit Barang" largeTitleDisplayMode="never" id="vIj-BH-Lid">
                         <barButtonItem key="rightBarButtonItem" title="Selesai" id="yBa-bQ-UYM">
                             <connections>
                                 <action selector="doneEditButton:" destination="33u-lV-6zC" id="hr2-5N-Mi2"/>
@@ -638,14 +600,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="PEI-Iz-1t5">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="JKo-qo-c7e">
-                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JKo-qo-c7e" id="Ag7-Mu-cr8">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -658,7 +615,7 @@
                             <outlet property="delegate" destination="Hp3-vn-QCu" id="tcX-bC-r5z"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Kategori" id="qZS-05-iLl">
+                    <navigationItem key="navigationItem" title="Kategori" largeTitleDisplayMode="never" id="qZS-05-iLl">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Sb4-0Z-M3D">
                             <connections>
                                 <segue destination="iF7-n9-Ump" kind="show" id="ZbU-zl-teI"/>
@@ -702,7 +659,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mbL-Mm-BUT"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Tambah Kategori" id="ntf-51-DRl">
+                    <navigationItem key="navigationItem" title="Tambah Kategori" largeTitleDisplayMode="never" id="ntf-51-DRl">
                         <barButtonItem key="rightBarButtonItem" title="Simpan" id="2Fc-9M-qr3">
                             <connections>
                                 <action selector="simpanButton:" destination="iF7-n9-Ump" id="t2i-O9-xbl"/>
@@ -727,14 +684,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="Z6e-8u-pNK">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="P6n-vU-FgK">
-                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P6n-vU-FgK" id="wij-LB-ABz">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -747,7 +699,7 @@
                             <outlet property="delegate" destination="g6F-ma-CJb" id="zPD-Tf-71J"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Satuan Barang" id="Yxb-rp-AEM">
+                    <navigationItem key="navigationItem" title="Satuan Barang" largeTitleDisplayMode="never" id="Yxb-rp-AEM">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="lbS-1r-Mgp">
                             <connections>
                                 <segue destination="4cv-A0-GWI" kind="show" id="2Co-eY-w2a"/>
@@ -791,7 +743,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pRH-QO-OuF"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Tambah Satuan" id="SqF-Rk-4fw">
+                    <navigationItem key="navigationItem" title="Tambah Satuan" largeTitleDisplayMode="never" id="SqF-Rk-4fw">
                         <barButtonItem key="rightBarButtonItem" title="Simpan" id="Edx-xW-I2R">
                             <connections>
                                 <action selector="simpanButton:" destination="4cv-A0-GWI" id="NWm-js-FWu"/>

@@ -7,41 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Metode Pembayaran-->
-        <scene sceneID="DGy-g5-CpX">
-            <objects>
-                <viewController id="q2V-DQ-kNV" customClass="PaymentMethodViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="wtM-WA-Q2m">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s1D-az-DCo">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="q2V-DQ-kNV" id="E6L-Ej-L1T"/>
-                                    <outlet property="delegate" destination="q2V-DQ-kNV" id="Xbi-fN-ECS"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="s1D-az-DCo" firstAttribute="top" secondItem="1sv-hS-S3Q" secondAttribute="top" id="1ZN-3I-uht"/>
-                            <constraint firstItem="1sv-hS-S3Q" firstAttribute="bottom" secondItem="s1D-az-DCo" secondAttribute="bottom" id="2J3-XS-7l9"/>
-                            <constraint firstItem="1sv-hS-S3Q" firstAttribute="trailing" secondItem="s1D-az-DCo" secondAttribute="trailing" id="SGZ-nx-3hc"/>
-                            <constraint firstItem="s1D-az-DCo" firstAttribute="leading" secondItem="1sv-hS-S3Q" secondAttribute="leading" id="YJH-Xy-MWj"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="1sv-hS-S3Q"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Metode Pembayaran" id="bFv-4S-UL7"/>
-                    <connections>
-                        <outlet property="paymentTableView" destination="s1D-az-DCo" id="PVi-5V-SRu"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1eS-sN-k63" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1282.608695652174" y="2303.5714285714284"/>
-        </scene>
         <!--Kasir-->
         <scene sceneID="Mhl-pD-sqx">
             <objects>
@@ -80,7 +45,6 @@
                         <outlet property="cashierTableView" destination="3ac-u3-xqF" id="0zD-bQ-rB1"/>
                         <outlet property="finishBtnOutlet" destination="d6P-7u-wVD" id="IGy-6t-GUq"/>
                         <segue destination="byY-BW-mKE" kind="show" identifier="toSearchView" id="TsW-7h-NP7"/>
-                        <segue destination="q2V-DQ-kNV" kind="show" identifier="toPaymentMethod" id="HU1-DT-vVT"/>
                         <segue destination="V7Q-vx-cNl" kind="show" identifier="toBarcodeScanner" id="saF-c9-vbz"/>
                     </connections>
                 </viewController>
@@ -165,7 +129,7 @@
         <scene sceneID="wfB-RN-hcq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IFx-6o-QCy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Cashier" id="tQY-UZ-3Yt"/>
+                    <tabBarItem key="tabBarItem" title="Cashier" image="Cashier" id="tQY-UZ-3Yt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Oyl-IA-suu">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -229,4 +193,7 @@
             <point key="canvasLocation" x="540.57971014492762" y="1583.7053571428571"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Cashier" width="32" height="32"/>
+    </resources>
 </document>

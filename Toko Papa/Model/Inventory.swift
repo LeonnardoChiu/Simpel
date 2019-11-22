@@ -8,22 +8,8 @@
 
 import Foundation
 import UIKit
+import CloudKit
 
-class InventoryDetail {
-    /// variable
-    var imageItem: UIImage?
-    var namaItem: String
-    var price: Int
-    var stock: Int
- 
-    /// initialisasi
-    init(imageItem: UIImage, namaItem: String, price: Int, stock: Int) {
-           self.imageItem = imageItem
-           self.namaItem = namaItem
-           self.price = price
-           self.stock = stock
-       }
-}
 
 class Inventory {
     /// variable
@@ -36,9 +22,11 @@ class Inventory {
     var stock: Int
     var version: Int
     var unit: String
+    var Id: CKRecord.ID
     
     /// inisialisasi
-    init(imageItem: UIImage, namaItem: String, barcode: String, category: String, distributor: String, price: Int, stock: Int, version: Int, unit: String) {
+    init(id:CKRecord.ID, imageItem: UIImage, namaItem: String, barcode: String, category: String, distributor: String, price: Int, stock: Int, version: Int, unit: String) {
+        self.Id = id
         self.imageItem = imageItem
         self.namaItem = namaItem
         self.barcode = barcode

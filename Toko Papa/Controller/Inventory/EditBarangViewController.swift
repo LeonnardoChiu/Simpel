@@ -10,22 +10,14 @@ import UIKit
 import CloudKit
 
 class EditBarangViewController: UIViewController{
-    
     var satuanSekarang: String? = "Unit"
-
     var editItem: Inventory?
-    
-
-    
     var barcodeTemp = ""
     var namaTemp = ""
     var kategoriTemp = ""
     var distributorTemp = ""
     var stokTemp:Int? = 0
-    
     var hargaTemp:Int?
-   
-
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     @IBOutlet weak var tableView: UITableView!{
         didSet {
@@ -71,14 +63,16 @@ class EditBarangViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        QueryDatabase()
         self.hideKeyboardWhenTappedAround() 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         initCollection()
         appendTextField()
-        showImage()
         
-        kategoriSekarang = editCKrecord?.value(forKey: "Category") as! String
+        
+        kategoriSekarang = editItem?.category
+        images.append(editItem!.imageItem!)
         self.addImageButton.isHidden = true
         
         barcodeTemp = isiTextField[0]
@@ -86,7 +80,7 @@ class EditBarangViewController: UIViewController{
         kategoriTemp = isiTextField[2]
         distributorTemp = isiTextField[3]
         stokTemp = Int(isiTextField[4])
-        hargaTemp = editCKrecord?.value(forKey: "Price") as! Int
+        hargaTemp = editItem?.price
         
         enabledDoneButton()
         // Do any additional setup after loading the view.
@@ -119,11 +113,18 @@ class EditBarangViewController: UIViewController{
     
     
     @IBAction func unwindToKategoriVcEdit(segue: UIStoryboardSegue) {
-        guard let satuanVC = segue.source as? KategoriTableViewController else {return}
-        self.kategoriSekarang = satuanVC.selectedKategori
-        kategoriTemp = satuanVC.selectedKategori!
+        guard let kategoriVC = segue.source as? KategoriTableViewController else {return}
+        self.kategoriSekarang = kategoriVC.selectedKategori
+        kategoriTemp = kategoriVC.selectedKategori!
      
         let indexPath = IndexPath(item: 2, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
+        guard let barcodeVC = segue.source as? BarcodeViewController else { return }
+        self.barcode = barcodeVC.qrData
+        let indexPath = IndexPath(item: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -140,15 +141,42 @@ class EditBarangViewController: UIViewController{
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
     }
+    var data = [CKRecord]()
+    @objc func QueryDatabase(){
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
     
-    func updateToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String, edit: CKRecord){
-            var editNote = edit
-            editNote.setValue(Barcode, forKey: "Barcode")//ini ke tablenya
-            editNote.setValue(Category, forKey: "Category")
-            editNote.setValue(Distributor, forKey: "Distributor")
-            editNote.setValue(Name, forKey: "NameProduct")
-            editNote.setValue(Price, forKey: "Price")
-            editNote.setValue(Stock, forKey: "Stock")
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+        //query.sortDescriptors = [sortDesc]
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    func updateToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String, model:Inventory){
+            var editNote: CKRecord?
+            
+            for edit in data{
+                if model.Id.recordName == edit.recordID.recordName{
+                editNote = edit
+                    print("ASOOO")
+                    print(edit.value(forKey: "NameProduct"))
+                break
+                }
+            }
+       
+            
+            editNote?.setValue(Barcode, forKey: "Barcode")//ini ke tablenya
+            editNote?.setValue(Category, forKey: "Category")
+            editNote?.setValue(Distributor, forKey: "Distributor")
+            editNote?.setValue(Name, forKey: "NameProduct")
+            editNote?.setValue(Price, forKey: "Price")
+            editNote?.setValue(Stock, forKey: "Stock")
         
             var imageAsset: [CKAsset] = []
                
@@ -158,13 +186,14 @@ class EditBarangViewController: UIViewController{
                 imageAsset.append(asset)
                 print("aaa")
             }
-        var version = (self.editCKrecord.value(forKey: "Version") as! Int) + 1
+        var version = model.version + 1
             version = version + 1
-            editNote.setValue(imageAsset, forKey: "Images")
-            editNote.setValue(unit, forKey: "Unit")
-            editNote.setValue(version, forKey: "Version")
+            editNote?.setValue(imageAsset, forKey: "Images")
+            editNote?.setValue(unit, forKey: "Unit")
+            editNote?.setValue(version, forKey: "Version")
         
-         database.save(editNote) { (record, error) in
+        
+        database.save(editNote!) { (record, error) in
              print(error)
              guard record != nil else { return}
              print("savaedddd")
@@ -195,7 +224,7 @@ class EditBarangViewController: UIViewController{
          guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
         
-        self.updateToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!, edit: editCKrecord)
+        self.updateToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!, model: editItem!)
     }
     
     
@@ -408,10 +437,7 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
         self.viewForCollectionView.addSubview(collection)
     }
     
-    @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
-        guard let barcodeVC = segue.source as? BarcodeViewController else { return }
-        self.barcode = barcodeVC.qrData
-    }
+    
 }
 
 extension EditBarangViewController: UITextFieldDelegate {

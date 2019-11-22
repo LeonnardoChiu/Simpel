@@ -21,6 +21,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     /// untuk search bar
     let searchController = UISearchController(searchResultsController: nil)
     var originalItem: [Inventory] = []
+    var originalItemTemp: [Inventory] = []
     var searchedItem: [Inventory] = []
     var selectedItem: Inventory!
     var isSearchBarEmpty: Bool {
@@ -68,19 +69,6 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             cell.gambarCell.image = originalItem[indexPath.row].imageItem
             return cell
         }
-        /*
-        let nama = data[indexPath.row].value(forKey: "NameProduct") as! String
-        let stock = data[indexPath.row].value(forKey: "Stock") as! Int
-        image = (data[indexPath.row].value(forKey: "Images") as? [CKAsset])?.first
-        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-            cell.gambarCell.image = UIImage(data: data as Data)
-            cell.gambarCell.contentMode = .scaleAspectFill
-        }
-        cell.namaProductLabel.text = nama
-        cell.stockLabel.text = "Stock Left : \(stock)"
-        cell.accessoryType = .disclosureIndicator
- */
-        //return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -90,15 +78,14 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             
             presentedViewController?.dismiss(animated: false) {
                 self.performSegue(withIdentifier: "detail", sender: self.selectedItem)
+                self.searchController.searchBar.text = ""
             }
         } else {
           selectedItem = originalItem[indexPath.row]
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
             performSegue(withIdentifier: "detail", sender: selectedItem)
+            searchController.searchBar.text = ""
         }
-        
-        //performSegue(withIdentifier: "detail", sender: data[indexPath.row])
-        //tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -143,7 +130,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.QueryDatabase()
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         initSearchBar()
         
         self.hideKeyboardWhenTappedAround() 
@@ -154,7 +141,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         }*/
     
         refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refeeshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
         self.tableView.refreshControl = refeeshControl
     }
     
@@ -167,7 +154,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
-        
+         self.QueryDatabase()
     }
     
     // MARK: - objc query database
@@ -188,25 +175,6 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             }
         }
       }
-
-    
-    /*@IBOutlet weak var sortButton: UIButton!
-    @IBAction func SortAsceDesc(_ sender: Any) {
-        let imageDesc = UIImage(named: "descen")
-        let imageAsce = UIImage(named: "ascen")
-        
-        if self.sorting == true{
-            self.sorting = false
-            sortButton.setImage(imageDesc, for: .normal)
-            print("a")
-        }else {
-            self.sorting = true
-            sortButton.setImage(imageAsce, for: .normal)
-         print("b")
-        }
-        self.QueryDatabase()
-    }
-    */
     
     @IBAction func unwindFromFilterVC(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? FilterTableViewController else { return }
@@ -234,7 +202,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - init data model
     func initDataModel() {
+        originalItemTemp.removeAll()
         for countData in data {
+            let id = countData.recordID
             let namaItem = countData.value(forKey: "NameProduct") as! String
             let stock = countData.value(forKey: "Stock") as! Int
             let price = countData.value(forKey: "Price") as! Int
@@ -250,10 +220,31 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
                 itemImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-            
-            originalItem.append(Inventory(imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit))
-            
+            originalItemTemp.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit))
         }
+        print("temp : \(originalItemTemp.count)" )
+        print("Asli : \(originalItem.count)")
+        if originalItemTemp.count != originalItem.count{
+            originalItem = originalItemTemp
+        }else{
+            var pengecek = false
+            var tempangka = 0
+            for i in originalItemTemp{
+                if i.version != originalItem[tempangka].version{
+                    pengecek = true
+                    print(pengecek)
+                    break
+                }
+                tempangka = tempangka + 1
+            }
+            
+            if pengecek == true {
+                originalItem = originalItemTemp
+            }
+        }
+        
+        
+       
     }
     
     // MARK: - function untuk filtering item
@@ -302,6 +293,10 @@ extension InventoryViewController: UISearchBarDelegate, UISearchResultsUpdating 
     /// begin text editing
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("tekan")
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        searchController.searchBar.text = ""
     }
     
 }
