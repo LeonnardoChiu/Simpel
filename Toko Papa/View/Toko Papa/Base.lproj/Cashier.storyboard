@@ -129,7 +129,7 @@
         <scene sceneID="wfB-RN-hcq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IFx-6o-QCy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Cashier" id="tQY-UZ-3Yt"/>
+                    <tabBarItem key="tabBarItem" title="Cashier" image="Cashier" id="tQY-UZ-3Yt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Oyl-IA-suu">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -193,4 +193,7 @@
             <point key="canvasLocation" x="540.57971014492762" y="1583.7053571428571"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Cashier" width="32" height="32"/>
+    </resources>
 </document>

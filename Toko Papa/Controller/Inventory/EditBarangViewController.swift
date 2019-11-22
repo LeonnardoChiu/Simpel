@@ -113,11 +113,18 @@ class EditBarangViewController: UIViewController{
     
     
     @IBAction func unwindToKategoriVcEdit(segue: UIStoryboardSegue) {
-        guard let satuanVC = segue.source as? KategoriTableViewController else {return}
-        self.kategoriSekarang = satuanVC.selectedKategori
-        kategoriTemp = satuanVC.selectedKategori!
+        guard let kategoriVC = segue.source as? KategoriTableViewController else {return}
+        self.kategoriSekarang = kategoriVC.selectedKategori
+        kategoriTemp = kategoriVC.selectedKategori!
      
         let indexPath = IndexPath(item: 2, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
+        guard let barcodeVC = segue.source as? BarcodeViewController else { return }
+        self.barcode = barcodeVC.qrData
+        let indexPath = IndexPath(item: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
@@ -430,10 +437,7 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
         self.viewForCollectionView.addSubview(collection)
     }
     
-    @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
-        guard let barcodeVC = segue.source as? BarcodeViewController else { return }
-        self.barcode = barcodeVC.qrData
-    }
+    
 }
 
 extension EditBarangViewController: UITextFieldDelegate {

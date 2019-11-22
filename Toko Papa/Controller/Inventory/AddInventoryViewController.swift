@@ -13,7 +13,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
    
     
     var satuanSekarang: String? = "Unit"
-    var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "", "Distributor", "Stok"]
+    var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     var kategoriSekarang: String? = "Kategori"
     let database = CKContainer.default().publicCloudDatabase
     
@@ -58,10 +58,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     }
       
       override func viewWillAppear(_ animated: Bool) {
-            self.tableView.reloadData()
             enabledDoneButton()
-            print(barcode?.codeString)
-      }
+        }
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,7 +85,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         }
     }
     
-    
+    // MARK: - cell for row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
         
@@ -104,18 +102,21 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                      cellBiasa.barcodeScannerButton.isHidden = true
                 }
                 if indexPath.row == 0 {
+                    print("=============================================================")
+                    print(barcode)
                     if barcode != nil{
                         cellBiasa.tambahBarangTextField.text = barcode?.codeString
                     }
                 }
                 if indexPath.row == 2 {
-                   cellBiasa.accessoryType = .disclosureIndicator
-                   if kategoriSekarang == "Kategori"{
-                       cellBiasa.textLabel?.textColor = .systemGray3
-                   }
-                   cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
-                   cellBiasa.textLabel!.text = kategoriSekarang
-                   cellBiasa.tambahBarangTextField.isHidden = true
+                     cellBiasa.accessoryType = .disclosureIndicator
+                        if kategoriSekarang == "Kategori"{
+                            cellBiasa.textLabel?.textColor = .systemGray3
+                            
+                        }
+                        cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
+                        cellBiasa.textLabel!.text = kategoriSekarang
+                        cellBiasa.tambahBarangTextField.isHidden = true
                 }
                 if indexPath.row == 4 {
                     cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
@@ -185,8 +186,9 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBAction func unwindFromKategoriVCTambahbarang(segue: UIStoryboardSegue){
         guard let kategoriVC = segue.source as? KategoriTableViewController else { return }
-        self.kategoriSekarang = kategoriVC.selectedKategori!
+        self.kategoriSekarang = kategoriVC.selectedKategori
         self.kategoriTemp = kategoriVC.selectedKategori!
+        
         let indexPath = IndexPath(item: 2, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
         enabledDoneButton()
@@ -195,6 +197,8 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
         guard let barcodeVC = segue.source as? BarcodeViewController else { return }
         self.barcode = barcodeVC.qrData
+        let indexPath = IndexPath(item: 0, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         enabledDoneButton()
     }
     

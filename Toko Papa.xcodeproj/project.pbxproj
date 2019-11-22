@@ -74,7 +74,7 @@
 /* Begin PBXFileReference section */
 		681E97AB237BB5E00047DE10 /* DetailBarangViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBarangViewController.swift; sourceTree = "<group>"; };
 		681E97AD237BB5EE0047DE10 /* EditBarangViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBarangViewController.swift; sourceTree = "<group>"; };
-		6838F94F2366984900FCC0D0 /* Toko Papa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toko Papa.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6838F94F2366984900FCC0D0 /* Simple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6838F9522366984900FCC0D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6838F9542366984900FCC0D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6838F9592366984900FCC0D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		6838F9502366984900FCC0D0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6838F94F2366984900FCC0D0 /* Toko Papa.app */,
+				6838F94F2366984900FCC0D0 /* Simple.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -351,7 +351,7 @@
 			);
 			name = "Toko Papa";
 			productName = "Toko Papa";
-			productReference = 6838F94F2366984900FCC0D0 /* Toko Papa.app */;
+			productReference = 6838F94F2366984900FCC0D0 /* Simple.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -632,7 +632,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Louis.Toko-Papa";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Simple;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -652,7 +652,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Louis.Toko-Papa";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Simple;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
