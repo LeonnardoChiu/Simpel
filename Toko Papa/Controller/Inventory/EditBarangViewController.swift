@@ -12,8 +12,20 @@ import CloudKit
 class EditBarangViewController: UIViewController{
     
     var satuanSekarang: String? = "Unit"
+
     var editItem: Inventory?
     
+
+    
+    var barcodeTemp = ""
+    var namaTemp = ""
+    var kategoriTemp = ""
+    var distributorTemp = ""
+    var stokTemp:Int? = 0
+    
+    var hargaTemp:Int?
+   
+
     var placeHolderTextField: [String] = ["Barcode", "Nama Produk", "Kategori", "Distributor", "Stok"]
     @IBOutlet weak var tableView: UITableView!{
         didSet {
@@ -68,29 +80,51 @@ class EditBarangViewController: UIViewController{
         
         kategoriSekarang = editCKrecord?.value(forKey: "Category") as! String
         self.addImageButton.isHidden = true
+        
+        barcodeTemp = isiTextField[0]
+        namaTemp = isiTextField[1]
+        kategoriTemp = isiTextField[2]
+        distributorTemp = isiTextField[3]
+        stokTemp = Int(isiTextField[4])
+        hargaTemp = editCKrecord?.value(forKey: "Price") as! Int
+        
+        enabledDoneButton()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         print(satuanSekarang)
-        self.tableView.reloadData()
+        //self.tableView.reloadData()
         
     }
     
-    
-    
-    
+    func enabledDoneButton() {
+        if barcodeTemp == "" || namaTemp == "" || kategoriTemp == "" || distributorTemp == "" || stokTemp == 0 || hargaTemp == 0 || images.count < 1 {
+            doneBtnOutlet.isEnabled = false
+        }
+        else{
+            doneBtnOutlet.isEnabled = true
+        }
+    }
 
 
     @IBAction func unwindFromSatuanVCEdit(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? SatuanBarangTableViewController else { return }
         self.satuanSekarang = satuanVC.selectedUnit!
+        hargaTemp = satuanVC.hargaTempSatuan
+        
+       let indexPath = IndexPath(item: 0, section: 1)
+       tableView.reloadRows(at: [indexPath], with: .automatic)
+        
     }
     
     
     @IBAction func unwindToKategoriVcEdit(segue: UIStoryboardSegue) {
         guard let satuanVC = segue.source as? KategoriTableViewController else {return}
         self.kategoriSekarang = satuanVC.selectedKategori
-        // Use data from the view controller which initiated the unwind segue
+        kategoriTemp = satuanVC.selectedKategori!
+     
+        let indexPath = IndexPath(item: 2, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     
@@ -177,65 +211,6 @@ class EditBarangViewController: UIViewController{
         }
         
     }
-    
-    var valid1 = false
-    var valid2 = false
-    var valid3 = false
-    var valid4 = false
-    @objc func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        let textFieldRow = textField.tag
-        print(textFieldRow)
-        
-        if textFieldRow == 0 {
-            if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Must input barcode", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid1 = false
-            }
-            else{
-                valid1 = true
-            }
-        }else if textFieldRow == 1 {
-            if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Last Name must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid2 = false
-            }
-            else{
-                valid2 = true
-            }
-        }else if textFieldRow == 3 {
-            if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Role must be Selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid3 = false
-            }
-            else{
-                valid3 = true
-            }
-        }else if textFieldRow == 4 {
-            if textField.text == "" {
-            textField.attributedPlaceholder = NSAttributedString(string: "Email must be Filled", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-                 doneBtnOutlet.isEnabled = false
-                valid4 = false
-            }
-            else{
-                valid4 = true
-            }
-        }
-        print(valid1)
-        print(valid2)
-        print(valid3)
-        print(valid4)
-        if valid1 == true, valid2 == true, valid3 == true, valid4 == true {
-            doneBtnOutlet.isEnabled = true
-        }
-        else{
-            doneBtnOutlet.isEnabled = false
-        }
-        
-        
-    }
 
 }
 
@@ -273,11 +248,9 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
                 }
                 if indexPath.row == 2 {
                     cellBiasa.accessoryType = .disclosureIndicator
-                    if kategoriSekarang != "Kategori"{
-                        cellBiasa.textLabel?.textColor = .black
-                    }else {
-                        cellBiasa.textLabel?.textColor = .lightGray
-                    }
+                     if kategoriSekarang == "Kategori"{
+                          cellBiasa.textLabel?.textColor = .systemGray3
+                      }
                     cellBiasa.textLabel?.font = UIFont.systemFont(ofSize: 14)
                     cellBiasa.textLabel!.text = kategoriSekarang
                     cellBiasa.tambahBarangTextField.isHidden = true
@@ -286,16 +259,14 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
                     cellBiasa.tambahBarangTextField.keyboardType = .decimalPad
                 }
                 cellBiasa.tambahBarangTextField.tag = indexPath.row
-                cellBiasa.tambahBarangTextField.addTarget(self, action: #selector(EditBarangViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
                 return cellBiasa
         case 1:
                 cellPrice.tambahBarangTextField.placeholder = "Harga per"
-                cellPrice.tambahBarangTextField.text = String(editCKrecord?.value(forKey: "Price") as! Int)
+                cellPrice.tambahBarangTextField.text = "\(hargaTemp!)"
                 cellPrice.tambahBarangTextField.keyboardType = .decimalPad
                 cellPrice.PieceLabel.text = satuanSekarang
                 cellPrice.accessoryType = .disclosureIndicator
-                cellPrice.tambahBarangTextField.tag = indexPath.row
-                cellPrice.tambahBarangTextField.addTarget(self, action: #selector(EditBarangViewController.textFieldDidEndEditing(_:)), for: UIControl.Event.editingChanged)
+                cellPrice.tambahBarangTextField.tag = 5
                 return cellPrice
         default:
             return cells
@@ -330,8 +301,10 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
             guard let vc = segue.destination as? SatuanBarangTableViewController else { return }
             if let satuan = satuanSekarang{
                 vc.selectedUnit = satuan
+                vc.pemelihVC = sender as! Int
+                vc.hargaTempSatuan = hargaTemp
             }
-            vc.pemelihVC = sender as! Int
+           
         }
         
         if segue.identifier == "kategori" {
@@ -342,6 +315,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
             }
         }
     }
+    
 }
 
 
@@ -382,6 +356,7 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
             print("error")
             break
         }
+        enabledDoneButton()
         return cell
     }
     
@@ -411,6 +386,7 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
             self.addImageButton.isHidden = true
             self.collection.isHidden = false
         }
+        enabledDoneButton()
     }
     
     
@@ -439,13 +415,62 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
 }
 
 extension EditBarangViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let textFieldTag = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
-        if (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil) {
-            print("row 1")
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let textFieldRow = textField.tag
+        
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Barcode harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            barcodeTemp = textField.text!
         }
-        if (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) != nil) {
-            print("row 222222")
+        
+        if textFieldRow == 1{
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama produk harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            namaTemp = textField.text!
         }
+        
+        if textFieldRow == 2 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Kategori harus dipilih", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            kategoriTemp = textField.text!
+        }
+        
+        if textFieldRow == 3 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Distributor harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            distributorTemp = textField.text!
+        }
+        
+        if textFieldRow == 4 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "stok harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                stokTemp = 0
+            }
+            else{
+                stokTemp = Int(textField.text!)
+            }
+        }
+        
+        if textFieldRow == 5 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Harga harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                hargaTemp = 0
+            }
+            else{
+                hargaTemp = Int(textField.text!)
+            }
+        }
+        print(barcodeTemp)
+        print(namaTemp)
+        print(kategoriTemp)
+        print(distributorTemp)
+        print("\(stokTemp!)")
+        print("\(hargaTemp!)")
+        enabledDoneButton()
     }
 }
