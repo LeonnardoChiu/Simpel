@@ -21,6 +21,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     /// untuk search bar
     let searchController = UISearchController(searchResultsController: nil)
     var originalItem: [Inventory] = []
+    var originalItemTemp: [Inventory] = []
     var searchedItem: [Inventory] = []
     var selectedItem: Inventory!
     var isSearchBarEmpty: Bool {
@@ -143,7 +144,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.QueryDatabase()
+       
         initSearchBar()
         
         self.hideKeyboardWhenTappedAround() 
@@ -154,7 +155,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         }*/
     
         refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refeeshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
         self.tableView.refreshControl = refeeshControl
     }
     
@@ -167,7 +168,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
-        
+         self.QueryDatabase()
     }
     
     // MARK: - objc query database
@@ -234,7 +235,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - init data model
     func initDataModel() {
+        originalItemTemp.removeAll()
         for countData in data {
+            let id = countData.recordID
             let namaItem = countData.value(forKey: "NameProduct") as! String
             let stock = countData.value(forKey: "Stock") as! Int
             let price = countData.value(forKey: "Price") as! Int
@@ -250,10 +253,29 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
                 itemImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-            
-            originalItem.append(Inventory(imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit))
-            
+            originalItemTemp.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit))
         }
+        
+        if originalItemTemp.count != originalItem.count{
+            originalItem = originalItemTemp
+        }else{
+            var pengecek = false
+            var tempangka = 0
+            for i in originalItemTemp{
+                if i.version != originalItem[tempangka].version{
+                    pengecek = true
+                    print(pengecek)
+                }
+                tempangka = tempangka + 1
+            }
+            
+            if pengecek == true {
+                originalItem = originalItemTemp
+            }
+        }
+        
+        
+       
     }
     
     // MARK: - function untuk filtering item

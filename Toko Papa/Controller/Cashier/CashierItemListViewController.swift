@@ -111,7 +111,7 @@ class CashierItemListViewController: UIViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = false
         
-        searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
+        //searchController.searchBar.scopeButtonTitles = ["All", "Food", "Tools", "Misc", "· · ·"]
         searchController.searchBar.sizeToFit()
         searchController.searchBar.delegate = self
     }
