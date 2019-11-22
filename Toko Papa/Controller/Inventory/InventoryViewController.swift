@@ -10,15 +10,27 @@ import UIKit
 import CloudKit
 
 class InventoryViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
+    // MARK: - Variable
     let refeeshControl = UIRefreshControl()
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
     var filterString: String? = "NameProduct"
-    
-   
     var image: CKAsset?
+    var sorting = true
     
-    var sorting = false
+    /// untuk search bar
+    let searchController = UISearchController(searchResultsController: nil)
+    var originalItem: [Inventory] = []
+    var searchedItem: [Inventory] = []
+    var selectedItem: Inventory!
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
+   
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!{
         didSet {
             tableView.tableFooterView = UIView(frame: .zero)
@@ -29,11 +41,34 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        if isFiltering {
+            //searchFooter.setIsFilteringToShow(filteredItemCount: filteredItem.count, of: myItem.count)
+            return searchedItem.count
+        } else {
+            //searchFooter.setNotFiltering()
+            return originalItem.count
+        }
+        //return data.count
     }
     
+    // MARK: - cell for row at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PostView
+        
+        cell.accessoryType = .disclosureIndicator
+        if isFiltering {
+            cell.namaProductLabel.text = searchedItem[indexPath.row].namaItem
+            cell.stockLabel.text = "Stock Left : \(searchedItem[indexPath.row].stock)"
+            cell.gambarCell.image = searchedItem[indexPath.row].imageItem
+            return cell
+        } else {
+            
+            cell.namaProductLabel.text = originalItem[indexPath.row].namaItem
+            cell.stockLabel.text = "Stock Left : \(originalItem[indexPath.row].stock)"
+            cell.gambarCell.image = originalItem[indexPath.row].imageItem
+            return cell
+        }
+        /*
         let nama = data[indexPath.row].value(forKey: "NameProduct") as! String
         let stock = data[indexPath.row].value(forKey: "Stock") as! Int
         image = (data[indexPath.row].value(forKey: "Images") as? [CKAsset])?.first
@@ -44,18 +79,33 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         cell.namaProductLabel.text = nama
         cell.stockLabel.text = "Stock Left : \(stock)"
         cell.accessoryType = .disclosureIndicator
-        return cell
+ */
+        //return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "detail", sender: data[indexPath.row])
-        tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        if isFiltering {
+            selectedItem = searchedItem[indexPath.row]
+            tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+            
+            presentedViewController?.dismiss(animated: false) {
+                self.performSegue(withIdentifier: "detail", sender: self.selectedItem)
+            }
+        } else {
+          selectedItem = originalItem[indexPath.row]
+            tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+            performSegue(withIdentifier: "detail", sender: selectedItem)
+        }
+        
+        //performSegue(withIdentifier: "detail", sender: data[indexPath.row])
+        //tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail"{
             let destData = segue.destination as! DetailBarangViewController
-            destData.detailBarangCkrecord = sender as! CKRecord
+            destData.itemDetail = selectedItem
+            //destData.detailBarangCkrecord = sender as! CKRecord
         }
     }
     
@@ -90,44 +140,57 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         }
     }
     
-
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.QueryDatabase()
+        initSearchBar()
+        
         self.hideKeyboardWhenTappedAround() 
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        DispatchQueue.main.async{
+        /*DispatchQueue.main.async{
+            self.tableView.reloadData()
+        }*/
+    
+        refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refeeshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.tableView.refreshControl = refeeshControl
+    }
+    
+    @objc func refresh() {
+        DispatchQueue.main.async {
+            self.tableView.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
-        refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
-        self.tableView.refreshControl = refeeshControl
+    }
+    
+    // MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
         
     }
     
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-            self.QueryDatabase()
-    }
-    
+    // MARK: - objc query database
     @objc func QueryDatabase(){
-          let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
-          let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
-        query.sortDescriptors = [sortDesc]
-          database.perform(query, inZoneWith: nil) { (record, _) in
-              guard let record = record else {return}
-                //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
-              self.data = record
-              DispatchQueue.main.async {
-                  self.tableView.refreshControl?.endRefreshing()
-                  self.tableView.reloadData()
-              }
-          }
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
+    
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+        //query.sortDescriptors = [sortDesc]
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initDataModel()
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
       }
 
     
-    @IBOutlet weak var sortButton: UIButton!
+    /*@IBOutlet weak var sortButton: UIButton!
     @IBAction func SortAsceDesc(_ sender: Any) {
         let imageDesc = UIImage(named: "descen")
         let imageAsce = UIImage(named: "ascen")
@@ -143,7 +206,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         }
         self.QueryDatabase()
     }
-    
+    */
     
     @IBAction func unwindFromFilterVC(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? FilterTableViewController else { return }
@@ -154,16 +217,53 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         guard let sourceViewController = unwindSegue.source as? InventoryViewController else { return }
         // Use data from the view controller which initiated the unwind segue
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    // MARK: - init search bar
+    var isSort: Bool = false
+    func initSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Cari barang"
+       
+        searchController.searchBar.showsSearchResultsButton = true
+        navigationItem.searchController = searchController
+        searchController.searchBar.setImage(UIImage(systemName: "arrow.up"), for: .resultsList, state: .normal)
+        searchController.searchBar.delegate = self
+        //self.searchBar.delegate = searchController as? UISearchBarDelegate
     }
-    */
-
+    
+    // MARK: - init data model
+    func initDataModel() {
+        for countData in data {
+            let namaItem = countData.value(forKey: "NameProduct") as! String
+            let stock = countData.value(forKey: "Stock") as! Int
+            let price = countData.value(forKey: "Price") as! Int
+            let barcode = countData.value(forKey: "Barcode") as! String
+            let category = countData.value(forKey: "Category") as! String
+            let distributor = countData.value(forKey: "Distributor") as! String
+            let version = countData.value(forKey: "Version") as! Int
+            let unit = countData.value(forKey: "Unit") as! String
+            
+            var itemImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                itemImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            
+            originalItem.append(Inventory(imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit))
+            
+        }
+    }
+    
+    // MARK: - function untuk filtering item
+    func filterContentsForSearch(_ searchText: String) {
+        searchedItem = originalItem.filter({ (item) -> Bool in
+            return item.namaItem.lowercased().contains(searchText.lowercased())
+        })
+            tableView.reloadData()
+    }
+    
 }
 
 
@@ -171,4 +271,37 @@ class PostView: UITableViewCell{
     @IBOutlet weak var namaProductLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     @IBOutlet weak var gambarCell: UIImageView!
+}
+/// extension untuk text field delegate
+extension InventoryViewController: UITextFieldDelegate {
+    
+}
+/// extension untuk search bar
+extension InventoryViewController: UISearchBarDelegate, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentsForSearch(searchController.searchBar.text!)
+    }
+
+    /// untuk sort button dalam search bar
+    func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
+        if isSort == false {
+            searchBar.setImage(UIImage(systemName: "arrow.down"), for: .resultsList, state: .normal)
+            isSort = true
+            sorting = true
+            originalItem.sort(by: { $0.namaItem > $1.namaItem })
+        } else {
+            searchBar.setImage(UIImage(systemName: "arrow.up"), for: .resultsList, state: .normal)
+            isSort = false
+            sorting = false
+            originalItem.sort(by: { $0.namaItem < $1.namaItem })
+            print(originalItem.count)
+            print(searchedItem.count)
+        }
+        tableView.reloadData()
+    }
+    /// begin text editing
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("tekan")
+    }
+    
 }

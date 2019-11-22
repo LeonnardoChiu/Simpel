@@ -17,6 +17,10 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     @IBOutlet weak var gambar: UIImageView!
     var img: CKAsset?
     
+    // MARK: - Variable
+    var itemDetail: Inventory?
+    var myItem: [Inventory] = []
+    
     var namaCell: [String] = ["Barcode", "Kategori","Distributor", "Stok"]
     var isiCell:[String] = []
     @IBOutlet weak var tableView: UITableView!{
@@ -26,12 +30,17 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     }
     
     func appendIsiCell(){
-        isiCell.append(detailBarangCkrecord.value(forKey: "Barcode") as! String)
+        /*isiCell.append(detailBarangCkrecord.value(forKey: "Barcode") as! String)
         isiCell.append(detailBarangCkrecord.value(forKey: "Category") as! String)
         isiCell.append(detailBarangCkrecord.value(forKey: "Distributor") as! String)
-        isiCell.append(String(detailBarangCkrecord.value(forKey: "Stock") as! Int))
-    
+        isiCell.append(String(detailBarangCkrecord.value(forKey: "Stock") as! Int))*/
+        isiCell.append(itemDetail!.barcode)
+        isiCell.append(itemDetail!.category)
+        isiCell.append(itemDetail!.distributor)
+        isiCell.append(String(itemDetail!.stock))
+
     }
+    
     func showImage(){
         img = (detailBarangCkrecord.value(forKey: "Images") as? [CKAsset])?.first
         if let image = img, let url = image.fileURL, let data = NSData(contentsOf: url) {
@@ -39,18 +48,25 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
             self.gambar.contentMode = .scaleAspectFill
         }
     }
+    
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.hideKeyboardWhenTappedAround() 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         appendIsiCell()
-        namaBarangDetailLabel.text = detailBarangCkrecord.value(forKey: "NameProduct") as! String
-        showImage()
+        
+        namaBarangDetailLabel.text = itemDetail?.namaItem
+        gambar.image = itemDetail?.imageItem
+       //namaBarangDetailLabel.text = detailBarangCkrecord.value(forKey: "NameProduct") as! String
+        //showImage()
         
         // Do any additional setup after loading the view.
     }
     
+    // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         self.view.reloadInputViews()
     }
@@ -75,21 +91,29 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cellDetail = tableView.dequeueReusableCell(withIdentifier: "detail", for: indexPath) as! DetailBarangCell
+        let cellDetail = tableView.dequeueReusableCell(withIdentifier: "detail", for: indexPath) as! DetailBarangCell
         let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! DetailPriceListCell
         
         
         if indexPath.section == 0{
+            /*cellDetail.namaCellDetailLabel.text = namaCell[indexPath.row]
+            cellDetail.isiCellDetailLabel.text = isiCell[indexPath.row]
+            cellDetail.namaCellDetailLabel.font = UIFont.systemFont(ofSize: 14)*/
             cellDetail.namaCellDetailLabel.text = namaCell[indexPath.row]
             cellDetail.isiCellDetailLabel.text = isiCell[indexPath.row]
             cellDetail.namaCellDetailLabel.font = UIFont.systemFont(ofSize: 14)
+            
             return cellDetail
         }
         if indexPath.section == 1 {
-            let price = detailBarangCkrecord.value(forKey: "Price") as! Int
+            /*let price = detailBarangCkrecord.value(forKey: "Price") as! Int
             cellPrice.Pricelist.text = price.commaRepresentation
             cellPrice.Pricelist.font = UIFont.systemFont(ofSize: 14)
-            cellPrice.unitcelLabel.text = detailBarangCkrecord.value(forKey: "Unit") as! String
+            cellPrice.unitcelLabel.text = detailBarangCkrecord.value(forKey: "Unit") as! String*/
+            let price = itemDetail!.price
+            cellPrice.Pricelist.text = price.commaRepresentation
+            cellPrice.unitcelLabel.text = itemDetail!.unit
+            
             return cellPrice
         }
         
@@ -107,13 +131,15 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     
     
     @IBAction func editButton(_ sender: Any) {
-        performSegue(withIdentifier: "edit", sender: detailBarangCkrecord)
+        //performSegue(withIdentifier: "edit", sender: detailBarangCkrecord)
+        performSegue(withIdentifier: "edit", sender: itemDetail)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit"{
             let destData = segue.destination as! EditBarangViewController
             destData.editCKrecord = sender as! CKRecord
+            destData.editItem = itemDetail
         }
     }
     /*

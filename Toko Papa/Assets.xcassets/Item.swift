@@ -22,5 +22,4 @@ class Item {
         self.price = price
         self.qty = qty
     }
-    
 }

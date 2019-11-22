@@ -9,8 +9,8 @@
 import UIKit
 
 class FilterTableViewController: UITableViewController {
-    let filter: [String] = ["Alphabetical (A-Z)", "Category", "Stock"]
-    let stringFilterAtCloudKit = ["NameProduct", "Category", "Stock"]
+    let filter: [String] = ["Alphabetical (A-Z)", "Category", "Stock", "Price"]
+    let stringFilterAtCloudKit = ["NameProduct", "Category", "Stock", "Price"]
     var SelectedUnit: String?
     override func viewDidLoad() {
         super.viewDidLoad()
