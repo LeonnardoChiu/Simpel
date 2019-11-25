@@ -17,7 +17,7 @@ class ChooseRoleViewController: UIViewController {
     /// database
     let database = CKContainer.default().publicCloudDatabase
     var data: CKRecord!
-    
+    var modelPemilik: People?
     // MARK: - IBOutlet
     @IBOutlet weak var ownerView: UIView! {
         didSet {
@@ -30,20 +30,31 @@ class ChooseRoleViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        let gesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
+        let gestureOwner: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Owner))
         // or declare like this
-        let gesture2: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap))
+        let gestureKaryawan: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Karyawan))
 
         
-        self.ownerView.addGestureRecognizer(gesture)
-        self.karyawanView.addGestureRecognizer(gesture2)
+        self.ownerView.addGestureRecognizer(gestureOwner)
+        self.karyawanView.addGestureRecognizer(gestureKaryawan)
 
     }
     
     
     
-    @objc func tap() {
+    @objc func Owner() {
+       performSegue(withIdentifier: "ownerToko", sender: nil)
+    }
+    
+    @objc func Karyawan() {
         print("AAAAA")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       if segue.identifier == "ownerToko"{
+            guard let vc = segue.destination as? TokoViewController else { return }
+                vc.modelPemilik = modelPemilik
+        }
     }
     
     // MARK: - View will appear

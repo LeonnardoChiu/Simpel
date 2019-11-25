@@ -34,6 +34,7 @@ class EditBarangViewController: UIViewController{
     var editCKrecord: CKRecord!
     var kategoriSekarang: String?
     var isiTextField: [String] = []
+    var data = [CKRecord]()
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
     @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
@@ -141,7 +142,7 @@ class EditBarangViewController: UIViewController{
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
     }
-    var data = [CKRecord]()
+   
     @objc func QueryDatabase(){
         let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
     
@@ -158,6 +159,8 @@ class EditBarangViewController: UIViewController{
             }
         }
     }
+    
+    // MARK: - UPDATE TO CLOUDE
     func updateToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String, model:Inventory){
             var editNote: CKRecord?
             

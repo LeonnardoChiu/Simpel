@@ -17,7 +17,7 @@ class OnboardingViewController: UIViewController {
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
     var people: [People] = []
-    
+    var model: People?
     // MARK: - IBOutlet list
     @IBOutlet weak var errorLbl: UILabel!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -29,6 +29,7 @@ class OnboardingViewController: UIViewController {
         
         /*let vc: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard")
         
+         /// segue pake storyboard ID
         let appDelegate = UIApplication.shared.windows
         appDelegate.first?.rootViewController = vc
         self.present(vc, animated: true, completion: nil)*/
@@ -77,13 +78,14 @@ class OnboardingViewController: UIViewController {
     func initDataModel() {
         people.removeAll()
         for countData in data {
+            let id = countData.recordID
             let username = countData.value(forKey: "UserName") as! String
             let password = countData.value(forKey: "Password") as! String
             let firstName = countData.value(forKey: "firstName") as! String
             let lastName = countData.value(forKey: "lastName") as! String
             let phone = countData.value(forKey: "phoneNumber") as! String
             
-            people.append(People(username: username, password: password, firstName: firstName, lastName: lastName, phone: phone))
+            people.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone))
         }
     }
     
@@ -103,9 +105,11 @@ class OnboardingViewController: UIViewController {
             errorLbl.isHidden = false
         } else {
             var cek = false
-            for i in people{
-                if i.username == usernameTextField.text, i.password == passwordTextField.text{
+            
+            for ppl in people{
+                if ppl.username == usernameTextField.text, ppl.password == passwordTextField.text{
                     cek = true
+                    model = ppl
                     break
                 }
             }
@@ -119,6 +123,13 @@ class OnboardingViewController: UIViewController {
             print(String(passwordTextField.text!))
             errorLbl.isHidden = true
             
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       if segue.identifier == "toChooseRole"{
+            guard let vc = segue.destination as? ChooseRoleViewController else { return }
+                vc.modelPemilik = model
         }
     }
 

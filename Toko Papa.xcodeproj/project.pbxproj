@@ -48,6 +48,7 @@
 		BD8040E2238BBA2E00FEC5B0 /* RoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8040E1238BBA2E00FEC5B0 /* RoleViewController.swift */; };
 		BD8040E4238BBA8300FEC5B0 /* RoleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8040E3238BBA8300FEC5B0 /* RoleViewCell.swift */; };
 		BD8040E6238BC67F00FEC5B0 /* ChooseRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8040E5238BC67F00FEC5B0 /* ChooseRoleViewController.swift */; };
+		BD8040E8238BDA0700FEC5B0 /* TokoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8040E7238BDA0700FEC5B0 /* TokoViewController.swift */; };
 		BD8D64AA2371864500A2080D /* EmployeeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D64A92371864500A2080D /* EmployeeProfileViewController.swift */; };
 		BDA38F3E237BC3C300FCD5BC /* CashierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA38F3C237BC3C300FCD5BC /* CashierCell.swift */; };
 		BDA38F3F237BC3C300FCD5BC /* CashierCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA38F3D237BC3C300FCD5BC /* CashierCell.xib */; };
@@ -122,6 +123,7 @@
 		BD8040E1238BBA2E00FEC5B0 /* RoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleViewController.swift; sourceTree = "<group>"; };
 		BD8040E3238BBA8300FEC5B0 /* RoleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleViewCell.swift; sourceTree = "<group>"; };
 		BD8040E5238BC67F00FEC5B0 /* ChooseRoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRoleViewController.swift; sourceTree = "<group>"; };
+		BD8040E7238BDA0700FEC5B0 /* TokoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokoViewController.swift; sourceTree = "<group>"; };
 		BD8D64A92371864500A2080D /* EmployeeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeProfileViewController.swift; sourceTree = "<group>"; };
 		BDA38F3C237BC3C300FCD5BC /* CashierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashierCell.swift; sourceTree = "<group>"; };
 		BDA38F3D237BC3C300FCD5BC /* CashierCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CashierCell.xib; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				BD8040E1238BBA2E00FEC5B0 /* RoleViewController.swift */,
 				BD8040E3238BBA8300FEC5B0 /* RoleViewCell.swift */,
 				BD8040E5238BC67F00FEC5B0 /* ChooseRoleViewController.swift */,
+				BD8040E7238BDA0700FEC5B0 /* TokoViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				BD04878723729EF1002E0586 /* AddEmployeeViewController.swift in Sources */,
 				BD13BF65237BFFC600172A92 /* PaymentMethodViewController.swift in Sources */,
 				BD7D39A0237BBA7900ACC1FA /* itemListTableCell.swift in Sources */,
+				BD8040E8238BDA0700FEC5B0 /* TokoViewController.swift in Sources */,
 				68C8E4E723826B3100A5FEA0 /* TambahSatuanViewController.swift in Sources */,
 				6838F9552366984900FCC0D0 /* SceneDelegate.swift in Sources */,
 				68C8E4EB2383921F00A5FEA0 /* BarcodeViewController.swift in Sources */,
