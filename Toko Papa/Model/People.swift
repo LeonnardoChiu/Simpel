@@ -9,19 +9,17 @@
 import Foundation
 
 class People {
+    var username: String
+    var password: String
     var firstName: String
     var lastName: String
-    var store: String
-    var role: String
-    var email: String
     var phone: String
     
-    init(firstName: String, lastName: String, store: String, role: String, email: String, phone: String) {
+    init(username: String, password: String, firstName: String, lastName: String, phone: String) {
+        self.username = username
+        self.password = password
         self.firstName = firstName
         self.lastName = lastName
-        self.store = store
-        self.role = role
-        self.email = email
         self.phone = phone
     }
 }
