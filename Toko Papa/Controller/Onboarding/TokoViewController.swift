@@ -19,6 +19,7 @@ class TokoViewController: UIViewController {
     var tempBuatCekToko: Int?
     // MARK: - IBOutlet
     @IBOutlet weak var namaTokotextField: UITextField!
+    @IBOutlet weak var selesai: UIBarButtonItem!
     
     // MARK: - View did load
     override func viewDidLoad() {
@@ -41,7 +42,7 @@ class TokoViewController: UIViewController {
     
     @IBAction func doneBtn(_ sender: Any) {
         saveToCloud(namaToko: namaTokotextField.text!)
-        
+        selesai.isEnabled = true
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
     

@@ -27,10 +27,10 @@ class OnboardingViewController: UIViewController {
         checkForm()
         //let vc: UIViewController = UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "reportViewController") as! reportViewController
           /// segue pake storyboard ID
-        
-       
-        
-        
+    }
+    @IBAction func unwindFromLoginVC(segue: UIStoryboardSegue){
+        guard let satuanVC = segue.source as? RegisterViewController else { return }
+            QueryDatabase()
     }
     
     @IBAction func registerBtn(_ sender: UIButton) {
@@ -58,7 +58,7 @@ class OnboardingViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        self.hideKeyboardWhenTappedAround()
         errorLbl.isHidden = true
     }
     

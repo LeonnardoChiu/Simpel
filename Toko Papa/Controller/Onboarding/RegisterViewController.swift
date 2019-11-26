@@ -17,6 +17,7 @@ class RegisterViewController: UIViewController {
     var images = UIImage()
     var roleTemp: String = ""
     
+    @IBOutlet weak var selesai: UIBarButtonItem!
     /// Database
     let database = CKContainer.default().publicCloudDatabase
     var data: CKRecord!
@@ -28,27 +29,46 @@ class RegisterViewController: UIViewController {
         }
     }
     @IBOutlet weak var profileImages: UIImageView!
-    
+    var counter = 0
+    var timer = Timer()
+
     @IBAction func doneBtn(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
-               
+        var alert2: UIAlertController = UIAlertController()
         let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
         
                
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
-            
+            self.appendAdd()
+            self.selesai.isEnabled = true
+            alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
+            self.present(alert2, animated: true, completion: nil)
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
         }
-        appendAdd()
-        alert = UIAlertController(title: "Sukses", message: "Berhasil menambahkan karyawan", preferredStyle: .alert)
-               
+        
+        
+        
+        
+        alert = UIAlertController(title: "Data Sudah Bener?", message: "Jika sudah bener tekan ok", preferredStyle: .alert)
+        alert.addAction(cancel)
         alert.addAction(confirm)
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func timerAction() {
+        counter += 1
+        print(counter)
+        if counter == 15 {
+            counter = 0
+            timer.invalidate()
+            performSegue(withIdentifier: "backtoLogin", sender: nil)
+        }
     }
     
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.hideKeyboardWhenTappedAround()
         initProfileImage()
     }
     
@@ -172,11 +192,12 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             cell.textField.placeholder = placeHoldersSection0[indexPath.row]
-//            if indexPath.row == 1 {
-//                cell.textField.textContentType = .password
-//            }
+            
         } else {
             cell.textField.placeholder = placeHolders[indexPath.row]
+            if indexPath.row == 2 {
+                cell.textField.keyboardType = .numberPad
+            }
         }
         
         return cell
