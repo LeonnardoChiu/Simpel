@@ -89,9 +89,9 @@ class RegisterViewController: UIViewController {
         record.setValue(lastName, forKey: "lastName")
 //        record.setValue("", forKey: "role")
         record.setValue(phoneNumber, forKey: "phoneNumber")
+         record.setValue("-", forKey: "role")
         
-        
-//        record.setValue("", forKey: "TokoID")
+        record.setValue("-", forKey: "TokoID")
         
         database.save(record) { (record, _) in
             guard record != nil else { return }

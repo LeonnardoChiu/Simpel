@@ -23,14 +23,16 @@ class TokoViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        QueryDatabaseProfile()
-        QueryDatabaseToko()
+        
         // Do any additional setup after loading the view.
     }
     
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        QueryDatabaseProfile()
+        QueryDatabaseToko()
+        
     }
     
     var counter = 0
@@ -40,24 +42,23 @@ class TokoViewController: UIViewController {
     @IBAction func doneBtn(_ sender: Any) {
         saveToCloud(namaToko: namaTokotextField.text!)
         
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
     
     @objc func timerAction() {
         counter += 1
+        QueryDatabaseToko()
         print(counter)
-        if counter == 20 {
+        if counter == 8 {
             counter = 0
             timer.invalidate()
-            QueryDatabaseToko()
             var Idss: String?
             for i in dataToko{
-                if (i.value(forKey: "UniqCode") as! Int) == tempBuatCekToko{
+                if Int(i.value(forKey: "UniqCode") as! Int) == tempBuatCekToko{
                     Idss = i.recordID.recordName
                     break
                 }
             }
-            print(Idss!)
             updateToCloudProfil(tokoID: Idss!)
         }
     }
@@ -72,6 +73,7 @@ class TokoViewController: UIViewController {
             guard let record = record else {return}
                 
             self.dataToko = record
+            print(self.dataToko.count)
         }
     }
     
@@ -79,16 +81,17 @@ class TokoViewController: UIViewController {
     func saveToCloud(namaToko: String){
         let NewNote = CKRecord(recordType: "Toko")//ini buat data base baru
         NewNote.setValue(namaToko, forKey: "NamaToko")//ini ke tablenya
-        var unicode = dataToko.count
-        unicode = unicode + 1
+        var unicode = Int(generateRandomDigits(6))!
+        print(unicode)
         tempBuatCekToko = unicode
         NewNote.setValue(unicode, forKey: "UniqCode")
         database.save(NewNote) { (record, error) in
-             print(error)
              guard record != nil else { return}
              print("savaedddd")
          }
     }
+    
+    
     
     
     /// update
@@ -108,7 +111,6 @@ class TokoViewController: UIViewController {
                 if modelPemilik?.Id.recordName == edit.recordID.recordName{
                 editNote = edit
                     print("ASOOO")
-                    print(edit.value(forKey: "lastName"))
                 break
                 }
             }
@@ -126,5 +128,18 @@ class TokoViewController: UIViewController {
     
     
     
+    func generateRandomDigits(_ digitNumber: Int) -> String {
+        var number = ""
+        for i in 0..<digitNumber {
+            var randomNumber = arc4random_uniform(10)
+            while randomNumber == 0 && i == 0 {
+                randomNumber = arc4random_uniform(10)
+            }
+            number += "\(randomNumber)"
+        }
+        return number
+    }
 
+    
+    
 }

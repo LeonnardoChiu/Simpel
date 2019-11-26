@@ -26,13 +26,9 @@ class OnboardingViewController: UIViewController {
     @IBAction func loginBtn(_ sender: UIButton) {
         checkForm()
         //let vc: UIViewController = UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "reportViewController") as! reportViewController
+          /// segue pake storyboard ID
         
-        /*let vc: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard")
-        
-         /// segue pake storyboard ID
-        let appDelegate = UIApplication.shared.windows
-        appDelegate.first?.rootViewController = vc
-        self.present(vc, animated: true, completion: nil)*/
+       
         
         
     }
@@ -84,8 +80,9 @@ class OnboardingViewController: UIViewController {
             let firstName = countData.value(forKey: "firstName") as! String
             let lastName = countData.value(forKey: "lastName") as! String
             let phone = countData.value(forKey: "phoneNumber") as! String
-            
-            people.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone))
+            let roleee = countData.value(forKey: "role") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            people.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
         }
     }
     
@@ -115,7 +112,15 @@ class OnboardingViewController: UIViewController {
             }
             
             if cek == true{
-                performSegue(withIdentifier: "toChooseRole", sender: nil)
+                
+                if model?.role == "-" && model?.tokoID == "-" {
+                    performSegue(withIdentifier: "toChooseRole", sender: nil)
+                }else{
+                    let vc: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard")
+                      let appDelegate = UIApplication.shared.windows
+                      appDelegate.first?.rootViewController = vc
+                      self.present(vc, animated: true, completion: nil)
+                }
             }else{
                  presentAlert(withTitle: "Login Gagal", message: "UserName atau Password salahb")
             }
