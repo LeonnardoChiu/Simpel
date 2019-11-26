@@ -59,6 +59,7 @@ class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        passwordTextField.isSecureTextEntry = true
         errorLbl.isHidden = true
     }
     
@@ -116,10 +117,40 @@ class OnboardingViewController: UIViewController {
                 if model?.role == "-" && model?.tokoID == "-" {
                     performSegue(withIdentifier: "toChooseRole", sender: nil)
                 }else{
-                    let vc: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard")
-                      let appDelegate = UIApplication.shared.windows
-                      appDelegate.first?.rootViewController = vc
-                      self.present(vc, animated: true, completion: nil)
+                    
+                    if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                        vc.tes = "ini dari page login ke tab bar ke report"
+                        
+                        //navigationController?.setNavigationBarHidden(false, animated: true)
+                        let appDelegate = UIApplication.shared.windows
+                        appDelegate.first?.rootViewController = vc
+                        self.present(vc, animated: true, completion: nil)
+                        
+                    }
+                    
+                    
+                    
+                    /// segue using storyboard ID dan send data
+                    /*if let vc: InventoryViewController = UIStoryboard(name: "Inventory", bundle: nil).instantiateViewController(identifier: "InventoryViewController") as? InventoryViewController {
+                        navigationController?.setNavigationBarHidden(false, animated: true)
+                        //vc.tempStringDariLogin = "HIYAAAAAA"
+                        
+                        let appDelegate = UIApplication.shared.windows
+                        appDelegate.first?.rootViewController = vc
+                        self.present(vc, animated: true)
+                    }*/
+                    
+                    
+                navigationController?.setNavigationBarHidden(false, animated: true)
+                    //let mainStoryboard: UIStoryboard = UIStoryboard(name: "Inventory", bundle: nil)
+                    //let vcc: UIViewController = mainStoryboard.instantiateViewController(identifier: "InventoryViewController") as! InventoryViewController
+                    
+                    
+//                    let appDelegate = UIApplication.shared.windows
+//                    appDelegate.first?.rootViewController = vc
+                    
+                  
+                    //self.present(vc, animated: true, completion: nil)
                 }
             }else{
                  presentAlert(withTitle: "Login Gagal", message: "UserName atau Password salahb")

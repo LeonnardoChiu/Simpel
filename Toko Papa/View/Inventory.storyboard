@@ -11,7 +11,7 @@
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
             <objects>
-                <viewController id="jYQ-Ft-IOO" customClass="InventoryViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InventoryViewController" id="jYQ-Ft-IOO" customClass="InventoryViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rw3-dq-5cW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -105,7 +105,7 @@
         <!--Inventory-->
         <scene sceneID="geb-G7-4fh">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MeF-Xa-vcq" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="InventoryStoryBoard" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MeF-Xa-vcq" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Inventory" image="Inventory" id="tcq-5P-Xp5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="usU-Eg-FBl">

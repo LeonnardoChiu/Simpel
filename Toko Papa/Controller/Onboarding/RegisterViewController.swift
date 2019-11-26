@@ -16,6 +16,14 @@ class RegisterViewController: UIViewController {
     var image: CKAsset?
     var images = UIImage()
     var roleTemp: String = ""
+    var usernameTemp = ""
+    var passwordTemp = ""
+    var namaDepanTemp = ""
+    var namaBelakangTemp = ""
+    var nomorHpTemp = ""
+    
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var errorLabel: UILabel!
     
     @IBOutlet weak var selesai: UIBarButtonItem!
     /// Database
@@ -69,6 +77,8 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        doneButton.isEnabled = false
+        errorLabel.isHidden = true
         initProfileImage()
     }
     
@@ -92,6 +102,22 @@ class RegisterViewController: UIViewController {
             self.images = image
             self.profileImages.image = self.images
             self.profileImages.contentMode = .scaleAspectFill
+            self.validate()
+        }
+    }
+    
+    func validate() {
+        if usernameTemp == "" || passwordTemp == "" || namaDepanTemp == "" || namaBelakangTemp == "" || nomorHpTemp == "" {
+            doneButton.isEnabled = false
+        }
+
+        else if profileImages.image == UIImage(systemName: "camera.circle") {
+            errorLabel.isHidden = false
+            doneButton.isEnabled = false
+        }
+        else {
+            doneButton.isEnabled = true
+            errorLabel.isHidden = true
         }
     }
     
@@ -181,6 +207,7 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
             performSegue(withIdentifier: "toRole", sender: nil)
         }
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -193,15 +220,69 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             cell.textField.placeholder = placeHoldersSection0[indexPath.row]
             
+            if indexPath.row == 1 {
+                cell.textField.isSecureTextEntry = true
+            }
+            cell.textField.tag = indexPath.row
+            
         } else {
             cell.textField.placeholder = placeHolders[indexPath.row]
             if indexPath.row == 2 {
                 cell.textField.keyboardType = .numberPad
             }
+            cell.textField.tag = indexPath.row + 2
         }
         
         return cell
     }
     
     
+}
+
+extension RegisterViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let textFieldRow = textField.tag
+        
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Username harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            usernameTemp = textField.text!
+            
+        }
+        
+        if textFieldRow == 1 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Password harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            passwordTemp = textField.text!
+            
+        }
+        
+        if textFieldRow == 2 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama Depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            namaDepanTemp = textField.text!
+            
+        }
+        
+        if textFieldRow == 3 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama Belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            namaBelakangTemp = textField.text!
+            
+        }
+        
+        if textFieldRow == 4 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Hp harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            nomorHpTemp = textField.text!
+            
+        }
+        validate()
+        
+    }
 }

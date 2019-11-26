@@ -61,9 +61,19 @@ class TokoViewController: UIViewController {
                 }
             }
             updateToCloudProfil(tokoID: Idss!)
+            let vc: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard")
+            
+            
+            let appDelegate = UIApplication.shared.windows
+            appDelegate.first?.rootViewController = vc
+            
+            
+            
+            self.present(vc, animated: true, completion: nil)
+            
+            
         }
     }
-    
     
     // MARK: - Function
     /// save

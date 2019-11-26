@@ -39,12 +39,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VMs-ke-Fk3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-33.333333333333336" y="-154.01785714285714"/>
+            <point key="canvasLocation" x="-149" y="1"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="dgL-Q3-eME">
             <objects>
-                <tabBarController storyboardIdentifier="MainStoryboard" useStoryboardIdentifierAsRestorationIdentifier="YES" id="G4s-Oe-5s6" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainStoryboard" useStoryboardIdentifierAsRestorationIdentifier="YES" id="G4s-Oe-5s6" customClass="MainTabBarController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="WcV-bH-1vH"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="K5K-C9-ZYQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -201,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gU8-Hi-UJN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-826.08695652173924" y="-889.28571428571422"/>
+            <point key="canvasLocation" x="-942" y="-735"/>
         </scene>
         <!--Pilih Role-->
         <scene sceneID="fwC-GY-2Mh">
@@ -262,7 +262,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oex-YC-muy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-826" y="-154"/>
+            <point key="canvasLocation" x="-942" y="1"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y66-OQ-0w4">
@@ -280,7 +280,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ht6-nc-qmU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1606" y="-889"/>
+            <point key="canvasLocation" x="-1723" y="-735"/>
         </scene>
         <!--Register-->
         <scene sceneID="zUh-LO-0YR">
@@ -331,14 +331,26 @@
                                     <outlet property="delegate" destination="I3e-9D-o6q" id="as1-hT-BJN"/>
                                 </connections>
                             </tableView>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E8g-eR-fYT">
-                                <rect key="frame" x="147" y="119.5" width="120" height="121"/>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E8g-eR-fYT">
+                                <rect key="frame" x="147" y="119.5" width="120" height="120"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="0BQ-6D-Gqv"/>
                                     <constraint firstAttribute="height" constant="121" id="DjF-Vc-IhD"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="60"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Foto tidak boleh kosong" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lh1-QF-rzz">
+                                <rect key="frame" x="20" y="248" width="374" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -360,6 +372,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="mTP-cc-5NC" id="ZhK-Sy-tr3"/>
+                        <outlet property="errorLabel" destination="Lh1-QF-rzz" id="U1q-P5-9dg"/>
                         <outlet property="profileImages" destination="E8g-eR-fYT" id="jJg-zS-4Cf"/>
                         <outlet property="selesai" destination="mTP-cc-5NC" id="iNR-Xl-zWu"/>
                         <outlet property="tableView" destination="o2h-r1-XwD" id="Ufv-D4-2a3"/>
@@ -369,7 +383,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2h-J5-N5u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="iKt-g6-fMQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-33.333333333333336" y="-889.28571428571422"/>
+            <point key="canvasLocation" x="-149" y="-735"/>
         </scene>
     </scenes>
     <resources>

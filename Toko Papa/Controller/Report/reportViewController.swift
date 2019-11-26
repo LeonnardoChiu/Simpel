@@ -7,6 +7,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
     
+    var tempStringDariLogin: String = ""
     var totalSales = 700000
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto ", "600 ml"]
     var highestSalesLastUpdate = ["19.15", "19.15", "19.15"]
@@ -29,6 +30,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var selectedEditedItem = ""
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        var string = self.tabBarController as! MainTabBarController
+        print(string.tes)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        tabBarController?.hidesBottomBarWhenPushed = false
         selectedDay = day
         selectedMonth = "\(months[month])"
         selectedYear = year
@@ -38,7 +46,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //navigationController?.setNavigationBarHidden(false, animated: true)
+        print("DARI LOGIN INI BOSSSS : \(tempStringDariLogin)")
+
     }
     
     @IBAction func nextButtonClick(_ sender: Any) {
