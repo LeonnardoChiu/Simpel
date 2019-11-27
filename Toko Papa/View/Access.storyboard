@@ -10,7 +10,7 @@
         <!--Profile-->
         <scene sceneID="WDp-Z6-R6y">
             <objects>
-                <viewController id="XxA-7O-BZb" customClass="EmployeeProfileViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XxA-7O-BZb" customClass="EmployeeProfileViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RWs-y2-aX4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,7 +34,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="employeeDetailCell" id="WYe-mM-Z7y" customClass="EmployeeProfileCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="employeeDetailCell" id="WYe-mM-Z7y" customClass="EmployeeProfileCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WYe-mM-Z7y" id="XD1-3R-pvI">
@@ -107,7 +107,7 @@
         <!--Employee Access-->
         <scene sceneID="e8y-jX-8Dh">
             <objects>
-                <viewController id="B3l-mP-1Qs" customClass="EmployeeListViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EmployeeListViewController" id="B3l-mP-1Qs" customClass="EmployeeListViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Izh-h5-0bN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -116,7 +116,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="employeeCell" id="fWI-IB-B15" customClass="EmployeeListCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="employeeCell" id="fWI-IB-B15" customClass="EmployeeListCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fWI-IB-B15" id="37R-ZI-YBZ">
@@ -187,7 +187,7 @@
         <!--Edit Profile-->
         <scene sceneID="t93-J9-jkI">
             <objects>
-                <viewController id="ogX-2Q-lkT" customClass="EditEmployeeProfileViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ogX-2Q-lkT" customClass="EditEmployeeProfileViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Jt8-mY-th3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -204,7 +204,7 @@
                                 <rect key="frame" x="0.0" y="301" width="414" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="editFormCell" id="0ad-ju-dKj" customClass="EditEmployeeCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="editFormCell" id="0ad-ju-dKj" customClass="EditEmployeeCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ad-ju-dKj" id="PZN-Do-N9f">
@@ -277,7 +277,7 @@
         <!--Pilih Peran-->
         <scene sceneID="GX0-Um-6lx">
             <objects>
-                <viewController id="W3i-K7-eal" customClass="selectRoleViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="W3i-K7-eal" customClass="selectRoleViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x6l-qd-cyU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -339,7 +339,7 @@
         <!--Add New-->
         <scene sceneID="dzn-WX-h1B">
             <objects>
-                <viewController id="tAP-TY-hmV" customClass="AddEmployeeViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tAP-TY-hmV" customClass="AddEmployeeViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CWg-jf-HCx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -348,7 +348,7 @@
                                 <rect key="frame" x="0.0" y="300.5" width="414" height="561.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addFormCell" id="G3L-yM-Dpp" customClass="AddEmployeeCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addFormCell" id="G3L-yM-Dpp" customClass="AddEmployeeCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G3L-yM-Dpp" id="5bx-q3-hJK">
@@ -445,6 +445,6 @@
         <image name="Access" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2Us-eD-jvA"/>
+        <segue reference="av7-qc-laY"/>
     </inferredMetricsTieBreakers>
 </document>

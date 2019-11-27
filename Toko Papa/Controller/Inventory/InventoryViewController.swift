@@ -17,7 +17,6 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     var filterString: String? = "NameProduct"
     var image: CKAsset?
     var sorting = true
-    
     /// untuk search bar
     let searchController = UISearchController(searchResultsController: nil)
     var originalItem: [Inventory] = []

@@ -7,21 +7,25 @@
 //
 
 import Foundation
-
+import CloudKit
 class People {
+    var username: String
+    var password: String
     var firstName: String
     var lastName: String
-    var store: String
-    var role: String
-    var email: String
     var phone: String
+    var role: String
+    var Id: CKRecord.ID
+    var tokoID: String
     
-    init(firstName: String, lastName: String, store: String, role: String, email: String, phone: String) {
+    init(id: CKRecord.ID, username: String, password: String, firstName: String, lastName: String, phone: String, rolee: String, toko:String) {
+        self.Id = id
+        self.username = username
+        self.password = password
         self.firstName = firstName
         self.lastName = lastName
-        self.store = store
-        self.role = role
-        self.email = email
         self.phone = phone
+        self.role = rolee
+        self.tokoID = toko
     }
 }

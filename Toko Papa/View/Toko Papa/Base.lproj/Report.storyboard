@@ -10,7 +10,7 @@
         <!--Total Penjualan-->
         <scene sceneID="RqD-QI-1zZ">
             <objects>
-                <viewController id="Zbg-km-7Et" customClass="totalSalesViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Zbg-km-7Et" customClass="totalSalesViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V7S-91-toi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,7 +113,7 @@
         <!--Barang Baru Masuk-->
         <scene sceneID="Dp5-Wz-NNg">
             <objects>
-                <viewController id="tBx-QQ-0Pw" customClass="newItemViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tBx-QQ-0Pw" customClass="newItemViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="l5g-eP-mgR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -242,7 +242,7 @@
         <!--Penjualan Terbanyak-->
         <scene sceneID="mcL-Xo-2OS">
             <objects>
-                <viewController id="TOt-P6-Jc7" customClass="highestSalesViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="TOt-P6-Jc7" customClass="highestSalesViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hd5-Z0-3sS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -353,7 +353,7 @@
         <!--Barang Terakhir Diubah-->
         <scene sceneID="MY8-cl-ewo">
             <objects>
-                <viewController id="usv-Eu-NU4" customClass="editItemViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="usv-Eu-NU4" customClass="editItemViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="peH-oN-TIQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -483,7 +483,7 @@
         <!--Detail Perubahan Barang-->
         <scene sceneID="XhF-sg-X2C">
             <objects>
-                <viewController id="Vz9-b1-POz" customClass="editItemDetailViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Vz9-b1-POz" customClass="editItemDetailViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3nH-1V-ND5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -500,20 +500,20 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="editItemDetailTableCellID" id="CWM-Ou-oqc">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CWM-Ou-oqc" id="xC5-xN-8v6">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TLj-n3-e1j">
-                                                    <rect key="frame" x="20" y="11" width="34" height="21.5"/>
+                                                    <rect key="frame" x="20" y="11" width="34" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FcV-ls-TVe">
-                                                    <rect key="frame" x="352" y="11" width="42" height="21.5"/>
+                                                    <rect key="frame" x="352" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -561,7 +561,7 @@
         <!--Detail Penjualan-->
         <scene sceneID="De6-Ee-PDF">
             <objects>
-                <viewController storyboardIdentifier="salesDetailViewController" id="o8i-6g-uik" customClass="salesDetailViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="salesDetailViewController" id="o8i-6g-uik" customClass="salesDetailViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UEr-oL-yfa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -659,7 +659,7 @@
         <!--reportViewController-->
         <scene sceneID="WEp-KA-q02">
             <objects>
-                <viewController storyboardIdentifier="reportViewController" title="reportViewController" id="dJq-4D-OZY" customClass="reportViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="reportViewController" title="reportViewController" id="dJq-4D-OZY" customClass="reportViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5gX-Iu-Na3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -691,7 +691,7 @@
                                 <rect key="frame" x="0.0" y="178" width="414" height="718"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="dashboardTableCellID" rowHeight="61" id="cnC-fY-eFz" customClass="dashboardTableCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="dashboardTableCellID" rowHeight="61" id="cnC-fY-eFz" customClass="dashboardTableCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cnC-fY-eFz" id="wlD-58-o08">
@@ -809,7 +809,7 @@
         <!--Profile View Controller-->
         <scene sceneID="rKd-Zi-JWB">
             <objects>
-                <viewController id="QvK-nK-Zan" customClass="profileViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QvK-nK-Zan" customClass="profileViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="21h-An-ZGN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -880,7 +880,7 @@
         <!--Edit Profile View Controller-->
         <scene sceneID="BYF-KO-pZD">
             <objects>
-                <viewController id="kSO-Lo-rYl" customClass="editProfileViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="kSO-Lo-rYl" customClass="editProfileViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lAC-k5-4s3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -948,7 +948,7 @@
         <!--Calendar View Controller-->
         <scene sceneID="PxI-Qz-7FE">
             <objects>
-                <viewController storyboardIdentifier="calendarViewController" id="xWY-bH-VeU" customClass="calendarViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="calendarViewController" id="xWY-bH-VeU" customClass="calendarViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1BY-HK-0NB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -967,7 +967,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Calendar" id="fj1-H9-BcK" customClass="DateCollectionViewCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Calendar" id="fj1-H9-BcK" customClass="DateCollectionViewCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -1108,7 +1108,7 @@
         <!--Report-->
         <scene sceneID="7xt-9w-CI6">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jgr-LN-MuS" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ReportStoryboard" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jgr-LN-MuS" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Report" image="Report" id="K74-zh-VzN"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NEl-6q-yxT">
@@ -1136,7 +1136,7 @@
         <image name="questionmark.square.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="NPu-5l-lf5"/>
+        <segue reference="qr4-N4-7zq"/>
         <segue reference="k4u-mG-ugy"/>
     </inferredMetricsTieBreakers>
 </document>

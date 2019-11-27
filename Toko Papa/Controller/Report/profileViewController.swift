@@ -11,7 +11,6 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
     weak var delegate: EmployeeListViewController?
     
     // init model
-    var Budi = People(firstName: "Budi", lastName: "Santoso", store: "Toko Papa Jaya", role: "Papa", email: "budibudi@gmail.com", phone: "0812314123")
     
     var firstNameTemp = String()
     var lastNameTemp = String()
@@ -27,7 +26,7 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         
-        nameLabel.text = "\(Budi.firstName) \(Budi.lastName)"
+        //nameLabel.text = "\(Budi.firstName) \(Budi.lastName)"
         // Do any additional setup after loading the view.
     }
     
@@ -94,29 +93,29 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if indexPath == [0,0]{
             nameLabel.text = "Store Name"
-            valueLabel.text = Budi.store
+            //valueLabel.text = Budi.store
         }
         else if indexPath == [0,1]{
             nameLabel.text = "Role"
-            valueLabel.text = Budi.role
+            //valueLabel.text = Budi.role
         }
         else if indexPath == [0,2]{
             nameLabel.text = "Email"
-            valueLabel.text = Budi.email
+            //valueLabel.text = Budi.email
         }
         else if indexPath == [0,3]{
             nameLabel.text = "Phone Number"
-            valueLabel.text = Budi.phone
+            //valueLabel.text = Budi.phone
         }
         
         if indexPath == [1,0] {
-            nameLabel.text = "Security"
+            //nameLabel.text = "Security"
         }
         else if indexPath == [1,1] {
-            nameLabel.text = "About Us"
+            //nameLabel.text = "About Us"
         }
         else if indexPath == [1,2] {
-            nameLabel.text = "Sign Out"
+            //nameLabel.text = "Sign Out"
         }
         
         return cell
@@ -126,12 +125,12 @@ class profileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if segue.identifier == "editProfileSegue" {
             let destinationVC = segue.destination as? editProfileViewController
             
-            destinationVC!.firstName = Budi.firstName
-            destinationVC!.lastName = Budi.lastName
-            destinationVC!.store = Budi.store
-            destinationVC!.role =  Budi.role
-            destinationVC!.email = Budi.email
-            destinationVC!.phone = Budi.phone
+//            destinationVC!.firstName = Budi.firstName
+//            destinationVC!.lastName = Budi.lastName
+//            destinationVC!.store = Budi.store
+//            destinationVC!.role =  Budi.role
+//            destinationVC!.email = Budi.email
+//            destinationVC!.phone = Budi.phone
             
         }
     }
