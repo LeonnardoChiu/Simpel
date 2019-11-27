@@ -212,14 +212,14 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             let distributor = countData.value(forKey: "Distributor") as! String
             let version = countData.value(forKey: "Version") as! Int
             let unit = countData.value(forKey: "Unit") as! String
-            
+            let tokoID = countData.value(forKey: "TokoID") as! String
             var itemImage: UIImage?
             image = (countData.value(forKey: "Images") as? [CKAsset])?.first
             if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
                 itemImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-            originalItemTemp.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit))
+            originalItemTemp.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
         }
         print("temp : \(originalItemTemp.count)" )
         print("Asli : \(originalItem.count)")
