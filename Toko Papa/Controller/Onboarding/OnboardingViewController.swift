@@ -117,9 +117,9 @@ class OnboardingViewController: UIViewController {
                 if model?.role == "-" && model?.tokoID == "-" {
                     performSegue(withIdentifier: "toChooseRole", sender: nil)
                 }else{
-                    
+                    /// ke main storyboard
                     if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                        vc.tes = "ini dari page login ke tab bar ke report"
+                        vc.modelPeople = model
                         
                         //navigationController?.setNavigationBarHidden(false, animated: true)
                         let appDelegate = UIApplication.shared.windows

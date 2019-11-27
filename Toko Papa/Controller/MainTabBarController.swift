@@ -10,8 +10,7 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
-    var tes: String = ""
-    
+    var modelPeople: People?
     
     override func viewDidLoad() {
         super.viewDidLoad()

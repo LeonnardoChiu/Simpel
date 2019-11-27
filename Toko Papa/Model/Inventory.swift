@@ -23,9 +23,10 @@ class Inventory {
     var version: Int
     var unit: String
     var Id: CKRecord.ID
+    var tokoID: String
     
     /// inisialisasi
-    init(id:CKRecord.ID, imageItem: UIImage, namaItem: String, barcode: String, category: String, distributor: String, price: Int, stock: Int, version: Int, unit: String) {
+    init(id:CKRecord.ID, imageItem: UIImage, namaItem: String, barcode: String, category: String, distributor: String, price: Int, stock: Int, version: Int, unit: String, toko:String) {
         self.Id = id
         self.imageItem = imageItem
         self.namaItem = namaItem
@@ -36,5 +37,6 @@ class Inventory {
         self.stock = stock
         self.version = version
         self.unit = unit
+        self.tokoID = toko
     }
 }

@@ -41,18 +41,35 @@ class TokoViewController: UIViewController {
 
     
     @IBAction func doneBtn(_ sender: Any) {
-        saveToCloud(namaToko: namaTokotextField.text!)
-        selesai.isEnabled = true
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        
+        var alert: UIAlertController = UIAlertController()
+        var alert2: UIAlertController = UIAlertController()
+        let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
+           self.selesai.isEnabled = true
+         
+           alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
+           self.present(alert2, animated: true, completion: nil)
+          
+           self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+        }
+        alert = UIAlertController(title: "Nama Toko sudah benar?", message: "Jika sudah bener tekan ok", preferredStyle: .alert)
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        present(alert, animated: true, completion: nil)
+        
+        
     }
     
     @objc func timerAction() {
         counter += 1
         QueryDatabaseToko()
+        QueryDatabaseProfile()
         print(counter)
+        if counter == 1 {
+            saveToCloud(namaToko: namaTokotextField.text!)
+        }
         if counter == 8 {
-            counter = 0
-            timer.invalidate()
             var Idss: String?
             for i in dataToko{
                 if Int(i.value(forKey: "UniqCode") as! Int) == tempBuatCekToko{
@@ -60,18 +77,18 @@ class TokoViewController: UIViewController {
                     break
                 }
             }
-            updateToCloudProfil(tokoID: Idss!)
-            let vc: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard")
-            
-            
-            let appDelegate = UIApplication.shared.windows
-            appDelegate.first?.rootViewController = vc
-            
-            
-            
-            self.present(vc, animated: true, completion: nil)
-            
-            
+             updateToCloudProfil(tokoID: Idss!)
+        }
+        
+        if counter == 15 {
+           if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+               vc.modelPeople = modelPemilik
+               let appDelegate = UIApplication.shared.windows
+               appDelegate.first?.rootViewController = vc
+               self.present(vc, animated: true, completion: nil)
+               counter = 0
+            timer.invalidate()
+           }
         }
     }
     

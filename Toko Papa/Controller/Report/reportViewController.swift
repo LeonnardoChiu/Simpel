@@ -33,7 +33,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         var string = self.tabBarController as! MainTabBarController
-        print(string.tes)
+        
+        print("--------")
+        print(string.modelPeople?.firstName)
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         tabBarController?.hidesBottomBarWhenPushed = false
