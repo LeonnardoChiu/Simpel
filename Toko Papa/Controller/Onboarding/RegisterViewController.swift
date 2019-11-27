@@ -44,13 +44,12 @@ class RegisterViewController: UIViewController {
         var alert: UIAlertController = UIAlertController()
         var alert2: UIAlertController = UIAlertController()
         let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
-        
-               
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
-            self.appendAdd()
             self.selesai.isEnabled = true
+          
             alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
             self.present(alert2, animated: true, completion: nil)
+           
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
         }
         
@@ -66,6 +65,10 @@ class RegisterViewController: UIViewController {
     @objc func timerAction() {
         counter += 1
         print(counter)
+        
+        if counter == 1 {
+            self.appendAdd()
+        }
         if counter == 15 {
             counter = 0
             timer.invalidate()
