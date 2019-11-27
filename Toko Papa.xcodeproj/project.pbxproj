@@ -24,6 +24,7 @@
 		6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */; };
 		6838F99D237276D700FCC0D0 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */; };
 		6838F99F23727D7A00FCC0D0 /* ClassManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99E23727D7A00FCC0D0 /* ClassManager.swift */; };
+		687B54FD238E649B00137901 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B54FC238E649B00137901 /* CodeViewController.swift */; };
 		68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E4237E8B6A00A5FEA0 /* KategoriTableViewController.swift */; };
 		68C8E4E723826B3100A5FEA0 /* TambahSatuanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E623826B3100A5FEA0 /* TambahSatuanViewController.swift */; };
 		68C8E4E923826B4000A5FEA0 /* TambahCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E823826B4000A5FEA0 /* TambahCategoryViewController.swift */; };
@@ -100,6 +101,7 @@
 		6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatuanBarangTableViewController.swift; sourceTree = "<group>"; };
 		6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		6838F99E23727D7A00FCC0D0 /* ClassManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassManager.swift; sourceTree = "<group>"; };
+		687B54FC238E649B00137901 /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
 		68C8E4E4237E8B6A00A5FEA0 /* KategoriTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KategoriTableViewController.swift; sourceTree = "<group>"; };
 		68C8E4E623826B3100A5FEA0 /* TambahSatuanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TambahSatuanViewController.swift; sourceTree = "<group>"; };
 		68C8E4E823826B4000A5FEA0 /* TambahCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TambahCategoryViewController.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				BD485932237172280058A360 /* Employee List */,
 				BD4859332371726C0058A360 /* Add New & Edit Employee */,
 				FE88AB81238271CB00FCA480 /* selectRoleViewController.swift */,
+				687B54FC238E649B00137901 /* CodeViewController.swift */,
 			);
 			path = Access;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */,
 				BDA38F51237BEB5B00FCD5BC /* TotalPriceCell.swift in Sources */,
 				FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */,
+				687B54FD238E649B00137901 /* CodeViewController.swift in Sources */,
 				FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */,
 				BD8040E0238BA96300FEC5B0 /* RegisterViewCell.swift in Sources */,
 				FE01DFA82383A2750098E54C /* QRData.swift in Sources */,

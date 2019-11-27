@@ -12,13 +12,15 @@ import CloudKit
 class EmployeeListViewController: UIViewController {
     
     // MARK: - Variable
-    var peoples: [People] = []
+    var karyawan: [People] = []
+    var owner: [People] = []
     let refreshControl = UIRefreshControl()
     
     // MARK: - Database Cloudkit
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
-    
+    var modelPemilik: People?
+    var idx: Int = 0
     // MARK: - IBOutlet list
     @IBOutlet weak var tableList: UITableView! {
         // hilangin sisa row table
@@ -31,35 +33,27 @@ class EmployeeListViewController: UIViewController {
         performSegue(withIdentifier: "addNewEmployeeSegue", sender: nil)
     }
     
-    var idx: Int = 0
+   
    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.QueryDatabase()
         // MARK: - buat pull to refresh
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(QueryDatabaseKaryawan), for: .valueChanged)
         self.tableList.refreshControl = refreshControl
-        self.QueryDatabase()
     }
     
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.QueryDatabase()
-        tableList.reloadData()
-        //print("New added : \(peoples.last?.firstName) \(peoples.last?.lastName) to your list!")
+        self.QueryDatabaseKaryawan()
+        
     }
     
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print(#function)
-        if segue.identifier == "employeeProfileSegue" {
-
-            let vc = segue.destination as? EmployeeProfileViewController
-            vc?.name = people[temp]
-            
-        }
-    }*/
+    
+    
+    
     
     // MARK: - Unwind untuk Add
     @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
@@ -77,66 +71,136 @@ class EmployeeListViewController: UIViewController {
     }
     
     // MARK: - obj function untuk nampilin data Query Database
-    @objc func QueryDatabase(){
-        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
+    @objc func QueryDatabaseKaryawan(){
+        var mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
+        print(mainTabBar.modelPeople?.firstName)
+        let tokoID = modelPemilik?.tokoID
+        let queryKaryawan = CKQuery(recordType: "Profile", predicate: NSPredicate(format: "TokoID == %@ && role == %@", tokoID!, "Karyawan"))
         
-        database.perform(query, inZoneWith: nil) { (record, _) in
+        database.perform(queryKaryawan, inZoneWith: nil) { (record, _) in
             guard let record = record else { return }
-            //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
             self.data = record
+            self.ModelKaryawan()
             DispatchQueue.main.async {
                 self.tableList.refreshControl?.endRefreshing()
                 self.tableList.reloadData()
             }
-            print(self.data.first?.value(forKey: "profileImage"))
-            print("Total Employee dalam database : \(self.data.count)")
+            print("Total Karyawab dalam database : \(self.karyawan.count)")
         }
         
+        let queryOwner = CKQuery(recordType: "Profile", predicate: NSPredicate(format: "TokoID == %@ && role == %@", tokoID!, "Owner"))
+        database.perform(queryOwner, inZoneWith: nil) { (record, _) in
+            guard let record = record else { return }
+            self.data = record
+            self.ModelOwner()
+            DispatchQueue.main.async {
+                self.tableList.refreshControl?.endRefreshing()
+                self.tableList.reloadData()
+            }
+            print("Total Employee dalam database : \(self.owner.count)")
+        }
+    }
+    
+    
+    func ModelOwner() {
+        owner.removeAll()
+        for countData in data {
+            let id = countData.recordID
+            let username = countData.value(forKey: "UserName") as! String
+            let password = countData.value(forKey: "Password") as! String
+            let firstName = countData.value(forKey: "firstName") as! String
+            let lastName = countData.value(forKey: "lastName") as! String
+            let phone = countData.value(forKey: "phoneNumber") as! String
+            let roleee = countData.value(forKey: "role") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            owner.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+        }
+    }
+    
+    func ModelKaryawan() {
+        karyawan.removeAll()
+        for countData in data {
+            let id = countData.recordID
+            let username = countData.value(forKey: "UserName") as! String
+            let password = countData.value(forKey: "Password") as! String
+            let firstName = countData.value(forKey: "firstName") as! String
+            let lastName = countData.value(forKey: "lastName") as! String
+            let phone = countData.value(forKey: "phoneNumber") as! String
+            let roleee = countData.value(forKey: "role") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            karyawan.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+        }
     }
     
 }
 
+
+
 extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*if data.count == 0{
-            return 1
+        if section == 0 {
+            return owner.count
+        }else if section == 1 {
+            return (karyawan.count + 1)
         }
-        else{
-            return data.count
-        }*/
-        return data.count
+        return 0
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 {
+            return "Karyawan"
+        }
+        return ""
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "employeeCell") as! EmployeeListCell
-        
-        /*cell.namaLbl.text = people[indexPath.row]
-        cell.accessLbl.text = access[indexPath.row]*/
-        
-        /*if data.count == 0 {
-            cell.namaLbl.text = "No Data"
-            cell.accessLbl.isHidden = true
+        let cellCode = tableView.dequeueReusableCell(withIdentifier: "cell")
+        if indexPath.section == 0 {
+            let firstName = owner[indexPath.row].firstName
+            let lastName = owner[indexPath.row].lastName
+            let role = owner[indexPath.row].role
+            cell.namaLbl.text = "\(firstName) \(lastName)"
+            cell.accessLbl.text = "\(role)"
+            return cell
+        }else if indexPath.section == 1 {
+            if karyawan.count == 0 {
+                return cellCode!
+            }else{
+                let firstName = karyawan[indexPath.row].firstName
+                let lastName = karyawan[indexPath.row].lastName
+                let role = karyawan[indexPath.row].role
+                cell.namaLbl.text = "\(firstName) \(lastName)"
+                cell.accessLbl.text = "\(role)"
+                return cell
+                if indexPath.row == (karyawan.count + 1){
+                    return cellCode!
+                }
+            }
+           
         }
-        else {
-            // cell.namaLbl.text = "\(peoples[indexPath.row].firstName) \(peoples[indexPath.row].lastName)"
-            // cell.accessLbl.text = peoples[indexPath.row].role
-            
-        }*/
-        let firstName = data[indexPath.row].value(forKey: "firstName") as! String
-        let lastName = data[indexPath.row].value(forKey: "lastName") as! String
-        let role = data[indexPath.row].value(forKey: "role") as! String
-        
-        cell.namaLbl.text = "\(firstName) \(lastName)"
-        cell.accessLbl.text = "\(role)"
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function)
         idx = indexPath.row
-        performSegue(withIdentifier: "employeeProfileSegue", sender: data[indexPath.row])
+     
+        if indexPath.section == 1 {
+            if karyawan.count == 0 {
+                   performSegue(withIdentifier: "code", sender: nil)
+            }else{
+               
+                if indexPath.row == (karyawan.count + 1){
+                       performSegue(withIdentifier: "code", sender: nil)
+                }
+            }
+           
+        }
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
@@ -145,17 +209,6 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             let vc = segue.destination as! EmployeeProfileViewController
             
             vc.data = sender as! CKRecord
-            
-            /*vc?.firstNameTemp = data[idx].value(forKey: "firstName") as! String
-            vc?.lastNameTemp = data[idx].value(forKey: "lastName") as! String
-            vc?.storeTemp = data[idx].value(forKey: "storeName") as! String
-            vc?.roleTemp = data[idx].value(forKey: "role") as! String
-            vc?.emailTemp = data[idx].value(forKey: "email") as! String
-            vc?.phoneTemp = data[idx].value(forKey: "phoneNumber") as! String
-            vc?.image = data[idx].value(forKey: "profileImage") as? CKAsset
-             */
-            //vc?.employee = peoples[idx]
-            //vc?.peoples.append(peoples[idx])
         }
     }
     
