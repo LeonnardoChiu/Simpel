@@ -3,12 +3,14 @@ import UIKit
 
 class reportViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
- 
+ //MARK: OUTLET
     @IBOutlet weak var selectedDateButton: UIButton!
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateCollection: UICollectionView!
     
+    
+//MARK: VARIABLES
     var tempStringDariLogin: String = ""
     var totalSales = 700000
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto ", "600 ml"]
@@ -24,14 +26,18 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    var selectedDay:Int = day
+    var selectedDay:Int = Int()
     var selectedMonth:String = String()
-    var selectedYear:Int = year
+    var selectedMonthNumber = Int()
+    var selectedYear:Int = Int()
     var titleText = ""
     
     var selectedEditedItem = ""
     var startWithCurrentDate = false
+    var selectedIndexPath: IndexPath? = nil
     
+    
+//MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +52,15 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
+        selectedDay = day
+        selectedMonth = "\(months[month])"
+        selectedMonthNumber = month
+        selectedYear = year
+        selectedIndexPath = nil
+        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
+        monthLabel.text = "\(selectedMonth) \(year)"
+        scrollTo(item: selectedDay, section: 0)
+        dateCollection.reloadData()
         
     }
     
@@ -57,13 +72,17 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         //INI CALENDAR
         selectedDay = day
         selectedMonth = "\(months[month])"
+        selectedMonthNumber = month
         selectedYear = year
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
         monthLabel.text = "\(selectedMonth) \(year)"
-        
+        selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
+        dateCollection.reloadData()
         startWithCurrentDate = false
 
     }
+    
+    //MARK: BUTTON ACTION
     
     @IBAction func nextButtonClick(_ sender: Any) {
 //        selectedDay += 1
@@ -85,6 +104,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         selectedMonth = months[month]
         monthLabel.text = "\(selectedMonth) \(year)"
+        selectedIndexPath = nil
         dateCollection.reloadData()
         scrollTo(item: 0, section: 0)
         
@@ -110,9 +130,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         selectedMonth = months[month]
         monthLabel.text = "\(selectedMonth) \(year)"
+        selectedIndexPath = nil
         dateCollection.reloadData()
-        let lastDay = daysInMonth[month]
-        print(lastDay)
         scrollTo(item: 0, section: 0)
 //        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
     }
@@ -371,7 +390,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
      }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedMonthNumber = month
         if indexPath.section == 0 {
+            print(selectedMonthNumber)
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
         else if indexPath.section == 3 {
@@ -383,7 +404,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     //MARK: COLLECTION VIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return daysInMonth[month]
+        return daysInMonth[selectedMonthNumber]
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -392,13 +413,23 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.Circle.isHidden = true
         cell.dateLabel.text = "\(indexPath.row + 1)"
         
+        if selectedIndexPath == indexPath {
+            cell.isSelected = true
+            cell.dateLabel.textColor = UIColor.white
+            cell.Circle.isHidden = false
+            cell.DrawCircle()
+        }
+        else{
+            cell.isSelected = false
+            cell.dateLabel.textColor = UIColor.black
+            cell.Circle.isHidden = true
+            
+        }
+        
         if selectedMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day{
             cell.dateLabel.textColor = UIColor.white
             cell.Circle.isHidden = false
             cell.DrawGreyCircle()
-        }
-        else{
-            cell.dateLabel.textColor = UIColor.black
         }
         
         return cell
@@ -406,31 +437,39 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if !startWithCurrentDate {
-            scrollTo(item: day, section: 0)
+            scrollTo(item: selectedDay-1, section: 0)
             startWithCurrentDate = true
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCell = dateCollection.cellForItem(at: indexPath) as! ScrollCalendarCell
-        
-        selectedCell.dateLabel.textColor = UIColor.white
-        selectedCell.Circle.isHidden = false
-        selectedCell.DrawCircle()
+        if selectedIndexPath != nil {
+            if indexPath.compare(selectedIndexPath!) == ComparisonResult.orderedSame {
+                selectedIndexPath = nil
+            }
+            else{
+                selectedIndexPath = indexPath
+            }
+        }
+        else{
+            selectedIndexPath = indexPath
+        }
         
         selectedDay = indexPath.row + 1
         selectedMonth = months[month]
         selectedYear = year
         
+        dateCollection.reloadItems(at: dateCollection.indexPathsForVisibleItems)
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
+        scrollTo(item: indexPath.row, section: 0)
         print(indexPath)
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = dateCollection.cellForItem(at: indexPath) as! ScrollCalendarCell
-        cell.dateLabel.textColor = UIColor.black
-        cell.Circle.isHidden = true
-    }
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        let cell = dateCollection.cellForItem(at: indexPath) as! ScrollCalendarCell
+//        cell.dateLabel.textColor = UIColor.black
+//        cell.Circle.isHidden = true
+//    }
     
     func scrollTo(item: Int, section: Int) {
         let scrollTo = IndexPath(item: item, section: section)
@@ -442,11 +481,26 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToEditItemDetails"{
-            print("segue")
             let nextVC = segue.destination as! editItemDetailViewController
             nextVC.itemName = selectedEditedItem
         }
+        else if segue.identifier == "segueToTotalSalesVC" {
+            let nextVC = segue.destination as! totalSalesViewController
+            nextVC.selectedDay = self.selectedDay
+            nextVC.selectedMonth = self.selectedMonth
+            nextVC.selectedMonthNumber = self.selectedMonthNumber
+            nextVC.selectedYear = self.selectedYear
+        }
+        else if segue.identifier == "segueToHighestSales" {
+            let nextVC = segue.destination as! highestSalesViewController
+            nextVC.selectedDay = self.selectedDay
+            nextVC.selectedMonth = self.selectedMonth
+            nextVC.selectedMonthNumber = self.selectedMonthNumber
+            nextVC.selectedYear = self.selectedYear
+        }
     }
+    
+    
     
     //MARK: IBACTION
     
@@ -460,8 +514,24 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         guard let calendarVC = unwindSegue.source as? calendarViewController else {return}
         self.selectedDay = calendarVC.selectedDay
         self.selectedMonth = calendarVC.selectedMonth
+        self.selectedMonthNumber = calendarVC.selectedMonthNumber
         self.selectedYear = calendarVC.selectedYear
+//        selectedIndexPath = nil
+//        if selectedIndexPath != nil {
+//            if IndexPath(item: selectedDay-1, section: 0).compare(selectedIndexPath!) == ComparisonResult.orderedSame {
+//                selectedIndexPath = nil
+//            }
+//            else{
+//                selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
+//            }
+//        }
+//        else{
+        self.selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
+//        }
         self.selectedDateButton.setTitle(calendarVC.selectedDate, for: .normal)
+        self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
+        startWithCurrentDate = false
+        dateCollection.reloadData()
     }
     
     @objc func onClickDetailButton (_ sender: UIButton){

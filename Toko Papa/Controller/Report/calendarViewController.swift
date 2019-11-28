@@ -30,6 +30,7 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     var selectedDay = Int()
     var selectedMonth = String()
+    var selectedMonthNumber = Int()
     var selectedYear = Int()
     
     var prevVC = String()
@@ -38,7 +39,7 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewDidLoad()
         
         print("did load")
-        month = 10
+        selectedMonthNumber = month
         currentMonth = months[month]
         
         monthLabel.text = "\(currentMonth) \(year)"
@@ -108,18 +109,15 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
             }
             
             getStartDateDayPosition()
-            currentMonth = months[month]
-            monthLabel.text = "\(currentMonth) \(year)"
-            calendarView.reloadData()
             
         default:
             direction = 1
             getStartDateDayPosition()
             month += 1
-            currentMonth = months[month]
-            monthLabel.text = "\(currentMonth) \(year)"
-            calendarView.reloadData()
         }
+        currentMonth = months[month]
+        monthLabel.text = "\(currentMonth) \(year)"
+        calendarView.reloadData()
     }
     
     @IBAction func prevButton(_ sender: Any) {
@@ -141,18 +139,15 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
             }
             
             getStartDateDayPosition()
-            currentMonth = months[month]
-            monthLabel.text = "\(currentMonth) \(year)"
-            calendarView.reloadData()
             
         default:
             direction = -1
             month -= 1
             getStartDateDayPosition()
-            currentMonth = months[month]
-            monthLabel.text = "\(currentMonth) \(year)"
-            calendarView.reloadData()
         }
+        currentMonth = months[month]
+        monthLabel.text = "\(currentMonth) \(year)"
+        calendarView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -220,8 +215,8 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         let selectedCell = collectionView.cellForItem(at: indexPath) as! DateCollectionViewCell
         let selectedDay = Int(selectedCell.dateLabel!.text!)!
-        let selectedMonth = months[month]
-        let selectedYear = year
+//        let selectedMonth = months[month]
+//        let selectedYear = year
         selectedCell.dateLabel.textColor = UIColor.white
         selectedCell.Circle.isHidden = false
         selectedCell.DrawCircle()
@@ -229,6 +224,7 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         self.selectedDate = "\(selectedDay) \(months[month]) \(year)"
         self.selectedDay = Int(selectedCell.dateLabel!.text!)!
         self.selectedMonth = months[month]
+        self.selectedMonthNumber = month
         self.selectedYear = year
         
         performSegue(withIdentifier: "goBackFromCalendar", sender: nil)
