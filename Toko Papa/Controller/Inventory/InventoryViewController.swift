@@ -130,7 +130,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        var mainTabBar = self.tabBarController as! MainTabBarController
+               modelPemilik = mainTabBar.modelPeople
+        print(mainTabBar.modelPeople?.tokoID)
         initSearchBar()
         
         self.hideKeyboardWhenTappedAround() 
@@ -159,9 +161,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - objc query database
     @objc func QueryDatabase(){
-        var mainTabBar = self.tabBarController as! MainTabBarController
-        modelPemilik = mainTabBar.modelPeople
-        print(mainTabBar.modelPeople?.firstName)
+       
         let tokoID = modelPemilik?.tokoID
         let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
     

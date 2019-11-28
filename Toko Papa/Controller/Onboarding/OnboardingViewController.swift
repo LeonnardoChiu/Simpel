@@ -114,7 +114,7 @@ class OnboardingViewController: UIViewController {
             
             if cek == true{
                 
-                if model?.role == "-" && model?.tokoID == "-" {
+                if model?.role == "-" || model?.tokoID == "-" {
                     performSegue(withIdentifier: "toChooseRole", sender: nil)
                 }else{
                     /// ke main storyboard
@@ -128,29 +128,7 @@ class OnboardingViewController: UIViewController {
                         
                     }
                     
-                    
-                    
-                    /// segue using storyboard ID dan send data
-                    /*if let vc: InventoryViewController = UIStoryboard(name: "Inventory", bundle: nil).instantiateViewController(identifier: "InventoryViewController") as? InventoryViewController {
-                        navigationController?.setNavigationBarHidden(false, animated: true)
-                        //vc.tempStringDariLogin = "HIYAAAAAA"
-                        
-                        let appDelegate = UIApplication.shared.windows
-                        appDelegate.first?.rootViewController = vc
-                        self.present(vc, animated: true)
-                    }*/
-                    
-                    
                 navigationController?.setNavigationBarHidden(false, animated: true)
-                    //let mainStoryboard: UIStoryboard = UIStoryboard(name: "Inventory", bundle: nil)
-                    //let vcc: UIViewController = mainStoryboard.instantiateViewController(identifier: "InventoryViewController") as! InventoryViewController
-                    
-                    
-//                    let appDelegate = UIApplication.shared.windows
-//                    appDelegate.first?.rootViewController = vc
-                    
-                  
-                    //self.present(vc, animated: true, completion: nil)
                 }
             }else{
                  presentAlert(withTitle: "Login Gagal", message: "UserName atau Password salahb")

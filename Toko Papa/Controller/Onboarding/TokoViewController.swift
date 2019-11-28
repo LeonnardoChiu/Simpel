@@ -77,11 +77,14 @@ class TokoViewController: UIViewController {
                     break
                 }
             }
-             updateToCloudProfil(tokoID: Idss!)
+            modelPemilik?.tokoID = Idss!
+            modelPemilik?.role = "Owner"
+            updateToCloudProfil(tokoID: Idss!)
         }
         
         if counter == 15 {
            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+           
                vc.modelPeople = modelPemilik
                let appDelegate = UIApplication.shared.windows
                appDelegate.first?.rootViewController = vc
@@ -132,13 +135,14 @@ class TokoViewController: UIViewController {
         }
     }
     
+   
+    
     func updateToCloudProfil(tokoID: String){
             var editNote: CKRecord?
             
             for edit in dataProfil{
                 if modelPemilik?.Id.recordName == edit.recordID.recordName{
                 editNote = edit
-                    print("ASOOO")
                 break
                 }
             }

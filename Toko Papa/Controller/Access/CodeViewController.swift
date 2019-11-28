@@ -9,35 +9,19 @@
 import UIKit
 import CloudKit
 class CodeViewController: UIViewController {
-    var modelPemilik: People?
+    var tokoCode: Toko?
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
     @IBOutlet weak var codeGen: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        QueryDatabase()
-        codeGen.text = data[0].value(forKey: "UniqCode") as! String
+        codeGen.text = "\(tokoCode!.uniqcode!/100000) "
     }
     
-    @objc func QueryDatabase(){
-        let mainTabBar = self.tabBarController as! MainTabBarController
-        modelPemilik = mainTabBar.modelPeople
-        print(mainTabBar.modelPeople?.firstName)
-        let tokoID = modelPemilik?.tokoID
-        let query = CKQuery(recordType: "Toko", predicate: NSPredicate(format: "recordName == %@", tokoID!))
     
-        database.perform(query, inZoneWith: nil) { (record, _) in
-            guard let record = record else {return}
-                
-            self.data = record
-            /// append ke model
-            print("jumlah barang : \(self.data.count)")
-        }
-      }
 
     /*
     // MARK: - Navigation

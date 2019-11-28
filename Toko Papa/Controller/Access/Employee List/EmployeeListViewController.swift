@@ -14,6 +14,7 @@ class EmployeeListViewController: UIViewController {
     // MARK: - Variable
     var karyawan: [People] = []
     var owner: [People] = []
+    var toko: [Toko] = []
     let refreshControl = UIRefreshControl()
     
     // MARK: - Database Cloudkit
@@ -48,7 +49,10 @@ class EmployeeListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.QueryDatabaseKaryawan()
-        
+        var mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
+        print(mainTabBar.modelPeople?.tokoID)
+        print(mainTabBar.modelPeople?.role)
     }
     
     
@@ -59,9 +63,6 @@ class EmployeeListViewController: UIViewController {
     @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
         print(#function)
         guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else { return }
-        
-        
-        //self.peoples.append(People(firstName: AddEmployeeVC.firstNameTemp, lastName: AddEmployeeVC.lastNameTemp, store: AddEmployeeVC.storeTemp, role: AddEmployeeVC.roleTemp, email: AddEmployeeVC.emailTemp, phone: AddEmployeeVC.phoneTemp))
     }
     
     // MARK: - Unwind untuk Edit
@@ -98,10 +99,33 @@ class EmployeeListViewController: UIViewController {
                 self.tableList.refreshControl?.endRefreshing()
                 self.tableList.reloadData()
             }
-            print("Total Employee dalam database : \(self.owner.count)")
+            print("Total Owner dalam database : \(self.owner.count)")
+        }
+        
+        let tokoIDReference = CKRecord.Reference(recordID: CKRecord.ID(recordName: modelPemilik!.tokoID), action: .none)
+        let query = CKQuery(recordType: "Toko", predicate: NSPredicate(format: "recordID == %@", tokoIDReference))
+    
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            self.ModelToko()
+            /// append ke model
+            print("jumlah code : \(self.data.count)")
         }
     }
     
+    func ModelToko() {
+        toko.removeAll()
+        for countData in data {
+            let namaToko = countData.value(forKey: "NamaToko") as! String
+            let Uniq = countData.value(forKey: "UniqCode") as! Int
+            
+            toko.append(Toko(namatoko: namaToko,uniq: Uniq))
+        }
+        print(toko[0].uniqcode)
+        print(toko[0].namaToko)
+    }
     
     func ModelOwner() {
         owner.removeAll()
@@ -209,6 +233,11 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             let vc = segue.destination as! EmployeeProfileViewController
             
             vc.data = sender as! CKRecord
+        }
+        if segue.identifier == "code" {
+            let vc = segue.destination as! CodeViewController
+            
+            vc.tokoCode = toko[0]
         }
     }
     

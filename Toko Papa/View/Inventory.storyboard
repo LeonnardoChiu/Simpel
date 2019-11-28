@@ -11,7 +11,7 @@
         <!--Barang-->
         <scene sceneID="RqY-OP-IfW">
             <objects>
-                <viewController storyboardIdentifier="InventoryViewController" id="jYQ-Ft-IOO" customClass="InventoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InventoryViewController" id="jYQ-Ft-IOO" customClass="InventoryViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rw3-dq-5cW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="75" id="MmH-fC-FVI" customClass="PostView" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="75" id="MmH-fC-FVI" customClass="PostView" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MmH-fC-FVI" id="9CN-8W-hV7">
@@ -124,7 +124,7 @@
         <!--Tambah Barang-->
         <scene sceneID="VRG-vu-Osl">
             <objects>
-                <viewController id="9CH-4x-q2b" customClass="AddInventoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9CH-4x-q2b" customClass="AddInventoryViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="en0-g4-bY9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -157,7 +157,7 @@
                                     <constraint firstAttribute="height" constant="603" id="frs-c6-C5r"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="biasa" id="9cX-Dv-0Uz" customClass="TambahBarangCellBiasa" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="biasa" id="9cX-Dv-0Uz" customClass="TambahBarangCellBiasa" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cX-Dv-0Uz" id="OZt-3T-6cl">
@@ -188,7 +188,7 @@
                                             <outlet property="tambahBarangTextField" destination="DRH-Ml-yzL" id="qeT-2x-zff"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="Cd3-Ek-kRE" customClass="TambahBarangCellPriceList" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="Cd3-Ek-kRE" customClass="TambahBarangCellPriceList" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cd3-Ek-kRE" id="Bra-mr-fym">
@@ -281,12 +281,12 @@
         <!--Barcode-->
         <scene sceneID="cKJ-36-pGU">
             <objects>
-                <viewController id="mdQ-Yn-5GZ" customClass="BarcodeViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mdQ-Yn-5GZ" customClass="BarcodeViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KPN-bi-ih8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-BW-1a4" customClass="QRScannerView" customModule="Toko_Papa" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-BW-1a4" customClass="QRScannerView" customModule="Simple" customModuleProvider="target">
                                 <rect key="frame" x="32" y="166" width="350" height="350"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
@@ -317,7 +317,7 @@
         <!--Detail Barang-->
         <scene sceneID="1RJ-WP-SLr">
             <objects>
-                <viewController id="dcj-tc-6mU" customClass="DetailBarangViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dcj-tc-6mU" customClass="DetailBarangViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i30-Wj-hb2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -326,7 +326,7 @@
                                 <rect key="frame" x="0.0" y="350" width="414" height="546"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detail" id="0m2-xQ-npK" customClass="DetailBarangCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detail" id="0m2-xQ-npK" customClass="DetailBarangCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0m2-xQ-npK" id="nba-dv-Ql9">
@@ -354,10 +354,10 @@
                                             <outlet property="namaCellDetailLabel" destination="ZvB-SH-uGj" id="pTM-Bf-0Cr"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="Og8-J7-Toz" customClass="DetailPriceListCell" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="Og8-J7-Toz" customClass="DetailPriceListCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Og8-J7-Toz" id="jt7-Ja-7Uh" customClass="DetailPriceListCell" customModule="Toko_Papa" customModuleProvider="target">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Og8-J7-Toz" id="jt7-Ja-7Uh" customClass="DetailPriceListCell" customModule="Simple" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -439,7 +439,7 @@
         <!--Edit Barang-->
         <scene sceneID="58l-CH-Fqu">
             <objects>
-                <viewController id="33u-lV-6zC" customClass="EditBarangViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="33u-lV-6zC" customClass="EditBarangViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JZv-sm-Pey">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -468,7 +468,7 @@
                                 <rect key="frame" x="0.0" y="293" width="414" height="603"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="biasa" id="5QW-8f-B0F" customClass="TambahBarangCellBiasa" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="biasa" id="5QW-8f-B0F" customClass="TambahBarangCellBiasa" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5QW-8f-B0F" id="tuN-yd-QHb">
@@ -499,7 +499,7 @@
                                             <outlet property="tambahBarangTextField" destination="Kuk-ZL-Vg0" id="jyM-nM-Hhr"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="okx-U8-ZuA" customClass="TambahBarangCellPriceList" customModule="Toko_Papa" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="price" id="okx-U8-ZuA" customClass="TambahBarangCellPriceList" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="okx-U8-ZuA" id="AOf-hv-M0E">
@@ -595,7 +595,7 @@
         <!--Kategori-->
         <scene sceneID="CRF-ve-y63">
             <objects>
-                <tableViewController id="Hp3-vn-QCu" customClass="KategoriTableViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Hp3-vn-QCu" customClass="KategoriTableViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="em2-zG-ILe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -635,7 +635,7 @@
         <!--Tambah Kategori-->
         <scene sceneID="Gnf-CG-9gN">
             <objects>
-                <viewController id="iF7-n9-Ump" customClass="TambahCategoryViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="iF7-n9-Ump" customClass="TambahCategoryViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YeN-PI-hqx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -679,7 +679,7 @@
         <!--Satuan Barang-->
         <scene sceneID="kbg-E1-1FY">
             <objects>
-                <tableViewController id="g6F-ma-CJb" customClass="SatuanBarangTableViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="g6F-ma-CJb" customClass="SatuanBarangTableViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="abb-G8-K9e">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -719,7 +719,7 @@
         <!--Tambah Satuan-->
         <scene sceneID="EO9-2Y-DD4">
             <objects>
-                <viewController id="4cv-A0-GWI" customClass="TambahSatuanViewController" customModule="Toko_Papa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4cv-A0-GWI" customClass="TambahSatuanViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mpv-oX-i0i">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
