@@ -12,13 +12,15 @@ class CodeViewController: UIViewController {
     var tokoCode: Toko?
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
+    @IBOutlet weak var namaToko: UILabel!
     @IBOutlet weak var codeGen: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        codeGen.text = "\(tokoCode!.uniqcode!/100000) "
+        codeGen.text = "\(tokoCode!.uniqcode!)"
+        namaToko.text = tokoCode?.namaToko
     }
     
     
