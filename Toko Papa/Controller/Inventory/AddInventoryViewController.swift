@@ -23,7 +23,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     var distributorTemp = ""
     var stokTemp:Int? = 0
     var hargaTemp:Int? = 0
-    
+    var modelPemilik: People?
     
     
     @IBOutlet weak var tableView: UITableView! {
@@ -43,9 +43,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
     var barcode: QRData?
-
+    /// MARK:: - view
     override func viewDidLoad() {
         super.viewDidLoad()
+        var mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
         doneBtnOutlet.isEnabled = false
         self.hideKeyboardWhenTappedAround()
         self.tableView.delegate = self
@@ -102,7 +104,6 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                      cellBiasa.barcodeScannerButton.isHidden = true
                 }
                 if indexPath.row == 0 {
-                    print("=============================================================")
                     print(barcode)
                     if barcode != nil{
                         cellBiasa.tambahBarangTextField.text = barcode?.codeString
@@ -197,7 +198,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
         guard let barcodeVC = segue.source as? BarcodeViewController else { return }
         self.barcode = barcodeVC.qrData
-        let indexPath = IndexPath(item: 0, section: 0)
+        let indexPath = IndexPath(row: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
         enabledDoneButton()
     }
@@ -208,7 +209,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
   
     
-    func saveToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String){
+    func saveToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String, tokoID:String){
             let NewNote = CKRecord(recordType: "Inventory")//ini buat data base baru
             NewNote.setValue(Barcode, forKey: "Barcode")//ini ke tablenya
             NewNote.setValue(Category, forKey: "Category")
@@ -216,7 +217,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             NewNote.setValue(Name, forKey: "NameProduct")
             NewNote.setValue(Price, forKey: "Price")
             NewNote.setValue(Stock, forKey: "Stock")
-        
+            NewNote.setValue(tokoID, forKey: "TokoID")
             var imageAsset: [CKAsset] = []
                
             for gambar in image {
@@ -258,7 +259,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
          guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
          guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
         
-         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!)
+        self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!, tokoID: modelPemilik!.tokoID)
     }
     
     @IBAction func doneButton(_ sender: Any) {

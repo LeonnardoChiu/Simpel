@@ -77,17 +77,18 @@ class TokoViewController: UIViewController {
                     break
                 }
             }
-             updateToCloudProfil(tokoID: Idss!)
+            
+            updateToCloudProfil(tokoID: Idss!)
         }
         
         if counter == 15 {
+            counter = 0
+            timer.invalidate()
            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                vc.modelPeople = modelPemilik
                let appDelegate = UIApplication.shared.windows
                appDelegate.first?.rootViewController = vc
                self.present(vc, animated: true, completion: nil)
-               counter = 0
-            timer.invalidate()
            }
         }
     }
@@ -132,17 +133,19 @@ class TokoViewController: UIViewController {
         }
     }
     
+   
+    
     func updateToCloudProfil(tokoID: String){
             var editNote: CKRecord?
             
             for edit in dataProfil{
                 if modelPemilik?.Id.recordName == edit.recordID.recordName{
                 editNote = edit
-                    print("ASOOO")
                 break
                 }
             }
-       
+            modelPemilik?.tokoID = tokoID
+            modelPemilik?.role = "Owner"
             editNote?.setValue(tokoID, forKey: "TokoID")
             editNote?.setValue("Owner", forKey: "role")//ini ke tablenya
             

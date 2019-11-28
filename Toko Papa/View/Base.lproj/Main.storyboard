@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -203,6 +203,42 @@
             </objects>
             <point key="canvasLocation" x="-942" y="-735"/>
         </scene>
+        <!--Karyawan-->
+        <scene sceneID="rrr-T4-6kf">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XrY-G7-Hbx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="PKB-e5-tgE" customClass="PairingKarywanViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PRG-Ze-qDP" customClass="Pairin">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xdc-SA-CMV">
+                                <rect key="frame" x="20" y="221" width="374" height="119"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZG-P3-bca">
+                                <rect key="frame" x="163" y="424" width="88" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Pairing"/>
+                                <connections>
+                                    <action selector="pairingButton:" destination="PKB-e5-tgE" eventType="touchUpInside" id="dEQ-JN-hew"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="nV4-7H-Oqc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Karyawan" id="KXM-xV-FCp"/>
+                    <connections>
+                        <outlet property="pairingTextField" destination="Xdc-SA-CMV" id="ifA-h1-sV6"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-1710.144927536232" y="1.3392857142857142"/>
+        </scene>
         <!--Pilih Role-->
         <scene sceneID="fwC-GY-2Mh">
             <objects>
@@ -258,6 +294,7 @@
                         <outlet property="karyawanView" destination="eQ6-RS-Nnb" id="9dB-uX-HIB"/>
                         <outlet property="ownerView" destination="DMg-Hk-SHO" id="e0I-UJ-Xep"/>
                         <segue destination="ci2-kY-oDJ" kind="show" identifier="ownerToko" id="ncx-UJ-6HY"/>
+                        <segue destination="PKB-e5-tgE" kind="show" identifier="karyawan" id="Pta-Qp-hW5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oex-YC-muy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

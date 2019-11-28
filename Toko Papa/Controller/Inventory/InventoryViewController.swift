@@ -23,6 +23,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     var originalItemTemp: [Inventory] = []
     var searchedItem: [Inventory] = []
     var selectedItem: Inventory!
+    var modelPemilik: People?
     var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
@@ -129,7 +130,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        var mainTabBar = self.tabBarController as! MainTabBarController
+               modelPemilik = mainTabBar.modelPeople
+        print(mainTabBar.modelPeople?.tokoID)
         initSearchBar()
         
         self.hideKeyboardWhenTappedAround() 
@@ -158,7 +161,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - objc query database
     @objc func QueryDatabase(){
-        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
+       
+        let tokoID = modelPemilik?.tokoID
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
     
         //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
         //query.sortDescriptors = [sortDesc]
@@ -168,6 +173,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             self.data = record
             /// append ke model
             self.initDataModel()
+            print("jumlah barang : \(self.data.count)")
             DispatchQueue.main.async {
                 self.tableView.refreshControl?.endRefreshing()
                 self.tableView.reloadData()
@@ -201,7 +207,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     
     // MARK: - init data model
     func initDataModel() {
-        originalItemTemp.removeAll()
+        originalItem.removeAll()
+        print("---")
+        print(data.count)
         for countData in data {
             let id = countData.recordID
             let namaItem = countData.value(forKey: "NameProduct") as! String
@@ -219,31 +227,8 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
                 itemImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-            originalItemTemp.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
+            originalItem.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
         }
-        print("temp : \(originalItemTemp.count)" )
-        print("Asli : \(originalItem.count)")
-        if originalItemTemp.count != originalItem.count{
-            originalItem = originalItemTemp
-        }else{
-            var pengecek = false
-            var tempangka = 0
-            for i in originalItemTemp{
-                if i.version != originalItem[tempangka].version{
-                    pengecek = true
-                    print(pengecek)
-                    break
-                }
-                tempangka = tempangka + 1
-            }
-            
-            if pengecek == true {
-                originalItem = originalItemTemp
-            }
-        }
-        
-        
-       
     }
     
     // MARK: - function untuk filtering item
