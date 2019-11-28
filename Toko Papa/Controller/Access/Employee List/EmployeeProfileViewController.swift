@@ -126,17 +126,6 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editProfileSegue" {
-            let vc = segue.destination as! EditEmployeeProfileViewController
-//            vc?.firstNameTemp = firstNameTemp
-//            vc?.lastNameTemp = lastNameTemp
-//            vc?.storeTemp = storeTemp
-//            vc?.roleTemp = roleTemp
-//            vc?.emailTemp = emailTemp
-//            vc?.phoneTemp = phoneTemp
-//            vc?.image = image
-            
-            vc.editData = sender as! CKRecord
-        }
+
     }
 }

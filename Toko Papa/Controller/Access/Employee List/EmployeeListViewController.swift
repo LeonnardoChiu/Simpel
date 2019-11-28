@@ -30,8 +30,12 @@ class EmployeeListViewController: UIViewController {
         }
     }
     
-    @IBAction func addBtn(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "addNewEmployeeSegue", sender: nil)
+    @IBAction func logOutBtn(_ sender: UIBarButtonItem) {
+        if let vc: OnboardingViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OnboardingStoryboard") as? OnboardingViewController {
+            let appDelegate = UIApplication.shared.windows
+            appDelegate.first?.rootViewController = vc
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
    
@@ -59,18 +63,7 @@ class EmployeeListViewController: UIViewController {
     
     
     
-    // MARK: - Unwind untuk Add
-    @IBAction func unwindToEmployeeAccess(_ unwindSegue: UIStoryboardSegue) {
-        print(#function)
-        guard let AddEmployeeVC = unwindSegue.source as? AddEmployeeViewController else { return }
-    }
-    
-    // MARK: - Unwind untuk Edit
-    @IBAction func unwindToEditVc(_ unwindSegue: UIStoryboardSegue) {
-        guard let EditEmployeVC = unwindSegue.source as? EditEmployeeProfileViewController else { return }
-        // Use data from the view controller which initiated the unwind segue
-    }
-    
+   
     // MARK: - obj function untuk nampilin data Query Database
     @objc func QueryDatabaseKaryawan(){
         var mainTabBar = self.tabBarController as! MainTabBarController
@@ -118,10 +111,10 @@ class EmployeeListViewController: UIViewController {
     func ModelToko() {
         toko.removeAll()
         for countData in data {
+            let id = countData.recordID
             let namaToko = countData.value(forKey: "NamaToko") as! String
             let Uniq = countData.value(forKey: "UniqCode") as! Int
-            
-            toko.append(Toko(namatoko: namaToko,uniq: Uniq))
+            toko.append(Toko(id: id, namatoko: namaToko,uniq: Uniq))
         }
         print(toko[0].uniqcode)
         print(toko[0].namaToko)
@@ -169,7 +162,11 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         if section == 0 {
             return owner.count
         }else if section == 1 {
-            return (karyawan.count + 1)
+            if modelPemilik?.role == "Karyawan"{
+                return karyawan.count
+            }else{
+                return (karyawan.count + 1)
+            }
         }
         return 0
     }
@@ -192,20 +189,30 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             cell.accessLbl.text = "\(role)"
             return cell
         }else if indexPath.section == 1 {
-            if karyawan.count == 0 {
-                return cellCode!
-            }else{
+            if modelPemilik?.role == "Karyawan"{
                 let firstName = karyawan[indexPath.row].firstName
                 let lastName = karyawan[indexPath.row].lastName
                 let role = karyawan[indexPath.row].role
                 cell.namaLbl.text = "\(firstName) \(lastName)"
                 cell.accessLbl.text = "\(role)"
                 return cell
-                if indexPath.row == (karyawan.count + 1){
+            }else{
+                if karyawan.count == 0 {
                     return cellCode!
+                }else{
+                    if indexPath.row < karyawan.count{
+                        print(indexPath.row)
+                        let firstName = karyawan[indexPath.row].firstName
+                       let lastName = karyawan[indexPath.row].lastName
+                       let role = karyawan[indexPath.row].role
+                       cell.namaLbl.text = "\(firstName) \(lastName)"
+                       cell.accessLbl.text = "\(role)"
+                       return cell
+                    }else{
+                         return cellCode!
+                    }
                 }
             }
-           
         }
         return cell
     }
@@ -215,12 +222,17 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         idx = indexPath.row
      
         if indexPath.section == 1 {
-            if karyawan.count == 0 {
-                   performSegue(withIdentifier: "code", sender: nil)
+            if modelPemilik?.role == "Karyawan"{
+//                 performSegue(withIdentifier: "code", sender: nil)
             }else{
-               
-                if indexPath.row == (karyawan.count + 1){
-                       performSegue(withIdentifier: "code", sender: nil)
+                if karyawan.count == 0 {
+                    performSegue(withIdentifier: "code", sender: nil)
+                }else{
+                    if indexPath.row < karyawan.count{
+//                        performSegue(withIdentifier: "code", sender: nil)
+                    }else{
+                        performSegue(withIdentifier: "code", sender: nil)
+                    }
                 }
             }
            

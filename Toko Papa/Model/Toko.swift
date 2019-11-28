@@ -7,13 +7,15 @@
 //
 
 import Foundation
-
+import CloudKit
 
 class Toko {
     var namaToko: String?
     var uniqcode: Int?
+    var Id: CKRecord.ID
     
-    init(namatoko: String, uniq: Int) {
+    init(id:CKRecord.ID, namatoko: String, uniq: Int) {
+        self.Id = id
         self.namaToko = namatoko
         self.uniqcode = uniq
     }

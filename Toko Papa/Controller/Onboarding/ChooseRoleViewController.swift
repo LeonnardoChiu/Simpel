@@ -59,10 +59,11 @@ class ChooseRoleViewController: UIViewController {
     func ModelToko() {
         toko.removeAll()
         for countData in data {
+            let id = countData.recordID
             let namaToko = countData.value(forKey: "NamaToko") as! String
             let Uniq = countData.value(forKey: "UniqCode") as! Int
             
-            toko.append(Toko(namatoko: namaToko,uniq: Uniq))
+            toko.append(Toko(id: id, namatoko: namaToko,uniq: Uniq))
         }
         print(toko[0].uniqcode)
         print(toko[0].namaToko)

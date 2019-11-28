@@ -223,12 +223,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Pairing"/>
+                                <connections>
+                                    <action selector="pairingButton:" destination="PKB-e5-tgE" eventType="touchUpInside" id="dEQ-JN-hew"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="nV4-7H-Oqc"/>
                     </view>
                     <navigationItem key="navigationItem" title="Karyawan" id="KXM-xV-FCp"/>
+                    <connections>
+                        <outlet property="pairingTextField" destination="Xdc-SA-CMV" id="ifA-h1-sV6"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="-1710.144927536232" y="1.3392857142857142"/>
