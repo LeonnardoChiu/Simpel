@@ -1,11 +1,13 @@
 
 import UIKit
 
-class reportViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class reportViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
+    
  
     @IBOutlet weak var selectedDateButton: UIButton!
-    
+    @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var dateCollection: UICollectionView!
     
     var tempStringDariLogin: String = ""
     var totalSales = 700000
@@ -18,7 +20,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var editItem = ["Gelas", "Piring", "Kaca"]
     var editItemLastUpdate = ["19.15", "19.15", "19.15"]
     var editItemValue = [15000, 16000, 15000]
-    
+    var leapYearCounter = 2
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -28,6 +30,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var titleText = ""
     
     var selectedEditedItem = ""
+    var startWithCurrentDate = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,61 +42,127 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         tabBarController?.hidesBottomBarWhenPushed = false
-        selectedDay = day
-        selectedMonth = "\(months[month])"
-        selectedYear = year
-        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //navigationController?.setNavigationBarHidden(false, animated: true)
         print("DARI LOGIN INI BOSSSS : \(tempStringDariLogin)")
+        
+        //INI CALENDAR
+        selectedDay = day
+        selectedMonth = "\(months[month])"
+        selectedYear = year
+        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
+        monthLabel.text = "\(selectedMonth) \(year)"
+        
+        startWithCurrentDate = false
 
     }
     
     @IBAction func nextButtonClick(_ sender: Any) {
-        selectedDay += 1
-        if selectedDay > daysInMonth[month] {
-            if month == 11 {
-                month = 0
-                selectedDay = 1
-                selectedMonth = months[month]
-                selectedYear += 1
-            }
-            else {
-                month += 1
-                selectedDay = daysInMonth[month]
-                selectedMonth = months[month]
-            }
-        }
-        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
+//        selectedDay += 1
+//        if selectedDay > daysInMonth[month] {
+//            if month == 11 {
+//                month = 0
+//                selectedDay = 1
+//                selectedMonth = months[month]
+//                selectedYear += 1
+//            }
+//            else {
+//                month += 1
+//                selectedDay = daysInMonth[month]
+//                selectedMonth = months[month]
+//            }
+//        }
+        
+        goToNextMonth()
+        
+        selectedMonth = months[month]
+        monthLabel.text = "\(selectedMonth) \(year)"
+        dateCollection.reloadData()
+        scrollTo(item: 0, section: 0)
+        
+//        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
     }
     
     @IBAction func prevButtonClick(_ sender: Any) {
-        selectedDay -= 1
-        if selectedDay < 1 {
-            if month == 0 {
-                month = 11
-                selectedDay = daysInMonth[month]
-                selectedMonth = months[month]
-                selectedYear -= 1
-            }
-            else {
-                month -= 1
-                selectedDay = daysInMonth[month]
-                selectedMonth = months[month]
-            }
-        }
-        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
+//        selectedDay -= 1
+//        if selectedDay < 1 {
+//            if month == 0 {
+//                month = 11
+//                selectedDay = daysInMonth[month]
+//                selectedMonth = months[month]
+//                selectedYear -= 1
+//            }
+//            else {
+//                month -= 1
+//                selectedDay = daysInMonth[month]
+//                selectedMonth = months[month]
+//            }
+//        }
+        goToPreviousMonth()
+        
+        selectedMonth = months[month]
+        monthLabel.text = "\(selectedMonth) \(year)"
+        dateCollection.reloadData()
+        let lastDay = daysInMonth[month]
+        print(lastDay)
+        scrollTo(item: 0, section: 0)
+//        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
     }
     
+    func goToNextMonth() {
+        switch selectedMonth {
+        case "December":
+            month = 0
+            year += 1
+            
+            if leapYearCounter < 5 {
+                leapYearCounter += 1
+            }
+            
+            if leapYearCounter == 4 {
+                daysInMonth[1] = 29
+            }
+            if leapYearCounter == 5{
+                leapYearCounter = 1
+                daysInMonth[1] = 28
+            }
+        default:
+            month += 1
+        }
+    }
     
+    func goToPreviousMonth() {
+        switch selectedMonth {
+        case "January":
+            month = 11
+            year -= 1
+            
+            if leapYearCounter > 0 {
+                leapYearCounter -= 1
+            }
+            
+            if leapYearCounter == 0 {
+                daysInMonth[1] = 29
+                leapYearCounter = 4
+            }
+            else{
+                daysInMonth[1] = 29
+            }
+        default:
+            month -= 1
+        }
+    }
+
+    
+    //MARK: TABLE VIEW
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -312,6 +381,65 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
+    //MARK: COLLECTION VIEW
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return daysInMonth[month]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "calendarCell", for: indexPath) as! ScrollCalendarCell
+        
+        cell.Circle.isHidden = true
+        cell.dateLabel.text = "\(indexPath.row + 1)"
+        
+        if selectedMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day{
+            cell.dateLabel.textColor = UIColor.white
+            cell.Circle.isHidden = false
+            cell.DrawGreyCircle()
+        }
+        else{
+            cell.dateLabel.textColor = UIColor.black
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if !startWithCurrentDate {
+            scrollTo(item: day, section: 0)
+            startWithCurrentDate = true
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCell = dateCollection.cellForItem(at: indexPath) as! ScrollCalendarCell
+        
+        selectedCell.dateLabel.textColor = UIColor.white
+        selectedCell.Circle.isHidden = false
+        selectedCell.DrawCircle()
+        
+        selectedDay = indexPath.row + 1
+        selectedMonth = months[month]
+        selectedYear = year
+        
+        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
+        print(indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = dateCollection.cellForItem(at: indexPath) as! ScrollCalendarCell
+        cell.dateLabel.textColor = UIColor.black
+        cell.Circle.isHidden = true
+    }
+    
+    func scrollTo(item: Int, section: Int) {
+        let scrollTo = IndexPath(item: item, section: section)
+        self.dateCollection.scrollToItem(at: scrollTo, at: .centeredHorizontally, animated: true)
+        
+    }
+    
+    //MARK: SEGUE
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToEditItemDetails"{
             print("segue")
@@ -319,6 +447,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             nextVC.itemName = selectedEditedItem
         }
     }
+    
+    //MARK: IBACTION
     
     @IBAction func DateButtonClick(_ sender: Any) {
        let nextVC:calendarViewController = self.storyboard?.instantiateViewController(withIdentifier: "calendarViewController") as! calendarViewController
@@ -349,6 +479,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
 }
+
+//MARK: EXTENSION
 
 extension UIView {
    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
