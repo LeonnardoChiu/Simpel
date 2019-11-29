@@ -26,8 +26,6 @@ struct User {
 }
 
 class People {
-    var username: String
-    var password: String
     var firstName: String
     var lastName: String
     var phone: String
@@ -35,10 +33,13 @@ class People {
     var Id: CKRecord.ID
     var tokoID: String
     
-    init(id: CKRecord.ID, username: String, password: String, firstName: String, lastName: String, phone: String, rolee: String, toko:String) {
+    var email: String
+    var appleID: String
+    
+    init(id: CKRecord.ID, appleid: String, email: String, firstName: String, lastName: String, phone: String, rolee: String, toko:String) {
         self.Id = id
-        self.username = username
-        self.password = password
+        self.email = email
+        self.appleID = appleid
         self.firstName = firstName
         self.lastName = lastName
         self.phone = phone

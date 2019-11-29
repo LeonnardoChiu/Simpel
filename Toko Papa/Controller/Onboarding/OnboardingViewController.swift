@@ -23,24 +23,17 @@ class OnboardingViewController: UIViewController {
     
     
     // MARK: - IBOutlet list
-    @IBOutlet weak var errorLbl: UILabel!
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signInAppleBtn: UIStackView!
     
     @IBAction func loginBtn(_ sender: UIButton) {
-        checkForm()
-        //let vc: UIViewController = UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "reportViewController") as! reportViewController
-          /// segue pake storyboard ID
+       
     }
     @IBAction func unwindFromLoginVC(segue: UIStoryboardSegue){
         guard let satuanVC = segue.source as? RegisterViewController else { return }
             QueryDatabase()
     }
     
-    @IBAction func registerBtn(_ sender: UIButton) {
-        //performSegue(withIdentifier: "toRegister", sender: nil)
-    }
+    
     
     // MARK: - obj function untuk nampilin data Query Database
     @objc func QueryDatabase(){
@@ -52,8 +45,8 @@ class OnboardingViewController: UIViewController {
             self.data = record
             self.initDataModel()
             for i in self.people{
-                print(i.username)
-                print(i.password)
+                print(i.appleID)
+                print(i.firstName)
            }
             print("Total Employee dalam database : \(self.data.count)")
         }
@@ -65,8 +58,6 @@ class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         initAppleSignInButton()
         self.hideKeyboardWhenTappedAround()
-        passwordTextField.isSecureTextEntry = true
-        errorLbl.isHidden = true
     }
     
     // MARK: - View will appear
@@ -82,67 +73,51 @@ class OnboardingViewController: UIViewController {
         people.removeAll()
         for countData in data {
             let id = countData.recordID
-            let username = countData.value(forKey: "UserName") as! String
-            let password = countData.value(forKey: "Password") as! String
+            let appleid = countData.value(forKey: "AppleID") as! String
+            let email = countData.value(forKey: "Email") as! String
             let firstName = countData.value(forKey: "firstName") as! String
             let lastName = countData.value(forKey: "lastName") as! String
             let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
-            people.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+            people.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
         }
     }
     
     // MARK: - Function Check Form
-    func checkForm() {
-        if usernameTextField.text == "" && passwordTextField.text == "" {
-            print("KOSONG ANJENG")
-            errorLbl.text = "Username dan password harus diisi"
-            errorLbl.isHidden = false
-        } else if usernameTextField.text == "" {
-            print("KOSONG ANJENG")
-            errorLbl.text = "Username harus diisi"
-            errorLbl.isHidden = false
-        } else if passwordTextField.text == "" {
-            print("KOSONG ANJENG")
-            errorLbl.text = "Password harus diisi"
-            errorLbl.isHidden = false
-        } else {
-            var cek = false
-            
-            for ppl in people{
-                if ppl.username == usernameTextField.text, ppl.password == passwordTextField.text{
-                    cek = true
-                    model = ppl
-                    break
-                }
+    func checkForm(user: User) {
+        var cek = false
+        print("hai : \(user.id)")
+        for ppl in people{
+            if ppl.appleID == user.id{
+                cek = true
+                model = ppl
+                break
             }
+        }
+        
+        if cek == true{
             
-            if cek == true{
-                
-                if model?.role == "-" || model?.tokoID == "-" {
-                    performSegue(withIdentifier: "toChooseRole", sender: nil)
-                }else{
-                    /// ke main storyboard
-                    if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                        vc.modelPeople = model
-                        
-                        //navigationController?.setNavigationBarHidden(false, animated: true)
-                        let appDelegate = UIApplication.shared.windows
-                        appDelegate.first?.rootViewController = vc
-                        self.present(vc, animated: true, completion: nil)
-                        
-                    }
-                    
-                navigationController?.setNavigationBarHidden(false, animated: true)
-                }
+            if model?.role == "-" || model?.tokoID == "-" {
+                performSegue(withIdentifier: "toChooseRole", sender: nil)
             }else{
-                 presentAlert(withTitle: "Login Gagal", message: "UserName atau Password salahb")
+                /// ke main storyboard
+                if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                    vc.modelPeople = model
+                    
+                    //navigationController?.setNavigationBarHidden(false, animated: true)
+                    let appDelegate = UIApplication.shared.windows
+                    appDelegate.first?.rootViewController = vc
+                    self.present(vc, animated: true, completion: nil)
+                    
+                }
+                
+            navigationController?.setNavigationBarHidden(false, animated: true)
             }
-            print(String(usernameTextField.text!))
-            print(String(passwordTextField.text!))
-            errorLbl.isHidden = true
-            
+        }else{
+             
+             // perform segue here
+             performSegue(withIdentifier: "toRegister", sender: user)
         }
     }
     
@@ -192,8 +167,7 @@ extension OnboardingViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let credentials as ASAuthorizationAppleIDCredential :
             let user = User(credentials: credentials)
-            // perform segue here
-            performSegue(withIdentifier: "toRegister", sender: user)
+            checkForm(user: user)
             break
         default:
             break
