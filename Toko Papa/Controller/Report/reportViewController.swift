@@ -498,6 +498,21 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             nextVC.selectedMonthNumber = self.selectedMonthNumber
             nextVC.selectedYear = self.selectedYear
         }
+        else if segue.identifier == "segueToNewItem" {
+            let nextVC = segue.destination as! newItemViewController
+            nextVC.selectedDay = self.selectedDay
+            nextVC.selectedMonth = self.selectedMonth
+            nextVC.selectedMonthNumber = self.selectedMonthNumber
+            nextVC.selectedYear = self.selectedYear
+        }
+        
+        else if segue.identifier == "segueToEditItem" {
+            let nextVC = segue.destination as! editItemViewController
+            nextVC.selectedDay = self.selectedDay
+            nextVC.selectedMonth = self.selectedMonth
+            nextVC.selectedMonthNumber = self.selectedMonthNumber
+            nextVC.selectedYear = self.selectedYear
+        }
     }
     
     
