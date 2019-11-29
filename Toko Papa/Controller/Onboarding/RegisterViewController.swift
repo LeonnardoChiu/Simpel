@@ -10,9 +10,16 @@ import UIKit
 import CloudKit
 
 class RegisterViewController: UIViewController {
+    
+    // MARK: - Variable
     var placeHolders: [String] = ["Nama Depan", "Nama Belakang", "Nomor hape"]
     var placeHoldersSection0: [String] = ["Username", "Password"]
-    // MARK: - Variable
+    var user: User?
+    var id: String = ""
+    var firstName: String = ""
+    var lastName: String = ""
+    var email: String = ""
+    
     var image: CKAsset?
     var images = UIImage()
     var roleTemp: String = ""
@@ -88,6 +95,10 @@ class RegisterViewController: UIViewController {
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(String(user?.debugDescription ?? ""))
+        print("Your Apple ID : \(user?.id)")
+        print("First name    : \(user?.firstName)")
+        print("Last name     : \(user?.lastName)")
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     

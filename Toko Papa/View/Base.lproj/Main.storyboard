@@ -148,14 +148,14 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Error label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9Y-6J-hPD">
-                                <rect key="frame" x="60" y="498" width="294" height="16"/>
+                                <rect key="frame" x="60" y="503" width="294" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                 <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Uq-LT-h47">
-                                <rect key="frame" x="125" y="550" width="157" height="30"/>
+                                <rect key="frame" x="129" y="647" width="157" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Register"/>
                                 <connections>
@@ -164,13 +164,17 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ct1-RI-lWU">
-                                <rect key="frame" x="122" y="512" width="163" height="30"/>
+                                <rect key="frame" x="126" y="609" width="163" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Log In"/>
                                 <connections>
                                     <action selector="loginBtn:" destination="b6a-9g-dw7" eventType="touchUpInside" id="u7d-5z-K10"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znO-3j-qi8">
+                                <rect key="frame" x="120" y="549" width="174" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -195,6 +199,7 @@
                     <connections>
                         <outlet property="errorLbl" destination="V9Y-6J-hPD" id="RcS-me-UCO"/>
                         <outlet property="passwordTextField" destination="Yr0-ax-JLG" id="Ry0-ed-B4E"/>
+                        <outlet property="signInAppleBtn" destination="znO-3j-qi8" id="6eV-Jt-rRq"/>
                         <outlet property="usernameTextField" destination="TZJ-UE-2Ot" id="vPQ-98-Wai"/>
                         <segue destination="Sa8-dk-dfs" kind="show" identifier="toChooseRole" id="DWs-r2-eSw"/>
                     </connections>
@@ -202,6 +207,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gU8-Hi-UJN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-942" y="-735"/>
+        </scene>
+        <!--Karyawan-->
+        <scene sceneID="rrr-T4-6kf">
+            <objects>
+                <viewController id="PKB-e5-tgE" customClass="PairingKarywanViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PRG-Ze-qDP" customClass="Pairin">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xdc-SA-CMV">
+                                <rect key="frame" x="20" y="221" width="374" height="119"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZG-P3-bca">
+                                <rect key="frame" x="163" y="424" width="88" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Pairing"/>
+                                <connections>
+                                    <action selector="pairingButton:" destination="PKB-e5-tgE" eventType="touchUpInside" id="dEQ-JN-hew"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="nV4-7H-Oqc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Karyawan" id="KXM-xV-FCp"/>
+                    <connections>
+                        <outlet property="pairingTextField" destination="Xdc-SA-CMV" id="ifA-h1-sV6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XrY-G7-Hbx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1710.144927536232" y="1.3392857142857142"/>
         </scene>
         <!--Pilih Role-->
         <scene sceneID="fwC-GY-2Mh">
@@ -258,6 +299,7 @@
                         <outlet property="karyawanView" destination="eQ6-RS-Nnb" id="9dB-uX-HIB"/>
                         <outlet property="ownerView" destination="DMg-Hk-SHO" id="e0I-UJ-Xep"/>
                         <segue destination="ci2-kY-oDJ" kind="show" identifier="ownerToko" id="ncx-UJ-6HY"/>
+                        <segue destination="PKB-e5-tgE" kind="show" identifier="karyawan" id="Pta-Qp-hW5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oex-YC-muy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

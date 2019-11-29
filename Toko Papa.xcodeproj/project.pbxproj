@@ -24,16 +24,15 @@
 		6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */; };
 		6838F99D237276D700FCC0D0 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */; };
 		6838F99F23727D7A00FCC0D0 /* ClassManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838F99E23727D7A00FCC0D0 /* ClassManager.swift */; };
+		687B54FD238E649B00137901 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B54FC238E649B00137901 /* CodeViewController.swift */; };
+		687B54FF238F7B4600137901 /* Toko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B54FE238F7B4600137901 /* Toko.swift */; };
+		687B5501238F8D3400137901 /* PairingKarywanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B5500238F8D3400137901 /* PairingKarywanViewController.swift */; };
 		68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E4237E8B6A00A5FEA0 /* KategoriTableViewController.swift */; };
 		68C8E4E723826B3100A5FEA0 /* TambahSatuanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E623826B3100A5FEA0 /* TambahSatuanViewController.swift */; };
 		68C8E4E923826B4000A5FEA0 /* TambahCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E823826B4000A5FEA0 /* TambahCategoryViewController.swift */; };
 		68C8E4EB2383921F00A5FEA0 /* BarcodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4EA2383921F00A5FEA0 /* BarcodeViewController.swift */; };
 		BD0487822372703D002E0586 /* EmployeeProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0487812372703D002E0586 /* EmployeeProfileCell.swift */; };
 		BD048785237280E7002E0586 /* People.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD048784237280E7002E0586 /* People.swift */; };
-		BD04878723729EF1002E0586 /* AddEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD04878623729EF1002E0586 /* AddEmployeeViewController.swift */; };
-		BD04878923729F17002E0586 /* EditEmployeeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD04878823729F17002E0586 /* EditEmployeeProfileViewController.swift */; };
-		BD04878B2372B2CA002E0586 /* EditEmployeeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD04878A2372B2CA002E0586 /* EditEmployeeCell.swift */; };
-		BD04878D2372B2FC002E0586 /* AddEmployeeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD04878C2372B2FC002E0586 /* AddEmployeeCell.swift */; };
 		BD13BF65237BFFC600172A92 /* PaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13BF64237BFFC600172A92 /* PaymentMethodViewController.swift */; };
 		BD418672238B7B2200278097 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD418671238B7B2200278097 /* OnboardingViewController.swift */; };
 		BD48592D2371699A0058A360 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48592C2371699A0058A360 /* EmployeeListViewController.swift */; };
@@ -105,16 +104,15 @@
 		6838F99A23726B4100FCC0D0 /* SatuanBarangTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatuanBarangTableViewController.swift; sourceTree = "<group>"; };
 		6838F99C237276D700FCC0D0 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		6838F99E23727D7A00FCC0D0 /* ClassManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassManager.swift; sourceTree = "<group>"; };
+		687B54FC238E649B00137901 /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
+		687B54FE238F7B4600137901 /* Toko.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toko.swift; sourceTree = "<group>"; };
+		687B5500238F8D3400137901 /* PairingKarywanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingKarywanViewController.swift; sourceTree = "<group>"; };
 		68C8E4E4237E8B6A00A5FEA0 /* KategoriTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KategoriTableViewController.swift; sourceTree = "<group>"; };
 		68C8E4E623826B3100A5FEA0 /* TambahSatuanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TambahSatuanViewController.swift; sourceTree = "<group>"; };
 		68C8E4E823826B4000A5FEA0 /* TambahCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TambahCategoryViewController.swift; sourceTree = "<group>"; };
 		68C8E4EA2383921F00A5FEA0 /* BarcodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeViewController.swift; sourceTree = "<group>"; };
 		BD0487812372703D002E0586 /* EmployeeProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeProfileCell.swift; sourceTree = "<group>"; };
 		BD048784237280E7002E0586 /* People.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = People.swift; sourceTree = "<group>"; };
-		BD04878623729EF1002E0586 /* AddEmployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEmployeeViewController.swift; sourceTree = "<group>"; };
-		BD04878823729F17002E0586 /* EditEmployeeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmployeeProfileViewController.swift; sourceTree = "<group>"; };
-		BD04878A2372B2CA002E0586 /* EditEmployeeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmployeeCell.swift; sourceTree = "<group>"; };
-		BD04878C2372B2FC002E0586 /* AddEmployeeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeeCell.swift; sourceTree = "<group>"; };
 		BD13BF64237BFFC600172A92 /* PaymentMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodViewController.swift; sourceTree = "<group>"; };
 		BD418671238B7B2200278097 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		BD48592C2371699A0058A360 /* EmployeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmployeeListViewController.swift; path = "Toko Papa/Controller/Access/Employee List/EmployeeListViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -276,8 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				BD485932237172280058A360 /* Employee List */,
-				BD4859332371726C0058A360 /* Add New & Edit Employee */,
 				FE88AB81238271CB00FCA480 /* selectRoleViewController.swift */,
+				687B54FC238E649B00137901 /* CodeViewController.swift */,
 			);
 			path = Access;
 			sourceTree = "<group>";
@@ -289,6 +287,7 @@
 				BD4A4B69237D038E00F9F1FE /* Item.swift */,
 				FE01DFA72383A2750098E54C /* QRData.swift */,
 				BD734E6E2386638800779531 /* Inventory.swift */,
+				687B54FE238F7B4600137901 /* Toko.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,6 +318,7 @@
 				BD8040E3238BBA8300FEC5B0 /* RoleViewCell.swift */,
 				BD8040E5238BC67F00FEC5B0 /* ChooseRoleViewController.swift */,
 				BD8040E7238BDA0700FEC5B0 /* TokoViewController.swift */,
+				687B5500238F8D3400137901 /* PairingKarywanViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -332,17 +332,6 @@
 				BD0487812372703D002E0586 /* EmployeeProfileCell.swift */,
 			);
 			path = "Employee List";
-			sourceTree = "<group>";
-		};
-		BD4859332371726C0058A360 /* Add New & Edit Employee */ = {
-			isa = PBXGroup;
-			children = (
-				BD04878623729EF1002E0586 /* AddEmployeeViewController.swift */,
-				BD04878823729F17002E0586 /* EditEmployeeProfileViewController.swift */,
-				BD04878A2372B2CA002E0586 /* EditEmployeeCell.swift */,
-				BD04878C2372B2FC002E0586 /* AddEmployeeCell.swift */,
-			);
-			path = "Add New & Edit Employee";
 			sourceTree = "<group>";
 		};
 		BD520A8F237BB89200B19D2C /* Cashier */ = {
@@ -464,10 +453,12 @@
 				FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */,
 				BDA38F51237BEB5B00FCD5BC /* TotalPriceCell.swift in Sources */,
 				FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */,
+				687B54FD238E649B00137901 /* CodeViewController.swift in Sources */,
 				FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */,
 				BD8040E0238BA96300FEC5B0 /* RegisterViewCell.swift in Sources */,
 				FE01DFA82383A2750098E54C /* QRData.swift in Sources */,
 				FE88AB82238271CB00FCA480 /* selectRoleViewController.swift in Sources */,
+				687B5501238F8D3400137901 /* PairingKarywanViewController.swift in Sources */,
 				FE5EB8E32375149F00DB1986 /* profileViewController.swift in Sources */,
 				FE92867F238F960D0071CD9C /* highestSalesScrollCalendarCell.swift in Sources */,
 				BDA38F3E237BC3C300FCD5BC /* CashierCell.swift in Sources */,
@@ -483,7 +474,6 @@
 				68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */,
 				FE92867B238F74970071CD9C /* totalSalesScrollCalendarCell.swift in Sources */,
 				BD8D64AA2371864500A2080D /* EmployeeProfileViewController.swift in Sources */,
-				BD04878923729F17002E0586 /* EditEmployeeProfileViewController.swift in Sources */,
 				BD048785237280E7002E0586 /* People.swift in Sources */,
 				FEB1D523237BAD1C0082F13A /* dashboardTableCell.swift in Sources */,
 				BDA38F4A237BD15800FCD5BC /* PaymentMethodCell.swift in Sources */,
@@ -498,7 +488,7 @@
 				BD9AD1EA238CF6820093C935 /* MainTabBarController.swift in Sources */,
 				FEB1D52F237DB21F0082F13A /* editItemDetailViewController.swift in Sources */,
 				BDA38F46237BCA4900FCD5BC /* itemAddedCell.swift in Sources */,
-				BD04878723729EF1002E0586 /* AddEmployeeViewController.swift in Sources */,
+				687B54FF238F7B4600137901 /* Toko.swift in Sources */,
 				BD13BF65237BFFC600172A92 /* PaymentMethodViewController.swift in Sources */,
 				BD7D39A0237BBA7900ACC1FA /* itemListTableCell.swift in Sources */,
 				BD8040E8238BDA0700FEC5B0 /* TokoViewController.swift in Sources */,
@@ -509,11 +499,9 @@
 				68C8E4E923826B4000A5FEA0 /* TambahCategoryViewController.swift in Sources */,
 				FE5EB8E72378FF5C00DB1986 /* editProfileViewController.swift in Sources */,
 				BD418672238B7B2200278097 /* OnboardingViewController.swift in Sources */,
-				BD04878D2372B2FC002E0586 /* AddEmployeeCell.swift in Sources */,
 				BD48592D2371699A0058A360 /* EmployeeListViewController.swift in Sources */,
 				681E97AE237BB5EE0047DE10 /* EditBarangViewController.swift in Sources */,
 				BD48592F23716ADB0058A360 /* EmployeeListCell.swift in Sources */,
-				BD04878B2372B2CA002E0586 /* EditEmployeeCell.swift in Sources */,
 				BD520A91237BB8B600B19D2C /* CashierViewController.swift in Sources */,
 				BD4A4B6A237D038E00F9F1FE /* Item.swift in Sources */,
 				FE906419237129F5002F3463 /* reportViewController.swift in Sources */,

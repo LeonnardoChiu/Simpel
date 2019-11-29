@@ -41,10 +41,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var string = self.tabBarController as! MainTabBarController
-        
-        print("--------")
-        print(string.modelPeople?.firstName)
+       
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         tabBarController?.hidesBottomBarWhenPushed = false

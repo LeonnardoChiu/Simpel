@@ -8,6 +8,7 @@
 
 import UIKit
 import CloudKit
+import AuthenticationServices
 
 class OnboardingViewController: UIViewController {
 
@@ -18,11 +19,15 @@ class OnboardingViewController: UIViewController {
     var data = [CKRecord]()
     var people: [People] = []
     var model: People?
+    var user: User?
+    
+    
     // MARK: - IBOutlet list
     @IBOutlet weak var errorLbl: UILabel!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-
+    @IBOutlet weak var signInAppleBtn: UIStackView!
+    
     @IBAction func loginBtn(_ sender: UIButton) {
         checkForm()
         //let vc: UIViewController = UIStoryboard(name: "Report", bundle: nil).instantiateViewController(withIdentifier: "reportViewController") as! reportViewController
@@ -58,6 +63,7 @@ class OnboardingViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
+        initAppleSignInButton()
         self.hideKeyboardWhenTappedAround()
         passwordTextField.isSecureTextEntry = true
         errorLbl.isHidden = true
@@ -87,7 +93,7 @@ class OnboardingViewController: UIViewController {
         }
     }
     
-    // MARK: - Function
+    // MARK: - Function Check Form
     func checkForm() {
         if usernameTextField.text == "" && passwordTextField.text == "" {
             print("KOSONG ANJENG")
@@ -114,7 +120,7 @@ class OnboardingViewController: UIViewController {
             
             if cek == true{
                 
-                if model?.role == "-" && model?.tokoID == "-" {
+                if model?.role == "-" || model?.tokoID == "-" {
                     performSegue(withIdentifier: "toChooseRole", sender: nil)
                 }else{
                     /// ke main storyboard
@@ -128,29 +134,7 @@ class OnboardingViewController: UIViewController {
                         
                     }
                     
-                    
-                    
-                    /// segue using storyboard ID dan send data
-                    /*if let vc: InventoryViewController = UIStoryboard(name: "Inventory", bundle: nil).instantiateViewController(identifier: "InventoryViewController") as? InventoryViewController {
-                        navigationController?.setNavigationBarHidden(false, animated: true)
-                        //vc.tempStringDariLogin = "HIYAAAAAA"
-                        
-                        let appDelegate = UIApplication.shared.windows
-                        appDelegate.first?.rootViewController = vc
-                        self.present(vc, animated: true)
-                    }*/
-                    
-                    
                 navigationController?.setNavigationBarHidden(false, animated: true)
-                    //let mainStoryboard: UIStoryboard = UIStoryboard(name: "Inventory", bundle: nil)
-                    //let vcc: UIViewController = mainStoryboard.instantiateViewController(identifier: "InventoryViewController") as! InventoryViewController
-                    
-                    
-//                    let appDelegate = UIApplication.shared.windows
-//                    appDelegate.first?.rootViewController = vc
-                    
-                  
-                    //self.present(vc, animated: true, completion: nil)
                 }
             }else{
                  presentAlert(withTitle: "Login Gagal", message: "UserName atau Password salahb")
@@ -162,11 +146,68 @@ class OnboardingViewController: UIViewController {
         }
     }
     
+    // MARK: - Apple sign in button init view
+    func initAppleSignInButton() {
+        let authorizationButton = ASAuthorizationAppleIDButton()
+        authorizationButton.addTarget(self, action: #selector(didTapSignInButton), for: .touchUpInside)
+        /// add apple sign button ke dalam stack view
+        self.signInAppleBtn.addArrangedSubview(authorizationButton)
+    }
+    /// objc selector untuk login by apple ID
+    @objc func didTapSignInButton() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authController = ASAuthorizationController(authorizationRequests: [request])
+        
+        authController.delegate = self
+        authController.presentationContextProvider = self
+        authController.performRequests()
+    }
+    
+    // MARK: - Prepare segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       if segue.identifier == "toChooseRole"{
+        if segue.identifier == "toChooseRole" {
             guard let vc = segue.destination as? ChooseRoleViewController else { return }
                 vc.modelPemilik = model
         }
+        
+        if let regVC = segue.destination as? RegisterViewController, let user = sender as? User {
+            regVC.user = user
+            regVC.firstName = user.firstName
+            regVC.lastName = user.lastName
+            regVC.email = user.email
+            
+        }
     }
 
+    
+}
+
+// MARK: - EXTENSION
+extension OnboardingViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        switch authorization.credential {
+        case let credentials as ASAuthorizationAppleIDCredential :
+            let user = User(credentials: credentials)
+            // perform segue here
+            performSegue(withIdentifier: "toRegister", sender: user)
+            break
+        default:
+            break
+        }
+        
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Gagal login")
+    }
+}
+
+extension OnboardingViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return view.window!
+    }
 }
