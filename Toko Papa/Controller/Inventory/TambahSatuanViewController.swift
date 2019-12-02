@@ -10,7 +10,7 @@ import UIKit
 import CloudKit
 
 class TambahSatuanViewController: UIViewController {
-
+    var modelPemilik: People?
     @IBOutlet weak var tambahSatuanTextField: UITextField!
      let database = CKContainer.default().publicCloudDatabase
     override func viewDidLoad() {
@@ -23,10 +23,11 @@ class TambahSatuanViewController: UIViewController {
     
     @IBAction func simpanButton(_ sender: Any) {
         performSegue(withIdentifier: "backtoSatuan", sender: nil)
-        saveToCloud(tambah: tambahSatuanTextField.text!)
+       saveToCloud(tambah: tambahSatuanTextField.text!, tokoId: modelPemilik!.tokoID)
     }
-    func saveToCloud(tambah: String){
+    func saveToCloud(tambah: String, tokoId: String){
         let newNote = CKRecord(recordType: "Satuan")
+         newNote.setValue(tokoId, forKey: "TokoID")
         newNote.setValue(tambah, forKey: "SatuanBarang")
         database.save(newNote) { (record, error) in
             print(error)
@@ -34,6 +35,8 @@ class TambahSatuanViewController: UIViewController {
             print("savaedddd")
         }
     }
+    
+    
     
     
 

@@ -15,7 +15,7 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     var pemelihVC = 0 // 1 dari edit, 0 dari add
     var satuanCloud = [CKRecord]()
     let database = CKContainer.default().publicCloudDatabase
-    
+    var modelPemilik: People?
     var hargaTempSatuan: Int?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +46,20 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return satuanCloud.count
+        var count = 0
+        if satuanCloud.count != 0 {
+            count = satuanCloud.count
+            tableView.backgroundView = nil
+        } else {
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
+                       noDataLabel.text = "Tidak ada barang, silahkan di tambah"
+                       noDataLabel.textColor = UIColor.systemRed
+                       noDataLabel.textAlignment = .center
+                       tableView.backgroundView = noDataLabel
+                       tableView.separatorStyle = .none
+        }
+        return count
+        //return satuanCloud.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,16 +95,17 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     
 
     @objc func QueryDatabase(){
-            let query = CKQuery(recordType: "Satuan", predicate: NSPredicate(value: true))
-            database.perform(query, inZoneWith: nil) { (record, _) in
-                guard let record = record else {return}
-                  //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
-                self.satuanCloud = record
-                DispatchQueue.main.async {
-                    self.tableView.refreshControl?.endRefreshing()
-                    self.tableView.reloadData()
-                }
+        let tokoID = modelPemilik?.tokoID
+        let query = CKQuery(recordType: "Satuan", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+              //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
+            self.satuanCloud = record
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
             }
+        }
     }
     
     @IBAction func unwindFromSatuanBarang(segue: UIStoryboardSegue){
@@ -129,7 +143,18 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
         }
     }
     
+    @IBAction func addSat(_ sender: Any) {
+        performSegue(withIdentifier: "addSat", sender: nil)
+    }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           if segue.identifier == "addSat"{
+               guard let vc = segue.destination as? TambahSatuanViewController else { return }
+               
+               vc.modelPemilik = modelPemilik
+           }
+       }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
