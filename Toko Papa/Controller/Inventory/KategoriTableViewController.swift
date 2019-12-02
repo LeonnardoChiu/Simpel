@@ -16,7 +16,7 @@ class KategoriTableViewController: UITableViewController {
     var pemilihVC: Int?
     let database = CKContainer.default().publicCloudDatabase
     var kategoriCloud = [CKRecord]()
-    
+    var modelPemilik: People?
     
     
     override func viewDidLoad() {
@@ -45,8 +45,21 @@ class KategoriTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count = 0
+        if kategoriCloud.count != 0 {
+            count = kategoriCloud.count
+            tableView.backgroundView = nil
+        } else {
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
+                       noDataLabel.text = "Tidak ada barang, silahkan di tambah"
+                       noDataLabel.textColor = UIColor.systemRed
+                       noDataLabel.textAlignment = .center
+                       tableView.backgroundView = noDataLabel
+                       tableView.separatorStyle = .none
+        }
         // #warning Incomplete implementation, return the number of rows
-        return kategoriCloud.count
+        return count
+        //return kategoriCloud.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -79,9 +92,8 @@ class KategoriTableViewController: UITableViewController {
 
    
     @objc func QueryDatabase(){
-        let query = CKQuery(recordType: "Category", predicate: NSPredicate(value: true))
-//        let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
-//      query.sortDescriptors = [sortDesc]
+        let tokoID = modelPemilik?.tokoID
+        let query = CKQuery(recordType: "Category", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
         database.perform(query, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
               //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
@@ -127,6 +139,18 @@ class KategoriTableViewController: UITableViewController {
                 
             }
         }
+    
+    @IBAction func addKategori(_ sender: Any) {
+        performSegue(withIdentifier: "addKat", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addKat"{
+            guard let vc = segue.destination as? TambahCategoryViewController else { return }
+            
+            vc.modelPemilik = modelPemilik
+        }
+    }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

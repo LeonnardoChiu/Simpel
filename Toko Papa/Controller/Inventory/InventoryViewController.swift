@@ -42,13 +42,25 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            //searchFooter.setIsFilteringToShow(filteredItemCount: filteredItem.count, of: myItem.count)
-            return searchedItem.count
+        var count = 0
+        if data.count != 0 {
+            if isFiltering {
+                //searchFooter.setIsFilteringToShow(filteredItemCount: filteredItem.count, of: myItem.count)
+                return searchedItem.count
+            } else {
+                //searchFooter.setNotFiltering()
+                return originalItem.count
+            }
+            count = data.count
         } else {
-            //searchFooter.setNotFiltering()
-            return originalItem.count
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
+            noDataLabel.text = "Tidak ada barang, silahkan di tambah"
+            noDataLabel.textColor = UIColor.systemRed
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
         }
+        return count
         //return data.count
     }
     
@@ -70,7 +82,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             return cell
         }
     }
-    
+    //MARK:- didselectrow table view
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFiltering {
             selectedItem = searchedItem[indexPath.row]
@@ -92,7 +104,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
         if segue.identifier == "detail"{
             let destData = segue.destination as! DetailBarangViewController
             destData.itemDetail = selectedItem
-            //destData.detailBarangCkrecord = sender as! CKRecord
+            destData.modelPemilik = modelPemilik
         }
     }
     
@@ -131,7 +143,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         var mainTabBar = self.tabBarController as! MainTabBarController
-               modelPemilik = mainTabBar.modelPeople
+        modelPemilik = mainTabBar.modelPeople
         print(mainTabBar.modelPeople?.tokoID)
         initSearchBar()
         
