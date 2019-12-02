@@ -16,7 +16,7 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     @IBOutlet weak var namaBarangDetailLabel: UILabel!
     @IBOutlet weak var gambar: UIImageView!
     var img: CKAsset?
-    
+    var modelPemilik: People?
     // MARK: - Variable
     var itemDetail: Inventory?
     var myItem: [Inventory] = []
@@ -139,6 +139,7 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
         if segue.identifier == "edit"{
             let destData = segue.destination as! EditBarangViewController
             destData.editItem = itemDetail
+            destData.modelPemilik = modelPemilik
         }
     }
     /*

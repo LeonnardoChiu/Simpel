@@ -10,22 +10,24 @@ import UIKit
 import CloudKit
 
 class TambahCategoryViewController: UIViewController {
-
+    var modelPemilik: People?
     @IBOutlet weak var tambahKategoriTextField: UITextField!
     let database = CKContainer.default().publicCloudDatabase
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(modelPemilik!.tokoID)
         self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
     
     @IBAction func simpanButton(_ sender: Any) {
         performSegue(withIdentifier: "backToCategory", sender: nil)
-        saveToCloud(tambah: tambahKategoriTextField.text!)
+        saveToCloud(tambah: tambahKategoriTextField.text!, tokoId: modelPemilik!.tokoID)
     }
     
-    func saveToCloud(tambah: String){
+    func saveToCloud(tambah: String, tokoId: String){
         let newNote = CKRecord(recordType: "Category")
+        newNote.setValue(tokoId, forKey: "TokoID")
         newNote.setValue(tambah, forKey: "CategoryName")
         database.save(newNote) { (record, error) in
             print(error)

@@ -35,6 +35,7 @@ class EditBarangViewController: UIViewController{
     var kategoriSekarang: String?
     var isiTextField: [String] = []
     var data = [CKRecord]()
+    var modelPemilik: People?
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
     @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
@@ -316,7 +317,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
         }
         return ""
     }
-    
+    //MARK: -prepare segue
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
                 performSegue(withIdentifier: "satuan", sender: 1)
@@ -335,6 +336,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
                 vc.selectedUnit = satuan
                 vc.pemelihVC = sender as! Int
                 vc.hargaTempSatuan = hargaTemp
+                vc.modelPemilik = modelPemilik
             }
            
         }
@@ -344,6 +346,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
             if let kategori = kategoriSekarang{
                 vc.selectedKategori = kategori
                 vc.pemilihVC = sender as! Int
+                vc.modelPemilik = modelPemilik
             }
         }
     }

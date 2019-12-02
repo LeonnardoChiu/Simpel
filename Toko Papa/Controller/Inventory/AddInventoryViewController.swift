@@ -141,7 +141,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         return cells
     }
     
-    
+    //MARK: -prepare segue
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
@@ -164,6 +164,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                 vc.selectedUnit = satuan
                 vc.pemelihVC = sender as! Int
                 vc.hargaTempSatuan = hargaTemp
+                vc.modelPemilik = modelPemilik
             }
         }
         
@@ -172,6 +173,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             if let kategori = kategoriSekarang{
                 vc.selectedKategori = kategori
                 vc.pemilihVC = sender as! Int
+                vc.modelPemilik = modelPemilik
             }
         }
     }

@@ -19,7 +19,7 @@ class PairingKarywanViewController: UIViewController {
         super.viewDidLoad()
         QueryDatabaseProfile()
         print("jumlah toko \(toko.count)")
-        print("User name : \(modelPemilik?.username)")
+        print("id name : \(modelPemilik?.Id)")
         // Do any additional setup after loading the view.
     }
     
