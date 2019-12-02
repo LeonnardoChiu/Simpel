@@ -15,6 +15,8 @@ class EmployeeListViewController: UIViewController {
     var karyawan: [People] = []
     var owner: [People] = []
     var toko: [Toko] = []
+    var rowKaryawan: [Bool] = []
+    var rowOwner: [Bool] = []
     let refreshControl = UIRefreshControl()
     
     // MARK: - Database Cloudkit
@@ -22,6 +24,7 @@ class EmployeeListViewController: UIViewController {
     var data = [CKRecord]()
     var modelPemilik: People?
     var idx: Int = 0
+    
     // MARK: - IBOutlet list
     @IBOutlet weak var tableList: UITableView! {
         // hilangin sisa row table
@@ -38,10 +41,10 @@ class EmployeeListViewController: UIViewController {
         }
     }
     
-   
-   
+   // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //self.QueryDatabase()
         // MARK: - buat pull to refresh
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -57,11 +60,8 @@ class EmployeeListViewController: UIViewController {
         modelPemilik = mainTabBar.modelPeople
         print(mainTabBar.modelPeople?.tokoID)
         print(mainTabBar.modelPeople?.role)
+        
     }
-    
-    
-    
-    
     
    
     // MARK: - obj function untuk nampilin data Query Database
@@ -106,8 +106,11 @@ class EmployeeListViewController: UIViewController {
             /// append ke model
             print("jumlah code : \(self.data.count)")
         }
+        
+        
     }
     
+    // MARK: - Function model toko
     func ModelToko() {
         toko.removeAll()
         for countData in data {
@@ -122,6 +125,7 @@ class EmployeeListViewController: UIViewController {
     
     func ModelOwner() {
         owner.removeAll()
+        rowOwner.removeAll()
        for countData in data {
            let id = countData.recordID
            let appleid = countData.value(forKey: "AppleID") as! String
@@ -132,11 +136,17 @@ class EmployeeListViewController: UIViewController {
            let roleee = countData.value(forKey: "role") as! String
            let tokoID = countData.value(forKey: "TokoID") as! String
            owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+            if id.recordName == modelPemilik?.Id.recordName{
+                rowOwner.append(true)
+            }else{
+                rowOwner.append(false)
+            }
        }
     }
     
     func ModelKaryawan() {
          karyawan.removeAll()
+        rowKaryawan.removeAll()
       for countData in data {
           let id = countData.recordID
           let appleid = countData.value(forKey: "AppleID") as! String
@@ -147,7 +157,12 @@ class EmployeeListViewController: UIViewController {
           let roleee = countData.value(forKey: "role") as! String
           let tokoID = countData.value(forKey: "TokoID") as! String
           karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
-      }
+            if id.recordName == modelPemilik?.Id.recordName{
+                rowKaryawan.append(true)
+            }else{
+                 rowKaryawan.append(false)
+            }
+        }
     }
     
 }
@@ -177,6 +192,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         return ""
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "employeeCell") as! EmployeeListCell
@@ -187,14 +203,27 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             let role = owner[indexPath.row].role
             cell.namaLbl.text = "\(firstName) \(lastName)"
             cell.accessLbl.text = "\(role)"
+            if rowOwner[indexPath.row] == true{
+                cell.namaLbl.textColor = UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
+                cell.accessLbl.textColor = UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
+                
+                
+            }
             return cell
         }else if indexPath.section == 1 {
             if modelPemilik?.role == "Karyawan"{
+                
                 let firstName = karyawan[indexPath.row].firstName
                 let lastName = karyawan[indexPath.row].lastName
                 let role = karyawan[indexPath.row].role
                 cell.namaLbl.text = "\(firstName) \(lastName)"
                 cell.accessLbl.text = "\(role)"
+                if rowKaryawan[indexPath.row] == true{
+                    cell.namaLbl.textColor = UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
+                    cell.accessLbl.textColor = UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
+                    
+                    
+                }
                 return cell
             }else{
                 if karyawan.count == 0 {
@@ -220,7 +249,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         idx = indexPath.row
-     
+        
         if indexPath.section == 1 {
             if modelPemilik?.role == "Karyawan"{
 //                 performSegue(withIdentifier: "code", sender: nil)

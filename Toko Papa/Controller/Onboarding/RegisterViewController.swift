@@ -19,6 +19,7 @@ class RegisterViewController: UIViewController {
     var firstName: String = ""
     var lastName: String = ""
     var email: String = ""
+    var modelRegister: People?
     
     var image: CKAsset?
     var images = UIImage()
@@ -28,6 +29,8 @@ class RegisterViewController: UIViewController {
     var namaDepanTemp = ""
     var namaBelakangTemp = ""
     var nomorHpTemp = ""
+    
+     var alert2: UIAlertController = UIAlertController()
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var errorLabel: UILabel!
@@ -49,15 +52,18 @@ class RegisterViewController: UIViewController {
 
     @IBAction func doneBtn(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
-        var alert2: UIAlertController = UIAlertController()
+       
         let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.selesai.isEnabled = true
+            
+            self.alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
           
-            alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
-            self.present(alert2, animated: true, completion: nil)
-           
+            self.present(self.alert2, animated: true, completion: nil)
+            
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+           
+            //self.performSegue(withIdentifier: "toRole", sender: nil)
         }
         
         
@@ -75,11 +81,14 @@ class RegisterViewController: UIViewController {
         
         if counter == 1 {
             self.appendAdd()
+            initDataModel()
         }
         if counter == 15 {
             counter = 0
             timer.invalidate()
-            performSegue(withIdentifier: "backtoLogin", sender: nil)
+            //performSegue(withIdentifier: "backtoLogin", sender: nil)
+            alert2.dismiss(animated: true, completion: nil)
+            performSegue(withIdentifier: "toRole", sender: nil)
         }
     }
     
@@ -95,6 +104,7 @@ class RegisterViewController: UIViewController {
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.hideKeyboardWhenTappedAround()
         isiCellforRow.append(user!.firstName)
         isiCellforRow.append(user!.lastName)
         isiCellforRow.append(user!.email)
@@ -120,24 +130,9 @@ class RegisterViewController: UIViewController {
             self.images = image
             self.profileImages.image = self.images
             self.profileImages.contentMode = .scaleAspectFill
-//            self.validate()
+
         }
     }
-    
-//    func validate() {
-//        if usernameTemp == "" || passwordTemp == "" || namaDepanTemp == "" || namaBelakangTemp == "" || nomorHpTemp == "" {
-//            doneButton.isEnabled = false
-//        }
-//
-//        else if profileImages.image == UIImage(systemName: "camera.circle") {
-//            errorLabel.isHidden = false
-//            doneButton.isEnabled = false
-//        }
-//        else {
-//            doneButton.isEnabled = true
-//            errorLabel.isHidden = true
-//        }
-//    }
     
     // MARK: - Save to cloud function
     func saveToCloud(img: UIImage, AppleID: String, Email: String, firstName: String, lastName: String, phoneNumber: String) {
@@ -178,7 +173,6 @@ class RegisterViewController: UIViewController {
     }
     
     // MARK: - Append add
-    
     func appendAdd() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
         let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
@@ -188,6 +182,15 @@ class RegisterViewController: UIViewController {
         self.saveToCloud(img: images, AppleID: user!.id, Email: user!.email,  firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phoneNumber: phone!.textField.text!)
     }
     
+    func initDataModel() {
+        let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text
+        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text
+        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0))?.textLabel?.text
+        modelRegister?.firstName = firstName!
+        modelRegister?.lastName = lastName!
+        modelRegister?.phone = phone!
+    }
+    
     // MARK: - Unwind
     @IBAction func unwindFromRole(_ unwindSegue: UIStoryboardSegue) {
         guard let roleVC = unwindSegue.source as? RoleViewController else { return }
@@ -195,6 +198,12 @@ class RegisterViewController: UIViewController {
         self.roleTemp = roleVC.selectedRole
          let indexPath = IndexPath(item: 4, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    // MARK: - Prepare Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let roleVC = segue.destination as? ChooseRoleViewController else { return }
+        roleVC.modelPemilik = modelRegister
     }
     
 }
@@ -221,6 +230,9 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.textField.placeholder = placeHolders[indexPath.row]
         cell.textField.text = isiCellforRow[indexPath.row]
+        if indexPath.row == 3 {
+            cell.textField.keyboardType = .numberPad
+        }
         return cell
     }
     
