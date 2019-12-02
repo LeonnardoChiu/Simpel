@@ -122,32 +122,32 @@ class EmployeeListViewController: UIViewController {
     
     func ModelOwner() {
         owner.removeAll()
-        for countData in data {
-            let id = countData.recordID
-            let username = countData.value(forKey: "UserName") as! String
-            let password = countData.value(forKey: "Password") as! String
-            let firstName = countData.value(forKey: "firstName") as! String
-            let lastName = countData.value(forKey: "lastName") as! String
-            let phone = countData.value(forKey: "phoneNumber") as! String
-            let roleee = countData.value(forKey: "role") as! String
-            let tokoID = countData.value(forKey: "TokoID") as! String
-            owner.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
-        }
+       for countData in data {
+           let id = countData.recordID
+           let appleid = countData.value(forKey: "AppleID") as! String
+           let email = countData.value(forKey: "Email") as! String
+           let firstName = countData.value(forKey: "firstName") as! String
+           let lastName = countData.value(forKey: "lastName") as! String
+           let phone = countData.value(forKey: "phoneNumber") as! String
+           let roleee = countData.value(forKey: "role") as! String
+           let tokoID = countData.value(forKey: "TokoID") as! String
+           owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+       }
     }
     
     func ModelKaryawan() {
-        karyawan.removeAll()
-        for countData in data {
-            let id = countData.recordID
-            let username = countData.value(forKey: "UserName") as! String
-            let password = countData.value(forKey: "Password") as! String
-            let firstName = countData.value(forKey: "firstName") as! String
-            let lastName = countData.value(forKey: "lastName") as! String
-            let phone = countData.value(forKey: "phoneNumber") as! String
-            let roleee = countData.value(forKey: "role") as! String
-            let tokoID = countData.value(forKey: "TokoID") as! String
-            karyawan.append(People(id: id, username: username, password: password, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
-        }
+         karyawan.removeAll()
+      for countData in data {
+          let id = countData.recordID
+          let appleid = countData.value(forKey: "AppleID") as! String
+          let email = countData.value(forKey: "Email") as! String
+          let firstName = countData.value(forKey: "firstName") as! String
+          let lastName = countData.value(forKey: "lastName") as! String
+          let phone = countData.value(forKey: "phoneNumber") as! String
+          let roleee = countData.value(forKey: "role") as! String
+          let tokoID = countData.value(forKey: "TokoID") as! String
+          karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+      }
     }
     
 }

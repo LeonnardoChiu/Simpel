@@ -65,8 +65,7 @@ class ChooseRoleViewController: UIViewController {
             
             toko.append(Toko(id: id, namatoko: namaToko,uniq: Uniq))
         }
-        print(toko[0].uniqcode)
-        print(toko[0].namaToko)
+       
     }
     
     
