@@ -72,6 +72,8 @@
 		FE928679238E4A800071CD9C /* ScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE928678238E4A800071CD9C /* ScrollCalendarCell.swift */; };
 		FE92867B238F74970071CD9C /* totalSalesScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92867A238F74970071CD9C /* totalSalesScrollCalendarCell.swift */; };
 		FE92867F238F960D0071CD9C /* highestSalesScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92867E238F960D0071CD9C /* highestSalesScrollCalendarCell.swift */; };
+		FE9286812390BBD60071CD9C /* newItemScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9286802390BBD60071CD9C /* newItemScrollCalendarCell.swift */; };
+		FE9286832390BF430071CD9C /* editItemScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9286822390BF430071CD9C /* editItemScrollCalendarCell.swift */; };
 		FEB1D523237BAD1C0082F13A /* dashboardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D522237BAD1C0082F13A /* dashboardTableCell.swift */; };
 		FEB1D525237BDAD90082F13A /* totalSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */; };
 		FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */; };
@@ -150,6 +152,8 @@
 		FE928678238E4A800071CD9C /* ScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollCalendarCell.swift; sourceTree = "<group>"; };
 		FE92867A238F74970071CD9C /* totalSalesScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = totalSalesScrollCalendarCell.swift; sourceTree = "<group>"; };
 		FE92867E238F960D0071CD9C /* highestSalesScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = highestSalesScrollCalendarCell.swift; sourceTree = "<group>"; };
+		FE9286802390BBD60071CD9C /* newItemScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newItemScrollCalendarCell.swift; sourceTree = "<group>"; };
+		FE9286822390BF430071CD9C /* editItemScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editItemScrollCalendarCell.swift; sourceTree = "<group>"; };
 		FEB1D522237BAD1C0082F13A /* dashboardTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashboardTableCell.swift; sourceTree = "<group>"; };
 		FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = totalSalesViewController.swift; sourceTree = "<group>"; };
 		FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = salesDetailViewController.swift; sourceTree = "<group>"; };
@@ -243,6 +247,8 @@
 				FE928678238E4A800071CD9C /* ScrollCalendarCell.swift */,
 				FE92867A238F74970071CD9C /* totalSalesScrollCalendarCell.swift */,
 				FE92867E238F960D0071CD9C /* highestSalesScrollCalendarCell.swift */,
+				FE9286802390BBD60071CD9C /* newItemScrollCalendarCell.swift */,
+				FE9286822390BF430071CD9C /* editItemScrollCalendarCell.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -443,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE9286812390BBD60071CD9C /* newItemScrollCalendarCell.swift in Sources */,
 				FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */,
 				BDA38F51237BEB5B00FCD5BC /* TotalPriceCell.swift in Sources */,
 				FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */,
@@ -462,6 +469,7 @@
 				BD0487822372703D002E0586 /* EmployeeProfileCell.swift in Sources */,
 				BDDEB2BA2384DD540025F4CB /* BarcodeScannerController.swift in Sources */,
 				6838F973236FD93000FCC0D0 /* InventoryViewController.swift in Sources */,
+				FE9286832390BF430071CD9C /* editItemScrollCalendarCell.swift in Sources */,
 				6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */,
 				68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */,
 				FE92867B238F74970071CD9C /* totalSalesScrollCalendarCell.swift in Sources */,
