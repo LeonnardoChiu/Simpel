@@ -13,14 +13,14 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //MARK: VARIABLES
     var tempStringDariLogin: String = ""
     var totalSales = 700000
-    var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto ", "600 ml"]
-    var highestSalesLastUpdate = ["19.15", "19.15", "19.15"]
+    var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto", "indomie goreng"]
+    var highestSalesLastUpdate = ["19.15", "19.16", "19.17"]
     var highestSalesUnit = [40, 50, 60]
-    var newItem = ["DVD Player", "DVD Player", "DVD Player"]
-    var newItemLastUpdate = ["19.15", "19.15", "19.15"]
+    var newItem = ["Beras C4", "Rinso Anti Noda", "Sunglight 200ml"]
+    var newItemLastUpdate = ["19.15", "18.00", "18.00"]
     var newItemUnit = [30, 35, 30]
-    var editItem = ["Gelas", "Piring", "Kaca"]
-    var editItemLastUpdate = ["19.15", "19.15", "19.15"]
+    var editItem = ["Beras C4", "Rinso Molto", "Piring plastik"]
+    var editItemLastUpdate = ["19.15", "19.14", "19.13"]
     var editItemValue = [15000, 16000, 15000]
     var leapYearCounter = 2
     
@@ -49,6 +49,11 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
+        
+//        tableView.backgroundColor = UIColor.white
+//        tableView.backgroundView?.backgroundColor = UIColor.white
+//        tableView.tintColor = UIColor.white
+        
         selectedDay = day
         selectedMonth = "\(months[month])"
         selectedMonthNumber = month
@@ -202,11 +207,22 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
         return 35
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 61
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        if section == 0 {
+//            return 30
+//        }
+//        else{
+//            return .leastNormalMagnitude
+//        }
+        return .leastNormalMagnitude
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
