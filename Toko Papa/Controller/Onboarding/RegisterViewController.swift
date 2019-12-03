@@ -81,7 +81,7 @@ class RegisterViewController: UIViewController {
         
         if counter == 1 {
             self.appendAdd()
-            initDataModel()
+            //initDataModel()
         }
         if counter == 15 {
             counter = 0
@@ -151,7 +151,7 @@ class RegisterViewController: UIViewController {
          record.setValue("-", forKey: "role")
         
         record.setValue("-", forKey: "TokoID")
-        
+        initDataModel()
         database.save(record) { (record, _) in
             guard record != nil else { return }
             print("Data saved to Cloud!")

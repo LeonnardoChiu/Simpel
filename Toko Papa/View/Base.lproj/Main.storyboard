@@ -201,7 +201,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Pemilik" translatesAutoresizingMaskIntoConstraints="NO" id="FhY-Fa-C29">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="220"/>
+                                        <rect key="frame" x="0.0" y="-17" width="374" height="220"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -216,7 +216,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Pegawai" translatesAutoresizingMaskIntoConstraints="NO" id="tsA-jf-R8L">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="220"/>
+                                        <rect key="frame" x="0.0" y="3" width="374" height="220"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
