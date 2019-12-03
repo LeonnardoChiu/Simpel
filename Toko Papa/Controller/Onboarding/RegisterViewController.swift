@@ -185,10 +185,18 @@ class RegisterViewController: UIViewController {
     func initDataModel() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text
         let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text
+        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0))?.textLabel?.text
         let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0))?.textLabel?.text
+        
+        
+        modelRegister?.appleID = user!.id
         modelRegister?.firstName = firstName!
         modelRegister?.lastName = lastName!
         modelRegister?.phone = phone!
+        modelRegister?.email = email!
+        modelRegister?.tokoID = "-"
+        modelRegister?.role = "-"
+        
     }
     
     // MARK: - Unwind
