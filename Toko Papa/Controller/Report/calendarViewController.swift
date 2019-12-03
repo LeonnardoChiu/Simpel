@@ -166,7 +166,7 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Calendar", for: indexPath) as! DateCollectionViewCell
         cell.backgroundColor = UIColor.clear
-        cell.dateLabel.textColor = UIColor.black
+        cell.dateLabel.textColor = UIColor.label
         cell.Circle.isHidden = true
         
         if cell.isHidden {
@@ -191,11 +191,11 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         switch indexPath.row {
         case 5,12,19,26,33: //weekend day warnanya abu"
             if Int(cell.dateLabel.text!)! > 0 {
-                cell.dateLabel.textColor = UIColor.blue
+                cell.dateLabel.textColor = UIColor.systemBlue
             }
         case 6,13,20,27,34:
             if Int(cell.dateLabel.text!)! > 0 {
-                cell.dateLabel.textColor = UIColor.red
+                cell.dateLabel.textColor = UIColor.systemRed
             }
         default:
             break
@@ -233,7 +233,7 @@ class calendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! DateCollectionViewCell
         
-        cell.dateLabel.textColor = UIColor.black
+        cell.dateLabel.textColor = UIColor.label
         cell.Circle.isHidden = true
     }
 

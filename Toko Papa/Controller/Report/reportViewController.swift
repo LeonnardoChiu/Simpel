@@ -456,7 +456,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         else{
             cell.isSelected = false
-            cell.dateLabel.textColor = UIColor.black
+            cell.dateLabel.textColor = UIColor.label
             cell.Circle.isHidden = true
             
         }
@@ -642,9 +642,10 @@ extension UIView {
 extension UIView {
     func dropShadow() {
         layer.shadowColor = UIColor.label.cgColor
-      layer.shadowOpacity = 1
-      layer.shadowOffset = CGSize(width: 0, height: 0)
-      layer.shadowRadius = 2
+//        layer.shadowColor = #colorLiteral(red: 0, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 2
     }
 
     // OUTPUT 2

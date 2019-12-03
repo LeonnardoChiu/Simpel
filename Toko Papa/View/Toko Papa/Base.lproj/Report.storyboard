@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Jgr-LN-MuS">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,18 +16,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jl0-RM-r4J">
-                                <rect key="frame" x="259.5" y="103" width="50.5" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jl0-RM-r4J">
+                                <rect key="frame" x="280" y="103" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="R3k-Sv-Owu"/>
+                                    <constraint firstAttribute="width" constant="30" id="oOq-ZK-Jwo"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="Next" image="chevron.right" catalog="system"/>
+                                <state key="normal" image="chevron.right" catalog="system"/>
                                 <connections>
                                     <action selector="nextButtonClick:" destination="Zbg-km-7Et" eventType="touchUpInside" id="vuP-V7-N9c"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hce-xx-PLA">
-                                <rect key="frame" x="104" y="103" width="49.5" height="22"/>
+                                <rect key="frame" x="104" y="103" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="9WQ-hh-G24"/>
+                                    <constraint firstAttribute="height" constant="22" id="VDE-Dd-lsa"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Prev" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.left" catalog="system"/>
                                 <connections>
                                     <action selector="prevButtonClick:" destination="Zbg-km-7Et" eventType="touchUpInside" id="WKe-ZX-wZB"/>
                                 </connections>
@@ -210,14 +218,14 @@
                                     <action selector="dateButtonClick:" destination="tBx-QQ-0Pw" eventType="touchUpInside" id="tHo-qk-YVd"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avk-Fb-R1P">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avk-Fb-R1P">
                                 <rect key="frame" x="258.5" y="103" width="50.5" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="6Qr-h0-fXE"/>
                                     <constraint firstAttribute="width" constant="50.5" id="BzP-9J-MjW"/>
                                 </constraints>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="Next" image="chevron.right" catalog="system"/>
+                                <state key="normal" image="chevron.right" catalog="system"/>
                                 <connections>
                                     <action selector="nextButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="GGe-c8-NtI"/>
                                     <action selector="nextButtonClick:" destination="tBx-QQ-0Pw" eventType="touchUpInside" id="frf-NB-0qG"/>
@@ -231,7 +239,7 @@
                                     <constraint firstAttribute="width" constant="49.5" id="dGJ-09-7A4"/>
                                 </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Prev" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.left" catalog="system"/>
                                 <connections>
                                     <action selector="prevButtonClick:" destination="tBx-QQ-0Pw" eventType="touchUpInside" id="KdC-Ny-TgO"/>
                                     <action selector="prevButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="fHL-3S-jk7"/>
@@ -427,19 +435,27 @@
                                     <action selector="dateButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="xiq-vr-Rjy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AX9-18-kag">
-                                <rect key="frame" x="258.5" y="103" width="50.5" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AX9-18-kag">
+                                <rect key="frame" x="279" y="103" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="E5q-VN-il8"/>
+                                    <constraint firstAttribute="height" constant="22" id="EsY-7y-lDA"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="Next" image="chevron.right" catalog="system"/>
+                                <state key="normal" image="chevron.right" catalog="system"/>
                                 <connections>
                                     <action selector="nextButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="UPY-O4-Up4"/>
                                     <action selector="nextButtonClick:" destination="Zbg-km-7Et" eventType="touchUpInside" id="r33-UE-Fiq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5KU-0c-74u">
-                                <rect key="frame" x="105" y="103" width="49.5" height="22"/>
+                                <rect key="frame" x="105" y="103" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="1d3-oc-qYK"/>
+                                    <constraint firstAttribute="width" constant="30" id="6oZ-vH-4cc"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Prev" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.left" catalog="system"/>
                                 <connections>
                                     <action selector="prevButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="9tJ-fw-aK9"/>
                                     <action selector="prevButtonClick:" destination="Zbg-km-7Et" eventType="touchUpInside" id="Xya-qN-1sr"/>
@@ -617,14 +633,14 @@
                                     <action selector="dateButtonClick:" destination="usv-Eu-NU4" eventType="touchUpInside" id="snI-eU-D7n"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSh-Hh-fdl">
-                                <rect key="frame" x="258.5" y="103" width="50.5" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSh-Hh-fdl">
+                                <rect key="frame" x="279" y="103" width="30" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50.5" id="9pP-wR-k2D"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="DVX-Oz-rfF"/>
                                     <constraint firstAttribute="height" constant="22" id="k4U-Ub-Np8"/>
                                 </constraints>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="Next" image="chevron.right" catalog="system"/>
+                                <state key="normal" image="chevron.right" catalog="system"/>
                                 <connections>
                                     <action selector="nextButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="abN-Gm-8TU"/>
                                     <action selector="nextButtonClick:" destination="Zbg-km-7Et" eventType="touchUpInside" id="xFb-oG-ebo"/>
@@ -632,13 +648,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-th-YbJ">
-                                <rect key="frame" x="105" y="103" width="49.5" height="22"/>
+                                <rect key="frame" x="105" y="103" width="30" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="COj-S7-EfE"/>
-                                    <constraint firstAttribute="width" constant="49.5" id="XGe-9Q-Ebq"/>
+                                    <constraint firstAttribute="width" constant="30" id="XGe-9Q-Ebq"/>
                                 </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Prev" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.left" catalog="system"/>
                                 <connections>
                                     <action selector="prevButtonClick:" destination="TOt-P6-Jc7" eventType="touchUpInside" id="Sev-um-tO7"/>
                                     <action selector="prevButtonClick:" destination="usv-Eu-NU4" eventType="touchUpInside" id="lJJ-vZ-ny2"/>
@@ -999,18 +1015,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tw0-6c-CS6">
-                                <rect key="frame" x="258.5" y="103" width="50.5" height="22"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tw0-6c-CS6">
+                                <rect key="frame" x="279" y="103" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="aV1-U5-lT3"/>
+                                    <constraint firstAttribute="height" constant="22" id="bLM-Ki-Wya"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="Next" image="chevron.right" catalog="system"/>
+                                <state key="normal" image="chevron.right" catalog="system"/>
                                 <connections>
                                     <action selector="nextButtonClick:" destination="dJq-4D-OZY" eventType="touchUpInside" id="o4S-4T-2Ab"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KCP-Za-OdC">
-                                <rect key="frame" x="105" y="103" width="49.5" height="22"/>
+                                <rect key="frame" x="105" y="103" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="02d-Fq-VAF"/>
+                                    <constraint firstAttribute="width" constant="30" id="Vys-gz-tJR"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Prev" image="chevron.left" catalog="system"/>
+                                <state key="normal" image="chevron.left" catalog="system">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
                                 <connections>
                                     <action selector="prevButtonClick:" destination="dJq-4D-OZY" eventType="touchUpInside" id="6bl-no-cSx"/>
                                 </connections>
@@ -1200,6 +1226,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="7JO-dI-48d">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="person.crop.circle" catalog="system" id="PKB-9e-Rsf">
+                            <color key="tintColor" red="0.0" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="QvK-nK-Zan" kind="show" id="tBU-CT-3Xy"/>
                             </connections>
@@ -1552,7 +1579,7 @@
         <image name="questionmark.square.fill" catalog="system" width="64" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="NPu-5l-lf5"/>
+        <segue reference="qr4-N4-7zq"/>
         <segue reference="k4u-mG-ugy"/>
     </inferredMetricsTieBreakers>
 </document>
