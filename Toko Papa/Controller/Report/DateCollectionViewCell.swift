@@ -22,10 +22,10 @@ class DateCollectionViewCell: UICollectionViewCell {
         
         let CircleLayer = CAShapeLayer()
         CircleLayer.path = circlePath.cgPath
-        CircleLayer.strokeColor = UIColor.red.cgColor
+        CircleLayer.strokeColor = #colorLiteral(red: 0, green: 0.5690457821, blue: 0.5746168494, alpha: 1)
         CircleLayer.lineWidth = 2
         CircleLayer.strokeEnd = 0
-        CircleLayer.fillColor = UIColor.red.cgColor
+        CircleLayer.fillColor = #colorLiteral(red: 0, green: 0.5690457821, blue: 0.5746168494, alpha: 1)
         CircleLayer.lineCap = CAShapeLayerLineCap.round
         
 //        let Animation = CABasicAnimation(keyPath: "strokeEnd")

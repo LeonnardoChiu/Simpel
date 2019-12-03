@@ -40,8 +40,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         tabBarController?.hidesBottomBarWhenPushed = false
@@ -50,9 +48,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
         
-//        tableView.backgroundColor = UIColor.white
-//        tableView.backgroundView?.backgroundColor = UIColor.white
-//        tableView.tintColor = UIColor.white
         
         selectedDay = day
         selectedMonth = "\(months[month])"
@@ -212,23 +207,27 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 61
+        if indexPath == [0,1] {
+            return 30
+        }
+        else{
+            return 61
+        }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 //        if section == 0 {
 //            return 30
 //        }
 //        else{
 //            return .leastNormalMagnitude
 //        }
-        return .leastNormalMagnitude
-    }
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 1
+            return 2
         case 1:
             return 4
         case 2:
@@ -258,6 +257,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if indexPath == [0,0] {
             cell.totalSaleslabel.text = "Rp. \(totalSales)"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = false
             cell.itemLabel.isHidden = true
             cell.unitLabel.isHidden = true
@@ -267,10 +267,23 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.cellView.frame.size.height = 57
             cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
         }
+        else if indexPath == [0,1] {
+            cell.totalSaleslabel.text = "Rp. \(totalSales)"
+            cell.cellView.isHidden = true
+            cell.totalSaleslabel.isHidden = true
+            cell.itemLabel.isHidden = true
+            cell.unitLabel.isHidden = true
+            cell.updateLabel.isHidden = true
+            cell.detailButton.isHidden = true
+            cell.chevronButton.isHidden = true
+            cell.cellView.frame.size.height = 57
+            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        }
         else if indexPath == [1,0] {
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -284,6 +297,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -297,6 +311,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(highestSales[indexPath.row])"
             cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
             cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -310,6 +325,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -323,6 +339,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -336,6 +353,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(newItem[indexPath.row])"
             cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
             cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -349,6 +367,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -362,6 +381,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -375,6 +395,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.itemLabel.text = "\(editItem[indexPath.row])"
             cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
             cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = false
             cell.unitLabel.isHidden = false
@@ -385,6 +406,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
         }
         else {
+            cell.cellView.isHidden = false
             cell.totalSaleslabel.isHidden = true
             cell.itemLabel.isHidden = true
             cell.unitLabel.isHidden = true
@@ -434,7 +456,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         else{
             cell.isSelected = false
-            cell.dateLabel.textColor = UIColor.black
+            cell.dateLabel.textColor = UIColor.label
             cell.Circle.isHidden = true
             
         }
@@ -591,23 +613,28 @@ extension UIView {
 
 extension UIView {
     func applyConfig(for indexPath: IndexPath, numberOfCellsInSection: Int) {
-        switch indexPath.row {
-        case numberOfCellsInSection - 1:
-            // This is the case when the cell is last in the section,
-            // so we round to bottom corners
-            self.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
+        if indexPath.section == 0 {
+            self.roundCorners(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 10)
+        }
+        else{
+            switch indexPath.row {
+            case numberOfCellsInSection - 1:
+                // This is the case when the cell is last in the section,
+                // so we round to bottom corners
+                self.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
 
-            // However, if it's the only one, round all four
-            if numberOfCellsInSection == 1 {
-                self.roundCorners(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 10)
+                // However, if it's the only one, round all four
+                if numberOfCellsInSection == 1 {
+                    self.roundCorners(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 10)
+                }
+
+            case 0:
+                // If the cell is first in the section, round the top corners
+                self.roundCorners(corners: [.topRight, .topLeft], radius: 10)
+            default:
+                // If it's somewhere in the middle, round no corners
+                self.roundCorners(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 0)
             }
-
-        case 0:
-            // If the cell is first in the section, round the top corners
-            self.roundCorners(corners: [.topRight, .topLeft], radius: 10)
-        default:
-            // If it's somewhere in the middle, round no corners
-            self.roundCorners(corners: [.topLeft, .topRight, .bottomRight, .bottomLeft], radius: 0)
         }
     }
 }
@@ -615,9 +642,10 @@ extension UIView {
 extension UIView {
     func dropShadow() {
         layer.shadowColor = UIColor.label.cgColor
-      layer.shadowOpacity = 1
-      layer.shadowOffset = CGSize(width: 0, height: 0)
-      layer.shadowRadius = 2
+//        layer.shadowColor = #colorLiteral(red: 0, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 2
     }
 
     // OUTPUT 2
