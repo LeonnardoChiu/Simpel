@@ -44,14 +44,17 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
         if data.count != 0 {
+            tableView.backgroundView = nil
             if isFiltering {
                 //searchFooter.setIsFilteringToShow(filteredItemCount: filteredItem.count, of: myItem.count)
+                count = searchedItem.count
                 return searchedItem.count
             } else {
                 //searchFooter.setNotFiltering()
+                count = originalItem.count
                 return originalItem.count
             }
-            count = data.count
+            
         } else {
             let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
             noDataLabel.text = "Tidak ada barang, silahkan di tambah"
