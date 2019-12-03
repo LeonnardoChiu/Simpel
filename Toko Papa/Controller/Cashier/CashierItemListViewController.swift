@@ -61,6 +61,7 @@ class CashierItemListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         /// buat large title di nav bar
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)]
         self.navigationController?.navigationBar.prefersLargeTitles = true
         //self.navigationItem.setHidesBackButton(true, animated: true)
         initSearchBar()

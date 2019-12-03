@@ -59,6 +59,7 @@
 		BDA38F4E237BE47100FCD5BC /* CashierItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA38F4D237BE47100FCD5BC /* CashierItemListViewController.swift */; };
 		BDA38F51237BEB5B00FCD5BC /* TotalPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA38F4F237BEB5B00FCD5BC /* TotalPriceCell.swift */; };
 		BDA38F52237BEB5B00FCD5BC /* TotalPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA38F50237BEB5B00FCD5BC /* TotalPriceCell.xib */; };
+		BDB738D52394DC5A003943D6 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB738D42394DC5A003943D6 /* NavigationViewController.swift */; };
 		BDDEB2BA2384DD540025F4CB /* BarcodeScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDEB2B92384DD540025F4CB /* BarcodeScannerController.swift */; };
 		FE01DFA62383A08D0098E54C /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01DFA52383A08D0098E54C /* QRScannerView.swift */; };
 		FE01DFA82383A2750098E54C /* QRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01DFA72383A2750098E54C /* QRData.swift */; };
@@ -139,6 +140,7 @@
 		BDA38F4D237BE47100FCD5BC /* CashierItemListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashierItemListViewController.swift; sourceTree = "<group>"; };
 		BDA38F4F237BEB5B00FCD5BC /* TotalPriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalPriceCell.swift; sourceTree = "<group>"; };
 		BDA38F50237BEB5B00FCD5BC /* TotalPriceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TotalPriceCell.xib; sourceTree = "<group>"; };
+		BDB738D42394DC5A003943D6 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		BDDEB2B92384DD540025F4CB /* BarcodeScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerController.swift; sourceTree = "<group>"; };
 		FE01DFA52383A08D0098E54C /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		FE01DFA72383A2750098E54C /* QRData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRData.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				6838F99E23727D7A00FCC0D0 /* ClassManager.swift */,
 				FE01DFA52383A08D0098E54C /* QRScannerView.swift */,
 				BD4A4B6B237D04CC00F9F1FE /* SearchFooter.swift */,
+				BDB738D42394DC5A003943D6 /* NavigationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				687B5501238F8D3400137901 /* PairingKarywanViewController.swift in Sources */,
 				FE5EB8E32375149F00DB1986 /* profileViewController.swift in Sources */,
 				FE92867F238F960D0071CD9C /* highestSalesScrollCalendarCell.swift in Sources */,
+				BDB738D52394DC5A003943D6 /* NavigationViewController.swift in Sources */,
 				BDA38F3E237BC3C300FCD5BC /* CashierCell.swift in Sources */,
 				6838F9532366984900FCC0D0 /* AppDelegate.swift in Sources */,
 				BD4A4B6C237D04CC00F9F1FE /* SearchFooter.swift in Sources */,
