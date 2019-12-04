@@ -28,7 +28,13 @@ class RegisterViewController: UIViewController {
     var passwordTemp = ""
     var namaDepanTemp = ""
     var namaBelakangTemp = ""
+    var emailTemp = ""
     var nomorHpTemp = ""
+    
+    var namaDepanValidTemp = ""
+    var namaBelakangValidTemp = ""
+    var emailValidTemp = ""
+    var nomorHpValidTemp = ""
     
      var alert2: UIAlertController = UIAlertController()
     
@@ -115,6 +121,10 @@ class RegisterViewController: UIViewController {
         print("Last name     : \(user?.lastName)")
         print(id)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        namaDepanTemp = user!.firstName
+        namaBelakangTemp = user!.lastName
+        emailTemp = user!.email
+        enabledDoneButton()
     }
     
     // MARK: - Function
@@ -132,6 +142,7 @@ class RegisterViewController: UIViewController {
             self.profileImages.image = self.images
             self.profileImages.contentMode = .scaleAspectFill
 
+            self.enabledDoneButton()
         }
     }
     
@@ -204,6 +215,20 @@ class RegisterViewController: UIViewController {
         
     }
     
+    func enabledDoneButton() {
+        if namaDepanValidTemp == "" || namaBelakangValidTemp == "" || emailValidTemp == "" || nomorHpValidTemp == "" {
+            doneButton.isEnabled = false
+        }
+        else if profileImages.image == UIImage(systemName: "camera.circle") {
+            errorLabel.isHidden = false
+            doneButton.isEnabled = false
+        }
+        else{
+            errorLabel.isHidden = true
+            doneButton.isEnabled = true
+        }
+    }
+    
     // MARK: - Unwind
     @IBAction func unwindFromRole(_ unwindSegue: UIStoryboardSegue) {
         guard let roleVC = unwindSegue.source as? RoleViewController else { return }
@@ -249,6 +274,7 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 3 {
             cell.textField.keyboardType = .numberPad
         }
+        cell.textField.tag = indexPath.row
         return cell
     }
     
@@ -256,49 +282,43 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension RegisterViewController: UITextFieldDelegate {
-//    func textFieldDidChangeSelection(_ textField: UITextField) {
-//        let textFieldRow = textField.tag
-//
-//        if textFieldRow == 0 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Username harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            usernameTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 1 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Password harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            passwordTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 2 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Nama Depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            namaDepanTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 3 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Nama Belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            namaBelakangTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 4 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Hp harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            nomorHpTemp = textField.text!
-//
-//        }
-//        validate()
-//
-//    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let textFieldRow = textField.tag
+        
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            namaDepanValidTemp = textField.text!
+        }
+
+        if textFieldRow == 1{
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            namaBelakangValidTemp = textField.text!
+        }
+
+        if textFieldRow == 2 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Email harus dipilih", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            emailValidTemp = textField.text!
+        }
+
+        if textFieldRow == 3 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Handphone harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+            }
+            nomorHpValidTemp = textField.text!
+        }
+        
+        print(namaDepanValidTemp)
+        print(namaBelakangValidTemp)
+        print(emailValidTemp)
+        print(nomorHpValidTemp)
+        
+        enabledDoneButton()
+
+    }
 }
