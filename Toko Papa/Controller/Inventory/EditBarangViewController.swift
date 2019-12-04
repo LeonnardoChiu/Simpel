@@ -41,12 +41,6 @@ class EditBarangViewController: UIViewController{
     @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
     var barcode: QRData?
     func appendTextField(){
-        /*isiTextField.append(editCKrecord.value(forKey: "Barcode") as! String)
-        isiTextField.append(editCKrecord.value(forKey: "NameProduct") as! String)
-        isiTextField.append(editCKrecord.value(forKey: "Category") as! String)
-        isiTextField.append(editCKrecord.value(forKey: "Distributor") as! String)
-        isiTextField.append(String(editCKrecord.value(forKey: "Stock") as! Int))
-        */
         isiTextField.append(editItem!.barcode)
         isiTextField.append(editItem!.namaItem)
         isiTextField.append(editItem!.category)
@@ -128,6 +122,9 @@ class EditBarangViewController: UIViewController{
         self.barcode = barcodeVC.qrData
         let indexPath = IndexPath(item: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
+        barcodeTemp = "\(barcode)"
+        enabledDoneButton()
+        
     }
     
     
@@ -266,6 +263,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
         let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
            
         let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
+        
         let cells = UITableViewCell()
         switch indexPath.section {
         case 0:

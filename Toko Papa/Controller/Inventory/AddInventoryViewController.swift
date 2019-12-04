@@ -93,21 +93,18 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         
         let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
         
-     
-        
         let cells = UITableViewCell()
         switch indexPath.section {
         case 0:
                 cellBiasa.tambahBarangTextField.placeholder = placeHolderTextField[indexPath.row]
-               
-                if indexPath.row != 0 {
-                     cellBiasa.barcodeScannerButton.isHidden = true
-                }
+                
                 if indexPath.row == 0 {
-                    print(barcode)
                     if barcode != nil{
                         cellBiasa.tambahBarangTextField.text = barcode?.codeString
                     }
+                }
+                if indexPath.row != 0 {
+                     cellBiasa.barcodeScannerButton.isHidden = true
                 }
                 if indexPath.row == 2 {
                      cellBiasa.accessoryType = .disclosureIndicator
@@ -200,16 +197,12 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBAction func unwindFromKBarcode(segue: UIStoryboardSegue){
         guard let barcodeVC = segue.source as? BarcodeViewController else { return }
         self.barcode = barcodeVC.qrData
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.reloadData()
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
         self.barcodeTemp = "\(barcode)"
         enabledDoneButton()
     }
-    
-    
-    
-  
-    
   
     
     func saveToCloud(Barcode: String, Name: String, Category:String, Distributor:String, Stock:Int, Price: Int, image:[UIImage],unit:String, tokoID:String){
@@ -257,11 +250,11 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     
     func tambahBarang(){
         guard let barcode = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TambahBarangCellBiasa else {return}
-         guard let name = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TambahBarangCellBiasa else {return}
-         guard let distributor = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TambahBarangCellBiasa else {return}
-         guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
-         guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
-        
+        guard let name = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TambahBarangCellBiasa else {return}
+        guard let distributor = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TambahBarangCellBiasa else {return}
+        guard let stock = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TambahBarangCellBiasa else {return}
+        guard let price = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? TambahBarangCellPriceList else {return}
+    
         self.saveToCloud(Barcode: (barcode.tambahBarangTextField.text)!, Name: (name.tambahBarangTextField.text)!, Category: kategoriSekarang!, Distributor: (distributor.tambahBarangTextField.text)!, Stock: Int((stock.tambahBarangTextField.text)!)!, Price: Int((price.tambahBarangTextField.text)!)!, image: images,unit: satuanSekarang!, tokoID: modelPemilik!.tokoID)
     }
     
