@@ -148,7 +148,7 @@ class RegisterViewController: UIViewController {
         record.setValue(lastName, forKey: "lastName")
 //        record.setValue("", forKey: "role")
         record.setValue(phoneNumber, forKey: "phoneNumber")
-         record.setValue("-", forKey: "role")
+        record.setValue("-", forKey: "role")
         
         record.setValue("-", forKey: "TokoID")
         initDataModel()
@@ -176,10 +176,11 @@ class RegisterViewController: UIViewController {
     func appendAdd() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
         let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
+        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
         let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
         //let role = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? RegisterViewCel
         
-        self.saveToCloud(img: images, AppleID: user!.id, Email: user!.email,  firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phoneNumber: phone!.textField.text!)
+        self.saveToCloud(img: images, AppleID: user!.id, Email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phoneNumber: phone!.textField.text!)
     }
     
     func initDataModel() {

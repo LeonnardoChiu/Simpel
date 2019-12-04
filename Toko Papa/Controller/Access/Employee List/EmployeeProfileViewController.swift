@@ -25,6 +25,7 @@ class EmployeeProfileViewController: UIViewController {
     var roleTemp: String = ""
     var emailTemp: String = ""
     var phoneTemp: String = ""
+    var modelUser: People?
     
     var profileCell: [String] = []
     var idx: Int = 0
@@ -48,8 +49,10 @@ class EmployeeProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         appendToArray()
-        firstNameTemp = data.value(forKey: "firstName") as! String
-        lastNameTemp = data.value(forKey: "lastName") as! String
+        //firstNameTemp = data.value(forKey: "firstName") as! String
+        //lastNameTemp = data.value(forKey: "lastName") as! String
+        firstNameTemp = modelUser!.firstName
+        lastNameTemp = modelUser!.lastName
         //self.QueryDatabase()
         //print(orang?.firstName)
         showImage()
@@ -62,6 +65,7 @@ class EmployeeProfileViewController: UIViewController {
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
         
         namaLbl.text = "\(firstNameTemp) \(lastNameTemp)"
+        
     }
     
     // MARK: - function to show image
@@ -86,8 +90,10 @@ class EmployeeProfileViewController: UIViewController {
         profileCell.append(data.value(forKey: "phoneNumber") as! String)
     }
     
+    
+    
 }
-
+// MARK: - EXTENSION
 extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return textLbl.count

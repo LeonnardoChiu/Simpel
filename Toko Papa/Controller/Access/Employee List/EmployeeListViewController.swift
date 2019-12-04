@@ -52,7 +52,7 @@ class EmployeeListViewController: UIViewController {
         self.tableList.refreshControl = refreshControl
     }
     
-    // MARK: - viewWillAppear
+    // MARK: - View Will Appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.QueryDatabaseKaryawan()
@@ -60,6 +60,11 @@ class EmployeeListViewController: UIViewController {
         modelPemilik = mainTabBar.modelPeople
         print(mainTabBar.modelPeople?.tokoID)
         print(mainTabBar.modelPeople?.role)
+        print(mainTabBar.modelPeople?.appleID)
+        print(mainTabBar.modelPeople?.email)
+        print(mainTabBar.modelPeople?.firstName)
+        print(mainTabBar.modelPeople?.lastName)
+        print(mainTabBar.modelPeople?.Id)
         
     }
     
@@ -68,7 +73,7 @@ class EmployeeListViewController: UIViewController {
     @objc func QueryDatabaseKaryawan(){
         var mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        print(mainTabBar.modelPeople?.firstName)
+        
         let tokoID = modelPemilik?.tokoID
         let queryKaryawan = CKQuery(recordType: "Profile", predicate: NSPredicate(format: "TokoID == %@ && role == %@", tokoID!, "Karyawan"))
         
@@ -80,7 +85,7 @@ class EmployeeListViewController: UIViewController {
                 self.tableList.refreshControl?.endRefreshing()
                 self.tableList.reloadData()
             }
-            print("Total Karyawab dalam database : \(self.karyawan.count)")
+            print("Total Karyawan dalam database : \(self.karyawan.count)")
         }
         
         let queryOwner = CKQuery(recordType: "Profile", predicate: NSPredicate(format: "TokoID == %@ && role == %@", tokoID!, "Owner"))
@@ -127,15 +132,16 @@ class EmployeeListViewController: UIViewController {
         owner.removeAll()
         rowOwner.removeAll()
        for countData in data {
-           let id = countData.recordID
-           let appleid = countData.value(forKey: "AppleID") as! String
-           let email = countData.value(forKey: "Email") as! String
-           let firstName = countData.value(forKey: "firstName") as! String
-           let lastName = countData.value(forKey: "lastName") as! String
-           let phone = countData.value(forKey: "phoneNumber") as! String
-           let roleee = countData.value(forKey: "role") as! String
-           let tokoID = countData.value(forKey: "TokoID") as! String
-           owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+            let id = countData.recordID
+            let appleid = countData.value(forKey: "AppleID") as! String
+            let email = countData.value(forKey: "Email") as! String
+            let firstName = countData.value(forKey: "firstName") as! String
+            let lastName = countData.value(forKey: "lastName") as! String
+            let phone = countData.value(forKey: "phoneNumber") as! String
+            let roleee = countData.value(forKey: "role") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+            
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
             }else{
@@ -145,30 +151,29 @@ class EmployeeListViewController: UIViewController {
     }
     
     func ModelKaryawan() {
-         karyawan.removeAll()
+        karyawan.removeAll()
         rowKaryawan.removeAll()
-      for countData in data {
-          let id = countData.recordID
-          let appleid = countData.value(forKey: "AppleID") as! String
-          let email = countData.value(forKey: "Email") as! String
-          let firstName = countData.value(forKey: "firstName") as! String
-          let lastName = countData.value(forKey: "lastName") as! String
-          let phone = countData.value(forKey: "phoneNumber") as! String
-          let roleee = countData.value(forKey: "role") as! String
-          let tokoID = countData.value(forKey: "TokoID") as! String
-          karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+        for countData in data {
+            let id = countData.recordID
+            let appleid = countData.value(forKey: "AppleID") as! String
+            let email = countData.value(forKey: "Email") as! String
+            let firstName = countData.value(forKey: "firstName") as! String
+            let lastName = countData.value(forKey: "lastName") as! String
+            let phone = countData.value(forKey: "phoneNumber") as! String
+            let roleee = countData.value(forKey: "role") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowKaryawan.append(true)
             }else{
-                 rowKaryawan.append(false)
+                rowKaryawan.append(false)
             }
         }
     }
-    
+
 }
 
-
-
+// MARK: - EXTENSION
 extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -197,6 +202,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "employeeCell") as! EmployeeListCell
         let cellCode = tableView.dequeueReusableCell(withIdentifier: "cell")
+        
         if indexPath.section == 0 {
             let firstName = owner[indexPath.row].firstName
             let lastName = owner[indexPath.row].lastName
@@ -232,13 +238,13 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                     if indexPath.row < karyawan.count{
                         print(indexPath.row)
                         let firstName = karyawan[indexPath.row].firstName
-                       let lastName = karyawan[indexPath.row].lastName
-                       let role = karyawan[indexPath.row].role
-                       cell.namaLbl.text = "\(firstName) \(lastName)"
-                       cell.accessLbl.text = "\(role)"
-                       return cell
+                        let lastName = karyawan[indexPath.row].lastName
+                        let role = karyawan[indexPath.row].role
+                        cell.namaLbl.text = "\(firstName) \(lastName)"
+                        cell.accessLbl.text = "\(role)"
+                        return cell
                     }else{
-                         return cellCode!
+                        return cellCode!
                     }
                 }
             }
@@ -251,29 +257,49 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         idx = indexPath.row
         
         if indexPath.section == 1 {
+            if modelPemilik?.role == "Owner" {
+                print(modelPemilik?.role)
+            }
             if modelPemilik?.role == "Karyawan"{
+                print(modelPemilik?.role)
 //                 performSegue(withIdentifier: "code", sender: nil)
-            }else{
+                //performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
+            } else {
                 if karyawan.count == 0 {
                     performSegue(withIdentifier: "code", sender: nil)
                 }else{
                     if indexPath.row < karyawan.count{
-//                        performSegue(withIdentifier: "code", sender: nil)
+                        performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
                     }else{
                         performSegue(withIdentifier: "code", sender: nil)
                     }
                 }
             }
+            
            
         }
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
+    // MARK: - Prepare segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "employeeProfileSegue" {
             let vc = segue.destination as! EmployeeProfileViewController
             
-            vc.data = sender as! CKRecord
+            //vc.data = sender as! CKRecord
+            if modelPemilik?.role == "Owner" {
+                vc.modelUser?.firstName
+            } else if modelPemilik?.role == "Karyawan" {
+                vc.modelUser = modelPemilik
+                vc.modelUser?.firstName = modelPemilik!.firstName
+                vc.modelUser?.lastName = modelPemilik!.lastName
+                vc.modelUser?.email = modelPemilik!.email
+                vc.modelUser?.role = modelPemilik!.role
+                vc.modelUser?.tokoID = modelPemilik!.tokoID
+                vc.modelUser?.phone = modelPemilik!.phone
+            }
+            
+            
         }
         if segue.identifier == "code" {
             let vc = segue.destination as! CodeViewController

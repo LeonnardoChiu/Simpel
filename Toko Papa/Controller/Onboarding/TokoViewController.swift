@@ -151,7 +151,7 @@ class TokoViewController: UIViewController {
             
         
         database.save(editNote!) { (record, error) in
-             print(error)
+             //print(error)
              guard record != nil else { return}
              print("savaedddd")
          }
