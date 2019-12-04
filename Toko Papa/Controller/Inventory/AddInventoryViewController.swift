@@ -202,6 +202,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         self.barcode = barcodeVC.qrData
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.barcodeTemp = "\(barcode)"
         enabledDoneButton()
     }
     
