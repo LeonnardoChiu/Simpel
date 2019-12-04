@@ -55,7 +55,7 @@ class EmployeeProfileViewController: UIViewController {
         lastNameTemp = modelUser!.lastName
         //self.QueryDatabase()
         //print(orang?.firstName)
-        showImage()
+        //showImage()
         
     }
     
@@ -84,10 +84,14 @@ class EmployeeProfileViewController: UIViewController {
     func appendToArray() {
         //profileCell.append(data.value(forKey: "firstName") as! String)
         //profileCell.append(data.value(forKey: "lastName") as! String)
-        profileCell.append(data.value(forKey: "storeName") as! String)
-        profileCell.append(data.value(forKey: "role") as! String)
-        profileCell.append(data.value(forKey: "email") as! String)
-        profileCell.append(data.value(forKey: "phoneNumber") as! String)
+        //profileCell.append(data.value(forKey: "storeName") as! String)
+        //profileCell.append(data.value(forKey: "role") as! String)
+        //profileCell.append(data.value(forKey: "email") as! String)
+        //profileCell.append(data.value(forKey: "phoneNumber") as! String)
+        
+        profileCell.append(modelUser!.email)
+        profileCell.append(modelUser!.phone)
+        profileCell.append(modelUser!.role)
     }
     
     
@@ -107,18 +111,22 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = storeTemp
                 cell.rightLbl.text = profileCell[indexPath.row]
+                cell.rightLbl.text = modelUser?.role
             }else if indexPath.row == 1 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = roleTemp
-                cell.rightLbl.text = (data.value(forKey: "role") as! String)
+                //cell.rightLbl.text = (data.value(forKey: "role") as! String)
+                cell.rightLbl.text = modelUser?.role
             }else if indexPath.row == 2 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = emailTemp
-                cell.rightLbl.text = (data.value(forKey: "email") as! String)
+                //cell.rightLbl.text = (data.value(forKey: "email") as! String)
+                cell.rightLbl.text = modelUser?.email
             }else if indexPath.row == 3 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = phoneTemp
-                cell.rightLbl.text = (data.value(forKey: "phoneNumber") as! String)
+                //cell.rightLbl.text = (data.value(forKey: "phoneNumber") as! String)
+                cell.rightLbl.text = modelUser?.phone
             }
         }
         

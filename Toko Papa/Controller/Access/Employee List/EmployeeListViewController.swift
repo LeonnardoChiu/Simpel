@@ -24,6 +24,7 @@ class EmployeeListViewController: UIViewController {
     var data = [CKRecord]()
     var modelPemilik: People?
     var idx: Int = 0
+    var image: CKAsset?
     
     // MARK: - IBOutlet list
     @IBOutlet weak var tableList: UITableView! {
@@ -81,6 +82,7 @@ class EmployeeListViewController: UIViewController {
             guard let record = record else { return }
             self.data = record
             self.ModelKaryawan()
+            
             DispatchQueue.main.async {
                 self.tableList.refreshControl?.endRefreshing()
                 self.tableList.reloadData()
@@ -140,7 +142,15 @@ class EmployeeListViewController: UIViewController {
             let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
-            owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+        
+            var profileImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                profileImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+        
+            owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
             
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
@@ -162,7 +172,15 @@ class EmployeeListViewController: UIViewController {
             let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
-            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+            
+            var profileImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                profileImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            
+            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: profileImage!))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowKaryawan.append(true)
             }else{
@@ -256,19 +274,29 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         idx = indexPath.row
         
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
             if modelPemilik?.role == "Owner" {
                 print(modelPemilik?.role)
+                performSegue(withIdentifier: "employeeProfileSegue", sender: modelPemilik)
+            } else {
+                if indexPath.row == 0 {
+                    //print(modelPemilik?.role)
+                    //performSegue(withIdentifier: "employeeProfileSegue", sender: modelPemilik)
+                }
             }
+        }
+        
+        if indexPath.section == 1 {
+            
             if modelPemilik?.role == "Karyawan"{
-                print(modelPemilik?.role)
 //                 performSegue(withIdentifier: "code", sender: nil)
                 //performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
             } else {
                 if karyawan.count == 0 {
                     performSegue(withIdentifier: "code", sender: nil)
                 }else{
-                    if indexPath.row < karyawan.count{
+                    if indexPath.row < karyawan.count {
+                        print(modelPemilik?.role)
                         performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
                     }else{
                         performSegue(withIdentifier: "code", sender: nil)
@@ -288,9 +316,15 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             
             //vc.data = sender as! CKRecord
             if modelPemilik?.role == "Owner" {
-                vc.modelUser?.firstName
+                vc.modelUser = sender as! People
+                vc.modelUser?.firstName = modelPemilik!.firstName
+                vc.modelUser?.lastName = modelPemilik!.lastName
+                vc.modelUser?.email = modelPemilik!.email
+                vc.modelUser?.role = modelPemilik!.role
+                vc.modelUser?.tokoID = modelPemilik!.tokoID
+                vc.modelUser?.phone = modelPemilik!.phone
             } else if modelPemilik?.role == "Karyawan" {
-                vc.modelUser = modelPemilik
+                vc.modelUser = sender as! People
                 vc.modelUser?.firstName = modelPemilik!.firstName
                 vc.modelUser?.lastName = modelPemilik!.lastName
                 vc.modelUser?.email = modelPemilik!.email

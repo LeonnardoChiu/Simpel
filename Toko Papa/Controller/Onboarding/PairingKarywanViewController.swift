@@ -81,7 +81,7 @@ class PairingKarywanViewController: UIViewController {
         var editNote: CKRecord?
         
         for edit in dataProfil{
-            if modelPemilik?.Id.recordName == edit.recordID.recordName{
+            if modelPemilik!.appleID == edit.value(forKey: "AppleID") as! String{
             editNote = edit
             break
             }

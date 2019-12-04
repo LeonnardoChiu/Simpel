@@ -14,9 +14,12 @@ class TokoViewController: UIViewController {
     // MARK: - Variable
     let database = CKContainer.default().publicCloudDatabase
     var modelPemilik: People?
+    var modelProfile: [People] = []
     var dataProfil = [CKRecord]()
     var dataToko = [CKRecord]()
     var tempBuatCekToko: Int?
+    var image: CKAsset?
+    var people: [People] = []
     // MARK: - IBOutlet
     @IBOutlet weak var namaTokotextField: UITextField!
     @IBOutlet weak var selesai: UIBarButtonItem!
@@ -24,7 +27,7 @@ class TokoViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(modelPemilik?.appleID)
         // Do any additional setup after loading the view.
     }
     
@@ -77,7 +80,9 @@ class TokoViewController: UIViewController {
                     break
                 }
             }
-            
+            print(Idss)
+            modelPemilik?.tokoID = Idss!
+            modelPemilik?.role = "Owner"
             updateToCloudProfil(tokoID: Idss!)
         }
         
@@ -127,25 +132,32 @@ class TokoViewController: UIViewController {
     @objc func QueryDatabaseProfile(){
         let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
         database.perform(query, inZoneWith: nil) { (record, _) in
-            guard let record = record else {return}
-                
+            guard let record = record else { return }
+            //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
             self.dataProfil = record
+            
+            for i in self.modelProfile{
+                print(i.appleID)
+                print(i.firstName)
+           }
+            print("Total Employee dalam database : \(self.dataProfil.count)")
         }
     }
     
-   
     
     func updateToCloudProfil(tokoID: String){
             var editNote: CKRecord?
-            
+       
             for edit in dataProfil{
-                if modelPemilik?.Id.recordName == edit.recordID.recordName{
+                var aaaa = edit.value(forKey: "AppleID") as? String
+                print(aaaa!)
+                print(modelPemilik!.appleID)
+                if modelPemilik!.appleID == aaaa!{
                 editNote = edit
                 break
                 }
             }
-            modelPemilik?.tokoID = tokoID
-            modelPemilik?.role = "Owner"
+            
             editNote?.setValue(tokoID, forKey: "TokoID")
             editNote?.setValue("Owner", forKey: "role")//ini ke tablenya
             

@@ -12,6 +12,7 @@ import CloudKit
 class CashierItemListViewController: UIViewController {
     
     // MARK: - Variable
+    var modelPemilik: People?
     var myItem: [Item] = []
     var filteredItem: [Item] = []    
     var image: CKAsset?
@@ -33,7 +34,8 @@ class CashierItemListViewController: UIViewController {
     
     // MARK: - objc untuk Query Database
     @objc func QueryDatabase(){
-        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(value: true))
+        let tokoID = modelPemilik?.tokoID
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
        
         database.perform(query, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
@@ -63,6 +65,8 @@ class CashierItemListViewController: UIViewController {
         /// buat large title di nav bar
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)]
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        var mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
         //self.navigationItem.setHidesBackButton(true, animated: true)
         initSearchBar()
         initNotification()

@@ -19,6 +19,8 @@ class ChooseRoleViewController: UIViewController {
     var data = [CKRecord]()
     var toko: [Toko] = []
     var modelPemilik: People?
+    var people: [People] = []
+    var image: CKAsset?
     // MARK: - IBOutlet
     @IBOutlet weak var ownerView: UIView! {
         didSet {
@@ -36,7 +38,8 @@ class ChooseRoleViewController: UIViewController {
         // or declare like this
         let gestureKaryawan: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Karyawan))
 
-        
+        modelPemilik?.appleID
+       
         self.ownerView.addGestureRecognizer(gestureOwner)
         self.karyawanView.addGestureRecognizer(gestureKaryawan)
 
@@ -52,9 +55,36 @@ class ChooseRoleViewController: UIViewController {
             self.data = record
             self.ModelToko()
             /// append ke model
-            print("jumlah code : \(self.data.count)")
+            print("jumlah toko : \(self.data.count)")
+        }
+        
+
+    }
+    
+    
+    func initDataModel() {
+        people.removeAll()
+        for countData in data {
+            let id = countData.recordID
+            let appleid = countData.value(forKey: "AppleID") as! String
+            let email = countData.value(forKey: "Email") as! String
+            let firstName = countData.value(forKey: "firstName") as! String
+            let lastName = countData.value(forKey: "lastName") as! String
+            let phone = countData.value(forKey: "phoneNumber") as! String
+            let roleee = countData.value(forKey: "role") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            
+            var profileImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                profileImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            
+            people.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
         }
     }
+    
     
     func ModelToko() {
         toko.removeAll()
@@ -82,6 +112,7 @@ class ChooseRoleViewController: UIViewController {
        if segue.identifier == "ownerToko"{
             guard let vc = segue.destination as? TokoViewController else { return }
                 vc.modelPemilik = modelPemilik
+                vc.people = people
         }
         
         

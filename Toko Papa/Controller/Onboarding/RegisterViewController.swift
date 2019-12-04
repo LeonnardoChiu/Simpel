@@ -20,7 +20,7 @@ class RegisterViewController: UIViewController {
     var lastName: String = ""
     var email: String = ""
     var modelRegister: People?
-    
+    var people: [People] = []
     var image: CKAsset?
     var images = UIImage()
     var roleTemp: String = ""
@@ -113,6 +113,7 @@ class RegisterViewController: UIViewController {
         print("Your Apple ID : \(user?.id)")
         print("First name    : \(user?.firstName)")
         print("Last name     : \(user?.lastName)")
+        print(id)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -184,19 +185,22 @@ class RegisterViewController: UIViewController {
     }
     
     func initDataModel() {
-        let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text
-        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text
-        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0))?.textLabel?.text
-        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0))?.textLabel?.text
+        let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
+        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
+        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
+        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
+        print("bnsgt : \(user!.id)")
+        print("bnsgt : \(user?.id)")
+        modelRegister?.image = images
+        print(images)
+        //model
+        let tokoIDReference = CKRecord.ID(recordName: "-")
+        modelRegister = People(id: tokoIDReference, appleid: user!.id, email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phone: phone!.textField.text!, rolee: "-", toko: "-", profileImage: images)
+        print("ID : ", modelRegister?.appleID)
+        print("First: ", modelRegister?.firstName)
         
+        print("Image: ", modelRegister?.image)
         
-        modelRegister?.appleID = user!.id
-        modelRegister?.firstName = firstName!
-        modelRegister?.lastName = lastName!
-        modelRegister?.phone = phone!
-        modelRegister?.email = email!
-        modelRegister?.tokoID = "-"
-        modelRegister?.role = "-"
         
     }
     
@@ -211,8 +215,15 @@ class RegisterViewController: UIViewController {
     
     // MARK: - Prepare Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let roleVC = segue.destination as? ChooseRoleViewController else { return }
-        roleVC.modelPemilik = modelRegister
+
+       
+        
+        if segue.identifier == "toRole" {
+             guard let vc = segue.destination as? ChooseRoleViewController else { return }
+            print("anjeng \(modelRegister?.appleID)")
+             vc.modelPemilik = modelRegister
+            vc.people = people
+        }
     }
     
 }
@@ -223,17 +234,13 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         return placeHolders.count
     }
     
-   
-    
     // MARK: - Did select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
         
     }
     
-   
-   
+    // MARK: - Cell for row at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "registerCell") as! RegisterViewCell
         
