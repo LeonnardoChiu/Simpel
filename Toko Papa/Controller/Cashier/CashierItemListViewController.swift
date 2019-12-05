@@ -163,10 +163,19 @@ class CashierItemListViewController: UIViewController {
         }
         /// add button tambah
         let addBtn = UIAlertAction(title: "Tambah", style: .default) { ACTION in
-            self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah")
-            self.selectedItem.qty = self.selectedStock
-            self.performSegue(withIdentifier: "backToCashier", sender: self)
-            //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+            self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah") {
+//                self.performSegue(withIdentifier: "backToCashier", sender: self)
+                //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+                if let _ = self.presentedViewController {
+                    self.presentedViewController?.dismiss(animated: false) {
+                        self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+                    }
+                } else {
+                    self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+                }
+            }
+            //self.selectedItem.qty = self.selectedStock
+            
         }
         /// add button batal
         let batalBtn = UIAlertAction(title: "Batal", style: .cancel) { ACTION in
@@ -238,18 +247,17 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         if isFiltering {
             initAlert()
             selectedItem = filteredItem[indexPath.row]
-            selectedItem.qty = selectedStock
+//            selectedItem.qty = selectedStock
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
             /// karena saat search menampilkan search view controller, jadi dismiss dahulu view si search controller
-            presentedViewController?.dismiss(animated: false) {
-                self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
-            }
+            
+            //presentedViewController?.dismiss(animated: true, completion: nil)
         } else {
             initAlert()
             selectedItem = myItem[indexPath.row]
-            selectedItem.qty = selectedStock
+            //selectedItem.qty = selectedStock
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
-            performSegue(withIdentifier: "backToCashier", sender: selectedItem)
+            //performSegue(withIdentifier: "backToCashier", sender: selectedItem)
         }
          
     }
@@ -280,7 +288,7 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
     /// End editing
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchFooter.showText(text: searchBar.text!)
-        searchBar.text = ""
+        //searchBar.text = ""
         //print(searchBar.text)
     }
     

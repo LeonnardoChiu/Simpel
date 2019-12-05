@@ -54,8 +54,6 @@ class CashierViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initSearchBar()
-        
-        
         // MARK: - add xib pakai UINib
         let nibItem = UINib(nibName: "CashierCell", bundle: nil)
         cashierTableView.register(nibItem, forCellReuseIdentifier: "CashierCell")
@@ -77,10 +75,10 @@ class CashierViewController: UIViewController {
         super.viewWillAppear(animated)
         var mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        
+        QueryDatabase()
+        //print(data.first)
         finishBtnOutlet.isEnabled = false
         if newItem != nil {
-            
             myItem.append(newItem!)
             
             for item in myItem {
@@ -124,8 +122,22 @@ class CashierViewController: UIViewController {
     }
     
     // MARK: - Update barang ke cloud setelah pembayaran
+    func updateToCloud(Stock: Int) {
+        var inventory: CKRecord?
+        
+        for dataCount in data {
+            inventory = dataCount
+            print(dataCount.value(forKey: "NameProduct")!)
+        }
+        
+        inventory?.setValue(Stock, forKey: "Stock")
+        database.save(inventory!) { (record, error) in
+            guard record != nil else { return}
+        }
+    }
+    
     func finishPayment() {
-        let inventory: CKRecord?
+        
     }
     
     // MARK: - Unwind list
