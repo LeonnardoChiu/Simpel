@@ -17,10 +17,12 @@ class CashierViewController: UIViewController {
     var modelPemilik: People?
     var priceTemp: [Int] = []
     var totalPrice: Int = 0
+    var GrandTotal:Int = 0
     var barcode: QRData?
     var barcodeTemp = ""
     var items: [Inventory] = []
     var getScanItem = false
+    var getSearchItem = false
 
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -75,14 +77,14 @@ class CashierViewController: UIViewController {
         super.viewWillAppear(animated)
         var mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        QueryDatabase()
+        //QueryDatabase()
         //print(data.first)
         finishBtnOutlet.isEnabled = false
         if newItem != nil {
             myItem.append(newItem!)
             
             for item in myItem {
-                totalPrice += item.price
+                //totalPrice += item.price
             }
             finishBtnOutlet.isEnabled = true
             newItem = nil
@@ -96,14 +98,40 @@ class CashierViewController: UIViewController {
         }
         
         self.QueryDatabase()
-        if getScanItem == true{
+        if getScanItem == true {
             for item in items {
                 if barcode?.codeString == item.barcode {
-                    print(item.barcode)
-                    print(item.namaItem)
-                    myItem.append(item)
+                    
+                    if myItem.count == 0 {
+                        item.stock = 1
+                        myItem.append(item)
+                    }
+                    else{
+                        
+                        var MatchItem = false
+                        for index in myItem {
+                            if item.barcode == index.barcode {
+                                index.stock += 1
+                                MatchItem = true
+                                break
+                            }
+                            else{
+                                MatchItem = false
+                            }
+                        }
+                        
+                        if MatchItem == false {
+                            item.stock = 1
+                            myItem.append(item)
+                        }
+                        print(item.barcode)
+                        print(item.namaItem)
+                    }
+                    
                 }
             }
+            totalPrice = 0
+            self.cashierTableView.reloadData()
             getScanItem = false
         }
     }
@@ -145,6 +173,7 @@ class CashierViewController: UIViewController {
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
         guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
         // Use data from the view controller which initiated the unwind segue
+        getScanItem = true
     }
     
     /// unwind dari barcode scan page
@@ -233,41 +262,40 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         if myItem.count == 0 && indexPath.section == 0 {
             // MARK: - Nampilin cell jika barang belum ada
             let noItemCell = tableView.dequeueReusableCell(withIdentifier: "CashierCell") as! CashierCell
-
+            
             return noItemCell
         } else if indexPath.row == myItem.count && indexPath.section == 0 {
            // MARK: - Nampilin cell Total
             let totalCell = tableView.dequeueReusableCell(withIdentifier: "TotalPriceCell") as! TotalPriceCell
             
-            
             //totalCell.priceNumericLbl.text = String("\(price.reduce(0, +)),00")
             totalCell.priceNumericLbl.text = "Rp. \(totalPrice.commaRepresentation)"
-            
+         
             return totalCell
         } else if myItem.count != 0 && indexPath.section == 0 {
             // MARK: - Nampilin cell barang yang dipilih
             let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
-            
-            var angkaTotal = myItem[indexPath.row].price
-            angkaTotal = angkaTotal * myItem[indexPath.row].stock
-            totalPrice += angkaTotal
-        
             itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaItem
-            itemAddedCell.priceLbl.text = "Rp. \(angkaTotal.commaRepresentation)"
+            itemAddedCell.priceLbl.text = "Rp. \(myItem[indexPath.row].price.commaRepresentation)"
             itemAddedCell.quantityLbl.text = "Quantity: \(String(myItem[indexPath.row].stock))"
             
             itemAddedCell.itemImage.image = myItem[indexPath.row].imageItem
             itemAddedCell.itemImage.contentMode = .scaleAspectFill
+            
+            totalPrice = myItem[indexPath.row].price * myItem[indexPath.row].stock
+            print(totalPrice)
+            
+            
             
             return itemAddedCell
         } else if indexPath.section == 1 {
             // MARK: - nampilin cell payment method
             let paymentMethodCell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell") as! PaymentMethodCell
             
-            if indexPath.row == 0 {
+            if indexPath.row == 0 && indexPath.section == 1 {
                 paymentMethodCell.cashLbl.text = "Tunai"
                 paymentMethodCell.accessoryType = .checkmark
-            } else if indexPath.row == 1 {
+            } else if indexPath.row == 1 && indexPath.section == 1 {
                 paymentMethodCell.cashLbl.text = "Non tunai"
                 paymentMethodCell.accessoryType = .none
             }
@@ -342,7 +370,7 @@ extension CashierViewController: UISearchBarDelegate {
     
     /// untuk barcode button dalam search bar
     func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
-        print("tekan boss")
+        print("To Barcode Scanner")
         performSegue(withIdentifier: "toBarcodeScanner", sender: nil)
     }
 }

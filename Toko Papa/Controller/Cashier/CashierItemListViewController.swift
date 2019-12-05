@@ -13,10 +13,10 @@ class CashierItemListViewController: UIViewController {
     
     // MARK: - Variable
     var modelPemilik: People?
-    var myItem: [Item] = []
-    var filteredItem: [Item] = []    
+    var myItem: [Inventory] = []
+    var filteredItem: [Inventory] = []
     var image: CKAsset?
-    var selectedItem: Item!
+    var selectedItem: Inventory!
     var selectedStock: Int = 0
     var isSearchBarEmpty: Bool {
            return searchController.searchBar.text?.isEmpty ?? true
@@ -76,10 +76,12 @@ class CashierItemListViewController: UIViewController {
         
     }
     
-    // MARK: - viewDidAppear
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    // MARK: - viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.QueryDatabase()
+        print("filteredddd : \(filteredItem.count)")
+        print("Original :\(myItem.count)")
         DispatchQueue.main.async{
             self.searchTableView.reloadData()
         }
@@ -88,19 +90,23 @@ class CashierItemListViewController: UIViewController {
     // MARK: - Init table model
     func initDataModel() {
         for countData in data {
-            let namaProduk = countData.value(forKey: "NameProduct") as! String
+            let id = countData.recordID
+            let namaItem = countData.value(forKey: "NameProduct") as! String
             let stock = countData.value(forKey: "Stock") as! Int
             let price = countData.value(forKey: "Price") as! Int
-            
+            let barcode = countData.value(forKey: "Barcode") as! String
+            let category = countData.value(forKey: "Category") as! String
+            let distributor = countData.value(forKey: "Distributor") as! String
+            let version = countData.value(forKey: "Version") as! Int
+            let unit = countData.value(forKey: "Unit") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
             var itemImage: UIImage?
             image = (countData.value(forKey: "Images") as? [CKAsset])?.first
-              if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-                  itemImage = UIImage(data: data as Data)
-                  //itemImage.contentMode = .scaleAspectFill
-              }
-            
-            myItem.append(Item(itemImage: itemImage!, namaProduk: namaProduk, price: price, qty: stock))
-
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                itemImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            myItem.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
         }
     }
     
@@ -201,7 +207,7 @@ class CashierItemListViewController: UIViewController {
     // MARK: - function untuk filtering item
     func filterContentsForSearch(_ searchText: String) {
         filteredItem = myItem.filter({ (item) -> Bool in
-            return item.namaProduk.lowercased().contains(searchText.lowercased())
+            return item.namaItem.lowercased().contains(searchText.lowercased())
         })
             searchTableView.reloadData()
     }
@@ -224,19 +230,19 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
         
         if isFiltering {
-            itemAddedCell.itemNameLbl.text = filteredItem[indexPath.row].namaProduk
+            itemAddedCell.itemNameLbl.text = filteredItem[indexPath.row].namaItem
                  itemAddedCell.priceLbl.text = "Rp. \(String(filteredItem[indexPath.row].price.commaRepresentation))"
-                 itemAddedCell.quantityLbl.text = "Stock: \(String(filteredItem[indexPath.row].qty))"
+                 itemAddedCell.quantityLbl.text = "Stock: \(String(filteredItem[indexPath.row].stock))"
                  
-                 itemAddedCell.itemImage.image = filteredItem[indexPath.row].itemImage
+                 itemAddedCell.itemImage.image = filteredItem[indexPath.row].imageItem
                  itemAddedCell.itemImage.contentMode = .scaleAspectFill
                  return itemAddedCell
         } else {
-            itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaProduk
+            itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaItem
             itemAddedCell.priceLbl.text = "Rp. \(String(myItem[indexPath.row].price.commaRepresentation))"
-            itemAddedCell.quantityLbl.text = "Stock: \(String(myItem[indexPath.row].qty))"
+            itemAddedCell.quantityLbl.text = "Stock: \(String(myItem[indexPath.row].stock))"
             
-            itemAddedCell.itemImage.image = myItem[indexPath.row].itemImage
+            itemAddedCell.itemImage.image = myItem[indexPath.row].imageItem
             itemAddedCell.itemImage.contentMode = .scaleAspectFill
             return itemAddedCell
         }
@@ -266,6 +272,7 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         if segue.identifier == "backToCashier" {
             let vc = segue.destination as! CashierViewController
             //vc.newItem = selectedItem
+            vc.newItem = selectedItem
         }
     }
     
