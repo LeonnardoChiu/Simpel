@@ -26,6 +26,7 @@ class EmployeeProfileViewController: UIViewController {
     var emailTemp: String = ""
     var phoneTemp: String = ""
     var modelUser: People?
+    var toko: Toko?
     
     var profileCell: [String] = []
     var idx: Int = 0
@@ -55,7 +56,7 @@ class EmployeeProfileViewController: UIViewController {
         lastNameTemp = modelUser!.lastName
         //self.QueryDatabase()
         //print(orang?.firstName)
-        //showImage()
+        showImage()
         
     }
     
@@ -71,13 +72,21 @@ class EmployeeProfileViewController: UIViewController {
     // MARK: - function to show image
     func showImage() {
         // image harus diload dengan type NSData fileURL
-        image = data.value(forKey: "profileImage") as? CKAsset
-        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-            self.profileImage.image = UIImage(data: data as Data)
-            self.profileImage.contentMode = .scaleAspectFill
-        } else {
-            self.profileImage.image = UIImage.init(systemName: "camera")
-        }
+//        image = data.value(forKey: "profileImage") as? CKAsset
+//        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+//            self.profileImage.image = UIImage(data: data as Data)
+//            self.profileImage.contentMode = .scaleAspectFill
+//        } else {
+//            self.profileImage.image = UIImage.init(systemName: "camera")
+//        }
+        self.profileImage.image = modelUser?.image
+        self.profileImage.contentMode = .scaleAspectFill
+//        if let image = modelUser?.image {
+//            
+//        } else {
+//            self.profileImage.image = UIImage.init(systemName: "camera.fill")
+//        }
+        
     }
     
     // MARK: - function append cloud data to array
@@ -111,7 +120,7 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = storeTemp
                 cell.rightLbl.text = profileCell[indexPath.row]
-                cell.rightLbl.text = modelUser?.role
+                cell.rightLbl.text = toko?.namaToko
             }else if indexPath.row == 1 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = roleTemp

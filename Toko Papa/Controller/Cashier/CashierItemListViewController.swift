@@ -305,8 +305,8 @@ extension CashierItemListViewController: UISearchBarDelegate, UISearchResultsUpd
         } else if searchBar.selectedScopeButtonIndex == 3 {
             print("Kolom ALL")
         } else if searchBar.selectedScopeButtonIndex == 4 {
-            performSegue(withIdentifier: "showFilterList", sender: nil)
-            searchBar.selectedScopeButtonIndex = 0
+            //performSegue(withIdentifier: "showFilterList", sender: nil)
+            //searchBar.selectedScopeButtonIndex = 0
         }
         //print("Current scope index: \(selectedScope)")
     }

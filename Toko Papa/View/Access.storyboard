@@ -230,68 +230,6 @@
             </objects>
             <point key="canvasLocation" x="4189.855072463768" y="1583.7053571428571"/>
         </scene>
-        <!--Pilih Peran-->
-        <scene sceneID="GX0-Um-6lx">
-            <objects>
-                <viewController id="W3i-K7-eal" customClass="selectRoleViewController" customModule="Simple" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="x6l-qd-cyU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dgN-Ca-X3h">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="roleTableCell" id="FF3-Ac-wcq">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FF3-Ac-wcq" id="zfO-YM-wua">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Role" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTm-0t-M7M">
-                                                    <rect key="frame" x="20" y="11" width="374" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="HTm-0t-M7M" firstAttribute="top" secondItem="zfO-YM-wua" secondAttribute="topMargin" id="OSl-Ig-aTc"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="HTm-0t-M7M" secondAttribute="trailing" id="jsG-gv-mJn"/>
-                                                <constraint firstItem="HTm-0t-M7M" firstAttribute="leading" secondItem="zfO-YM-wua" secondAttribute="leadingMargin" id="y6T-fJ-Yjs"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="4w0-1M-4q1" kind="unwind" identifier="backToAddEmployee" unwindAction="unwindFromSelectRole:" id="K9J-Ju-G4a"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="W3i-K7-eal" id="ryc-dQ-3bJ"/>
-                                    <outlet property="delegate" destination="W3i-K7-eal" id="25W-y8-H23"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="dgN-Ca-X3h" firstAttribute="trailing" secondItem="Ge8-ka-FU3" secondAttribute="trailing" id="H8l-KN-RKz"/>
-                            <constraint firstItem="dgN-Ca-X3h" firstAttribute="top" secondItem="Ge8-ka-FU3" secondAttribute="top" id="aPN-Ux-M5w"/>
-                            <constraint firstAttribute="bottom" secondItem="dgN-Ca-X3h" secondAttribute="bottom" id="bpp-qD-FWE"/>
-                            <constraint firstItem="dgN-Ca-X3h" firstAttribute="leading" secondItem="Ge8-ka-FU3" secondAttribute="leading" id="ttq-El-of4"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ge8-ka-FU3"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Pilih Peran" id="O3J-D2-rSL"/>
-                    <connections>
-                        <outlet property="tableView" destination="dgN-Ca-X3h" id="xlz-Ju-KE2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hhX-PA-XSW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="4w0-1M-4q1" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="2944.9275362318845" y="3052.9017857142858"/>
-        </scene>
         <!--Employee Acces-->
         <scene sceneID="8d9-hX-dHR">
             <objects>

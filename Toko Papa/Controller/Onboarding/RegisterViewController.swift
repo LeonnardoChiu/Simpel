@@ -202,7 +202,9 @@ class RegisterViewController: UIViewController {
         let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
         print("bnsgt : \(user!.id)")
         print("bnsgt : \(user?.id)")
+        images = profileImages.image!
         modelRegister?.image = images
+        //modelRegister?.image = profileImages.image
         print(images)
         //model
         let tokoIDReference = CKRecord.ID(recordName: "-")
