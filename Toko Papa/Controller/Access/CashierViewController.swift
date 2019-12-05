@@ -12,16 +12,22 @@ import CloudKit
 class CashierViewController: UIViewController {
     
     // MARK: - Variable
-    var myItem: [Item] = []
-    var newItem: Item?
+    var myItem: [Inventory] = []
+    var newItem: Inventory?
     var modelPemilik: People?
     var priceTemp: [Int] = []
     var totalPrice: Int = 0
+    var barcode: QRData?
+    var barcodeTemp = ""
+    var items: [Inventory] = []
+    var getScanItem = false
 
     let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Database
     let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
+    var image: CKAsset?
     
     // MARK: - IBOutlet
     @IBOutlet weak var cashierTableView: UITableView! {
@@ -36,7 +42,7 @@ class CashierViewController: UIViewController {
         let alert = UIAlertController(title: "Sukses", message: "Transaksi berhasil", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.finishPayment()
-            self.myItem.removeAll()
+            self.items.removeAll()
             self.cashierTableView.reloadData()
         }
         
@@ -63,6 +69,7 @@ class CashierViewController: UIViewController {
         let nibTotalPrice = UINib(nibName: "TotalPriceCell", bundle: nil)
         cashierTableView.register(nibTotalPrice, forCellReuseIdentifier: "TotalPriceCell")
         
+        
     }
     
     // MARK: - viewWillAppear
@@ -87,7 +94,19 @@ class CashierViewController: UIViewController {
         print("Total Price: \(totalPrice)")
         
         DispatchQueue.main.async{
-                   self.cashierTableView.reloadData()
+            self.cashierTableView.reloadData()
+        }
+        
+        self.QueryDatabase()
+        if getScanItem == true{
+            for item in items {
+                if barcode?.codeString == item.barcode {
+                    print(item.barcode)
+                    print(item.namaItem)
+                    myItem.append(item)
+                }
+            }
+            getScanItem = false
         }
     }
     
@@ -119,7 +138,10 @@ class CashierViewController: UIViewController {
     /// unwind dari barcode scan page
     @IBAction func unwindFromBarcodeScanner(_ unwindSegue: UIStoryboardSegue) {
         guard let BarcodeScanVC = unwindSegue.source as? BarcodeScannerController else { return }
-        // Use data from the view controller which initiated the unwind segue
+        self.barcode = BarcodeScanVC.qrData
+        self.barcodeTemp = "\(barcode?.codeString)"
+        print(barcodeTemp)
+        getScanItem = true
     }
     
 }
@@ -215,14 +237,14 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
             let itemAddedCell = tableView.dequeueReusableCell(withIdentifier: "itemAddedCell") as! itemAddedCell
             
             var angkaTotal = myItem[indexPath.row].price
-            angkaTotal = angkaTotal * myItem[indexPath.row].qty
+            angkaTotal = angkaTotal * myItem[indexPath.row].stock
             totalPrice += angkaTotal
         
-            itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaProduk
+            itemAddedCell.itemNameLbl.text = myItem[indexPath.row].namaItem
             itemAddedCell.priceLbl.text = "Rp. \(angkaTotal.commaRepresentation)"
-            itemAddedCell.quantityLbl.text = "Quantity: \(String(myItem[indexPath.row].qty))"
+            itemAddedCell.quantityLbl.text = "Quantity: \(String(myItem[indexPath.row].stock))"
             
-            itemAddedCell.itemImage.image = myItem[indexPath.row].itemImage
+            itemAddedCell.itemImage.image = myItem[indexPath.row].imageItem
             itemAddedCell.itemImage.contentMode = .scaleAspectFill
             
             return itemAddedCell
@@ -243,6 +265,54 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return UITableViewCell()
+    }
+    
+//MARK: QUERY DATABASE
+    @objc func QueryDatabase(){
+       
+        let tokoID = modelPemilik?.tokoID
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+    
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+        //query.sortDescriptors = [sortDesc]
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initDataModel()
+            print("jumlah barang : \(self.data.count)")
+//            DispatchQueue.main.async {
+//                self.tableView.refreshControl?.endRefreshing()
+//                self.tableView.reloadData()
+//            }
+        }
+    }
+    
+    // MARK: - init data model
+    func initDataModel() {
+        items.removeAll()
+        print("---")
+        print(data.count)
+        for countData in data {
+            let id = countData.recordID
+            let namaItem = countData.value(forKey: "NameProduct") as! String
+            let stock = countData.value(forKey: "Stock") as! Int
+            let price = countData.value(forKey: "Price") as! Int
+            let barcode = countData.value(forKey: "Barcode") as! String
+            let category = countData.value(forKey: "Category") as! String
+            let distributor = countData.value(forKey: "Distributor") as! String
+            let version = countData.value(forKey: "Version") as! Int
+            let unit = countData.value(forKey: "Unit") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            var itemImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                itemImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            items.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
+        }
     }
     
 }

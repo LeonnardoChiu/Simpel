@@ -218,7 +218,7 @@ class RegisterViewController: UIViewController {
     }
     
     func enabledDoneButton() {
-        if namaDepanValidTemp == "" || namaBelakangValidTemp == "" || emailValidTemp == "" || nomorHpValidTemp == "" {
+        if namaDepanValidTemp == "" || namaBelakangValidTemp == "" || emailValidTemp == "" || nomorHpValidTemp == "" || isValidEmail(emailStr: emailValidTemp) == false {
             doneButton.isEnabled = false
         }
         else if profileImages.image == UIImage(systemName: "camera.circle") {
@@ -289,28 +289,35 @@ extension RegisterViewController: UITextFieldDelegate {
         
         if textFieldRow == 0 {
             if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Nama depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
             }
             namaDepanValidTemp = textField.text!
         }
 
         if textFieldRow == 1{
             if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Nama belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
             }
             namaBelakangValidTemp = textField.text!
         }
 
         if textFieldRow == 2 {
             if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Email harus dipilih", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                textField.attributedPlaceholder = NSAttributedString(string: "Email harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
+            }
+            
+            if isValidEmail(emailStr: emailValidTemp) == false {
+                textField.textColor = UIColor.systemRed
+            }
+            else {
+                textField.textColor = UIColor.label
             }
             emailValidTemp = textField.text!
         }
 
         if textFieldRow == 3 {
             if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Handphone harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
+                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Handphone harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
             }
             nomorHpValidTemp = textField.text!
         }
@@ -322,5 +329,12 @@ extension RegisterViewController: UITextFieldDelegate {
         
         enabledDoneButton()
 
+    }
+    
+     func isValidEmail(emailStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: emailStr)
     }
 }

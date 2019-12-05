@@ -257,7 +257,7 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "backToCashier" {
             let vc = segue.destination as! CashierViewController
-            vc.newItem = selectedItem
+            //vc.newItem = selectedItem
         }
     }
     
