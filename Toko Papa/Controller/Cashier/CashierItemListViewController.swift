@@ -12,6 +12,7 @@ import CloudKit
 class CashierItemListViewController: UIViewController {
     
     // MARK: - Variable
+    var priceTemp: Int = 0
     var modelPemilik: People?
     var myItem: [Inventory] = []
     var filteredItem: [Inventory] = []
@@ -62,6 +63,7 @@ class CashierItemListViewController: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        priceTemp = 0
         /// buat large title di nav bar
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)]
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -172,6 +174,8 @@ class CashierItemListViewController: UIViewController {
             self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah") {
 //                self.performSegue(withIdentifier: "backToCashier", sender: self)
                 //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+                self.selectedItem.stock = self.selectedStock
+                
                 if let _ = self.presentedViewController {
                     self.presentedViewController?.dismiss(animated: false) {
                         self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
@@ -251,17 +255,20 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
     /// did select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFiltering {
-            initAlert()
+            
             selectedItem = filteredItem[indexPath.row]
-//            selectedItem.qty = selectedStock
+            selectedItem.stock = selectedStock
+            initAlert()
+            //priceTemp = filteredItem[indexPath.row].price
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
             /// karena saat search menampilkan search view controller, jadi dismiss dahulu view si search controller
             
             //presentedViewController?.dismiss(animated: true, completion: nil)
         } else {
-            initAlert()
             selectedItem = myItem[indexPath.row]
-            //selectedItem.qty = selectedStock
+            selectedItem.stock = selectedStock
+            initAlert()
+            //priceTemp = myItem[indexPath.row].price
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
             //performSegue(withIdentifier: "backToCashier", sender: selectedItem)
         }
@@ -273,6 +280,8 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
             let vc = segue.destination as! CashierViewController
             //vc.newItem = selectedItem
             vc.newItem = selectedItem
+            print("HARGA TOTALLLLLL : \(selectedItem.price * selectedItem.stock)")
+            //vc.searchItemTotal = priceTemp * selectedStock
         }
     }
     

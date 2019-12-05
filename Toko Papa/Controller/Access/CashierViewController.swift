@@ -17,6 +17,7 @@ class CashierViewController: UIViewController {
     var modelPemilik: People?
     var priceTemp: [Int] = []
     var totalPrice: Int = 0
+    var searchItemTotal: Int = 0
     var GrandTotal:Int = 0
     var barcode: QRData?
     var barcodeTemp = ""
@@ -45,6 +46,9 @@ class CashierViewController: UIViewController {
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.finishPayment()
             self.items.removeAll()
+            self.myItem.removeAll()
+            self.searchItemTotal = 0
+            self.totalPrice = 0
             self.cashierTableView.reloadData()
         }
         
@@ -77,21 +81,32 @@ class CashierViewController: UIViewController {
         super.viewWillAppear(animated)
         var mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        //QueryDatabase()
+//        QueryDatabase()
         //print(data.first)
-        finishBtnOutlet.isEnabled = false
-        if newItem != nil {
-            myItem.append(newItem!)
-            
-            for item in myItem {
-                //totalPrice += item.price
-            }
+        //GrandTotal = 0
+        if myItem.count != 0 {
             finishBtnOutlet.isEnabled = true
-            newItem = nil
-            totalPrice = 0
+        } else {
+            finishBtnOutlet.isEnabled = false
         }
         
+        if newItem != nil {
+            GrandTotal += (newItem!.price * newItem!.stock)
+            print(GrandTotal)
+            myItem.append(newItem!)
+            //searchItemTotal += newItem!.price
+            for item in myItem {
+                searchItemTotal += item.price
+            }
+            
+            newItem = nil
+            searchItemTotal = 0
+        }
+        
+        
+        
         print("Total Price: \(totalPrice)")
+        print("Total Price dari search item: \(searchItemTotal)")
         
         DispatchQueue.main.async{
             self.cashierTableView.reloadData()
@@ -104,6 +119,7 @@ class CashierViewController: UIViewController {
                     
                     if myItem.count == 0 {
                         item.stock = 1
+                        totalPrice = item.price * item.stock
                         myItem.append(item)
                     }
                     else{
@@ -122,18 +138,20 @@ class CashierViewController: UIViewController {
                         
                         if MatchItem == false {
                             item.stock = 1
+                            totalPrice = item.price * item.stock
                             myItem.append(item)
                         }
                         print(item.barcode)
                         print(item.namaItem)
                     }
-                    
+                    GrandTotal += totalPrice
                 }
             }
             totalPrice = 0
             self.cashierTableView.reloadData()
             getScanItem = false
         }
+        
     }
     
     // MARK: - Search Bar in navigation
@@ -173,7 +191,8 @@ class CashierViewController: UIViewController {
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
         guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
         // Use data from the view controller which initiated the unwind segue
-        getScanItem = true
+        getSearchItem = true
+        
     }
     
     /// unwind dari barcode scan page
@@ -227,16 +246,19 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         /// validasi checkmark di cell payment
-        if indexPath.row == 0 {
-            /// cell 0 section 1 -> tunai
-            tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
-            tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
-        } else {
-            /// cell 1 section 1 -> non tunai
-            tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
-            tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                /// cell 0 section 1 -> tunai
+                tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
+                tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
+            } else {
+                /// cell 1 section 1 -> non tunai
+                tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
+                tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
+            }
+            //performSegue(withIdentifier: "toPaymentMethod", sender: nil)
+            
         }
-        //performSegue(withIdentifier: "toPaymentMethod", sender: nil)
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
@@ -267,9 +289,12 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.row == myItem.count && indexPath.section == 0 {
            // MARK: - Nampilin cell Total
             let totalCell = tableView.dequeueReusableCell(withIdentifier: "TotalPriceCell") as! TotalPriceCell
-            
+            //totalPrice = totalPrice + searchItemTotal
             //totalCell.priceNumericLbl.text = String("\(price.reduce(0, +)),00")
-            totalCell.priceNumericLbl.text = "Rp. \(totalPrice.commaRepresentation)"
+            //GrandTotal = totalPrice + searchItemTotal
+            print("Grand TOTAL: \(GrandTotal)")
+            print("Total price: \(totalPrice)")
+            totalCell.priceNumericLbl.text = "Rp. \(GrandTotal.commaRepresentation)"
          
             return totalCell
         } else if myItem.count != 0 && indexPath.section == 0 {
@@ -282,13 +307,14 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
             itemAddedCell.itemImage.image = myItem[indexPath.row].imageItem
             itemAddedCell.itemImage.contentMode = .scaleAspectFill
             
-            totalPrice = myItem[indexPath.row].price * myItem[indexPath.row].stock
-            print(totalPrice)
+            //totalPrice = myItem[indexPath.row].price * myItem[indexPath.row].stock
+            //print("Total dari cell for row at \(totalPrice)")
             
             
             
             return itemAddedCell
-        } else if indexPath.section == 1 {
+        }
+        if indexPath.section == 1 {
             // MARK: - nampilin cell payment method
             let paymentMethodCell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell") as! PaymentMethodCell
             
