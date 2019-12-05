@@ -14,6 +14,7 @@ class CashierViewController: UIViewController {
     // MARK: - Variable
     var myItem: [Item] = []
     var newItem: Item?
+    var cart: [Item] = []
     var modelPemilik: People?
     var priceTemp: [Int] = []
     var totalPrice: Int = 0
@@ -22,6 +23,29 @@ class CashierViewController: UIViewController {
     
     // MARK: - Database
     let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
+    
+    // MARK: - objc query database
+    @objc func QueryDatabase(){
+       
+        let tokoID = modelPemilik?.tokoID
+        let query = CKQuery(recordType: "Inventory", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+    
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+        //query.sortDescriptors = [sortDesc]
+        database.perform(query, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            //self.initDataModel()
+            print("jumlah barang : \(self.data.count)")
+            DispatchQueue.main.async {
+                self.cashierTableView.refreshControl?.endRefreshing()
+                self.cashierTableView.reloadData()
+            }
+        }
+      }
     
     // MARK: - IBOutlet
     @IBOutlet weak var cashierTableView: UITableView! {
@@ -35,7 +59,6 @@ class CashierViewController: UIViewController {
        
         let alert = UIAlertController(title: "Sukses", message: "Transaksi berhasil", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
-            self.finishPayment()
             self.myItem.removeAll()
             self.cashierTableView.reloadData()
         }
@@ -48,8 +71,6 @@ class CashierViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initSearchBar()
-        
-        
         // MARK: - add xib pakai UINib
         let nibItem = UINib(nibName: "CashierCell", bundle: nil)
         cashierTableView.register(nibItem, forCellReuseIdentifier: "CashierCell")
@@ -70,10 +91,10 @@ class CashierViewController: UIViewController {
         super.viewWillAppear(animated)
         var mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        
+        QueryDatabase()
+        //print(data.first)
         finishBtnOutlet.isEnabled = false
         if newItem != nil {
-            
             myItem.append(newItem!)
             
             for item in myItem {
@@ -105,8 +126,22 @@ class CashierViewController: UIViewController {
     }
     
     // MARK: - Update barang ke cloud setelah pembayaran
+    func updateToCloud(Stock: Int) {
+        var inventory: CKRecord?
+        
+        for dataCount in data {
+            inventory = dataCount
+            print(dataCount.value(forKey: "NameProduct")!)
+        }
+        
+        inventory?.setValue(Stock, forKey: "Stock")
+        database.save(inventory!) { (record, error) in
+            guard record != nil else { return}
+        }
+    }
+    
     func finishPayment() {
-        let inventory: CKRecord?
+        
     }
     
     // MARK: - Unwind list
