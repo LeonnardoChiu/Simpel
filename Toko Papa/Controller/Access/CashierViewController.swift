@@ -14,6 +14,7 @@ class CashierViewController: UIViewController {
     // MARK: - Variable
     var myItem: [Item] = []
     var newItem: Item?
+    var modelPemilik: People?
     var priceTemp: [Int] = []
     var totalPrice: Int = 0
 
@@ -34,6 +35,7 @@ class CashierViewController: UIViewController {
        
         let alert = UIAlertController(title: "Sukses", message: "Transaksi berhasil", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
+            self.finishPayment()
             self.myItem.removeAll()
             self.cashierTableView.reloadData()
         }
@@ -46,6 +48,7 @@ class CashierViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initSearchBar()
+        
         
         // MARK: - add xib pakai UINib
         let nibItem = UINib(nibName: "CashierCell", bundle: nil)
@@ -65,6 +68,9 @@ class CashierViewController: UIViewController {
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        var mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
+        
         finishBtnOutlet.isEnabled = false
         if newItem != nil {
             
@@ -98,6 +104,11 @@ class CashierViewController: UIViewController {
         searchController.searchBar.delegate = self
     }
     
+    // MARK: - Update barang ke cloud setelah pembayaran
+    func finishPayment() {
+        let inventory: CKRecord?
+    }
+    
     // MARK: - Unwind list
     /// unwind dari search page
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
@@ -113,6 +124,7 @@ class CashierViewController: UIViewController {
     
 }
 
+// MARK: - EXTENSION
 extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var row = 0

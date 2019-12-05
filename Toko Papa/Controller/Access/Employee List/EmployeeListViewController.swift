@@ -130,9 +130,14 @@ class EmployeeListViewController: UIViewController {
         print(toko[0].namaToko)
     }
     
+    func iniModelOwner() {
+        
+    }
+    
     func ModelOwner() {
         owner.removeAll()
         rowOwner.removeAll()
+        
        for countData in data {
             let id = countData.recordID
             let appleid = countData.value(forKey: "AppleID") as! String
@@ -149,8 +154,9 @@ class EmployeeListViewController: UIViewController {
                 profileImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-        
-            owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
+        let refr = CKRecord.ID(recordName: "-")
+        owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
+            //owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: profileImage!))
             
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
@@ -180,7 +186,7 @@ class EmployeeListViewController: UIViewController {
                 //itemImage.contentMode = .scaleAspectFill
             }
             
-            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: profileImage!))
+            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowKaryawan.append(true)
             }else{
@@ -277,35 +283,30 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         if indexPath.section == 0 {
             if modelPemilik?.role == "Owner" {
                 print(modelPemilik?.role)
-                performSegue(withIdentifier: "employeeProfileSegue", sender: modelPemilik)
+                //modelPemilik = owner[idx]
+                idx = indexPath.row
+                performSegue(withIdentifier: "employeeProfileSegue", sender: owner[indexPath.row])
             } else {
-                if indexPath.row == 0 {
-                    //print(modelPemilik?.role)
-                    //performSegue(withIdentifier: "employeeProfileSegue", sender: modelPemilik)
+                
+                
+            }
+        } else if indexPath.section == 1 {
+            //print(modelPemilik?.role)
+            if karyawan.count == 0 {
+                performSegue(withIdentifier: "code", sender: nil)
+            } else {
+                if indexPath.row < karyawan.count {
+                    print(modelPemilik?.role)
+                    //modelPemilik = karyawan[indexPath.row]
+                    idx = indexPath.row
+                    performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
+                }else{
+                    performSegue(withIdentifier: "code", sender: nil)
                 }
             }
+            
         }
         
-        if indexPath.section == 1 {
-            
-            if modelPemilik?.role == "Karyawan"{
-//                 performSegue(withIdentifier: "code", sender: nil)
-                //performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
-            } else {
-                if karyawan.count == 0 {
-                    performSegue(withIdentifier: "code", sender: nil)
-                }else{
-                    if indexPath.row < karyawan.count {
-                        print(modelPemilik?.role)
-                        performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
-                    }else{
-                        performSegue(withIdentifier: "code", sender: nil)
-                    }
-                }
-            }
-            
-           
-        }
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
@@ -316,21 +317,13 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             
             //vc.data = sender as! CKRecord
             if modelPemilik?.role == "Owner" {
-                vc.modelUser = sender as! People
-                vc.modelUser?.firstName = modelPemilik!.firstName
-                vc.modelUser?.lastName = modelPemilik!.lastName
-                vc.modelUser?.email = modelPemilik!.email
-                vc.modelUser?.role = modelPemilik!.role
-                vc.modelUser?.tokoID = modelPemilik!.tokoID
-                vc.modelUser?.phone = modelPemilik!.phone
+                vc.modelUser = sender as? People
+                vc.toko = toko[idx]
+//                vc.modelUser = owner[idx]
             } else if modelPemilik?.role == "Karyawan" {
-                vc.modelUser = sender as! People
-                vc.modelUser?.firstName = modelPemilik!.firstName
-                vc.modelUser?.lastName = modelPemilik!.lastName
-                vc.modelUser?.email = modelPemilik!.email
-                vc.modelUser?.role = modelPemilik!.role
-                vc.modelUser?.tokoID = modelPemilik!.tokoID
-                vc.modelUser?.phone = modelPemilik!.phone
+                vc.modelUser = sender as? People
+                vc.toko = toko[idx]
+//                vc.modelUser = karyawan[idx]
             }
             
             
