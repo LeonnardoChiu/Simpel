@@ -12,13 +12,24 @@ import CloudKit
 class CashierItemListViewController: UIViewController {
     
     // MARK: - Variable
+    var namaTemp = ""
     var priceTemp: Int = 0
     var modelPemilik: People?
     var myItem: [Inventory] = []
     var filteredItem: [Inventory] = []
+    var itemCart: [Inventory] = []
+    var itemTemp: Inventory?
+    
     var image: CKAsset?
     var selectedItem: Inventory!
     var selectedStock: Int = 0
+    var selectedPrice: Int = 0
+    var index: Int = 0
+    var availableStock: Int = 0
+    var isOutOfStock = true
+    
+    var stockTemp: [Int] = []
+    
     var isSearchBarEmpty: Bool {
            return searchController.searchBar.text?.isEmpty ?? true
     }
@@ -81,12 +92,29 @@ class CashierItemListViewController: UIViewController {
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        print("ITEMMM", itemCart)
+        if itemCart.count != 0 {
+            print("ITEMMM", itemCart[0].namaItem)
+        }
+        index = 0
         self.QueryDatabase()
         print("filteredddd : \(filteredItem.count)")
         print("Original :\(myItem.count)")
         DispatchQueue.main.async{
             self.searchTableView.reloadData()
         }
+        
+        print(myItem.count)
+        for count in myItem {
+            for x in itemCart {
+                if count.namaItem == x.namaItem {
+                    print("OTONG :", count.namaItem)
+                    print("OTONG : ", x.namaItem)
+                    count.stock -= x.stock
+                }
+            }
+        }
+        self.searchTableView.reloadData()
     }
     
     // MARK: - Init table model
@@ -94,7 +122,7 @@ class CashierItemListViewController: UIViewController {
         for countData in data {
             let id = countData.recordID
             let namaItem = countData.value(forKey: "NameProduct") as! String
-            let stock = countData.value(forKey: "Stock") as! Int
+            var stock = countData.value(forKey: "Stock") as! Int
             let price = countData.value(forKey: "Price") as! Int
             let barcode = countData.value(forKey: "Barcode") as! String
             let category = countData.value(forKey: "Category") as! String
@@ -108,8 +136,19 @@ class CashierItemListViewController: UIViewController {
                 itemImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
+            for count in itemCart {
+                if namaItem == count.namaItem {
+                    stock -= count.stock
+                }
+            }
+            
             myItem.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
+            
+            stockTemp.append(stock)
+            print("Stock temp:" , stockTemp)
         }
+        
+        
     }
     
     // MARK: - Init Search Bar in navigation
@@ -171,18 +210,50 @@ class CashierItemListViewController: UIViewController {
         }
         /// add button tambah
         let addBtn = UIAlertAction(title: "Tambah", style: .default) { ACTION in
-            self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah") {
-//                self.performSegue(withIdentifier: "backToCashier", sender: self)
-                //self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
-                self.selectedItem.stock = self.selectedStock
-                
-                if let _ = self.presentedViewController {
-                    self.presentedViewController?.dismiss(animated: false) {
+            print(self.availableStock)
+            self.isOutOfStock = true
+            if self.isFiltering {
+                if self.selectedStock > self.availableStock {
+                    print("Lebih")
+                    self.isOutOfStock = true
+                }
+                else{
+                    self.isOutOfStock = false
+                }
+            } else {
+                if self.selectedStock > self.availableStock {
+                    print("Lebih")
+                    self.isOutOfStock = true
+                }
+                else {
+                    self.isOutOfStock = false
+                }
+            }
+            
+            if !self.isOutOfStock {
+                self.presentAlert(withTitle: "Sukses", message: "Barang berhasil ditambah") {
+                    
+                    for count in self.myItem {
+                        if self.selectedItem.namaItem == count.namaItem {
+                            count.stock -= self.selectedStock
+                            self.itemTemp = count
+                            break
+                        }
+                    }
+                    
+                    self.selectedItem.stock = self.selectedStock
+                    
+                    if let _ = self.presentedViewController {
+                        self.presentedViewController?.dismiss(animated: false) {
+                            self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
+                        }
+                    } else {
                         self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
                     }
-                } else {
-                    self.performSegue(withIdentifier: "backToCashier", sender: self.selectedItem)
                 }
+            }
+            else{
+                self.presentAlert(withTitle: "Stok tidak tersedia", message: "Barang gagal ditambah")
             }
             //self.selectedItem.qty = self.selectedStock
             
@@ -255,9 +326,16 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
     /// did select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFiltering {
-            
+            index = indexPath.row
+            print(index)
             selectedItem = filteredItem[indexPath.row]
-            selectedItem.stock = selectedStock
+            namaTemp = selectedItem.namaItem
+            availableStock = selectedItem.stock
+            print("STRTOOSAKDAODK",selectedItem.stock)
+           //selectedItem.stock = selectedStock
+            print("aidjasid",selectedItem.stock)
+            
+            print("asasas",availableStock)
             initAlert()
             //priceTemp = filteredItem[indexPath.row].price
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
@@ -265,8 +343,14 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
             
             //presentedViewController?.dismiss(animated: true, completion: nil)
         } else {
+            index = indexPath.row
+            print(index)
             selectedItem = myItem[indexPath.row]
-            selectedItem.stock = selectedStock
+            namaTemp = selectedItem.namaItem
+            //selectedItem.stock = selectedStock
+            availableStock = myItem[indexPath.row].stock
+            print("sssss", availableStock)
+
             initAlert()
             //priceTemp = myItem[indexPath.row].price
             tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
@@ -279,7 +363,34 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         if segue.identifier == "backToCashier" {
             let vc = segue.destination as! CashierViewController
             //vc.newItem = selectedItem
-            vc.newItem = selectedItem
+            var idx = 0
+            var MatchItem = false
+            for vcItem in vc.myItem {
+                vc.stockTemp.append(vcItem)
+                if vcItem.barcode == selectedItem.barcode {
+                    print("KETEMU")
+                    vcItem.stock += selectedItem.stock
+                    vcItem.price = selectedItem.price
+                    //vc.myItem.append(vcItem)
+                    print(vcItem.price)
+                    
+                    MatchItem = true
+                    break
+                } else {
+                    //vc.newItem = selectedItemp
+                    vc.stockTemp.append(vcItem)
+                    print("AAA")
+                }
+                
+            }
+            
+            
+            if MatchItem == false {
+                vc.stockTemp.append(itemTemp!)
+                vc.myItem.append(selectedItem)
+            }
+            
+            //vc.newItem = selectedItem
             print("HARGA TOTALLLLLL : \(selectedItem.price * selectedItem.stock)")
             //vc.searchItemTotal = priceTemp * selectedStock
         }
