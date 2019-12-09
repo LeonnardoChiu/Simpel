@@ -19,7 +19,6 @@ class BarcodeScannerController: UIViewController {
             }
         }
     }
-    let database = CKContainer.default().publicCloudDatabase
     
     
     // MARK: - IBOutlet

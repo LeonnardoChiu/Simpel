@@ -12,11 +12,16 @@ import CloudKit
 class CashierViewController: UIViewController {
     
     // MARK: - Variable
+    var itemTemp: [Inventory] = []
+    var stockTemp: [Inventory] = []
+    var stock = 0
+    
     var myItem: [Inventory] = []
     var newItem: Inventory?
     var modelPemilik: People?
     var priceTemp: [Int] = []
     var totalPrice: Int = 0
+    var searchItemTotal: Int = 0
     var GrandTotal:Int = 0
     var barcode: QRData?
     var barcodeTemp = ""
@@ -43,8 +48,11 @@ class CashierViewController: UIViewController {
        
         let alert = UIAlertController(title: "Sukses", message: "Transaksi berhasil", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
-            self.finishPayment()
+            self.updateToCloud()
             self.items.removeAll()
+            self.myItem.removeAll()
+            self.searchItemTotal = 0
+            self.totalPrice = 0
             self.cashierTableView.reloadData()
         }
         
@@ -75,23 +83,39 @@ class CashierViewController: UIViewController {
     // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        itemTemp.removeAll()
         var mainTabBar = self.tabBarController as! MainTabBarController
+        
         modelPemilik = mainTabBar.modelPeople
         //QueryDatabase()
         //print(data.first)
-        finishBtnOutlet.isEnabled = false
-        if newItem != nil {
-            myItem.append(newItem!)
-            
-            for item in myItem {
-                //totalPrice += item.price
-            }
+        //GrandTotal = 0
+        if myItem.count != 0 {
+            print("ID : ", stockTemp[0].Id.recordName)
+            print("ID :", stockTemp.count)
+            print("ID STOCK : ", stockTemp[0].stock)
+            print(stockTemp)
             finishBtnOutlet.isEnabled = true
-            newItem = nil
-            totalPrice = 0
+        } else {
+            finishBtnOutlet.isEnabled = false
         }
         
+        if newItem != nil {
+            GrandTotal += (newItem!.price * newItem!.stock)
+            print(GrandTotal)
+            
+            myItem.append(newItem!)
+            //searchItemTotal += newItem!.price
+            for item in myItem {
+                searchItemTotal += item.price
+            }
+            
+            newItem = nil
+            searchItemTotal = 0
+        }
+           
         print("Total Price: \(totalPrice)")
+        print("Total Price dari search item: \(searchItemTotal)")
         
         DispatchQueue.main.async{
             self.cashierTableView.reloadData()
@@ -104,6 +128,7 @@ class CashierViewController: UIViewController {
                     
                     if myItem.count == 0 {
                         item.stock = 1
+                        totalPrice = item.price * item.stock
                         myItem.append(item)
                     }
                     else{
@@ -122,18 +147,28 @@ class CashierViewController: UIViewController {
                         
                         if MatchItem == false {
                             item.stock = 1
+                            totalPrice = item.price * item.stock
                             myItem.append(item)
                         }
                         print(item.barcode)
                         print(item.namaItem)
                     }
-                    
+                    GrandTotal += totalPrice
                 }
             }
             totalPrice = 0
             self.cashierTableView.reloadData()
             getScanItem = false
         }
+        
+        if data.count != 0 {
+            print(data.count)
+            print(data)
+        }
+        if myItem.count != 0 {
+            print(myItem[0].Id.recordName)
+        }
+        
     }
     
     // MARK: - Search Bar in navigation
@@ -150,21 +185,60 @@ class CashierViewController: UIViewController {
     }
     
     // MARK: - Update barang ke cloud setelah pembayaran
-    func updateToCloud(Stock: Int) {
+    func updateToCloud() {
         var inventory: CKRecord?
-        
+        var updateStock: Int = 0
+        //updateStock()
         for dataCount in data {
-            inventory = dataCount
+               updateStock = 0
+                for myCart in myItem {
+                    if  dataCount.recordID.recordName == myCart.Id.recordName {
+                        inventory = dataCount
+                        updateStock = inventory!.value(forKey: "Stock") as! Int
+                        let anjeng = updateStock - myCart.stock
+                        print("ID STOCK MY CART : ", myCart.stock)
+                        inventory?.setValue(anjeng, forKey: "Stock")
+                    }
+                    
+                }
             print(dataCount.value(forKey: "NameProduct")!)
+            
+            database.save(inventory!) { (record, error) in
+                guard record != nil else { return}
+                print("Updateeeee")
+            }
         }
+       
         
-        inventory?.setValue(Stock, forKey: "Stock")
-        database.save(inventory!) { (record, error) in
-            guard record != nil else { return}
-        }
     }
     
-    func finishPayment() {
+    func updateStock(){
+
+        for x in myItem {
+            for item in itemTemp {
+                if x.namaItem == item.namaItem {
+                    print("SEBELUM :", x.stock)
+                    x.stock -= item.stock
+                    print("SESUDAH :", x.stock)
+                    print("SESUDAH item:", item.stock)
+                }
+            }
+        }
+        
+        for itemInDatabase in data {
+            for cartItem in myItem {
+                if itemInDatabase.recordID.recordName == cartItem.Id.recordName {
+                    //itemInDatabase.value(forKey: "Stock") as! Int =  itemInDatabase.value(forKey: "Stock") - cartItem.stock
+                }
+            }
+            
+        }
+
+        //self.updateToCloud(Stock: stock)
+    }
+    
+    // MARK: - Masukkin data penjualan ke history / invoice
+    func createInvoice() {
         
     }
     
@@ -173,7 +247,8 @@ class CashierViewController: UIViewController {
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
         guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
         // Use data from the view controller which initiated the unwind segue
-        getScanItem = true
+        getSearchItem = true
+        
     }
     
     /// unwind dari barcode scan page
@@ -183,6 +258,18 @@ class CashierViewController: UIViewController {
         self.barcodeTemp = "\(barcode?.codeString)"
         print(barcodeTemp)
         getScanItem = true
+    }
+    
+    // MARK: - Prepare Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toSearchView" {
+            if myItem.count != 0 {
+                guard let searchVC = segue.destination as? CashierItemListViewController else { return }
+                for count in myItem {
+                    searchVC.itemCart.append(count)
+                }
+            }
+        }
     }
     
 }
@@ -227,16 +314,19 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         /// validasi checkmark di cell payment
-        if indexPath.row == 0 {
-            /// cell 0 section 1 -> tunai
-            tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
-            tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
-        } else {
-            /// cell 1 section 1 -> non tunai
-            tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
-            tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                /// cell 0 section 1 -> tunai
+                tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
+                tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
+            } else {
+                /// cell 1 section 1 -> non tunai
+                tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
+                tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
+            }
+            //performSegue(withIdentifier: "toPaymentMethod", sender: nil)
+            
         }
-        //performSegue(withIdentifier: "toPaymentMethod", sender: nil)
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
     }
     
@@ -259,6 +349,10 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
     }
     // MARK: - cell for row at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 && indexPath.section == 0 {
+            GrandTotal = 0
+        }
+        
         if myItem.count == 0 && indexPath.section == 0 {
             // MARK: - Nampilin cell jika barang belum ada
             let noItemCell = tableView.dequeueReusableCell(withIdentifier: "CashierCell") as! CashierCell
@@ -267,9 +361,11 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.row == myItem.count && indexPath.section == 0 {
            // MARK: - Nampilin cell Total
             let totalCell = tableView.dequeueReusableCell(withIdentifier: "TotalPriceCell") as! TotalPriceCell
+           
             
-            //totalCell.priceNumericLbl.text = String("\(price.reduce(0, +)),00")
-            totalCell.priceNumericLbl.text = "Rp. \(totalPrice.commaRepresentation)"
+            print("Grand TOTAL: \(GrandTotal)")
+            print("Total price: \(totalPrice)")
+            totalCell.priceNumericLbl.text = "Rp. \(GrandTotal.commaRepresentation)"
          
             return totalCell
         } else if myItem.count != 0 && indexPath.section == 0 {
@@ -282,13 +378,18 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
             itemAddedCell.itemImage.image = myItem[indexPath.row].imageItem
             itemAddedCell.itemImage.contentMode = .scaleAspectFill
             
-            totalPrice = myItem[indexPath.row].price * myItem[indexPath.row].stock
-            print(totalPrice)
-            
-            
+            //totalPrice = myItem[indexPath.row].price * myItem[indexPath.row].stock
+            //print("Total dari cell for row at \(totalPrice)")
+            GrandTotal += myItem[indexPath.row].price * myItem[indexPath.row].stock
+            itemTemp.append(myItem[indexPath.row])
+            print(itemTemp.first?.namaItem)
             
             return itemAddedCell
-        } else if indexPath.section == 1 {
+        }
+        
+        /// Check total harga keseluruhan
+     
+        if indexPath.section == 1 {
             // MARK: - nampilin cell payment method
             let paymentMethodCell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell") as! PaymentMethodCell
             
