@@ -94,7 +94,7 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
         }
         else{
             cell.isSelected = false
-            cell.dateLabel.textColor = UIColor.black
+            cell.dateLabel.textColor = UIColor.label
             cell.Circle.isHidden = true
             
         }
