@@ -237,7 +237,10 @@ class CashierViewController: UIViewController {
         //self.updateToCloud(Stock: stock)
     }
     
-    
+    // MARK: - Masukkin data penjualan ke history / invoice
+    func createInvoice() {
+        
+    }
     
     // MARK: - Unwind list
     /// unwind dari search page
