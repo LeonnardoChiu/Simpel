@@ -20,7 +20,7 @@ class RegisterViewController: UIViewController {
     var lastName: String = ""
     var email: String = ""
     var modelRegister: People?
-    
+    var people: [People] = []
     var image: CKAsset?
     var images = UIImage()
     var roleTemp: String = ""
@@ -28,7 +28,13 @@ class RegisterViewController: UIViewController {
     var passwordTemp = ""
     var namaDepanTemp = ""
     var namaBelakangTemp = ""
+    var emailTemp = ""
     var nomorHpTemp = ""
+    
+    var namaDepanValidTemp = ""
+    var namaBelakangValidTemp = ""
+    var emailValidTemp = ""
+    var nomorHpValidTemp = ""
     
      var alert2: UIAlertController = UIAlertController()
     
@@ -113,7 +119,12 @@ class RegisterViewController: UIViewController {
         print("Your Apple ID : \(user?.id)")
         print("First name    : \(user?.firstName)")
         print("Last name     : \(user?.lastName)")
+        print(id)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        namaDepanTemp = user!.firstName
+        namaBelakangTemp = user!.lastName
+        emailTemp = user!.email
+        enabledDoneButton()
     }
     
     // MARK: - Function
@@ -131,6 +142,7 @@ class RegisterViewController: UIViewController {
             self.profileImages.image = self.images
             self.profileImages.contentMode = .scaleAspectFill
 
+            self.enabledDoneButton()
         }
     }
     
@@ -148,7 +160,7 @@ class RegisterViewController: UIViewController {
         record.setValue(lastName, forKey: "lastName")
 //        record.setValue("", forKey: "role")
         record.setValue(phoneNumber, forKey: "phoneNumber")
-         record.setValue("-", forKey: "role")
+        record.setValue("-", forKey: "role")
         
         record.setValue("-", forKey: "TokoID")
         initDataModel()
@@ -176,19 +188,47 @@ class RegisterViewController: UIViewController {
     func appendAdd() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
         let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
+        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
         let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
         //let role = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? RegisterViewCel
         
-        self.saveToCloud(img: images, AppleID: user!.id, Email: user!.email,  firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phoneNumber: phone!.textField.text!)
+        self.saveToCloud(img: images, AppleID: user!.id, Email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phoneNumber: phone!.textField.text!)
     }
     
     func initDataModel() {
-        let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text
-        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text
-        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0))?.textLabel?.text
-        modelRegister?.firstName = firstName!
-        modelRegister?.lastName = lastName!
-        modelRegister?.phone = phone!
+        let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
+        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
+        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
+        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
+        print("bnsgt : \(user!.id)")
+        print("bnsgt : \(user?.id)")
+        images = profileImages.image!
+        modelRegister?.image = images
+        //modelRegister?.image = profileImages.image
+        print(images)
+        //model
+        let tokoIDReference = CKRecord.ID(recordName: "-")
+        modelRegister = People(id: tokoIDReference, appleid: user!.id, email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phone: phone!.textField.text!, rolee: "-", toko: "-", profileImage: images)
+        print("ID : ", modelRegister?.appleID)
+        print("First: ", modelRegister?.firstName)
+        
+        print("Image: ", modelRegister?.image)
+        
+        
+    }
+    
+    func enabledDoneButton() {
+        if namaDepanValidTemp == "" || namaBelakangValidTemp == "" || emailValidTemp == "" || nomorHpValidTemp == "" || isValidEmail(emailStr: emailValidTemp) == false {
+            doneButton.isEnabled = false
+        }
+        else if profileImages.image == UIImage(systemName: "camera.circle") {
+            errorLabel.isHidden = false
+            doneButton.isEnabled = false
+        }
+        else{
+            errorLabel.isHidden = true
+            doneButton.isEnabled = true
+        }
     }
     
     // MARK: - Unwind
@@ -202,8 +242,15 @@ class RegisterViewController: UIViewController {
     
     // MARK: - Prepare Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let roleVC = segue.destination as? ChooseRoleViewController else { return }
-        roleVC.modelPemilik = modelRegister
+
+       
+        
+        if segue.identifier == "toRole" {
+             guard let vc = segue.destination as? ChooseRoleViewController else { return }
+            print("anjeng \(modelRegister?.appleID)")
+             vc.modelPemilik = modelRegister
+            vc.people = people
+        }
     }
     
 }
@@ -214,17 +261,13 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         return placeHolders.count
     }
     
-   
-    
     // MARK: - Did select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: IndexPath.init(row: indexPath.row, section: indexPath.section), animated: true)
         
     }
     
-   
-   
+    // MARK: - Cell for row at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "registerCell") as! RegisterViewCell
         
@@ -233,6 +276,7 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 3 {
             cell.textField.keyboardType = .numberPad
         }
+        cell.textField.tag = indexPath.row
         return cell
     }
     
@@ -240,49 +284,57 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension RegisterViewController: UITextFieldDelegate {
-//    func textFieldDidChangeSelection(_ textField: UITextField) {
-//        let textFieldRow = textField.tag
-//
-//        if textFieldRow == 0 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Username harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            usernameTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 1 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Password harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            passwordTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 2 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Nama Depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            namaDepanTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 3 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Nama Belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            namaBelakangTemp = textField.text!
-//
-//        }
-//
-//        if textFieldRow == 4 {
-//            if textField.text == "" {
-//                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Hp harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
-//            }
-//            nomorHpTemp = textField.text!
-//
-//        }
-//        validate()
-//
-//    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let textFieldRow = textField.tag
+        
+        if textFieldRow == 0 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
+            }
+            namaDepanValidTemp = textField.text!
+        }
+
+        if textFieldRow == 1{
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
+            }
+            namaBelakangValidTemp = textField.text!
+        }
+
+        if textFieldRow == 2 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Email harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
+            }
+            
+            if isValidEmail(emailStr: emailValidTemp) == false {
+                textField.textColor = UIColor.systemRed
+            }
+            else {
+                textField.textColor = UIColor.label
+            }
+            emailValidTemp = textField.text!
+        }
+
+        if textFieldRow == 3 {
+            if textField.text == "" {
+                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Handphone harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
+            }
+            nomorHpValidTemp = textField.text!
+        }
+        
+        print(namaDepanValidTemp)
+        print(namaBelakangValidTemp)
+        print(emailValidTemp)
+        print(nomorHpValidTemp)
+        
+        enabledDoneButton()
+
+    }
+    
+     func isValidEmail(emailStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: emailStr)
+    }
 }

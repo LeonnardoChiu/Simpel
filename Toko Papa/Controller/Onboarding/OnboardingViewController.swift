@@ -20,7 +20,7 @@ class OnboardingViewController: UIViewController {
     var people: [People] = []
     var model: People?
     var user: User?
-    
+    var image: CKAsset?
     
     // MARK: - IBOutlet list
     @IBOutlet weak var signInAppleBtn: UIStackView!
@@ -50,7 +50,6 @@ class OnboardingViewController: UIViewController {
            }
             print("Total Employee dalam database : \(self.data.count)")
         }
-        
     }
     
     // MARK: - View did load
@@ -80,7 +79,15 @@ class OnboardingViewController: UIViewController {
             let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
-            people.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID))
+            
+            var profileImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                profileImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            
+            people.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
         }
     }
     
@@ -146,14 +153,16 @@ class OnboardingViewController: UIViewController {
         if segue.identifier == "toChooseRole" {
             guard let vc = segue.destination as? ChooseRoleViewController else { return }
                 vc.modelPemilik = model
+            
         }
         
         if let regVC = segue.destination as? RegisterViewController, let user = sender as? User {
             regVC.user = user
+            regVC.people = people
             regVC.firstName = user.firstName
             regVC.lastName = user.lastName
             regVC.email = user.email
-            
+            regVC.id = user.id
         }
     }
 

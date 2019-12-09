@@ -23,6 +23,7 @@ struct User {
         self.email = credentials.email ?? ""
     }
     
+    
 }
 
 class People {
@@ -35,8 +36,9 @@ class People {
     
     var email: String
     var appleID: String
+    var image: UIImage?
     
-    init(id: CKRecord.ID, appleid: String, email: String, firstName: String, lastName: String, phone: String, rolee: String, toko:String) {
+    init(id: CKRecord.ID, appleid: String, email: String, firstName: String, lastName: String, phone: String, rolee: String, toko:String, profileImage: UIImage) {
         self.Id = id
         self.email = email
         self.appleID = appleid
@@ -45,6 +47,16 @@ class People {
         self.phone = phone
         self.role = rolee
         self.tokoID = toko
+        self.image = profileImage
+    }
+    
+    func prints(){
+        print(Id)
+        print(email)
+        print(appleID)
+        print(firstName)
+        print(lastName)
+        print(phone)
     }
 }
 

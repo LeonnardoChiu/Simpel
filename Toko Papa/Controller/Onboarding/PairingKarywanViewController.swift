@@ -76,15 +76,17 @@ class PairingKarywanViewController: UIViewController {
         }
         print("Profilnya ada : \(dataProfil.count)")
     }
+    
     func updateToCloudProfil(tokoID: String){
         var editNote: CKRecord?
         
         for edit in dataProfil{
-            if modelPemilik?.Id.recordName == edit.recordID.recordName{
+            if modelPemilik!.appleID == edit.value(forKey: "AppleID") as! String{
             editNote = edit
             break
             }
         }
+        
         modelPemilik?.tokoID = tokoID
         modelPemilik?.role = "Karyawan"
         editNote?.setValue(tokoID, forKey: "TokoID")
@@ -92,7 +94,7 @@ class PairingKarywanViewController: UIViewController {
         
     
     database.save(editNote!) { (record, error) in
-         print(error)
+         //print(error)
          guard record != nil else { return}
          print("update")
      }

@@ -25,6 +25,8 @@ class EmployeeProfileViewController: UIViewController {
     var roleTemp: String = ""
     var emailTemp: String = ""
     var phoneTemp: String = ""
+    var modelUser: People?
+    var toko: Toko?
     
     var profileCell: [String] = []
     var idx: Int = 0
@@ -48,8 +50,10 @@ class EmployeeProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         appendToArray()
-        firstNameTemp = data.value(forKey: "firstName") as! String
-        lastNameTemp = data.value(forKey: "lastName") as! String
+        //firstNameTemp = data.value(forKey: "firstName") as! String
+        //lastNameTemp = data.value(forKey: "lastName") as! String
+        firstNameTemp = modelUser!.firstName
+        lastNameTemp = modelUser!.lastName
         //self.QueryDatabase()
         //print(orang?.firstName)
         showImage()
@@ -62,32 +66,47 @@ class EmployeeProfileViewController: UIViewController {
         profileImage.layer.cornerRadius = profileImage.frame.height / 2
         
         namaLbl.text = "\(firstNameTemp) \(lastNameTemp)"
+        
     }
     
     // MARK: - function to show image
     func showImage() {
         // image harus diload dengan type NSData fileURL
-        image = data.value(forKey: "profileImage") as? CKAsset
-        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-            self.profileImage.image = UIImage(data: data as Data)
-            self.profileImage.contentMode = .scaleAspectFill
-        } else {
-            self.profileImage.image = UIImage.init(systemName: "camera")
-        }
+//        image = data.value(forKey: "profileImage") as? CKAsset
+//        if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+//            self.profileImage.image = UIImage(data: data as Data)
+//            self.profileImage.contentMode = .scaleAspectFill
+//        } else {
+//            self.profileImage.image = UIImage.init(systemName: "camera")
+//        }
+        self.profileImage.image = modelUser?.image
+        self.profileImage.contentMode = .scaleAspectFill
+//        if let image = modelUser?.image {
+//            
+//        } else {
+//            self.profileImage.image = UIImage.init(systemName: "camera.fill")
+//        }
+        
     }
     
     // MARK: - function append cloud data to array
     func appendToArray() {
         //profileCell.append(data.value(forKey: "firstName") as! String)
         //profileCell.append(data.value(forKey: "lastName") as! String)
-        profileCell.append(data.value(forKey: "storeName") as! String)
-        profileCell.append(data.value(forKey: "role") as! String)
-        profileCell.append(data.value(forKey: "email") as! String)
-        profileCell.append(data.value(forKey: "phoneNumber") as! String)
+        //profileCell.append(data.value(forKey: "storeName") as! String)
+        //profileCell.append(data.value(forKey: "role") as! String)
+        //profileCell.append(data.value(forKey: "email") as! String)
+        //profileCell.append(data.value(forKey: "phoneNumber") as! String)
+        
+        profileCell.append(modelUser!.email)
+        profileCell.append(modelUser!.phone)
+        profileCell.append(modelUser!.role)
     }
     
+    
+    
 }
-
+// MARK: - EXTENSION
 extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return textLbl.count
@@ -101,18 +120,22 @@ extension EmployeeProfileViewController: UITableViewDelegate, UITableViewDataSou
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = storeTemp
                 cell.rightLbl.text = profileCell[indexPath.row]
+                cell.rightLbl.text = toko?.namaToko
             }else if indexPath.row == 1 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = roleTemp
-                cell.rightLbl.text = (data.value(forKey: "role") as! String)
+                //cell.rightLbl.text = (data.value(forKey: "role") as! String)
+                cell.rightLbl.text = modelUser?.role
             }else if indexPath.row == 2 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = emailTemp
-                cell.rightLbl.text = (data.value(forKey: "email") as! String)
+                //cell.rightLbl.text = (data.value(forKey: "email") as! String)
+                cell.rightLbl.text = modelUser?.email
             }else if indexPath.row == 3 {
                 cell.leftText.text = textLbl[indexPath.row]
                 //cell.rightLbl.text = phoneTemp
-                cell.rightLbl.text = (data.value(forKey: "phoneNumber") as! String)
+                //cell.rightLbl.text = (data.value(forKey: "phoneNumber") as! String)
+                cell.rightLbl.text = modelUser?.phone
             }
         }
         

@@ -43,35 +43,28 @@ class editProfileViewController: UIViewController, UITableViewDelegate, UITableV
        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editTableCellID", for: indexPath)
-           
-        let nameLabel = cell.contentView.viewWithTag(1) as! UILabel
+        
         let valueText = cell.contentView.viewWithTag(2) as! UITextField
         
         valueText.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
         if indexPath.row == 0 {
-            nameLabel.text = "First Name"
-            valueText.placeholder = firstName
+            valueText.text = firstName
         }
         else if indexPath.row == 1 {
-            nameLabel.text = "Last Name"
-            valueText.placeholder = lastName
+            valueText.text = lastName
         }
         else if indexPath.row == 2 {
-            nameLabel.text = "Store Name"
-            valueText.placeholder = store
+            valueText.text = store
         }
         else if indexPath.row == 3 {
-            nameLabel.text = "Role"
-            valueText.placeholder = role
+            valueText.text = role
         }
         else if indexPath.row == 4 {
-            nameLabel.text = "Email"
-            valueText.placeholder = email
+            valueText.text = email
         }
         else {
-            nameLabel.text = "Phone Number"
-            valueText.placeholder = phone
+            valueText.text = phone
         }
         
         return cell

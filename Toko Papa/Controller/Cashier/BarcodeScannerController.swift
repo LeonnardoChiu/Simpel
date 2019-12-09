@@ -15,10 +15,11 @@ class BarcodeScannerController: UIViewController {
     var qrData: QRData? = nil {
         didSet {
             if qrData != nil {
-                //self.performSegue(withIdentifier: "backToCashier", sender: self)
+                self.performSegue(withIdentifier: "backToCashier", sender: self)
             }
         }
     }
+    
     
     // MARK: - IBOutlet
     @IBOutlet weak var scannerView: QRScannerView! {
@@ -54,6 +55,10 @@ class BarcodeScannerController: UIViewController {
 
 // MARK: - Extension untuk barcode scanner
 extension BarcodeScannerController: QRScannerViewDelegate {
+    func qrScanningDidStop() {
+        
+    }
+    
     /// if scan fail
     func qrScanningDidFail() {
         presentAlert(withTitle: "Error", message: "Scanning failed. Please try again")
@@ -61,12 +66,6 @@ extension BarcodeScannerController: QRScannerViewDelegate {
     /// if scan success
     func qrScanningSucceededWithCode(_ str: String?) {
         self.qrData = QRData(codeString: str)
-        presentAlert(withTitle: "Berhasil", message: str!)
-        print(str!)
-    }
-    /// if scan did stop
-    func qrScanningDidStop() {
-        
     }
     
     

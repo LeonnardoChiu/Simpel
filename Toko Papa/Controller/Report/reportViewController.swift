@@ -1,5 +1,6 @@
 
 import UIKit
+import CloudKit
 
 class reportViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
@@ -11,6 +12,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
 //MARK: VARIABLES
+    
     var tempStringDariLogin: String = ""
     var totalSales = 700000
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto", "indomie goreng"]
@@ -36,7 +38,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var startWithCurrentDate = false
     var selectedIndexPath: IndexPath? = nil
     
-    
+    let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
+    var modelPemilik: People?
+    var barangBaru: [BarangBaru] = []
 //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +63,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         monthLabel.text = "\(selectedMonth) \(year)"
         scrollTo(item: selectedDay, section: 0)
         dateCollection.reloadData()
+        var mainTabBar = self.tabBarController as! MainTabBarController
+            modelPemilik = mainTabBar.modelPeople
+        QueryDatabase()
+        print(barangBaru.count)
         
     }
     
@@ -76,8 +85,49 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
         dateCollection.reloadData()
         startWithCurrentDate = false
-
+        QueryDatabase()
     }
+    
+    
+    //MARK: - QUERYNYA
+    @objc func QueryDatabase(){
+       
+        let tokoID = modelPemilik?.tokoID
+        let barangBaru = CKQuery(recordType: "BarangBaru", predicate: NSPredicate(format: "tokoID == %@", tokoID!))
+    
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+        //query.sortDescriptors = [sortDesc]
+        database.perform(barangBaru, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initDataModel()
+            print("jumlah barang baru : \(self.data.count)")
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+      }
+    
+    func initDataModel() {
+        barangBaru.removeAll()
+        print("---")
+           print(data.count)
+           for countData in data {
+               let id = countData.recordID
+               let namabarang = countData.value(forKey: "namaBarang") as! String
+               let stock = countData.value(forKey: "Stock") as! Int
+               let tokoID = countData.value(forKey: "tokoID") as! String
+               let tanggal = countData.value(forKey: "Tanggal") as! Int
+               let bulan = countData.value(forKey: "Bulan") as! Int
+               let tahun = countData.value(forKey: "Tahun") as! Int
+            
+               barangBaru.append(BarangBaru(namabarang: namabarang, stock: stock, tokoid: tokoID, tanggal: tanggal, bulan: bulan, Tahun: tahun))
+           }
+       }
+    
     
     //MARK: BUTTON ACTION
     
@@ -201,10 +251,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 35
-    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath == [0,1] {
@@ -212,6 +259,19 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         else{
             return 61
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return " "
+        case 1:
+            return " "
+        case 2:
+            return " "
+        default:
+            return " "
         }
     }
     
@@ -227,11 +287,19 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 2
+            return 1
         case 1:
             return 4
         case 2:
-            return 4
+            if barangBaru.count == 0 {
+                return 1
+            }
+            else if barangBaru.count > 3{
+                return 4
+            }
+            else {
+                return barangBaru.count + 1
+            }
         case 3:
             return 4
         default:
@@ -243,6 +311,12 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 //        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         view.tintColor = UIColor.systemBackground
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+         view.tintColor = UIColor.systemBackground
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
@@ -265,159 +339,130 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.detailButton.isHidden = true
             cell.chevronButton.isHidden = false
             cell.cellView.frame.size.height = 57
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [0,1] {
-            cell.totalSaleslabel.text = "Rp. \(totalSales)"
-            cell.cellView.isHidden = true
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = true
-            cell.unitLabel.isHidden = true
-            cell.updateLabel.isHidden = true
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 57
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [1,0] {
-            cell.itemLabel.text = "\(highestSales[indexPath.row])"
-            cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-            cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [1,1]{
-            cell.itemLabel.text = "\(highestSales[indexPath.row])"
-            cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-            cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [1,2]{
-            cell.itemLabel.text = "\(highestSales[indexPath.row])"
-            cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-            cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [2,0]{
-            cell.itemLabel.text = "\(newItem[indexPath.row])"
-            cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
-            cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [2,1]{
-            cell.itemLabel.text = "\(newItem[indexPath.row])"
-            cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
-            cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [2,2]{
-            cell.itemLabel.text = "\(newItem[indexPath.row])"
-            cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
-            cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [3,0]{
-            cell.itemLabel.text = "\(editItem[indexPath.row])"
-            cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
-            cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [3,1]{
-            cell.itemLabel.text = "\(editItem[indexPath.row])"
-            cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
-            cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [3,2]{
-            cell.itemLabel.text = "\(editItem[indexPath.row])"
-            cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
-            cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else {
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = true
-            cell.unitLabel.isHidden = true
-            cell.updateLabel.isHidden = true
-            cell.detailButton.isHidden = false
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 31
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
             
         }
+            
+        if indexPath.section == 1 {
+            if indexPath.row != 3{
+                cell.itemLabel.text = "\(highestSales[indexPath.row])"
+                cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
+                cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
+                cell.cellView.isHidden = false
+                cell.totalSaleslabel.isHidden = true
+                cell.itemLabel.isHidden = false
+                cell.unitLabel.isHidden = false
+                cell.updateLabel.isHidden = false
+                cell.detailButton.isHidden = true
+                cell.chevronButton.isHidden = true
+                cell.cellView.frame.size.height = 61
+            }else{
+                cell.cellView.isHidden = false
+                cell.totalSaleslabel.isHidden = true
+                cell.itemLabel.isHidden = true
+                cell.unitLabel.isHidden = true
+                cell.updateLabel.isHidden = true
+                cell.detailButton.isHidden = false
+                cell.chevronButton.isHidden = true
+                cell.cellView.frame.size.height = 31
+            }
+        }
         
+            
+        if indexPath.section == 2 {
+                if barangBaru.count == 0 {
+                   cell.itemLabel.text = "No Item"
+                   cell.unitLabel.text = ""
+                   cell.updateLabel.text = ""
+                   cell.cellView.isHidden = false
+                   cell.totalSaleslabel.isHidden = true
+                   cell.itemLabel.isHidden = true
+                   cell.unitLabel.isHidden = true
+                   cell.updateLabel.isHidden = false
+                   cell.detailButton.isHidden = true
+                   cell.chevronButton.isHidden = true
+                   cell.cellView.frame.size.height = 61
+                   
+                }
+                else if barangBaru.count > 3{
+                    if indexPath.row < 3{
+                        cell.itemLabel.text = "\(barangBaru[indexPath.row].namaBarang)"
+                        cell.unitLabel.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+                        cell.updateLabel.text = ""
+                        cell.cellView.isHidden = false
+                        cell.totalSaleslabel.isHidden = true
+                        cell.itemLabel.isHidden = false
+                        cell.unitLabel.isHidden = false
+                        cell.updateLabel.isHidden = false
+                        cell.detailButton.isHidden = true
+                        cell.chevronButton.isHidden = true
+                        cell.cellView.frame.size.height = 61
+                        
+                    }else{
+                        cell.cellView.isHidden = false
+                        cell.totalSaleslabel.isHidden = true
+                        cell.itemLabel.isHidden = true
+                        cell.unitLabel.isHidden = true
+                        cell.updateLabel.isHidden = true
+                        cell.detailButton.isHidden = false
+                        cell.chevronButton.isHidden = true
+                        cell.cellView.frame.size.height = 31
+                    }
+                   
+                }
+                else {
+                    if indexPath.row < barangBaru.count{
+                        cell.itemLabel.text = "\(barangBaru[indexPath.row].namaBarang)"
+                        cell.unitLabel.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+                        cell.updateLabel.text = ""
+                        cell.cellView.isHidden = false
+                        cell.totalSaleslabel.isHidden = true
+                        cell.itemLabel.isHidden = false
+                        cell.unitLabel.isHidden = false
+                        cell.updateLabel.isHidden = false
+                        cell.detailButton.isHidden = true
+                        cell.chevronButton.isHidden = true
+                        cell.cellView.frame.size.height = 61
+                    }else{
+                        cell.cellView.isHidden = false
+                        cell.totalSaleslabel.isHidden = true
+                        cell.itemLabel.isHidden = true
+                        cell.unitLabel.isHidden = true
+                        cell.updateLabel.isHidden = true
+                        cell.detailButton.isHidden = false
+                        cell.chevronButton.isHidden = true
+                        cell.cellView.frame.size.height = 31
+                    }
+                }
+            
+        }
+            
+        
+        if indexPath.section == 3 {
+            if indexPath.row != 3 {
+                cell.itemLabel.text = "\(editItem[indexPath.row])"
+                cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
+                cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
+                cell.cellView.isHidden = false
+                cell.totalSaleslabel.isHidden = true
+                cell.itemLabel.isHidden = false
+                cell.unitLabel.isHidden = false
+                cell.updateLabel.isHidden = false
+                cell.detailButton.isHidden = true
+                cell.chevronButton.isHidden = false
+                cell.cellView.frame.size.height = 61
+            }else{
+                cell.cellView.isHidden = false
+               cell.totalSaleslabel.isHidden = true
+               cell.itemLabel.isHidden = true
+               cell.unitLabel.isHidden = true
+               cell.updateLabel.isHidden = true
+               cell.detailButton.isHidden = false
+               cell.chevronButton.isHidden = true
+               cell.cellView.frame.size.height = 31
+            }
+            
+        }
+         cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
         cell.detailButton.tag = indexPath.section
         cell.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
         

@@ -27,6 +27,7 @@
 		687B54FD238E649B00137901 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B54FC238E649B00137901 /* CodeViewController.swift */; };
 		687B54FF238F7B4600137901 /* Toko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B54FE238F7B4600137901 /* Toko.swift */; };
 		687B5501238F8D3400137901 /* PairingKarywanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687B5500238F8D3400137901 /* PairingKarywanViewController.swift */; };
+		6891BD79239E1D20009A33A5 /* BarangBaru.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6891BD78239E1D20009A33A5 /* BarangBaru.swift */; };
 		68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E4237E8B6A00A5FEA0 /* KategoriTableViewController.swift */; };
 		68C8E4E723826B3100A5FEA0 /* TambahSatuanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E623826B3100A5FEA0 /* TambahSatuanViewController.swift */; };
 		68C8E4E923826B4000A5FEA0 /* TambahCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C8E4E823826B4000A5FEA0 /* TambahCategoryViewController.swift */; };
@@ -108,6 +109,7 @@
 		687B54FC238E649B00137901 /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
 		687B54FE238F7B4600137901 /* Toko.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toko.swift; sourceTree = "<group>"; };
 		687B5500238F8D3400137901 /* PairingKarywanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingKarywanViewController.swift; sourceTree = "<group>"; };
+		6891BD78239E1D20009A33A5 /* BarangBaru.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarangBaru.swift; sourceTree = "<group>"; };
 		68C8E4E4237E8B6A00A5FEA0 /* KategoriTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KategoriTableViewController.swift; sourceTree = "<group>"; };
 		68C8E4E623826B3100A5FEA0 /* TambahSatuanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TambahSatuanViewController.swift; sourceTree = "<group>"; };
 		68C8E4E823826B4000A5FEA0 /* TambahCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TambahCategoryViewController.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				FE01DFA72383A2750098E54C /* QRData.swift */,
 				BD734E6E2386638800779531 /* Inventory.swift */,
 				687B54FE238F7B4600137901 /* Toko.swift */,
+				6891BD78239E1D20009A33A5 /* BarangBaru.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6891BD79239E1D20009A33A5 /* BarangBaru.swift in Sources */,
 				FE9286812390BBD60071CD9C /* newItemScrollCalendarCell.swift in Sources */,
 				FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */,
 				BDA38F51237BEB5B00FCD5BC /* TotalPriceCell.swift in Sources */,

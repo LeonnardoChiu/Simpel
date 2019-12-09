@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,8 +15,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nama toko" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VbU-TS-okz">
-                                <rect key="frame" x="20" y="303" width="374" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Masukkan nama toko" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VbU-TS-okz">
+                                <rect key="frame" x="20" y="300" width="374" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -110,32 +110,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoApps" translatesAutoresizingMaskIntoConstraints="NO" id="e45-Yp-Fbz">
-                                <rect key="frame" x="157" y="194" width="100" height="100"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo S" translatesAutoresizingMaskIntoConstraints="NO" id="e45-Yp-Fbz">
+                                <rect key="frame" x="157" y="200" width="100" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="dq3-cz-UY2"/>
-                                    <constraint firstAttribute="height" constant="100" id="x8n-Kt-1RR"/>
+                                    <constraint firstAttribute="height" constant="160" id="x8n-Kt-1RR"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIMPEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7a-b5-Pfy">
-                                <rect key="frame" x="146" y="314" width="122" height="41"/>
+                                <rect key="frame" x="146" y="380" width="122" height="41"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znO-3j-qi8">
-                                <rect key="frame" x="77" y="528" width="260" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znO-3j-qi8">
+                                <rect key="frame" x="80" y="686" width="254" height="40"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="znO-3j-qi8" firstAttribute="top" secondItem="7Sf-BL-pXF" secondAttribute="top" constant="686" id="BxQ-rD-Ens"/>
                             <constraint firstItem="j7a-b5-Pfy" firstAttribute="leading" secondItem="8tS-uJ-x45" secondAttribute="leading" constant="146" id="EYE-uc-FUk"/>
                             <constraint firstItem="8tS-uJ-x45" firstAttribute="trailing" secondItem="e45-Yp-Fbz" secondAttribute="trailing" constant="157" id="EYu-cr-Kwk"/>
                             <constraint firstItem="j7a-b5-Pfy" firstAttribute="top" secondItem="e45-Yp-Fbz" secondAttribute="bottom" constant="20" id="JU4-Ec-iDl"/>
+                            <constraint firstItem="8tS-uJ-x45" firstAttribute="bottom" secondItem="znO-3j-qi8" secondAttribute="bottom" constant="136" id="NJ4-Uu-ZMP"/>
                             <constraint firstItem="8tS-uJ-x45" firstAttribute="trailing" secondItem="j7a-b5-Pfy" secondAttribute="trailing" constant="146" id="dSB-qO-zta"/>
+                            <constraint firstItem="znO-3j-qi8" firstAttribute="leading" secondItem="8tS-uJ-x45" secondAttribute="leading" constant="80" id="ewo-3S-BAI"/>
+                            <constraint firstItem="8tS-uJ-x45" firstAttribute="trailing" secondItem="znO-3j-qi8" secondAttribute="trailing" constant="80" id="jdS-oS-4ba"/>
                             <constraint firstItem="e45-Yp-Fbz" firstAttribute="leading" secondItem="8tS-uJ-x45" secondAttribute="leading" constant="157" id="tbu-Ia-409"/>
-                            <constraint firstItem="e45-Yp-Fbz" firstAttribute="top" secondItem="8tS-uJ-x45" secondAttribute="top" constant="106" id="xPx-M2-mKC"/>
+                            <constraint firstItem="e45-Yp-Fbz" firstAttribute="top" secondItem="8tS-uJ-x45" secondAttribute="top" constant="112" id="xPx-M2-mKC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tS-uJ-x45"/>
                     </view>
@@ -150,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gU8-Hi-UJN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-810" y="-1434"/>
+            <point key="canvasLocation" x="-810.14492753623199" y="-1434.375"/>
         </scene>
         <!--Karyawan-->
         <scene sceneID="rrr-T4-6kf">
@@ -196,30 +199,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DMg-Hk-SHO">
-                                <rect key="frame" x="20" y="217" width="374" height="220"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMg-Hk-SHO">
+                                <rect key="frame" x="20" y="200" width="374" height="220"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Pemilik" translatesAutoresizingMaskIntoConstraints="NO" id="FhY-Fa-C29">
-                                        <rect key="frame" x="0.0" y="-17" width="374" height="220"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pemilik" translatesAutoresizingMaskIntoConstraints="NO" id="FhY-Fa-C29">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="220"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="FhY-Fa-C29" secondAttribute="trailing" id="ID9-OP-UhR"/>
+                                    <constraint firstAttribute="bottom" secondItem="FhY-Fa-C29" secondAttribute="bottom" id="WUO-nk-Mdp"/>
+                                    <constraint firstItem="FhY-Fa-C29" firstAttribute="top" secondItem="DMg-Hk-SHO" secondAttribute="top" id="krh-Ja-t9V"/>
+                                    <constraint firstItem="FhY-Fa-C29" firstAttribute="leading" secondItem="DMg-Hk-SHO" secondAttribute="leading" id="l5k-Se-nJl"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="self.cornerRadius">
                                         <integer key="value" value="20"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eQ6-RS-Nnb">
-                                <rect key="frame" x="20" y="497" width="374" height="220"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQ6-RS-Nnb">
+                                <rect key="frame" x="20" y="497" width="374" height="223"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Pegawai" translatesAutoresizingMaskIntoConstraints="NO" id="tsA-jf-R8L">
-                                        <rect key="frame" x="0.0" y="3" width="374" height="220"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pegawai" translatesAutoresizingMaskIntoConstraints="NO" id="tsA-jf-R8L">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="223"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="tsA-jf-R8L" secondAttribute="bottom" id="Axb-cc-Cg7"/>
+                                    <constraint firstItem="tsA-jf-R8L" firstAttribute="top" secondItem="eQ6-RS-Nnb" secondAttribute="top" id="MxA-ox-WuF"/>
+                                    <constraint firstItem="tsA-jf-R8L" firstAttribute="leading" secondItem="eQ6-RS-Nnb" secondAttribute="leading" id="ubA-6r-A2T"/>
+                                    <constraint firstAttribute="trailing" secondItem="tsA-jf-R8L" secondAttribute="trailing" id="xs8-Ba-TCc"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="self.cornerRadius">
                                         <integer key="value" value="20"/>
@@ -228,6 +239,18 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="FP9-IG-sST" firstAttribute="trailing" secondItem="DMg-Hk-SHO" secondAttribute="trailing" constant="20" id="3oe-xH-ijL"/>
+                            <constraint firstItem="eQ6-RS-Nnb" firstAttribute="top" secondItem="DMg-Hk-SHO" secondAttribute="bottom" constant="77" id="FBB-LV-Fu3"/>
+                            <constraint firstItem="DMg-Hk-SHO" firstAttribute="trailing" secondItem="eQ6-RS-Nnb" secondAttribute="trailing" id="IeM-i3-o5P"/>
+                            <constraint firstAttribute="bottom" secondItem="DMg-Hk-SHO" secondAttribute="bottom" constant="476" id="OuF-nL-hfV"/>
+                            <constraint firstItem="DMg-Hk-SHO" firstAttribute="top" secondItem="CXy-an-ays" secondAttribute="top" constant="200" id="R4C-Xd-BcG"/>
+                            <constraint firstItem="DMg-Hk-SHO" firstAttribute="leading" secondItem="eQ6-RS-Nnb" secondAttribute="leading" id="WD3-Wj-Fr9"/>
+                            <constraint firstItem="DMg-Hk-SHO" firstAttribute="leading" secondItem="FP9-IG-sST" secondAttribute="leading" constant="20" id="fcX-y4-0KJ"/>
+                            <constraint firstItem="eQ6-RS-Nnb" firstAttribute="leading" secondItem="FP9-IG-sST" secondAttribute="leading" constant="20" id="of1-Pi-Rha"/>
+                            <constraint firstItem="FP9-IG-sST" firstAttribute="trailing" secondItem="eQ6-RS-Nnb" secondAttribute="trailing" constant="20" id="zjM-cO-Xzy"/>
+                            <constraint firstItem="FP9-IG-sST" firstAttribute="bottom" secondItem="eQ6-RS-Nnb" secondAttribute="bottom" constant="142" id="znP-Lo-JdV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="FP9-IG-sST"/>
                     </view>
                     <navigationItem key="navigationItem" title="Pilih Role" id="PFt-Gj-lpk"/>
@@ -309,7 +332,7 @@
                                     <outlet property="delegate" destination="I3e-9D-o6q" id="as1-hT-BJN"/>
                                 </connections>
                             </tableView>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E8g-eR-fYT">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Import Image" translatesAutoresizingMaskIntoConstraints="NO" id="E8g-eR-fYT">
                                 <rect key="frame" x="147" y="119.5" width="120" height="120"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -366,11 +389,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Import Image" width="214" height="214"/>
         <image name="Pegawai" width="374" height="220"/>
         <image name="Pemilik" width="374" height="220"/>
-        <image name="logoApps" width="1024" height="1024"/>
+        <image name="logo S" width="453" height="771"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DWs-r2-eSw"/>
+        <segue reference="iVP-rl-aH9"/>
     </inferredMetricsTieBreakers>
 </document>

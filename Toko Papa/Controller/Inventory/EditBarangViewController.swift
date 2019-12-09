@@ -36,17 +36,17 @@ class EditBarangViewController: UIViewController{
     var isiTextField: [String] = []
     var data = [CKRecord]()
     var modelPemilik: People?
+    var prevHargaTemp = Int()
+    var prevStockTemp = Int()
+    var kategori = ""
+    var alasan = ""
+    var value = ""
+    
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var viewForCollectionView: UICollectionView!
     @IBOutlet weak var doneBtnOutlet: UIBarButtonItem!
     var barcode: QRData?
     func appendTextField(){
-        /*isiTextField.append(editCKrecord.value(forKey: "Barcode") as! String)
-        isiTextField.append(editCKrecord.value(forKey: "NameProduct") as! String)
-        isiTextField.append(editCKrecord.value(forKey: "Category") as! String)
-        isiTextField.append(editCKrecord.value(forKey: "Distributor") as! String)
-        isiTextField.append(String(editCKrecord.value(forKey: "Stock") as! Int))
-        */
         isiTextField.append(editItem!.barcode)
         isiTextField.append(editItem!.namaItem)
         isiTextField.append(editItem!.category)
@@ -82,7 +82,9 @@ class EditBarangViewController: UIViewController{
         kategoriTemp = isiTextField[2]
         distributorTemp = isiTextField[3]
         stokTemp = Int(isiTextField[4])
+        prevStockTemp = stokTemp!
         hargaTemp = editItem?.price
+        prevHargaTemp = hargaTemp!
         
         enabledDoneButton()
         // Do any additional setup after loading the view.
@@ -100,6 +102,26 @@ class EditBarangViewController: UIViewController{
         else{
             doneBtnOutlet.isEnabled = true
         }
+    }
+    
+    func saveToCloudEditBarang(InventoryID: String, ProfilID: String, tokoID: String, Alasan: String, Kategori: String, Value: String){
+            let NewNote = CKRecord(recordType: "EditBarang")//ini buat data base baru
+            NewNote.setValue(InventoryID, forKey: "InventoryID")//ini ke tablenya
+            NewNote.setValue(ProfilID, forKey: "ProfilID")
+            NewNote.setValue(tokoID, forKey: "tokoID")
+            NewNote.setValue(Alasan, forKey: "Alasan")
+            NewNote.setValue(Kategori, forKey: "Kategori")
+            NewNote.setValue(Value, forKey: "Value")
+            NewNote.setValue(day, forKey: "Tanggal")
+            NewNote.setValue(month, forKey: "Bulan")
+            NewNote.setValue(year, forKey: "Tahun")
+            
+        
+         database.save(NewNote) { (record, error) in
+             print(error)
+             guard record != nil else { return}
+             print("inventory")
+         }
     }
 
 
@@ -128,20 +150,60 @@ class EditBarangViewController: UIViewController{
         self.barcode = barcodeVC.qrData
         let indexPath = IndexPath(item: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
+        barcodeTemp = "\(barcode)"
+        enabledDoneButton()
+        
     }
     
     
-    
-    
+    var alasanTextField = UITextField()
     @IBAction func doneEditButton(_ sender: Any) {
+        
+        if hargaTemp != prevHargaTemp {
+            kategori = "Harga"
+            value = "From Rp.\(prevHargaTemp.commaRepresentation) to Rp.\(hargaTemp!.commaRepresentation)"
+            
+        }
+        
+        if stokTemp != prevStockTemp {
+            kategori = "Stok"
+            value = "From \(prevStockTemp) to \(stokTemp)"
+        }
+        
         var alert: UIAlertController = UIAlertController()
-        updateBarang()
-        let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
-              self.performSegue(withIdentifier: "backToInventory", sender: nil)
-          }
-        alert = UIAlertController(title: "Sukses", message: "Berhasil Mengubah biograhpy barang", preferredStyle: .alert)
-        alert.addAction(ok)
-        present(alert, animated: true, completion: nil)
+        var alert2: UIAlertController = UIAlertController()
+         alert = UIAlertController(title: "Sukses", message: "Berhasil Mengubah biograhpy barang", preferredStyle: .alert)
+         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         let confirm = UIAlertAction(title: "Next", style: .default) { ACTION in
+            
+            
+            alert2 = UIAlertController(title: "Alasan", message: "Masukan alasannya", preferredStyle: .alert)
+            alert2.addTextField { (textField) in
+                textField.placeholder = "Alasan"
+            }
+            
+            let confirm2 = UIAlertAction(title: "Oke", style: .default) { (ACTION) in
+                let textFields = alert2.textFields![0] as UITextField
+                self.alasan = textFields.text!
+                print(self.alasan)
+                
+                self.updateBarang()
+                
+                self.saveToCloudEditBarang(InventoryID: self.editItem!.Id.recordName, ProfilID: self.modelPemilik!.Id.recordName, tokoID: self.modelPemilik!.tokoID, Alasan: self.alasan, Kategori: self.kategori, Value: self.value)
+                 self.performSegue(withIdentifier: "backToInventory", sender: nil)
+            }
+            alert2.addAction(cancel)
+            alert2.addAction(confirm2)
+            self.present(alert2, animated: true, completion: nil)
+            
+         }
+         
+        
+         alert.addAction(cancel)
+         alert.addAction(confirm)
+         present(alert, animated: true, completion: nil)
+        
+        
     }
    
     @objc func QueryDatabase(){
@@ -266,6 +328,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
         let cellPrice = tableView.dequeueReusableCell(withIdentifier: "price", for: indexPath) as! TambahBarangCellPriceList
            
         let cellBiasa = tableView.dequeueReusableCell(withIdentifier: "biasa", for: indexPath) as! TambahBarangCellBiasa
+        
         let cells = UITableViewCell()
         switch indexPath.section {
         case 0:
@@ -505,4 +568,20 @@ extension EditBarangViewController: UITextFieldDelegate {
         print("\(hargaTemp!)")
         enabledDoneButton()
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+        if text != "" {
+            alasan = alasanTextField.text!
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if alasanTextField.text! != "" {
+            alasan = textField.text!
+        }
+    }
+    
 }

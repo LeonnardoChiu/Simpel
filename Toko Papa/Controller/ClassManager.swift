@@ -151,10 +151,13 @@ extension UIViewController {
         view.endEditing(true)
     }
     
-    func presentAlert(withTitle title: String, message : String) {
+    func presentAlert(withTitle title: String, message : String, completion: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default) { action in
             print("You've pressed OK Button")
+            if let completion = completion {
+                completion()
+            }
         }
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion: nil)
