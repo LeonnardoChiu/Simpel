@@ -384,7 +384,6 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
                 
             }
             
-            
             if MatchItem == false {
                 vc.stockTemp.append(itemTemp!)
                 vc.myItem.append(selectedItem)

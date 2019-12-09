@@ -161,6 +161,14 @@ class CashierViewController: UIViewController {
             getScanItem = false
         }
         
+        if data.count != 0 {
+            print(data.count)
+            print(data)
+        }
+        if myItem.count != 0 {
+            print(myItem[0].Id.recordName)
+        }
+        
     }
     
     // MARK: - Search Bar in navigation
@@ -182,34 +190,26 @@ class CashierViewController: UIViewController {
         var updateStock: Int = 0
         //updateStock()
         for dataCount in data {
-            for cart in stockTemp {
+               updateStock = 0
                 for myCart in myItem {
-                    if cart.Id.recordName == dataCount.recordID.recordName {
+                    if  dataCount.recordID.recordName == myCart.Id.recordName {
                         inventory = dataCount
                         updateStock = inventory!.value(forKey: "Stock") as! Int
+                        let anjeng = updateStock - myCart.stock
                         print("ID STOCK MY CART : ", myCart.stock)
-                        inventory?.setValue(updateStock - myCart.stock, forKey: "Stock")
+                        inventory?.setValue(anjeng, forKey: "Stock")
                     }
+                    
                 }
-//                if cart.Id.recordName == dataCount.recordID.recordName {
-//                    inventory = dataCount
-//                    
-//                    inventory?.setValue(cart.stock, forKey: "Stock")
-//                    
-//                }
-                updateStock = 0
-            }
-            
-            //inventory = dataCount
             print(dataCount.value(forKey: "NameProduct")!)
+            
+            database.save(inventory!) { (record, error) in
+                guard record != nil else { return}
+                print("Updateeeee")
+            }
         }
-        //print(inventory.value(forKey: "Stock")!)
+       
         
-        
-        //inventory?.setValue(Stock, forKey: "Stock")
-        database.save(inventory!) { (record, error) in
-            guard record != nil else { return}
-        }
     }
     
     func updateStock(){
@@ -225,6 +225,14 @@ class CashierViewController: UIViewController {
             }
         }
         
+        for itemInDatabase in data {
+            for cartItem in myItem {
+                if itemInDatabase.recordID.recordName == cartItem.Id.recordName {
+                    //itemInDatabase.value(forKey: "Stock") as! Int =  itemInDatabase.value(forKey: "Stock") - cartItem.stock
+                }
+            }
+            
+        }
 
         //self.updateToCloud(Stock: stock)
     }
