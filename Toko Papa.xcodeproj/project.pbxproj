@@ -77,7 +77,6 @@
 		FE92867F238F960D0071CD9C /* highestSalesScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92867E238F960D0071CD9C /* highestSalesScrollCalendarCell.swift */; };
 		FE9286812390BBD60071CD9C /* newItemScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9286802390BBD60071CD9C /* newItemScrollCalendarCell.swift */; };
 		FE9286832390BF430071CD9C /* editItemScrollCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9286822390BF430071CD9C /* editItemScrollCalendarCell.swift */; };
-		FEB1D523237BAD1C0082F13A /* dashboardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D522237BAD1C0082F13A /* dashboardTableCell.swift */; };
 		FEB1D525237BDAD90082F13A /* totalSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */; };
 		FEB1D527237CF81C0082F13A /* salesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */; };
 		FEB1D529237D14530082F13A /* highestSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB1D528237D14530082F13A /* highestSalesViewController.swift */; };
@@ -160,7 +159,6 @@
 		FE92867E238F960D0071CD9C /* highestSalesScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = highestSalesScrollCalendarCell.swift; sourceTree = "<group>"; };
 		FE9286802390BBD60071CD9C /* newItemScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newItemScrollCalendarCell.swift; sourceTree = "<group>"; };
 		FE9286822390BF430071CD9C /* editItemScrollCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editItemScrollCalendarCell.swift; sourceTree = "<group>"; };
-		FEB1D522237BAD1C0082F13A /* dashboardTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashboardTableCell.swift; sourceTree = "<group>"; };
 		FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = totalSalesViewController.swift; sourceTree = "<group>"; };
 		FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = salesDetailViewController.swift; sourceTree = "<group>"; };
 		FEB1D528237D14530082F13A /* highestSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = highestSalesViewController.swift; sourceTree = "<group>"; };
@@ -243,7 +241,6 @@
 				FE3ABBCC237278D400E19665 /* calendarViewController.swift */,
 				FE5EB8E22375149F00DB1986 /* profileViewController.swift */,
 				FE5EB8E62378FF5C00DB1986 /* editProfileViewController.swift */,
-				FEB1D522237BAD1C0082F13A /* dashboardTableCell.swift */,
 				FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */,
 				FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */,
 				FEB1D528237D14530082F13A /* highestSalesViewController.swift */,
@@ -487,7 +484,6 @@
 				FE92867B238F74970071CD9C /* totalSalesScrollCalendarCell.swift in Sources */,
 				BD8D64AA2371864500A2080D /* EmployeeProfileViewController.swift in Sources */,
 				BD048785237280E7002E0586 /* People.swift in Sources */,
-				FEB1D523237BAD1C0082F13A /* dashboardTableCell.swift in Sources */,
 				BDA38F4A237BD15800FCD5BC /* PaymentMethodCell.swift in Sources */,
 				6838F975236FD95900FCC0D0 /* AddInventoryViewController.swift in Sources */,
 				BD734E6F2386638800779531 /* Inventory.swift in Sources */,

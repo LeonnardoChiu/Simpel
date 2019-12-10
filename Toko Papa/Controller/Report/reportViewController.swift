@@ -346,17 +346,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return 61
         }
     }
-    
+
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         switch section {
         case 0:
             return " "
-        case 1:
-            return " "
-        case 2:
-            return " "
         default:
-            return " "
+            return nil
         }
     }
     
@@ -400,7 +396,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
      }
-
+    
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 //        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         view.tintColor = UIColor.systemBackground
@@ -413,117 +409,91 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
+    
+    
+    
+    // MARK: - cellForRowAt
      
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "dashboardTableCellID", for: indexPath) as! dashboardTableCell
+        let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
+        let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
+        let total = tableView.dequeueReusableCell(withIdentifier: "total") as! TotalPenjualan
+        let cells = UITableViewCell()
+        penjualan.selectionStyle = .none
+        penjualan.dropShadow()
+        penjualan.backgroundColor = .clear
         
-        cell.selectionStyle = .none
-        cell.dropShadow()
+        detail.selectionStyle = .none
+        detail.dropShadow()
+        detail.backgroundColor = .clear
         
-        cell.backgroundColor = .clear
+        total.selectionStyle = .none
+        total.dropShadow()
+        total.backgroundColor = .clear
+        
+        penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        detail.detailButton.tag = indexPath.section
+        detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
         
         if indexPath == [0,0] {
-            cell.totalSaleslabel.text = "Rp. \(totalSales)"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = false
-            cell.itemLabel.isHidden = true
-            cell.unitLabel.isHidden = true
-            cell.updateLabel.isHidden = true
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 57
-            
+            total.chevron.isHidden = false
+            total.TotalPenjualan.text = "Rp. \(totalSales)"
+            total.cellView.frame.size.height = 57
+            return total
         }
             
         if indexPath.section == 1 {
+            penjualan.chevron.isHidden = true
             if indexPath.row != 3{
-                cell.itemLabel.text = "\(highestSales[indexPath.row])"
-                cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-                cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-                cell.cellView.isHidden = false
-                cell.totalSaleslabel.isHidden = true
-                cell.itemLabel.isHidden = false
-                cell.unitLabel.isHidden = false
-                cell.updateLabel.isHidden = false
-                cell.detailButton.isHidden = true
-                cell.chevronButton.isHidden = true
-                cell.cellView.frame.size.height = 61
+                penjualan.namaItem.text = "\(highestSales[indexPath.row])"
+                penjualan.unitItem.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
+                penjualan.LastUpdate.text = "\(highestSalesLastUpdate[indexPath.row])"
+                penjualan.cellView.frame.size.height = 60
+                return penjualan
             }else{
-                cell.cellView.isHidden = false
-                cell.totalSaleslabel.isHidden = true
-                cell.itemLabel.isHidden = true
-                cell.unitLabel.isHidden = true
-                cell.updateLabel.isHidden = true
-                cell.detailButton.isHidden = false
-                cell.chevronButton.isHidden = true
-                cell.cellView.frame.size.height = 31
+                detail.cellVIew.frame.size.height = 31
+                return detail
             }
         }
         
             
         if indexPath.section == 2 {
+            penjualan.chevron.isHidden = true
                 if barangBaru.count == 0 {
-                   cell.itemLabel.text = "No Item"
-                   cell.unitLabel.text = ""
-                   cell.updateLabel.text = ""
-                   cell.cellView.isHidden = false
-                   cell.totalSaleslabel.isHidden = true
-                   cell.itemLabel.isHidden = true
-                   cell.unitLabel.isHidden = true
-                   cell.updateLabel.isHidden = false
-                   cell.detailButton.isHidden = true
-                   cell.chevronButton.isHidden = true
-                   cell.cellView.frame.size.height = 61
+                    total.chevron.isHidden = true
+                    total.TotalPenjualan.text = "No item"
+                    total.cellView.frame.size.height = 60
+                    return total
                    
                 }
                 else if barangBaru.count > 3{
                     if indexPath.row < 3{
-                        cell.itemLabel.text = "\(barangBaru[indexPath.row].namaBarang)"
-                        cell.unitLabel.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
-                        cell.updateLabel.text = ""
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = false
-                        cell.unitLabel.isHidden = false
-                        cell.updateLabel.isHidden = false
-                        cell.detailButton.isHidden = true
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 61
+                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+                        penjualan.LastUpdate.text = ""
+                        penjualan.cellView.frame.size.height = 60
+                        return penjualan
+                        
                         
                     }else{
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = true
-                        cell.unitLabel.isHidden = true
-                        cell.updateLabel.isHidden = true
-                        cell.detailButton.isHidden = false
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 31
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
                     }
                    
                 }
                 else {
                     if indexPath.row < barangBaru.count{
-                        cell.itemLabel.text = "\(barangBaru[indexPath.row].namaBarang)"
-                        cell.unitLabel.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
-                        cell.updateLabel.text = ""
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = false
-                        cell.unitLabel.isHidden = false
-                        cell.updateLabel.isHidden = false
-                        cell.detailButton.isHidden = true
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 61
+                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+                        penjualan.LastUpdate.text = ""
+                       penjualan.cellView.frame.size.height = 60
+                       return penjualan
                     }else{
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = true
-                        cell.unitLabel.isHidden = true
-                        cell.updateLabel.isHidden = true
-                        cell.detailButton.isHidden = false
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 31
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
+                        
                     }
                 }
             
@@ -531,17 +501,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if indexPath.section == 3 {
                 if editBarang.count == 0 {
-                   cell.itemLabel.text = "No Item"
-                   cell.unitLabel.text = ""
-                   cell.updateLabel.text = ""
-                   cell.cellView.isHidden = false
-                   cell.totalSaleslabel.isHidden = true
-                   cell.itemLabel.isHidden = true
-                   cell.unitLabel.isHidden = true
-                   cell.updateLabel.isHidden = false
-                   cell.detailButton.isHidden = true
-                   cell.chevronButton.isHidden = true
-                   cell.cellView.frame.size.height = 61
+                    total.chevron.isHidden = true
+                    total.TotalPenjualan.text = "No item"
+                    total.cellView.frame.size.height = 60
+                     return total
                    
                 }
                 else if editBarang.count > 3{
@@ -553,27 +516,15 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                             }
                         }
                         
-                        cell.itemLabel.text = "\(namaBarangEdit)"
-                       cell.unitLabel.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
-                        cell.updateLabel.text = ""
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = false
-                        cell.unitLabel.isHidden = false
-                        cell.updateLabel.isHidden = false
-                        cell.detailButton.isHidden = true
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 61
                         
+                        penjualan.namaItem.text = "\(namaBarangEdit)"
+                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+                        penjualan.LastUpdate.text = ""
+                        penjualan.cellView.frame.size.height = 60
+                        return penjualan
                     }else{
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = true
-                        cell.unitLabel.isHidden = true
-                        cell.updateLabel.isHidden = true
-                        cell.detailButton.isHidden = false
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 31
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
                     }
                    
                 }
@@ -585,38 +536,20 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 namaBarangEdit = i.namaItem
                             }
                         }
-                        cell.itemLabel.text = "\(namaBarangEdit)"
-                        cell.unitLabel.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
-                        cell.updateLabel.text = ""
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = false
-                        cell.unitLabel.isHidden = false
-                        cell.updateLabel.isHidden = false
-                        cell.detailButton.isHidden = true
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 61
+                        penjualan.namaItem.text = "\(namaBarangEdit)"
+                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+                         penjualan.LastUpdate.text = ""
+                        penjualan.cellView.frame.size.height = 60
+                        return penjualan
                     }else{
-                        cell.cellView.isHidden = false
-                        cell.totalSaleslabel.isHidden = true
-                        cell.itemLabel.isHidden = true
-                        cell.unitLabel.isHidden = true
-                        cell.updateLabel.isHidden = true
-                        cell.detailButton.isHidden = false
-                        cell.chevronButton.isHidden = true
-                        cell.cellView.frame.size.height = 31
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
                     }
+                    
                 }
             
         }
-            
-        
-        
-         cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        cell.detailButton.tag = indexPath.section
-        cell.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
-        
-        return cell
+        return cells
      }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -856,3 +789,45 @@ extension UIView {
       layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
 }
+
+
+class PenjualandanPBarangBaru: UITableViewCell{
+    
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var LastUpdate: UILabel!
+    @IBOutlet weak var unitItem: UILabel!
+    @IBOutlet weak var namaItem: UILabel!
+    @IBOutlet weak var chevron: UIButton!
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
+}
+
+class Detail: UITableViewCell{
+    
+    @IBOutlet weak var detailButton: UIButton!
+    @IBOutlet weak var cellVIew: UIView!
+    
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
+}
+
+
+class TotalPenjualan: UITableViewCell{
+    
+    
+    @IBOutlet weak var chevron: UIButton!
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var TotalPenjualan: UILabel!
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
+}
+
