@@ -167,7 +167,7 @@ class EditBarangViewController: UIViewController{
         
         if stokTemp != prevStockTemp {
             kategori = "Stok"
-            value = "From \(prevStockTemp) to \(stokTemp)"
+            value = "From \(prevStockTemp) to \(stokTemp!)"
         }
         
         var alert: UIAlertController = UIAlertController()
