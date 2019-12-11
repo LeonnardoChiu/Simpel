@@ -12,6 +12,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
 //MARK: VARIABLES
+    var transaksi: Transaksi = Transaksi.fetchDummyData()
     var namaBarangEdit = ""
     var stockBarangEdit = 0
     var tempStringDariLogin: String = ""
@@ -447,9 +448,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 1 {
             penjualan.chevron.isHidden = true
             if indexPath.row != 3{
-                penjualan.namaItem.text = "\(highestSales[indexPath.row])"
-                penjualan.unitItem.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-                penjualan.LastUpdate.text = "\(highestSalesLastUpdate[indexPath.row])"
+                penjualan.namaItem.text = "\(transaksi.items[indexPath.row].item.namaItem)"
+                penjualan.unitItem.text = "Unit Terjual: \(transaksi.items[indexPath.row].unitSold)"
+                penjualan.LastUpdate.text = ""
                 penjualan.cellView.frame.size.height = 60
                 return penjualan
             }else{

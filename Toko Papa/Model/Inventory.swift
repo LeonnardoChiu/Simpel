@@ -39,4 +39,5 @@ class Inventory {
         self.unit = unit
         self.tokoID = toko
     }
+
 }
