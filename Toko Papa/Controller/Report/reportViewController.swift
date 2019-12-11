@@ -1,5 +1,6 @@
 
 import UIKit
+import CloudKit
 
 class reportViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource{
     
@@ -11,6 +12,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
 //MARK: VARIABLES
+    var namaBarangEdit = ""
+    var stockBarangEdit = 0
     var tempStringDariLogin: String = ""
     var totalSales = 700000
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto", "indomie goreng"]
@@ -36,8 +39,14 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var startWithCurrentDate = false
     var selectedIndexPath: IndexPath? = nil
     
-    
-//MARK: VIEWDIDLOAD
+    let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
+    var modelPemilik: People?
+    var barangBaru: [BarangBaru] = []
+    var editBarang: [EditBarang] = []
+    var inventory: [Inventory] = []
+    var image: CKAsset?
+    //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -58,6 +67,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         monthLabel.text = "\(selectedMonth) \(year)"
         scrollTo(item: selectedDay, section: 0)
         dateCollection.reloadData()
+        var mainTabBar = self.tabBarController as! MainTabBarController
+            modelPemilik = mainTabBar.modelPeople
+        QueryDatabase()
+        print(barangBaru.count)
         
     }
     
@@ -76,8 +89,130 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
         dateCollection.reloadData()
         startWithCurrentDate = false
-
+        QueryDatabase()
     }
+    
+    
+    //MARK: - QUERYNYA
+    @objc func QueryDatabase(){
+       
+        let tokoID = modelPemilik?.tokoID
+        
+        let barangBaru = CKQuery(recordType: "BarangBaru", predicate: NSPredicate(format: "tokoID == %@", tokoID!))
+    
+        //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+        //query.sortDescriptors = [sortDesc]
+        database.perform(barangBaru, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initDataModelBarangBaru()
+            print("jumlah barang baru : \(self.data.count)")
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+        
+        
+        let editBarangs = CKQuery(recordType: "EditBarang", predicate: NSPredicate(format: "tokoID == %@", tokoID!))
+        
+            //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+            //query.sortDescriptors = [sortDesc]
+            database.perform(editBarangs, inZoneWith: nil) { (record, _) in
+                guard let record = record else {return}
+                    
+                self.data = record
+                /// append ke model
+                self.initDataModelEditBarang()
+                print("jumlah EditBarang : \(self.data.count)")
+                DispatchQueue.main.async {
+                    self.tableView.refreshControl?.endRefreshing()
+                    self.tableView.reloadData()
+                }
+            }
+        
+        let inventory = CKQuery(recordType: "Inventory", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+        
+            //let sortDesc = NSSortDescriptor(key: filterString!, ascending: sorting)
+            //query.sortDescriptors = [sortDesc]
+            database.perform(inventory, inZoneWith: nil) { (record, _) in
+                guard let record = record else {return}
+                    
+                self.data = record
+                /// append ke model
+                self.initDataModelInventory()
+                print("jumlah inventory : \(self.data.count)")
+                
+            }
+        
+      }
+    
+    func initDataModelBarangBaru() {
+        barangBaru.removeAll()
+        
+           print(data.count)
+           for countData in data {
+               let id = countData.recordID
+               let namabarang = countData.value(forKey: "namaBarang") as! String
+               let stock = countData.value(forKey: "Stock") as! Int
+               let tokoID = countData.value(forKey: "tokoID") as! String
+               let tanggal = countData.value(forKey: "Tanggal") as! Int
+               let bulan = countData.value(forKey: "Bulan") as! Int
+               let tahun = countData.value(forKey: "Tahun") as! Int
+            
+               barangBaru.append(BarangBaru(namabarang: namabarang, stock: stock, tokoid: tokoID, tanggal: tanggal, bulan: bulan, Tahun: tahun))
+           }
+       }
+    
+    func initDataModelEditBarang() {
+     editBarang.removeAll()
+     
+        print(data.count)
+        for countData in data {
+            let id = countData.recordID
+            let inventorid = countData.value(forKey: "InventoryID") as! String
+            let profilID = countData.value(forKey: "ProfilID") as! String
+            let tokoID = countData.value(forKey: "tokoID") as! String
+            let alasan = countData.value(forKey: "Alasan") as! String
+            let kategori = countData.value(forKey: "Kategori") as! String
+            let tanggal = countData.value(forKey: "Tanggal") as! Int
+            let bulan = countData.value(forKey: "Bulan") as! Int
+            let tahun = countData.value(forKey: "Tahun") as! Int
+            let value = countData.value(forKey: "Value") as! String
+         
+            editBarang.append(EditBarang(inventoryId: inventorid, profilID: profilID, tokoID: tokoID, alasan: alasan, tanggal: tanggal, bulan: bulan, tahun: tahun, kategori: kategori, value: value))
+        }
+    }
+    
+    func initDataModelInventory() {
+        inventory.removeAll()
+        
+        print(data.count)
+        for countData in data {
+            let id = countData.recordID
+            let namaItem = countData.value(forKey: "NameProduct") as! String
+            let stock = countData.value(forKey: "Stock") as! Int
+            let price = countData.value(forKey: "Price") as! Int
+            let barcode = countData.value(forKey: "Barcode") as! String
+            let category = countData.value(forKey: "Category") as! String
+            let distributor = countData.value(forKey: "Distributor") as! String
+            let version = countData.value(forKey: "Version") as! Int
+            let unit = countData.value(forKey: "Unit") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            var itemImage: UIImage?
+            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
+            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
+                itemImage = UIImage(data: data as Data)
+                //itemImage.contentMode = .scaleAspectFill
+            }
+            inventory.append(Inventory(id: id, imageItem: itemImage!, namaItem: namaItem, barcode: barcode, category: category, distributor: distributor, price: price, stock: stock, version: version, unit: unit, toko: tokoID))
+        }
+    }
+    
+    
+    
     
     //MARK: BUTTON ACTION
     
@@ -201,10 +336,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 35
-    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath == [0,1] {
@@ -212,6 +344,15 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         else{
             return 61
+        }
+    }
+
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return " "
+        default:
+            return nil
         }
     }
     
@@ -227,201 +368,188 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 2
+            return 1
         case 1:
             return 4
         case 2:
-            return 4
+            if barangBaru.count == 0 {
+                return 1
+            }
+            else if barangBaru.count > 3{
+                return 4
+            }
+            else {
+                return barangBaru.count + 1
+            }
         case 3:
-            return 4
+            if editBarang.count == 0 {
+                return 1
+            }
+            else if editBarang.count > 3{
+                return 4
+            }
+            else {
+                return editBarang.count + 1
+            }
         default:
             return 0
         }
         
      }
-
+    
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 //        view.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         view.tintColor = UIColor.systemBackground
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+         view.tintColor = UIColor.systemBackground
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+    }
+    
+    
+    
+    // MARK: - cellForRowAt
      
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "dashboardTableCellID", for: indexPath) as! dashboardTableCell
+        let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
+        let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
+        let total = tableView.dequeueReusableCell(withIdentifier: "total") as! TotalPenjualan
+        let cells = UITableViewCell()
+        penjualan.selectionStyle = .none
+        penjualan.dropShadow()
+        penjualan.backgroundColor = .clear
         
-        cell.selectionStyle = .none
-        cell.dropShadow()
+        detail.selectionStyle = .none
+        detail.dropShadow()
+        detail.backgroundColor = .clear
         
-        cell.backgroundColor = .clear
+        total.selectionStyle = .none
+        total.dropShadow()
+        total.backgroundColor = .clear
+        
+        penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        detail.detailButton.tag = indexPath.section
+        detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
         
         if indexPath == [0,0] {
-            cell.totalSaleslabel.text = "Rp. \(totalSales)"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = false
-            cell.itemLabel.isHidden = true
-            cell.unitLabel.isHidden = true
-            cell.updateLabel.isHidden = true
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 57
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+            total.chevron.isHidden = false
+            total.TotalPenjualan.text = "Rp. \(totalSales)"
+            total.cellView.frame.size.height = 57
+            return total
         }
-        else if indexPath == [0,1] {
-            cell.totalSaleslabel.text = "Rp. \(totalSales)"
-            cell.cellView.isHidden = true
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = true
-            cell.unitLabel.isHidden = true
-            cell.updateLabel.isHidden = true
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 57
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+            
+        if indexPath.section == 1 {
+            penjualan.chevron.isHidden = true
+            if indexPath.row != 3{
+                penjualan.namaItem.text = "\(highestSales[indexPath.row])"
+                penjualan.unitItem.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
+                penjualan.LastUpdate.text = "\(highestSalesLastUpdate[indexPath.row])"
+                penjualan.cellView.frame.size.height = 60
+                return penjualan
+            }else{
+                detail.cellVIew.frame.size.height = 31
+                return detail
+            }
         }
-        else if indexPath == [1,0] {
-            cell.itemLabel.text = "\(highestSales[indexPath.row])"
-            cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-            cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [1,1]{
-            cell.itemLabel.text = "\(highestSales[indexPath.row])"
-            cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-            cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [1,2]{
-            cell.itemLabel.text = "\(highestSales[indexPath.row])"
-            cell.unitLabel.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-            cell.updateLabel.text = "\(highestSalesLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [2,0]{
-            cell.itemLabel.text = "\(newItem[indexPath.row])"
-            cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
-            cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [2,1]{
-            cell.itemLabel.text = "\(newItem[indexPath.row])"
-            cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
-            cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [2,2]{
-            cell.itemLabel.text = "\(newItem[indexPath.row])"
-            cell.unitLabel.text = "Unit Masuk: \(newItemUnit[indexPath.row])"
-            cell.updateLabel.text = "\(newItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [3,0]{
-            cell.itemLabel.text = "\(editItem[indexPath.row])"
-            cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
-            cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [3,1]{
-            cell.itemLabel.text = "\(editItem[indexPath.row])"
-            cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
-            cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else if indexPath == [3,2]{
-            cell.itemLabel.text = "\(editItem[indexPath.row])"
-            cell.unitLabel.text = "Rp. \(editItemValue[indexPath.row])"
-            cell.updateLabel.text = "\(editItemLastUpdate[indexPath.row])"
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = false
-            cell.unitLabel.isHidden = false
-            cell.updateLabel.isHidden = false
-            cell.detailButton.isHidden = true
-            cell.chevronButton.isHidden = false
-            cell.cellView.frame.size.height = 61
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        }
-        else {
-            cell.cellView.isHidden = false
-            cell.totalSaleslabel.isHidden = true
-            cell.itemLabel.isHidden = true
-            cell.unitLabel.isHidden = true
-            cell.updateLabel.isHidden = true
-            cell.detailButton.isHidden = false
-            cell.chevronButton.isHidden = true
-            cell.cellView.frame.size.height = 31
-            cell.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        
+            
+        if indexPath.section == 2 {
+            penjualan.chevron.isHidden = true
+                if barangBaru.count == 0 {
+                    total.chevron.isHidden = true
+                    total.TotalPenjualan.text = "No item"
+                    total.cellView.frame.size.height = 60
+                    return total
+                   
+                }
+                else if barangBaru.count > 3{
+                    if indexPath.row < 3{
+                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+                        penjualan.LastUpdate.text = ""
+                        penjualan.cellView.frame.size.height = 60
+                        return penjualan
+                        
+                        
+                    }else{
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
+                    }
+                   
+                }
+                else {
+                    if indexPath.row < barangBaru.count{
+                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+                        penjualan.LastUpdate.text = ""
+                       penjualan.cellView.frame.size.height = 60
+                       return penjualan
+                    }else{
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
+                        
+                    }
+                }
             
         }
         
-        cell.detailButton.tag = indexPath.section
-        cell.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
-        
-        return cell
+        if indexPath.section == 3 {
+                if editBarang.count == 0 {
+                    total.chevron.isHidden = true
+                    total.TotalPenjualan.text = "No item"
+                    total.cellView.frame.size.height = 60
+                     return total
+                   
+                }
+                else if editBarang.count > 3{
+                    if indexPath.row < 3{
+                        for i in inventory{
+                            if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+                                namaBarangEdit = i.namaItem
+                                stockBarangEdit = i.stock
+                            }
+                        }
+                        
+                        
+                        penjualan.namaItem.text = "\(namaBarangEdit)"
+                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+                        penjualan.LastUpdate.text = ""
+                        penjualan.cellView.frame.size.height = 60
+                        return penjualan
+                    }else{
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
+                    }
+                   
+                }
+                else {
+                    
+                    if indexPath.row < editBarang.count{
+                        for i in inventory{
+                            if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+                                namaBarangEdit = i.namaItem
+                            }
+                        }
+                        penjualan.namaItem.text = "\(namaBarangEdit)"
+                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+                         penjualan.LastUpdate.text = ""
+                        penjualan.cellView.frame.size.height = 60
+                        return penjualan
+                    }else{
+                        detail.cellVIew.frame.size.height = 31
+                        return detail
+                    }
+                    
+                }
+            
+        }
+        return cells
      }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -663,3 +791,45 @@ extension UIView {
       layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
 }
+
+
+class PenjualandanPBarangBaru: UITableViewCell{
+    
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var LastUpdate: UILabel!
+    @IBOutlet weak var unitItem: UILabel!
+    @IBOutlet weak var namaItem: UILabel!
+    @IBOutlet weak var chevron: UIButton!
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
+}
+
+class Detail: UITableViewCell{
+    
+    @IBOutlet weak var detailButton: UIButton!
+    @IBOutlet weak var cellVIew: UIView!
+    
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
+}
+
+
+class TotalPenjualan: UITableViewCell{
+    
+    
+    @IBOutlet weak var chevron: UIButton!
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var TotalPenjualan: UILabel!
+    override func draw(_ rect: CGRect) {
+        dropShadow()
+        
+        super.draw(rect)
+    }
+}
+
