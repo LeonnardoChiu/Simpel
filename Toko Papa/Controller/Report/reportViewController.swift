@@ -16,13 +16,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var namaBarangEdit = ""
     var stockBarangEdit = 0
     var tempStringDariLogin: String = ""
-    var totalSales = 700000
+    var totalSales = 0
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto", "indomie goreng"]
     var highestSalesLastUpdate = ["19.15", "19.16", "19.17"]
-    var highestSalesUnit = [40, 50, 60]
-    var newItem = ["Beras C4", "Rinso Anti Noda", "Sunglight 200ml"]
-    var newItemLastUpdate = ["19.15", "18.00", "18.00"]
-    var newItemUnit = [30, 35, 30]
+//    var highestSalesUnit = [40, 50, 60]
+//    var newItem = ["Beras C4", "Rinso Anti Noda", "Sunglight 200ml"]
+//    var newItemLastUpdate = ["19.15", "18.00", "18.00"]
+//    var newItemUnit = [30, 35, 30]
     var editItem = ["Beras C4", "Rinso Molto", "Piring plastik"]
     var editItemLastUpdate = ["19.15", "19.14", "19.13"]
     var editItemValue = [15000, 16000, 15000]
@@ -58,6 +58,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
         
+        print("item transaksi", transaksi)
         
         selectedDay = day
         selectedMonth = "\(months[month])"
@@ -91,6 +92,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dateCollection.reloadData()
         startWithCurrentDate = false
         QueryDatabase()
+        
+        for x in transaksi.items {
+            print(x.unitSold)
+            print(x.item.price)
+            totalSales += (x.unitSold * x.item.price)
+            print(totalSales)
+        }
     }
     
     
