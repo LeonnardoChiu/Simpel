@@ -40,6 +40,8 @@ class EmployeeListViewController: UIViewController {
             let appDelegate = UIApplication.shared.windows
             appDelegate.first?.rootViewController = vc
             self.present(vc, animated: true, completion: nil)
+            
+            UserDefaults.standard.set(false, forKey: "userLogin")
         }
     }
     

@@ -22,6 +22,8 @@ class OnboardingViewController: UIViewController {
     var user: User?
     var image: CKAsset?
     
+    var loginStatus = UserDefaults.standard.bool(forKey: "userLogin")
+    
     // MARK: - IBOutlet list
     @IBOutlet weak var signInAppleBtn: UIStackView!
     
@@ -55,7 +57,42 @@ class OnboardingViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        initAppleSignInButton()
+        // MARK: USER DEFAULT
+//        loginStatus = false
+        if loginStatus == false {
+            initAppleSignInButton()
+        }
+        else{
+            people.removeAll()
+            
+            let firstName = UserDefaults.standard.string(forKey: "firstName")!
+            let lastName = UserDefaults.standard.string(forKey: "lastName")!
+            let phone = UserDefaults.standard.string(forKey: "phone")!
+            let role = UserDefaults.standard.string(forKey: "role")!
+            let id = UserDefaults.standard.string(forKey: "id")!
+            let tokoID = UserDefaults.standard.string(forKey: "tokoId")!
+            let email = UserDefaults.standard.string(forKey: "email")!
+            let appleId = UserDefaults.standard.string(forKey: "appleId")!
+
+//            let image = UserDefaults.standard.string(forKey: "firstName")
+            
+            let CKID = CKRecord.ID(recordName: id)
+            
+            people.append(People(id: CKID, appleid: appleId, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: role, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
+            
+            model = people.first
+            
+            /// ke main storyboard
+            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                vc.modelPeople = model
+
+                //navigationController?.setNavigationBarHidden(false, animated: true)
+                let appDelegate = UIApplication.shared.windows
+                appDelegate.first?.rootViewController = vc
+                self.present(vc, animated: true, completion: nil)
+                
+            }
+        }
         self.hideKeyboardWhenTappedAround()
     }
     

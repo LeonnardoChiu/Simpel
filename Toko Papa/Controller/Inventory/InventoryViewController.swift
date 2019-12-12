@@ -83,6 +83,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
             cell.stockLabel.text = "Stock Left : \(originalItem[indexPath.row].stock)"
             cell.gambarCell.image = originalItem[indexPath.row].imageItem
             return cell
+
         }
     }
     //MARK:- didselectrow table view
