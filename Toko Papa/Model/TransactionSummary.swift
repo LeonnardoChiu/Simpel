@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CloudKit
 
 struct TransactionSummary {
     var transactions: [Transaksi] {
@@ -30,5 +31,29 @@ struct TransactionSummary {
         }
     }
     var itemSummaries: [String : Int]!
+}
+
+
+class SummaryTransaction {
+    var id: CKRecord.ID
+    var tanggal: Int
+    var bulan: Int
+    var tahun: Int
+    var itemID: String
+    var tokoID: String
+    var metodePembayaran: String
+    var totalPenjualan: Int
+    
+    init(id: CKRecord.ID, tokoID: String, itemID: String, tanggal: Int, bulan: Int, tahun: Int, metodePembayaran: String, totalPenjualan: Int) {
+        self.id = id
+        self.tokoID = tokoID
+        self.itemID = itemID
+        self.tanggal = tanggal
+        self.bulan = bulan
+        self.tahun = tahun
+        self.metodePembayaran = metodePembayaran
+        self.totalPenjualan = totalPenjualan
+    }
+    
     
 }

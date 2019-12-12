@@ -15,7 +15,8 @@ class CashierViewController: UIViewController {
     var itemTemp: [Inventory] = []
     var stockTemp: [Inventory] = []
     var stock = 0
-    var idTransaksi = ""
+    var idTransaksi: [String] = []
+    var idRef: CKRecord.ID?
     var pembayaran = "Tunai"
     
     var myItem: [Inventory] = []
@@ -52,11 +53,14 @@ class CashierViewController: UIViewController {
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.updateToCloud()
             self.createDetailTransaction()
+            self.createTransactionSummary()
+            self.idTransaksi.removeAll()
             self.items.removeAll()
             self.myItem.removeAll()
             self.searchItemTotal = 0
             self.totalPrice = 0
             self.cashierTableView.reloadData()
+            self.finishBtnOutlet.isEnabled = false
         }
         
         alert.addAction(ok)
@@ -195,22 +199,27 @@ class CashierViewController: UIViewController {
         for dataCount in data {
                updateStock = 0
                 for myCart in myItem {
+                    print(dataCount.recordID.recordName)
+                    print(myCart.Id.recordName)
                     if  dataCount.recordID.recordName == myCart.Id.recordName {
                         inventory = dataCount
+                        print(inventory)
                         updateStock = inventory!.value(forKey: "Stock") as! Int
                         let tempStock = updateStock - myCart.stock
                         print("ID STOCK MY CART : ", myCart.stock)
                         inventory?.setValue(tempStock, forKey: "Stock")
+                        database.save(inventory!) { (record, error) in
+                            guard record != nil else { return}
+                            print("Updateeeee")
+                        }
                     }
+                    
                     
                 }
             
             print(dataCount.value(forKey: "NameProduct")!)
             
-            database.save(inventory!) { (record, error) in
-                guard record != nil else { return}
-                print("Updateeeee")
-            }
+            
         }
        
         
@@ -222,51 +231,38 @@ class CashierViewController: UIViewController {
         print(myItem.count)
             for item in myItem{
                 let itemTransaksi = CKRecord(recordType: "ItemTransaction")
-                let transactionSummary = CKRecord(recordType: "Transaksi")
+                print(itemTransaksi)
                 itemTransaksi.setValue(item.Id.recordName, forKeyPath: "InventoryID")
                 itemTransaksi.setValue(item.stock, forKeyPath: "qty")
-                
-                transactionSummary.setValue(idTransaksi, forKeyPath: "ItemTransactionID")
-                transactionSummary.setValue(day, forKeyPath: "tanggal")
-                transactionSummary.setValue(month, forKeyPath: "bulan")
-                transactionSummary.setValue(year, forKeyPath: "tahun")
-                transactionSummary.setValue(pembayaran, forKeyPath: "MetodePembayaran")
-                transactionSummary.setValue(modelPemilik?.tokoID, forKeyPath: "TokoID")
+                idTransaksi.append(itemTransaksi.recordID.recordName)
                 
                 database.save(itemTransaksi) { (record, error) in
+//                    self.idRef = itemTransaksi.recordID
                     guard record != nil else { return }
 
-                self.idTransaksi = itemTransaksi.recordID.recordName
-                print("kdajkd ididididi", itemTransaksi.recordID.recordName)
-                 
-                }
-                database.save(transactionSummary) { (record, error) in
-                    print("saveee")
-                    guard record != nil else { return }
+                
+                print("ID si transaksi", itemTransaksi.recordID.recordName)
                 }
                 
             }
-//        database.save(itemTransaksi) { (record, error) in
-//            guard record != nil else { return }
-//        }
         
     }
     
     //MARK: - Summary Transaction
     func createTransactionSummary() {
-        let transactionSummary = CKRecord(recordType: "Transaksi")
+        let transactionSummary = CKRecord(recordType: "TransactionSummary")
         print(transactionSummary)
         //let itemTransaksi = CKRecord(recordType: "itemTransaksi")
-        
-        transactionSummary.setValue(idTransaksi, forKeyPath: "ItemTransactionID")
         transactionSummary.setValue(day, forKeyPath: "tanggal")
         transactionSummary.setValue(month, forKeyPath: "bulan")
         transactionSummary.setValue(year, forKeyPath: "tahun")
         transactionSummary.setValue(pembayaran, forKeyPath: "MetodePembayaran")
         transactionSummary.setValue(modelPemilik?.tokoID, forKeyPath: "TokoID")
+        transactionSummary.setValue(self.idTransaksi, forKey: "ItemID")
+        transactionSummary.setValue(GrandTotal, forKey: "totalPenjualan")
+        
     
         database.save(transactionSummary) { (record, error) in
-            print("saveee")
             guard record != nil else { return }
         }
     }

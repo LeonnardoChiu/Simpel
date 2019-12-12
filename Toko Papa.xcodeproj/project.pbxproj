@@ -71,6 +71,7 @@
 		FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBCC237278D400E19665 /* calendarViewController.swift */; };
 		FE5EB8E32375149F00DB1986 /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5EB8E22375149F00DB1986 /* profileViewController.swift */; };
 		FE5EB8E72378FF5C00DB1986 /* editProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5EB8E62378FF5C00DB1986 /* editProfileViewController.swift */; };
+		FE6ED9FE23A233B600024874 /* itemTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6ED9FD23A233B600024874 /* itemTransaction.swift */; };
 		FE88AB82238271CB00FCA480 /* selectRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88AB81238271CB00FCA480 /* selectRoleViewController.swift */; };
 		FE906417237129D2002F3463 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE906416237129D2002F3463 /* DateCollectionViewCell.swift */; };
 		FE906419237129F5002F3463 /* reportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE906418237129F5002F3463 /* reportViewController.swift */; };
@@ -155,6 +156,7 @@
 		FE3ABBCC237278D400E19665 /* calendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarViewController.swift; sourceTree = "<group>"; };
 		FE5EB8E22375149F00DB1986 /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		FE5EB8E62378FF5C00DB1986 /* editProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editProfileViewController.swift; sourceTree = "<group>"; };
+		FE6ED9FD23A233B600024874 /* itemTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = itemTransaction.swift; sourceTree = "<group>"; };
 		FE88AB81238271CB00FCA480 /* selectRoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectRoleViewController.swift; sourceTree = "<group>"; };
 		FE906416237129D2002F3463 /* DateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCollectionViewCell.swift; sourceTree = "<group>"; };
 		FE906418237129F5002F3463 /* reportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reportViewController.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				6891BD82239F4314009A33A5 /* EditBarang.swift */,
 				BD59579223A09E040035A71C /* Transaksi.swift */,
 				BD59579423A0A9580035A71C /* TransactionSummary.swift */,
+				FE6ED9FD23A233B600024874 /* itemTransaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				6838F99B23726B4100FCC0D0 /* SatuanBarangTableViewController.swift in Sources */,
 				68C8E4E5237E8B6A00A5FEA0 /* KategoriTableViewController.swift in Sources */,
 				FE92867B238F74970071CD9C /* totalSalesScrollCalendarCell.swift in Sources */,
+				FE6ED9FE23A233B600024874 /* itemTransaction.swift in Sources */,
 				BD59579323A09E040035A71C /* Transaksi.swift in Sources */,
 				BD8D64AA2371864500A2080D /* EmployeeProfileViewController.swift in Sources */,
 				BD048785237280E7002E0586 /* People.swift in Sources */,

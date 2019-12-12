@@ -23,7 +23,7 @@ class OnboardingViewController: UIViewController {
     var image: CKAsset?
     
     var loginStatus = UserDefaults.standard.bool(forKey: "userLogin")
-    
+    var cek = false
     // MARK: - IBOutlet list
     @IBOutlet weak var signInAppleBtn: UIStackView!
     
@@ -50,6 +50,7 @@ class OnboardingViewController: UIViewController {
                 print(i.appleID)
                 print(i.firstName)
            }
+            self.cek = true
             print("Total Employee dalam database : \(self.data.count)")
         }
     }
@@ -72,7 +73,7 @@ class OnboardingViewController: UIViewController {
             appleId = UserDefaults.standard.string(forKey: "appleId")!
             print(appleId)
 
-            
+            cek = false
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
             /// ke main storyboard
            
@@ -86,7 +87,7 @@ class OnboardingViewController: UIViewController {
         if counter == 1{
             self.QueryDatabase()
         }
-        if counter == 8 {
+        if cek == true {
             counter = 0
             timer.invalidate()
             if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {

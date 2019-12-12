@@ -46,6 +46,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var barangBaru: [BarangBaru] = []
     var editBarang: [EditBarang] = []
     var inventory: [Inventory] = []
+    var barangTerjual: [itemTransaction] = []
+    var transactionSummary: [SummaryTransaction] = []
     var image: CKAsset?
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
@@ -157,7 +159,60 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
             }
         
+        let laporan = CKQuery(recordType: "Transaction", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+       
+        database.perform(laporan, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initSummaryPenjualan()
+            print("jumlah laporan : \(self.data.count)")
+            
+        }
+        
+        let itemTransaksi = CKQuery(recordType: "ItemTransaction", predicate: NSPredicate(value: true))
+        database.perform(itemTransaksi, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initBarangPenjualan()
+            print("jumlah laporan : \(self.data.count)")
+            
+        }
+        
       }
+    
+    
+    
+    func initBarangPenjualan() {
+        barangTerjual.removeAll()
+        for countData in data {
+            let id = countData.recordID
+           let inventoryID = countData.value(forKey: "InventoryID") as! String
+           let qty = countData.value(forKey: "qty") as! Int
+           
+            
+            barangTerjual.append(itemTransaction(id: id, inventoryid: inventoryID, qty: qty))
+        }
+    }
+    
+    // MARK: - Func summary transaksi
+    func initSummaryPenjualan() {
+        for countData in data {
+            let id = countData.recordID
+            let itemID = countData.value(forKey: "ItemID") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            let tanggal = countData.value(forKey: "tanggal") as! Int
+            let bulan = countData.value(forKey: "bulan") as! Int
+            let tahun = countData.value(forKey: "tahun") as! Int
+            let metodeBayar = countData.value(forKey: "metodePembayaran") as! String
+            let totalPenjualan = countData.value(forKey: "totalPenjualan") as! Int
+            
+            transactionSummary.append(SummaryTransaction(id: id, tokoID: tokoID, itemID: itemID, tanggal: tanggal, bulan: bulan, tahun: tahun, metodePembayaran: metodeBayar, totalPenjualan: totalPenjualan))
+        }
+    }
     
     func initDataModelBarangBaru() {
         barangBaru.removeAll()
@@ -457,6 +512,17 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 1 {
             penjualan.chevron.isHidden = true
             if indexPath.row != 3{
+                
+                for i in BarangBaru{
+                    for j in
+                }
+                for transaksi in transactionSummary{
+                    for i in inventory{
+                        if i.Id.recordName == transaksi.itemID {
+                            penjualan.namaItem.text = "\(transaksi.items[indexPath.row].item.namaItem)"
+                        }
+                    }
+                }
                 penjualan.namaItem.text = "\(transaksi.items[indexPath.row].item.namaItem)"
                 penjualan.unitItem.text = "Unit Terjual: \(transaksi.items[indexPath.row].unitSold)"
                 penjualan.LastUpdate.text = ""
