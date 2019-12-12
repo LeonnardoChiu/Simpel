@@ -36,6 +36,8 @@ class EmployeeListViewController: UIViewController {
     }
     
     @IBAction func logOutBtn(_ sender: UIBarButtonItem) {
+        UserDefaults.standard.set(false, forKey: "userLogin")
+        UserDefaults.standard.set("", forKey: "appleId")
         if let vc: OnboardingViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OnboardingStoryboard") as? OnboardingViewController {
             let appDelegate = UIApplication.shared.windows
             appDelegate.first?.rootViewController = vc
