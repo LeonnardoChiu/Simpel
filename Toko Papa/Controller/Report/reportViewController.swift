@@ -200,6 +200,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - Func summary transaksi
     func initSummaryPenjualan() {
+        transactionSummary.removeAll()
         for countData in data {
             let id = countData.recordID
             let itemID = countData.value(forKey: "ItemID") as! String
@@ -513,16 +514,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             penjualan.chevron.isHidden = true
             if indexPath.row != 3{
                 
-                for i in BarangBaru{
-                    for j in
-                }
-                for transaksi in transactionSummary{
-                    for i in inventory{
-                        if i.Id.recordName == transaksi.itemID {
-                            penjualan.namaItem.text = "\(transaksi.items[indexPath.row].item.namaItem)"
-                        }
-                    }
-                }
+                
                 penjualan.namaItem.text = "\(transaksi.items[indexPath.row].item.namaItem)"
                 penjualan.unitItem.text = "Unit Terjual: \(transaksi.items[indexPath.row].unitSold)"
                 penjualan.LastUpdate.text = ""
