@@ -54,47 +54,58 @@ class OnboardingViewController: UIViewController {
         }
     }
     
+    var counter = 0
+    var timer = Timer()
+     var appleId = ""
+    
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: USER DEFAULT
 //        loginStatus = false
+        
         if loginStatus == false {
             initAppleSignInButton()
         }
         else{
-            people.removeAll()
-            
-            let firstName = UserDefaults.standard.string(forKey: "firstName")!
-            let lastName = UserDefaults.standard.string(forKey: "lastName")!
-            let phone = UserDefaults.standard.string(forKey: "phone")!
-            let role = UserDefaults.standard.string(forKey: "role")!
-            let id = UserDefaults.standard.string(forKey: "id")!
-            let tokoID = UserDefaults.standard.string(forKey: "tokoId")!
-            let email = UserDefaults.standard.string(forKey: "email")!
-            let appleId = UserDefaults.standard.string(forKey: "appleId")!
+//
+            appleId = UserDefaults.standard.string(forKey: "appleId")!
+            print(appleId)
 
-//            let image = UserDefaults.standard.string(forKey: "firstName")
             
-            let CKID = CKRecord.ID(recordName: id)
-            
-            people.append(People(id: CKID, appleid: appleId, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: role, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
-            
-            model = people.first
-            
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
             /// ke main storyboard
-            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                vc.modelPeople = model
-
-                //navigationController?.setNavigationBarHidden(false, animated: true)
-                let appDelegate = UIApplication.shared.windows
-                appDelegate.first?.rootViewController = vc
-                self.present(vc, animated: true, completion: nil)
-                
-            }
+           
         }
         self.hideKeyboardWhenTappedAround()
     }
+    
+    @objc func timerAction() {
+        counter += 1
+        print(counter)
+        if counter == 1{
+            self.QueryDatabase()
+        }
+        if counter == 8 {
+            counter = 0
+            timer.invalidate()
+            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                           print("bentot", people.count)
+               vc.peopleMaintab = people
+               vc.modelPeople = model
+               vc.appleid = appleId
+               //navigationController?.setNavigationBarHidden(false, animated: true)
+               let appDelegate = UIApplication.shared.windows
+               appDelegate.first?.rootViewController = vc
+               self.present(vc, animated: true, completion: nil)
+               
+           }
+          
+        }
+        
+    }
+    
+    
     
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
@@ -147,8 +158,9 @@ class OnboardingViewController: UIViewController {
             }else{
                 /// ke main storyboard
                 if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                    vc.peopleMaintab = people
                     vc.modelPeople = model
-                    
+                    vc.appleid = ""
                     //navigationController?.setNavigationBarHidden(false, animated: true)
                     let appDelegate = UIApplication.shared.windows
                     appDelegate.first?.rootViewController = vc
