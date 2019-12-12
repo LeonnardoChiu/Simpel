@@ -93,6 +93,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         startWithCurrentDate = false
         QueryDatabase()
         
+        totalSales = 0
         for x in transaksi.items {
             print(x.unitSold)
             print(x.item.price)

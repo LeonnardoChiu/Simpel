@@ -15,6 +15,8 @@ class CashierViewController: UIViewController {
     var itemTemp: [Inventory] = []
     var stockTemp: [Inventory] = []
     var stock = 0
+    var idTransaksi = ""
+    var pembayaran = "Tunai"
     
     var myItem: [Inventory] = []
     var newItem: Inventory?
@@ -49,6 +51,7 @@ class CashierViewController: UIViewController {
         let alert = UIAlertController(title: "Sukses", message: "Transaksi berhasil", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.updateToCloud()
+            self.createDetailTransaction()
             self.items.removeAll()
             self.myItem.removeAll()
             self.searchItemTotal = 0
@@ -195,12 +198,13 @@ class CashierViewController: UIViewController {
                     if  dataCount.recordID.recordName == myCart.Id.recordName {
                         inventory = dataCount
                         updateStock = inventory!.value(forKey: "Stock") as! Int
-                        let anjeng = updateStock - myCart.stock
+                        let tempStock = updateStock - myCart.stock
                         print("ID STOCK MY CART : ", myCart.stock)
-                        inventory?.setValue(anjeng, forKey: "Stock")
+                        inventory?.setValue(tempStock, forKey: "Stock")
                     }
                     
                 }
+            
             print(dataCount.value(forKey: "NameProduct")!)
             
             database.save(inventory!) { (record, error) in
@@ -212,34 +216,59 @@ class CashierViewController: UIViewController {
         
     }
     
-    func updateStock(){
-
-        for x in myItem {
-            for item in itemTemp {
-                if x.namaItem == item.namaItem {
-                    print("SEBELUM :", x.stock)
-                    x.stock -= item.stock
-                    print("SESUDAH :", x.stock)
-                    print("SESUDAH item:", item.stock)
-                }
-            }
-        }
+    // MARK: - Masukkin data penjualan ke history / invoice
+    func createDetailTransaction() {
         
-        for itemInDatabase in data {
-            for cartItem in myItem {
-                if itemInDatabase.recordID.recordName == cartItem.Id.recordName {
-                    //itemInDatabase.value(forKey: "Stock") as! Int =  itemInDatabase.value(forKey: "Stock") - cartItem.stock
-                }
-            }
-            
-        }
+        print(myItem.count)
+            for item in myItem{
+                let itemTransaksi = CKRecord(recordType: "ItemTransaction")
+                let transactionSummary = CKRecord(recordType: "Transaksi")
+                itemTransaksi.setValue(item.Id.recordName, forKeyPath: "InventoryID")
+                itemTransaksi.setValue(item.stock, forKeyPath: "qty")
+                
+                transactionSummary.setValue(idTransaksi, forKeyPath: "ItemTransactionID")
+                transactionSummary.setValue(day, forKeyPath: "tanggal")
+                transactionSummary.setValue(month, forKeyPath: "bulan")
+                transactionSummary.setValue(year, forKeyPath: "tahun")
+                transactionSummary.setValue(pembayaran, forKeyPath: "MetodePembayaran")
+                transactionSummary.setValue(modelPemilik?.tokoID, forKeyPath: "TokoID")
+                
+                database.save(itemTransaksi) { (record, error) in
+                    guard record != nil else { return }
 
-        //self.updateToCloud(Stock: stock)
+                self.idTransaksi = itemTransaksi.recordID.recordName
+                print("kdajkd ididididi", itemTransaksi.recordID.recordName)
+                 
+                }
+                database.save(transactionSummary) { (record, error) in
+                    print("saveee")
+                    guard record != nil else { return }
+                }
+                
+            }
+//        database.save(itemTransaksi) { (record, error) in
+//            guard record != nil else { return }
+//        }
+        
     }
     
-    // MARK: - Masukkin data penjualan ke history / invoice
-    func createInvoice() {
+    //MARK: - Summary Transaction
+    func createTransactionSummary() {
+        let transactionSummary = CKRecord(recordType: "Transaksi")
+        print(transactionSummary)
+        //let itemTransaksi = CKRecord(recordType: "itemTransaksi")
         
+        transactionSummary.setValue(idTransaksi, forKeyPath: "ItemTransactionID")
+        transactionSummary.setValue(day, forKeyPath: "tanggal")
+        transactionSummary.setValue(month, forKeyPath: "bulan")
+        transactionSummary.setValue(year, forKeyPath: "tahun")
+        transactionSummary.setValue(pembayaran, forKeyPath: "MetodePembayaran")
+        transactionSummary.setValue(modelPemilik?.tokoID, forKeyPath: "TokoID")
+    
+        database.save(transactionSummary) { (record, error) in
+            print("saveee")
+            guard record != nil else { return }
+        }
     }
     
     // MARK: - Unwind list
@@ -319,10 +348,12 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
                 /// cell 0 section 1 -> tunai
                 tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .checkmark
                 tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .none
+                pembayaran = "Tunai"
             } else {
                 /// cell 1 section 1 -> non tunai
                 tableView.cellForRow(at: IndexPath.init(row: 0, section: 1))?.accessoryType = .none
                 tableView.cellForRow(at: IndexPath.init(row: 1, section: 1))?.accessoryType = .checkmark
+                pembayaran = "Non tunai"
             }
             //performSegue(withIdentifier: "toPaymentMethod", sender: nil)
             

@@ -15,7 +15,7 @@ enum MetodePembayaran: String {
 }
 
 struct Transaksi {
-    typealias ItemTransaction  = (unitSold: Int,item: Inventory)
+    typealias ItemTransaction  = (unitSold: Int, item: Inventory)
     
     let tokoID: String
     let metodePembayaran: MetodePembayaran
@@ -39,8 +39,7 @@ struct Transaksi {
         let dummyTransaction = Transaksi(tokoID: "", metodePembayaran: .tunai, items: [tasTransaction, bajuTransaction, celanaTransaction, jaketTransaction], transactionDate: (day: 5, month: 10, year: 2019))
         
         return dummyTransaction
+        
     }
-    
-    
     
 }
