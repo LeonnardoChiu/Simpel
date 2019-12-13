@@ -64,24 +64,38 @@ class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         // MARK: USER DEFAULT
 //        loginStatus = false
-        
+          cek = false
         if loginStatus == false {
-            initAppleSignInButton()
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionSudahLogin), userInfo: nil, repeats: true)
+            
         }
         else{
 //
             appleId = UserDefaults.standard.string(forKey: "appleId")!
             print(appleId)
-
-            cek = false
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionSudahLogin), userInfo: nil, repeats: true)
             /// ke main storyboard
            
         }
         self.hideKeyboardWhenTappedAround()
     }
     
-    @objc func timerAction() {
+    @objc func timerActionBelomLogin() {
+        counter += 1
+        print(counter)
+        if counter == 1{
+            self.QueryDatabase()
+        }
+        if cek == true {
+            counter = 0
+            timer.invalidate()
+            initAppleSignInButton()
+          
+        }
+        
+    }
+    
+    @objc func timerActionSudahLogin() {
         counter += 1
         print(counter)
         if counter == 1{

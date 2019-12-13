@@ -35,7 +35,7 @@ class RegisterViewController: UIViewController {
     var namaBelakangValidTemp = ""
     var emailValidTemp = ""
     var nomorHpValidTemp = ""
-    
+    var cek = false
      var alert2: UIAlertController = UIAlertController()
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
@@ -66,7 +66,7 @@ class RegisterViewController: UIViewController {
             self.alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
           
             self.present(self.alert2, animated: true, completion: nil)
-            
+            self.cek = false
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
            
             //self.performSegue(withIdentifier: "toRole", sender: nil)
@@ -89,7 +89,7 @@ class RegisterViewController: UIViewController {
             self.appendAdd()
             //initDataModel()
         }
-        if counter == 15 {
+        if cek == true {
             counter = 0
             timer.invalidate()
             //performSegue(withIdentifier: "backtoLogin", sender: nil)
@@ -168,6 +168,7 @@ class RegisterViewController: UIViewController {
         database.save(record) { (record, _) in
             guard record != nil else { return }
             print("Data saved to Cloud!")
+            cek = true
         }
     }
     
