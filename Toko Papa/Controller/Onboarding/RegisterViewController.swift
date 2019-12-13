@@ -168,7 +168,7 @@ class RegisterViewController: UIViewController {
         database.save(record) { (record, _) in
             guard record != nil else { return }
             print("Data saved to Cloud!")
-            cek = true
+            self.cek = true
         }
     }
     
