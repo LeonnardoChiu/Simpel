@@ -1,5 +1,6 @@
 
 import UIKit
+import CloudKit
 
 class salesDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -10,10 +11,15 @@ class salesDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var totalSales = 0
     var time = ""
     
+    let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
+    var transactionSummary: [SummaryTransaction] = []
+    
     var items = ["TV Plasma", "Home Theater Polytron", "Bluray Recorder Samsung"]
     var prices = [1500000, 1000000, 500000]
     var paymentMethod = "Cash"
     var cashierName = "Budi"
+    var modelPemilik: People?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +31,8 @@ class salesDetailViewController: UIViewController, UITableViewDataSource, UITabl
         totalSalesLabel.text = "Rp. \(totalSales)"
         timeLabel.text = time
     }
+    
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3

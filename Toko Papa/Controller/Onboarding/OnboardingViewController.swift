@@ -65,8 +65,9 @@ class OnboardingViewController: UIViewController {
         // MARK: USER DEFAULT
 //        loginStatus = false
           cek = false
+        print(loginStatus)
         if loginStatus == false {
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionSudahLogin), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionBelomLogin), userInfo: nil, repeats: true)
             
         }
         else{

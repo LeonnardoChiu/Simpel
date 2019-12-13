@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class totalSalesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -35,6 +36,12 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
     var selectedIndexPath: IndexPath? = nil
     var leapYearCounter = 2
     
+    let refeeshControl = UIRefreshControl()
+    let database = CKContainer.default().publicCloudDatabase
+    var data = [CKRecord]()
+    var modelPemilik: People?
+    var transactionSummary: [SummaryTransaction] = []
+    
     var itemCount = Int()
     
     override func viewDidLoad() {
@@ -55,18 +62,79 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         monthLabel.text = "\(selectedMonth) \(year)"
         selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
         scrollTo(item: selectedDay, section: 0)
+        var mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
+        
+        refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
+        self.tableView.refreshControl = refeeshControl
         dateCollection.reloadData()
+    }
+    
+    @objc func refresh() {
+        DispatchQueue.main.async {
+            self.tableView.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print(transactionSummary.count)
+        QueryDatabase()
         startWithCurrentDate = false
+    }
+    
+    //MARK: QUERY
+    @objc func QueryDatabase(){
+        let tokoID = modelPemilik?.tokoID
+        
+        let laporan = CKQuery(recordType: "TransactionSummary", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+        
+         database.perform(laporan, inZoneWith: nil) { (record, _) in
+             guard let record = record else {return}
+                 
+             /// append ke model
+             self.initSummaryPenjualan(record: record)
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+            
+         }
+        
+    }
+    
+    func initSummaryPenjualan(record: [CKRecord]) {
+        transactionSummary.removeAll()
+        for countData in record {
+            let id = countData.recordID
+            var itemID:[String]?
+            itemID = countData.value(forKey: "ItemID") as! [String]
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            let tanggal = countData.value(forKey: "tanggal") as! Int
+            let bulan = countData.value(forKey: "bulan") as! Int
+            let tahun = countData.value(forKey: "tahun") as! Int
+            let metodeBayar = countData.value(forKey: "MetodePembayaran") as! String
+            let totalPenjualan = countData.value(forKey: "totalPenjualan") as! Int
+
+            
+            if tanggal == selectedDay && bulan == month && tahun == selectedYear {
+                transactionSummary.append(SummaryTransaction(id: id, tokoID: tokoID, itemID: itemID ?? [], tanggal: tanggal, bulan: bulan, tahun: tahun, metodePembayaran: metodeBayar, totalPenjualan: totalPenjualan))
+
+//                self.tableView.reloadData()
+            }
+        }
     }
     
     //MARK: TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemCount
+        if transactionSummary.count == 0 {
+            return 1
+        }
+        else{
+            return transactionSummary.count
+        }
     }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,10 +143,19 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         let sales = cell.contentView.viewWithTag(1) as! UILabel
         let time = cell.contentView.viewWithTag(2) as! UILabel
         
-        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        
-        sales.text = "\(items[indexPath.row])"
-        time.text = "\(times[indexPath.row])"
+       
+        if transactionSummary.count == 0 {
+            sales.text = "No Transaction"
+            time.text = ""
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+        }
+        else{
+            sales.text = "\(transactionSummary[indexPath.row].totalPenjualan)"
+            time.text = "\(transactionSummary[indexPath.row].metodePembayaran)"
+            cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+            cell.selectionStyle = .default
+        }
         
         return cell
     }
@@ -145,6 +222,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         dateCollection.reloadItems(at: dateCollection.indexPathsForVisibleItems)
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
         scrollTo(item: indexPath.row, section: 0)
+        QueryDatabase()
         print(indexPath)
     }
     

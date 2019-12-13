@@ -39,12 +39,12 @@ class SummaryTransaction {
     var tanggal: Int
     var bulan: Int
     var tahun: Int
-    var itemID: String
+    var itemID: [String]
     var tokoID: String
     var metodePembayaran: String
     var totalPenjualan: Int
     
-    init(id: CKRecord.ID, tokoID: String, itemID: String, tanggal: Int, bulan: Int, tahun: Int, metodePembayaran: String, totalPenjualan: Int) {
+    init(id: CKRecord.ID, tokoID: String, itemID: [String], tanggal: Int, bulan: Int, tahun: Int, metodePembayaran: String, totalPenjualan: Int) {
         self.id = id
         self.tokoID = tokoID
         self.itemID = itemID

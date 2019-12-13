@@ -170,6 +170,11 @@ class EditBarangViewController: UIViewController{
             value = "From \(prevStockTemp) to \(stokTemp!)"
         }
         
+        if kategori == "Harga" || kategori == "Stok" {
+            kategori = "Data"
+            value = "Data barang berubah"
+        }
+        
         var alert: UIAlertController = UIAlertController()
         var alert2: UIAlertController = UIAlertController()
          alert = UIAlertController(title: "Sukses", message: "Berhasil Mengubah biograhpy barang", preferredStyle: .alert)
