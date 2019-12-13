@@ -12,6 +12,7 @@ import CloudKit
 class EmployeeListViewController: UIViewController {
     
     // MARK: - Variable
+    var images: UIImage?
     var karyawan: [People] = []
     var owner: [People] = []
     var toko: [Toko] = []
@@ -35,6 +36,8 @@ class EmployeeListViewController: UIViewController {
     }
     
     @IBAction func logOutBtn(_ sender: UIBarButtonItem) {
+        UserDefaults.standard.set(false, forKey: "userLogin")
+        UserDefaults.standard.set("", forKey: "appleId")
         if let vc: OnboardingViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OnboardingStoryboard") as? OnboardingViewController {
             let appDelegate = UIApplication.shared.windows
             appDelegate.first?.rootViewController = vc
@@ -66,7 +69,10 @@ class EmployeeListViewController: UIViewController {
         print(mainTabBar.modelPeople?.firstName)
         print(mainTabBar.modelPeople?.lastName)
         print(mainTabBar.modelPeople?.Id)
+        images = modelPemilik?.image
         
+        print(images)
+        print(modelPemilik?.image)
     }
     
    
@@ -130,10 +136,6 @@ class EmployeeListViewController: UIViewController {
         print(toko[0].namaToko)
     }
     
-    func iniModelOwner() {
-        
-    }
-    
     func ModelOwner() {
         owner.removeAll()
         rowOwner.removeAll()
@@ -154,10 +156,10 @@ class EmployeeListViewController: UIViewController {
                 profileImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-        let refr = CKRecord.ID(recordName: "-")
-        owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
-            //owner.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: profileImage!))
-            
+            let refr = CKRecord.ID(recordName: "-")
+            print("IMGGG", profileImage?.images)
+            owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
+            print("IMGGG", images)
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
             }else{
@@ -184,9 +186,11 @@ class EmployeeListViewController: UIViewController {
             if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
                 profileImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
+                images = UIImage(data: data as Data)
             }
             
-            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
+            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
+            //karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowKaryawan.append(true)
             }else{

@@ -12,16 +12,17 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
 //MARK: VARIABLES
+    var transaksi: Transaksi = Transaksi.fetchDummyData()
     var namaBarangEdit = ""
     var stockBarangEdit = 0
     var tempStringDariLogin: String = ""
-    var totalSales = 700000
+    var totalSales = 0
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto", "indomie goreng"]
     var highestSalesLastUpdate = ["19.15", "19.16", "19.17"]
-    var highestSalesUnit = [40, 50, 60]
-    var newItem = ["Beras C4", "Rinso Anti Noda", "Sunglight 200ml"]
-    var newItemLastUpdate = ["19.15", "18.00", "18.00"]
-    var newItemUnit = [30, 35, 30]
+//    var highestSalesUnit = [40, 50, 60]
+//    var newItem = ["Beras C4", "Rinso Anti Noda", "Sunglight 200ml"]
+//    var newItemLastUpdate = ["19.15", "18.00", "18.00"]
+//    var newItemUnit = [30, 35, 30]
     var editItem = ["Beras C4", "Rinso Molto", "Piring plastik"]
     var editItemLastUpdate = ["19.15", "19.14", "19.13"]
     var editItemValue = [15000, 16000, 15000]
@@ -45,6 +46,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var barangBaru: [BarangBaru] = []
     var editBarang: [EditBarang] = []
     var inventory: [Inventory] = []
+    var barangTerjual: [itemTransaction] = []
+    var transactionSummary: [SummaryTransaction] = []
     var image: CKAsset?
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
@@ -57,6 +60,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 100
         
+        print("item transaksi", transaksi)
         
         selectedDay = day
         selectedMonth = "\(months[month])"
@@ -90,6 +94,14 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dateCollection.reloadData()
         startWithCurrentDate = false
         QueryDatabase()
+        
+        totalSales = 0
+        for x in transaksi.items {
+            print(x.unitSold)
+            print(x.item.price)
+            totalSales += (x.unitSold * x.item.price)
+            print(totalSales)
+        }
     }
     
     
@@ -147,7 +159,61 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
             }
         
+        let laporan = CKQuery(recordType: "Transaction", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+       
+        database.perform(laporan, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initSummaryPenjualan()
+            print("jumlah laporan : \(self.data.count)")
+            
+        }
+        
+        let itemTransaksi = CKQuery(recordType: "ItemTransaction", predicate: NSPredicate(value: true))
+        database.perform(itemTransaksi, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            self.data = record
+            /// append ke model
+            self.initBarangPenjualan()
+            print("jumlah laporan : \(self.data.count)")
+            
+        }
+        
       }
+    
+    
+    
+    func initBarangPenjualan() {
+        barangTerjual.removeAll()
+        for countData in data {
+            let id = countData.recordID
+           let inventoryID = countData.value(forKey: "InventoryID") as! String
+           let qty = countData.value(forKey: "qty") as! Int
+           
+            
+            barangTerjual.append(itemTransaction(id: id, inventoryid: inventoryID, qty: qty))
+        }
+    }
+    
+    // MARK: - Func summary transaksi
+    func initSummaryPenjualan() {
+        transactionSummary.removeAll()
+        for countData in data {
+            let id = countData.recordID
+            let itemID = countData.value(forKey: "ItemID") as! String
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            let tanggal = countData.value(forKey: "tanggal") as! Int
+            let bulan = countData.value(forKey: "bulan") as! Int
+            let tahun = countData.value(forKey: "tahun") as! Int
+            let metodeBayar = countData.value(forKey: "metodePembayaran") as! String
+            let totalPenjualan = countData.value(forKey: "totalPenjualan") as! Int
+            
+            transactionSummary.append(SummaryTransaction(id: id, tokoID: tokoID, itemID: itemID, tanggal: tanggal, bulan: bulan, tahun: tahun, metodePembayaran: metodeBayar, totalPenjualan: totalPenjualan))
+        }
+    }
     
     func initDataModelBarangBaru() {
         barangBaru.removeAll()
@@ -447,9 +513,11 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 1 {
             penjualan.chevron.isHidden = true
             if indexPath.row != 3{
-                penjualan.namaItem.text = "\(highestSales[indexPath.row])"
-                penjualan.unitItem.text = "Unit Terjual: \(highestSalesUnit[indexPath.row])"
-                penjualan.LastUpdate.text = "\(highestSalesLastUpdate[indexPath.row])"
+                
+                
+                penjualan.namaItem.text = "\(transaksi.items[indexPath.row].item.namaItem)"
+                penjualan.unitItem.text = "Unit Terjual: \(transaksi.items[indexPath.row].unitSold)"
+                penjualan.LastUpdate.text = ""
                 penjualan.cellView.frame.size.height = 60
                 return penjualan
             }else{
@@ -559,7 +627,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
         else if indexPath.section == 3 {
-            selectedEditedItem = editItem[indexPath.row]
+            if indexPath.row != 3 {
+                selectedEditedItem = editItem[indexPath.row]
+            }
             performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
         }
         

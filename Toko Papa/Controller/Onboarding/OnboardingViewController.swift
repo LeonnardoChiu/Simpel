@@ -22,6 +22,8 @@ class OnboardingViewController: UIViewController {
     var user: User?
     var image: CKAsset?
     
+    var loginStatus = UserDefaults.standard.bool(forKey: "userLogin")
+    var cek = false
     // MARK: - IBOutlet list
     @IBOutlet weak var signInAppleBtn: UIStackView!
     
@@ -48,16 +50,77 @@ class OnboardingViewController: UIViewController {
                 print(i.appleID)
                 print(i.firstName)
            }
+            self.cek = true
             print("Total Employee dalam database : \(self.data.count)")
         }
     }
     
+    var counter = 0
+    var timer = Timer()
+     var appleId = ""
+    
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        initAppleSignInButton()
+        // MARK: USER DEFAULT
+//        loginStatus = false
+          cek = false
+        if loginStatus == false {
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionSudahLogin), userInfo: nil, repeats: true)
+            
+        }
+        else{
+//
+            appleId = UserDefaults.standard.string(forKey: "appleId")!
+            print(appleId)
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionSudahLogin), userInfo: nil, repeats: true)
+            /// ke main storyboard
+           
+        }
         self.hideKeyboardWhenTappedAround()
     }
+    
+    @objc func timerActionBelomLogin() {
+        counter += 1
+        print(counter)
+        if counter == 1{
+            self.QueryDatabase()
+        }
+        if cek == true {
+            counter = 0
+            timer.invalidate()
+            initAppleSignInButton()
+          
+        }
+        
+    }
+    
+    @objc func timerActionSudahLogin() {
+        counter += 1
+        print(counter)
+        if counter == 1{
+            self.QueryDatabase()
+        }
+        if cek == true {
+            counter = 0
+            timer.invalidate()
+            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                           print("bentot", people.count)
+               vc.peopleMaintab = people
+               vc.modelPeople = model
+               vc.appleid = appleId
+               //navigationController?.setNavigationBarHidden(false, animated: true)
+               let appDelegate = UIApplication.shared.windows
+               appDelegate.first?.rootViewController = vc
+               self.present(vc, animated: true, completion: nil)
+               
+           }
+          
+        }
+        
+    }
+    
+    
     
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
@@ -110,8 +173,9 @@ class OnboardingViewController: UIViewController {
             }else{
                 /// ke main storyboard
                 if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                    vc.peopleMaintab = people
                     vc.modelPeople = model
-                    
+                    vc.appleid = ""
                     //navigationController?.setNavigationBarHidden(false, animated: true)
                     let appDelegate = UIApplication.shared.windows
                     appDelegate.first?.rootViewController = vc
