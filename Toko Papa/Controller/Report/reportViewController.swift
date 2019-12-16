@@ -34,6 +34,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var selectedIndexPath: IndexPath? = nil
     var selectedIndex = 0
     
+    var namaBarangPenjualan: [String] = []
+    var qtyBarangPenjualan: [Int] = []
+    var BarangPenjualan:[(nama: String, qty: Int)] = []
+    
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
     var modelPemilik: People?
@@ -169,8 +173,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         
-        
-        print(barangTerjual.count)
+        getPenjualan()
         
       }
     
@@ -375,6 +378,61 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
 
+    func getPenjualan() {
+        namaBarangPenjualan.removeAll()
+        qtyBarangPenjualan.removeAll()
+        for transaction in transactionSummary {
+            var barangBaru = false
+            for id in transaction.itemID {
+                for detail in barangTerjual {
+                    if id == detail.Id.recordName {
+                        for item in inventory {
+                            if detail.inventoryID == item.Id.recordName {
+                                if namaBarangPenjualan.count != 0 {
+                                    var index = 0
+                                    for barang in namaBarangPenjualan {
+                                        if barang == item.namaItem {
+                                            print("NAMBAH: ", item.namaItem)
+                                            print("SEBELUM: ", qtyBarangPenjualan[index])
+                                            qtyBarangPenjualan[index] += detail.qty
+                                            print("SESUDAH: ", qtyBarangPenjualan[index])
+                                            barangBaru = false
+                                            break
+                                           }
+                                           else{
+                                            barangBaru = true
+                                        }
+                                        index += 1
+                                    }
+                                    if barangBaru == true {
+                                        namaBarangPenjualan.append(item.namaItem)
+                                        qtyBarangPenjualan.append(detail.qty)
+                                        print("BARU ", item.namaItem)
+                                        break
+                                    }
+                                }
+                                else{
+                                    namaBarangPenjualan.append(item.namaItem)
+                                    qtyBarangPenjualan.append(detail.qty)
+                                    print("BARU ", item.namaItem)
+                                    print("QTY: ", detail.qty)
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        print(namaBarangPenjualan)
+        print(qtyBarangPenjualan)
+        BarangPenjualan = Array(zip(namaBarangPenjualan, qtyBarangPenjualan))
+        BarangPenjualan = BarangPenjualan.sorted(by: {$0.qty > $1.qty})
+        print(BarangPenjualan.sorted(by: {$0.qty > $1.qty}))
+
+    }
     
     //MARK: TABLE VIEW
     
@@ -412,7 +470,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case 0:
             return " "
         case 1:
-            if transactionSummary.count == 0 {
+            if BarangPenjualan.count == 0 {
                 return " "
             }
             else{
@@ -438,18 +496,19 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        getPenjualan()
         switch section {
         case 0:
             return 1
         case 1:
-            if transactionSummary.count == 0 {
+            if BarangPenjualan.count == 0 {
                 return 1
             }
-            else if transactionSummary.count > 3 {
+            else if BarangPenjualan.count > 3 {
                 return 4
             }
             else{
-                return transactionSummary.count + 1
+                return BarangPenjualan.count + 1
             }
         case 2:
             if barangBaru.count == 0 {
@@ -490,6 +549,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         header.textLabel?.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
     
+   
+        
     
     
     // MARK: - cellForRowAt
@@ -499,6 +560,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
         let total = tableView.dequeueReusableCell(withIdentifier: "total") as! TotalPenjualan
         let cells = UITableViewCell()
+        print(BarangPenjualan.count)
         penjualan.selectionStyle = .none
         penjualan.dropShadow()
         penjualan.backgroundColor = .clear
@@ -517,6 +579,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         detail.detailButton.tag = indexPath.section
         detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
         
+        //total penjualan
         if indexPath == [0,0] {
             if transactionSummary.count != 0 {
                 total.chevron.isHidden = false
@@ -530,33 +593,23 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             total.cellView.frame.size.height = 60
             return total
         }
-            
+         
+        //penjualan terbanyak
         if indexPath.section == 1 {
             penjualan.chevron.isHidden = true
             
-            if transactionSummary.count == 0 {
+            if BarangPenjualan.count == 0 {
                 total.chevron.isHidden = true
                 total.TotalPenjualan.text = "Tidak ada transaksi"
                 total.cellView.frame.size.height = 60
                 return total
                
             }
-            else if transactionSummary.count > 3{
+            else if BarangPenjualan.count > 3{
                 if indexPath.row < 3{
-                    for trans in transactionSummary{
-                        for transaction in barangTerjual {
-                            for x in trans.itemID{
-                                if x == transaction.Id.recordName {
-                                    for i in inventory{
-                                        if transaction.inventoryID == i.Id.recordName {
-                                            penjualan.namaItem.text = "\(i.namaItem)"
-                                            penjualan.unitItem.text = "Unit Terjual: \(transaction.qty)"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    
+                    penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
+                    penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
                     penjualan.LastUpdate.text = ""
                     penjualan.cellView.frame.size.height = 60
                     return penjualan
@@ -569,26 +622,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                
             }
             else {
-                if indexPath.row < transactionSummary.count{
+                if indexPath.row < BarangPenjualan.count{
                     
-                    #warning("INI MASIH ERROR GENGS")
-                    for trans in transactionSummary{
-                        for transaction in barangTerjual {
-                            for x in trans.itemID{
-                                if x == transaction.Id.recordName {
-                                    for i in inventory{
-                                        if transaction.inventoryID == i.Id.recordName {
-                                            penjualan.namaItem.text = "\(i.namaItem)"
-                                            penjualan.unitItem.text = "Unit Terjual: \(transaction.qty)"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
+                    penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
                     penjualan.LastUpdate.text = ""
-                   penjualan.cellView.frame.size.height = 60
-                   return penjualan
+                    penjualan.cellView.frame.size.height = 60
+                    return penjualan
                 }else{
                     detail.cellVIew.frame.size.height = 31
                     return detail
@@ -598,7 +638,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         
-            
+        //barang baru
         if indexPath.section == 2 {
             penjualan.chevron.isHidden = true
                 if barangBaru.count == 0 {
@@ -639,6 +679,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         
+        //barang diubah
         if indexPath.section == 3 {
                 if editBarang.count == 0 {
                     total.chevron.isHidden = true
