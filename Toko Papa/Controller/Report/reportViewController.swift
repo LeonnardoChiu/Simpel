@@ -51,6 +51,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //MARK: VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        let mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
         navigationController?.setNavigationBarHidden(false, animated: true)
         
         tabBarController?.hidesBottomBarWhenPushed = false
@@ -70,14 +72,15 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         monthLabel.text = "\(selectedMonth) \(year)"
         scrollTo(item: selectedDay, section: 0)
         dateCollection.reloadData()
-        let mainTabBar = self.tabBarController as! MainTabBarController
-            modelPemilik = mainTabBar.modelPeople
+        
         QueryDatabase()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let mainTabBar = self.tabBarController as! MainTabBarController
+        modelPemilik = mainTabBar.modelPeople
         //navigationController?.setNavigationBarHidden(false, animated: true)
         print("DARI LOGIN INI BOSSSS : \(tempStringDariLogin)")
         
