@@ -78,7 +78,7 @@ class CashierItemListViewController: UIViewController {
         /// buat large title di nav bar
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
         //self.navigationItem.setHidesBackButton(true, animated: true)
         initSearchBar()
@@ -363,7 +363,6 @@ extension CashierItemListViewController: UITableViewDelegate, UITableViewDataSou
         if segue.identifier == "backToCashier" {
             let vc = segue.destination as! CashierViewController
             //vc.newItem = selectedItem
-            var idx = 0
             var MatchItem = false
             for vcItem in vc.myItem {
                 vc.stockTemp.append(vcItem)

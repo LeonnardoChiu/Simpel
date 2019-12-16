@@ -60,19 +60,12 @@ class EmployeeListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.QueryDatabaseKaryawan()
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        print(mainTabBar.modelPeople?.tokoID)
-        print(mainTabBar.modelPeople?.role)
-        print(mainTabBar.modelPeople?.appleID)
-        print(mainTabBar.modelPeople?.email)
-        print(mainTabBar.modelPeople?.firstName)
-        print(mainTabBar.modelPeople?.lastName)
-        print(mainTabBar.modelPeople?.Id)
+       
         images = modelPemilik?.image
         
-        print(images)
-        print(modelPemilik?.image)
+      
     }
     
    
@@ -132,8 +125,6 @@ class EmployeeListViewController: UIViewController {
             let Uniq = countData.value(forKey: "UniqCode") as! Int
             toko.append(Toko(id: id, namatoko: namaToko,uniq: Uniq))
         }
-        print(toko[0].uniqcode)
-        print(toko[0].namaToko)
     }
     
     func ModelOwner() {
@@ -157,9 +148,7 @@ class EmployeeListViewController: UIViewController {
                 //itemImage.contentMode = .scaleAspectFill
             }
             let refr = CKRecord.ID(recordName: "-")
-            print("IMGGG", profileImage?.images)
             owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
-            print("IMGGG", images)
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
             }else{
@@ -289,7 +278,6 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         
         if indexPath.section == 0 {
             if modelPemilik?.role == "Owner" {
-                print(modelPemilik?.role)
                 //modelPemilik = owner[idx]
                 idx = indexPath.row
                 //performSegue(withIdentifier: "employeeProfileSegue", sender: owner[indexPath.row])
@@ -303,7 +291,6 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                 performSegue(withIdentifier: "code", sender: nil)
             } else {
                 if indexPath.row < karyawan.count {
-                    print(modelPemilik?.role)
                     //modelPemilik = karyawan[indexPath.row]
                     idx = indexPath.row
                     //performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])

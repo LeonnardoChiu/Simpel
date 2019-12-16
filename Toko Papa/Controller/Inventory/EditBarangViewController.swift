@@ -90,7 +90,7 @@ class EditBarangViewController: UIViewController{
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        print(satuanSekarang)
+        
         //self.tableView.reloadData()
         
     }
@@ -118,7 +118,7 @@ class EditBarangViewController: UIViewController{
             
         
          database.save(NewNote) { (record, error) in
-             print(error)
+             
              guard record != nil else { return}
              print("inventory")
          }
@@ -235,8 +235,6 @@ class EditBarangViewController: UIViewController{
             for edit in data{
                 if model.Id.recordName == edit.recordID.recordName{
                 editNote = edit
-                    print("ASOOO")
-                    print(edit.value(forKey: "NameProduct"))
                 break
                 }
             }
@@ -253,9 +251,9 @@ class EditBarangViewController: UIViewController{
                
             for gambar in image {
                 let resizedImage = gambar.resizedTo1MB()
-                var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
+                let asset = CKAsset(fileURL: getUrl(resizedImage!)!)
                 imageAsset.append(asset)
-                print("aaa")
+
             }
         var version = model.version + 1
             version = version + 1
@@ -265,7 +263,6 @@ class EditBarangViewController: UIViewController{
         
         
         database.save(editNote!) { (record, error) in
-             print(error)
              guard record != nil else { return}
              print("savaedddd")
          }

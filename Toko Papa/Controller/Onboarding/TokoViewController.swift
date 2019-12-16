@@ -98,7 +98,7 @@ class TokoViewController: UIViewController {
             timer.invalidate()
            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                vc.modelPeople = modelPemilik
-                vc.appleid = modelPemilik?.appleID
+                vc.appleid = ""
                let appDelegate = UIApplication.shared.windows
                appDelegate.first?.rootViewController = vc
                self.present(vc, animated: true, completion: nil)

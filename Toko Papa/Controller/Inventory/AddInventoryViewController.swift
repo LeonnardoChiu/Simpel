@@ -46,7 +46,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     /// MARK:: - view
     override func viewDidLoad() {
         super.viewDidLoad()
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
         doneBtnOutlet.isEnabled = false
         self.hideKeyboardWhenTappedAround()
@@ -218,7 +218,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
                
             for gambar in image {
                 let resizedImage = gambar.resizedTo1MB()
-                var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
+                let asset = CKAsset(fileURL: getUrl(resizedImage!)!)
                 imageAsset.append(asset)
                 print("aaa")
             }
@@ -228,9 +228,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             NewNote.setValue(1, forKey: "Version")
         
          database.save(NewNote) { (record, error) in
-             print(error)
              guard record != nil else { return}
-             print("inventory")
          }
     }
     
@@ -245,9 +243,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         
         
          database.save(NewNote) { (record, error) in
-             print(error)
              guard record != nil else { return}
-             print("savaedddd barang baru")
          }
     }
     

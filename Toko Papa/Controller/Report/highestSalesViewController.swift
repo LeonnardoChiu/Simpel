@@ -114,7 +114,7 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
         for countData in record {
             let id = countData.recordID
             var itemID:[String]?
-            itemID = countData.value(forKey: "ItemID") as! [String]
+            itemID = countData.value(forKey: "ItemID") as? [String]
             let tokoID = countData.value(forKey: "TokoID") as! String
             let tanggal = countData.value(forKey: "tanggal") as! Int
             let bulan = countData.value(forKey: "bulan") as! Int

@@ -30,9 +30,7 @@ class TambahSatuanViewController: UIViewController {
          newNote.setValue(tokoId, forKey: "TokoID")
         newNote.setValue(tambah, forKey: "SatuanBarang")
         database.save(newNote) { (record, error) in
-            print(error)
             guard record != nil else { return}
-            print("savaedddd")
         }
     }
     

@@ -91,7 +91,7 @@ class CashierViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         itemTemp.removeAll()
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         
         modelPemilik = mainTabBar.modelPeople
         //QueryDatabase()
@@ -203,7 +203,6 @@ class CashierViewController: UIViewController {
                     print(myCart.Id.recordName)
                     if  dataCount.recordID.recordName == myCart.Id.recordName {
                         inventory = dataCount
-                        print(inventory)
                         updateStock = inventory!.value(forKey: "Stock") as! Int
                         let tempStock = updateStock - myCart.stock
                         print("ID STOCK MY CART : ", myCart.stock)

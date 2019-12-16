@@ -116,9 +116,6 @@ class RegisterViewController: UIViewController {
         isiCellforRow.append(user!.email)
         isiCellforRow.append("")
         print(String(user?.debugDescription ?? ""))
-        print("Your Apple ID : \(user?.id)")
-        print("First name    : \(user?.firstName)")
-        print("Last name     : \(user?.lastName)")
         print(id)
         navigationController?.setNavigationBarHidden(false, animated: true)
         namaDepanTemp = user!.firstName
@@ -149,11 +146,10 @@ class RegisterViewController: UIViewController {
     // MARK: - Save to cloud function
     func saveToCloud(img: UIImage, AppleID: String, Email: String, firstName: String, lastName: String, phoneNumber: String) {
         let record = CKRecord(recordType: "Profile")
-        var imageURL = CKAsset(fileURL: getUrl(images)!)
         //#error("Profile imagenya masih gambar system")
        // #warning("Profile imagenya masih gambar system")
         let resizedImage = img.resizedTo1MB()
-        var asset = CKAsset(fileURL: getUrl(resizedImage!)!)
+        let asset = CKAsset(fileURL: getUrl(resizedImage!)!)
         record.setValue(asset, forKey: "profileImage")
         record.setValue(AppleID, forKey: "AppleID")
         record.setValue(Email, forKey: "Email")
@@ -202,8 +198,6 @@ class RegisterViewController: UIViewController {
         let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
         let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
         let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
-        print("bnsgt : \(user!.id)")
-        print("bnsgt : \(user?.id)")
         images = profileImages.image!
         modelRegister?.image = images
         //modelRegister?.image = profileImages.image
@@ -211,12 +205,6 @@ class RegisterViewController: UIViewController {
         //model
         let tokoIDReference = CKRecord.ID(recordName: "-")
         modelRegister = People(id: tokoIDReference, appleid: user!.id, email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phone: phone!.textField.text!, rolee: "-", toko: "-", profileImage: profileImages.image!)
-        print("ID : ", modelRegister?.appleID)
-        print("First: ", modelRegister?.firstName)
-        
-        print("Image: ", modelRegister?.image)
-        
-        print("Image: ", profileImages.image)
         
     }
     
@@ -250,7 +238,6 @@ class RegisterViewController: UIViewController {
         
         if segue.identifier == "toRole" {
              guard let vc = segue.destination as? ChooseRoleViewController else { return }
-            print("anjeng \(modelRegister?.appleID)")
              vc.modelPemilik = modelRegister
             vc.people = people
         }
@@ -275,7 +262,7 @@ extension RegisterViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "registerCell") as! RegisterViewCell
         
         cell.textField.placeholder = placeHolders[indexPath.row]
-        cell.textField.text = isiCellforRow[indexPath.row]
+//        cell.textField.text = isiCellforRow[indexPath.row]
         if indexPath.row == 3 {
             cell.textField.keyboardType = .numberPad
         }
