@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class highestSalesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -30,13 +31,19 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
     var selectedIndexPath: IndexPath? = nil
     var leapYearCounter = 2
     
+    var namaBarangPenjualan: [String] = []
+    var qtyBarangPenjualan: [Int] = []
+    var BarangPenjualan:[(nama: String, qty: Int)] = []
+    
+    let database = CKContainer.default().publicCloudDatabase
+    var modelPemilik: People?
+    var inventory: [Inventory] = []
+    var barangTerjual: [itemTransaction] = []
+    var transactionSummary: [SummaryTransaction] = []
+    var image: CKAsset?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        selectedDay = day
-//        selectedMonth = "\(months[month])"
-//        selectedYear = year
-//        selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
-//
         tableView.rowHeight = 61
         tableView.tableFooterView = UIView()
         
@@ -52,24 +59,173 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         startWithCurrentDate = false
+        QueryDatabase()
+    }
+    
+    
+    //MARK: - QUERYNYA
+    @objc func QueryDatabase(){
+       
+        let tokoID = modelPemilik?.tokoID
+        
+        let laporan = CKQuery(recordType: "TransactionSummary", predicate: NSPredicate(format: "TokoID == %@", tokoID!))
+        
+         database.perform(laporan, inZoneWith: nil) { (record, _) in
+             guard let record = record else {return}
+             print(laporan)
+             /// append ke model
+             self.initSummaryPenjualan(record: record)
+             
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+             
+         }
+         
+         let itemTransaksi = CKQuery(recordType: "ItemTransaction", predicate: NSPredicate(value: true))
+         database.perform(itemTransaksi, inZoneWith: nil) { (record, _) in
+             guard let record = record else {return}
+                 
+             /// append ke model
+             self.initBarangPenjualan(record: record)
+            
+             DispatchQueue.main.async {
+                 self.tableView.refreshControl?.endRefreshing()
+                 self.tableView.reloadData()
+             }
+         }
+    }
+    
+    func initBarangPenjualan(record: [CKRecord]) {
+        barangTerjual.removeAll()
+        for countData in record {
+            let id = countData.recordID
+           let inventoryID = countData.value(forKey: "InventoryID") as! String
+           let qty = countData.value(forKey: "qty") as! Int
+           
+            
+            barangTerjual.append(itemTransaction(id: id, inventoryid: inventoryID, qty: qty))
+        }
+    }
+    
+    func initSummaryPenjualan(record: [CKRecord]) {
+        transactionSummary.removeAll()
+        for countData in record {
+            let id = countData.recordID
+            var itemID:[String]?
+            itemID = countData.value(forKey: "ItemID") as! [String]
+            let tokoID = countData.value(forKey: "TokoID") as! String
+            let tanggal = countData.value(forKey: "tanggal") as! Int
+            let bulan = countData.value(forKey: "bulan") as! Int
+            let tahun = countData.value(forKey: "tahun") as! Int
+            let metodeBayar = countData.value(forKey: "MetodePembayaran") as! String
+            let totalPenjualan = countData.value(forKey: "totalPenjualan") as! Int
+
+            
+            if tanggal == selectedDay && bulan == month && tahun == selectedYear {
+                transactionSummary.append(SummaryTransaction(id: id, tokoID: tokoID, itemID: itemID ?? [], tanggal: tanggal, bulan: bulan, tahun: tahun, metodePembayaran: metodeBayar, totalPenjualan: totalPenjualan))
+                
+            }
+        }
+    }
+    
+    func getPenjualan() {
+        namaBarangPenjualan.removeAll()
+        qtyBarangPenjualan.removeAll()
+        for transaction in transactionSummary {
+            var barangBaru = false
+            for id in transaction.itemID {
+                for detail in barangTerjual {
+                    if id == detail.Id.recordName {
+                        for item in inventory {
+                            if detail.inventoryID == item.Id.recordName {
+                                if namaBarangPenjualan.count != 0 {
+                                    var index = 0
+                                    for barang in namaBarangPenjualan {
+                                        if barang == item.namaItem {
+                                            print("NAMBAH: ", item.namaItem)
+                                            print("SEBELUM: ", qtyBarangPenjualan[index])
+                                            qtyBarangPenjualan[index] += detail.qty
+                                            print("SESUDAH: ", qtyBarangPenjualan[index])
+                                            barangBaru = false
+                                            break
+                                           }
+                                           else{
+                                            barangBaru = true
+                                        }
+                                        index += 1
+                                    }
+                                    if barangBaru == true {
+                                        namaBarangPenjualan.append(item.namaItem)
+                                        qtyBarangPenjualan.append(detail.qty)
+                                        print("BARU ", item.namaItem)
+                                        break
+                                    }
+                                }
+                                else{
+                                    namaBarangPenjualan.append(item.namaItem)
+                                    qtyBarangPenjualan.append(detail.qty)
+                                    print("BARU ", item.namaItem)
+                                    print("QTY: ", detail.qty)
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        print(namaBarangPenjualan)
+        print(qtyBarangPenjualan)
+        BarangPenjualan = Array(zip(namaBarangPenjualan, qtyBarangPenjualan))
+        BarangPenjualan = BarangPenjualan.sorted(by: {$0.qty > $1.qty})
+        print(BarangPenjualan.sorted(by: {$0.qty > $1.qty}))
+
     }
     
     //MARK: TABLEVIEW
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        getPenjualan()
+        var count = 0
+        if BarangPenjualan.count == 0 {
+             let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
+                       noDataLabel.text = "Tidak ada barang"
+                       noDataLabel.textColor = UIColor.systemRed
+                       noDataLabel.textAlignment = .center
+                       tableView.backgroundView = noDataLabel
+                       tableView.separatorStyle = .none
+        } else {
+            tableView.backgroundView = nil
+            count = BarangPenjualan.count
+            return BarangPenjualan.count
+        }
+        return count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "highestSalesTableCellID", for: indexPath)
-//        let itemImage = cell.contentView.viewWithTag(1) as! UIImageView
+        let itemImage = cell.contentView.viewWithTag(1) as! UIImageView
         let itemNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         let itemUnitLabel = cell.contentView.viewWithTag(3) as! UILabel
         
         cell.selectionStyle = .none
         
-        itemNameLabel.text = items[indexPath.row]
-        itemUnitLabel.text = "\(units[indexPath.row]) Unit Terjual"
+        for item in inventory {
+            if BarangPenjualan[indexPath.row].nama == item.namaItem {
+                itemImage.image = item.imageItem
+            }
+        }
+        
+        itemNameLabel.text = BarangPenjualan[indexPath.row].nama
+        itemUnitLabel.text = "\(BarangPenjualan[indexPath.row].qty) Unit Terjual"
         
         return cell
     }
@@ -129,6 +285,7 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
         scrollTo(item: indexPath.row, section: 0)
         print(indexPath)
+        QueryDatabase()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -229,6 +386,7 @@ class highestSalesViewController: UIViewController, UITableViewDelegate, UITable
         self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
         startWithCurrentDate = false
         dateCollection.reloadData()
+        self.QueryDatabase()
     }
     
 

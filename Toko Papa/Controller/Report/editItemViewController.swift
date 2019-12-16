@@ -1,5 +1,6 @@
 
 import UIKit
+import CloudKit
 
 class editItemViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -16,21 +17,24 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
     var selectedYear:Int = year
     var titleText = ""
     
-    var items = ["DVD Samsung", "TV Phillips 32\" LED", "Bluray Recorder Polytron", "Mesin Cuci Samsung 10 L"]
-    var values = ["price changed", "stock changed", "stock changed", "price changed"]
-    var times = ["20:00", "19:33", "13:41", "09:00"]
-    
     var selectedItem = ""
     var startWithCurrentDate = false
     var selectedIndexPath: IndexPath? = nil
     var leapYearCounter = 2
+    
+    let database = CKContainer.default().publicCloudDatabase
+    var modelPemilik: People?
+    var editBarang: [EditBarang] = []
+    var inventory: [Inventory] = []
+    var image: CKAsset?
+    var selectedIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 61
+//        tableView.rowHeight = 61
         tableView.tableFooterView = UIView()
         
         selectedIndexPath = nil
@@ -45,25 +49,88 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         startWithCurrentDate = false
+        QueryDatabase()
+    }
+    
+    //MARK: QEURY
+    
+    @objc func QueryDatabase(){
+        let tokoID = modelPemilik?.tokoID
+        let editBarangs = CKQuery(recordType: "EditBarang", predicate: NSPredicate(format: "tokoID == %@", tokoID!))
+    
+        database.perform(editBarangs, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+            /// append ke model
+            self.initDataModelEditBarang(record: record)
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func initDataModelEditBarang(record: [CKRecord]) {
+     editBarang.removeAll()
+        
+        for countData in record {
+            let id = countData.recordID
+            let inventorid = countData.value(forKey: "InventoryID") as! String
+            let profilID = countData.value(forKey: "ProfilID") as! String
+            let tokoID = countData.value(forKey: "tokoID") as! String
+            let alasan = countData.value(forKey: "Alasan") as! String
+            let kategori = countData.value(forKey: "Kategori") as! String
+            let tanggal = countData.value(forKey: "Tanggal") as! Int
+            let bulan = countData.value(forKey: "Bulan") as! Int
+            let tahun = countData.value(forKey: "Tahun") as! Int
+            let value = countData.value(forKey: "Value") as! String
+         
+            if tanggal == selectedDay && bulan == month && tahun == selectedYear {
+                editBarang.append(EditBarang(inventoryId: inventorid, profilID: profilID, tokoID: tokoID, alasan: alasan, tanggal: tanggal, bulan: bulan, tahun: tahun, kategori: kategori, value: value))
+            }
+        }
     }
     
     //MARK: TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        var count = 0
+        if editBarang.count == 0 {
+             let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
+                       noDataLabel.text = "Tidak ada barang"
+                       noDataLabel.textColor = UIColor.systemRed
+                       noDataLabel.textAlignment = .center
+                       tableView.backgroundView = noDataLabel
+                       tableView.separatorStyle = .none
+        } else {
+            tableView.backgroundView = nil
+            count = editBarang.count
+            return editBarang.count
+        }
+        return count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "editItemTableCellID", for: indexPath)
         
+        let imageView = cell.contentView.viewWithTag(1) as! UIImageView
         let itemNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         let itemValue = cell.contentView.viewWithTag(3) as! UILabel
         let itemTime = cell.contentView.viewWithTag(4) as! UILabel
         
         cell.selectionStyle = .none
-        
-        itemNameLabel.text = items[indexPath.row]
-        itemValue.text = values[indexPath.row]
-        itemTime.text = times[indexPath.row]
+        imageView.isHidden = false
+        for item in inventory {
+            if editBarang[indexPath.row].inventoryID == item.Id.recordName {
+                itemNameLabel.text = item.namaItem
+                imageView.image = item.imageItem
+            }
+        }
+        itemValue.text = "\(editBarang[indexPath.row].kategori) : \(editBarang[indexPath.row].value)"
+        itemTime.text = ""
         
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
@@ -71,7 +138,7 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedItem = items[indexPath.row]
+        selectedIndex = indexPath.row
         performSegue(withIdentifier: "segueToDetailEditItem", sender: self)
     }
     
@@ -129,6 +196,7 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
         scrollTo(item: indexPath.row, section: 0)
         print(indexPath)
+        QueryDatabase()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -230,13 +298,16 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
         self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
         startWithCurrentDate = false
         dateCollection.reloadData()
+        self.QueryDatabase()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToDetailEditItem"{
-            print("segue")
             let nextVC = segue.destination as! editItemDetailViewController
-            nextVC.itemName = selectedItem
+            nextVC.editBarang.removeAll()
+            nextVC.editBarang.append(editBarang[selectedIndex])
+            nextVC.modelPemilik = modelPemilik
+            nextVC.inventory = inventory
         }
     }
 }

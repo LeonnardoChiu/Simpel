@@ -63,7 +63,7 @@ class RegisterViewController: UIViewController {
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             self.selesai.isEnabled = true
             
-            self.alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
+            self.alert2 = UIAlertController(title: "mohon menunggu", message: "tunggu beberapa detik", preferredStyle: .alert)
           
             self.present(self.alert2, animated: true, completion: nil)
             self.cek = false

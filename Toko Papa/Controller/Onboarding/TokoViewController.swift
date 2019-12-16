@@ -27,7 +27,7 @@ class TokoViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(modelPemilik?.appleID)
+        
         // Do any additional setup after loading the view.
     }
     
@@ -41,7 +41,10 @@ class TokoViewController: UIViewController {
     
     var counter = 0
     var timer = Timer()
-
+    var ceknamatoko = false
+    var kontertoko = 0
+    var cekupdatetocloud = false
+    var konterupdate = 0
     
     @IBAction func doneBtn(_ sender: Any) {
         
@@ -50,8 +53,11 @@ class TokoViewController: UIViewController {
         let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
            self.selesai.isEnabled = true
-         
-           alert2 = UIAlertController(title: "mohon menunggu", message: "kurang lebih 15 detik", preferredStyle: .alert)
+            self.ceknamatoko = false
+            self.kontertoko = 0
+            self.konterupdate = 0
+            self.cekupdatetocloud = false
+           alert2 = UIAlertController(title: "mohon menunggu", message: "tunggu beberapa detik", preferredStyle: .alert)
            self.present(alert2, animated: true, completion: nil)
           
            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
@@ -64,6 +70,7 @@ class TokoViewController: UIViewController {
         
     }
     
+    
     @objc func timerAction() {
         counter += 1
         QueryDatabaseToko()
@@ -72,7 +79,7 @@ class TokoViewController: UIViewController {
         if counter == 1 {
             saveToCloud(namaToko: namaTokotextField.text!)
         }
-        if counter == 8 {
+        if ceknamatoko == true && counter == kontertoko {
             var Idss: String?
             for i in dataToko{
                 if Int(i.value(forKey: "UniqCode") as! Int) == tempBuatCekToko{
@@ -80,17 +87,18 @@ class TokoViewController: UIViewController {
                     break
                 }
             }
-            print(Idss)
+           
             modelPemilik?.tokoID = Idss!
             modelPemilik?.role = "Owner"
             updateToCloudProfil(tokoID: Idss!)
         }
         
-        if counter == 15 {
+        if cekupdatetocloud == true && counter == konterupdate{
             counter = 0
             timer.invalidate()
            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                vc.modelPeople = modelPemilik
+                vc.appleid = modelPemilik?.appleID
                let appDelegate = UIApplication.shared.windows
                appDelegate.first?.rootViewController = vc
                self.present(vc, animated: true, completion: nil)
@@ -115,13 +123,15 @@ class TokoViewController: UIViewController {
     func saveToCloud(namaToko: String){
         let NewNote = CKRecord(recordType: "Toko")//ini buat data base baru
         NewNote.setValue(namaToko, forKey: "NamaToko")//ini ke tablenya
-        var unicode = Int(generateRandomDigits(6))!
+        let unicode = Int(generateRandomDigits(6))!
         print(unicode)
         tempBuatCekToko = unicode
         NewNote.setValue(unicode, forKey: "UniqCode")
         database.save(NewNote) { (record, error) in
              guard record != nil else { return}
              print("savaedddd")
+            self.ceknamatoko = true
+            self.kontertoko = self.counter + 5
          }
     }
     
@@ -149,7 +159,7 @@ class TokoViewController: UIViewController {
             var editNote: CKRecord?
        
             for edit in dataProfil{
-                var aaaa = edit.value(forKey: "AppleID") as? String
+                let aaaa = edit.value(forKey: "AppleID") as? String
                 print(aaaa!)
                 print(modelPemilik!.appleID)
                 if modelPemilik!.appleID == aaaa!{
@@ -166,6 +176,8 @@ class TokoViewController: UIViewController {
              //print(error)
              guard record != nil else { return}
              print("savaedddd")
+            self.cekupdatetocloud = true
+            self.konterupdate = self.counter + 5
          }
     }
     
