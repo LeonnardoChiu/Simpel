@@ -18,8 +18,6 @@ class PairingKarywanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         QueryDatabaseProfile()
-        print("jumlah toko \(toko.count)")
-        print("id name : \(modelPemilik?.Id)")
         // Do any additional setup after loading the view.
     }
     

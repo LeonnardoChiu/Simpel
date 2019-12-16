@@ -146,9 +146,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
-        print(mainTabBar.modelPeople?.tokoID)
+        
         initSearchBar()
         
         self.hideKeyboardWhenTappedAround() 

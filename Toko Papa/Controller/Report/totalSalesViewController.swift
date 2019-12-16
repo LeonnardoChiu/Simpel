@@ -65,7 +65,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         monthLabel.text = "\(selectedMonth) \(year)"
         selectedIndexPath = IndexPath(item: selectedDay-1, section: 0)
         scrollTo(item: selectedDay, section: 0)
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
         
         refeeshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
