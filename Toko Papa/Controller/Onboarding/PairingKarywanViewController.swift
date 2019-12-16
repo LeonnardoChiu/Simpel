@@ -47,6 +47,7 @@ class PairingKarywanViewController: UIViewController {
                 self.updateToCloudProfil(tokoID: tokoIDs!)
                 if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                     vc.modelPeople = self.modelPemilik
+                    vc.appleid = ""
                     let appDelegate = UIApplication.shared.windows
                     appDelegate.first?.rootViewController = vc
                     self.present(vc, animated: true, completion: nil)
