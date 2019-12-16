@@ -296,6 +296,7 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
         self.selectedDateButton.setTitle(calendarVC.selectedDate, for: .normal)
         self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
         startWithCurrentDate = false
+        self.QueryDatabase()
         dateCollection.reloadData()
     }
     

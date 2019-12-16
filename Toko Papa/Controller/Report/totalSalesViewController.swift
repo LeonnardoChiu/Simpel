@@ -347,6 +347,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
         startWithCurrentDate = false
         dateCollection.reloadData()
+        self.QueryDatabase()
     }
     
     

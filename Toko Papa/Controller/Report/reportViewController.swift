@@ -173,7 +173,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         
-        getPenjualan()
+//        getPenjualan()
         
       }
     
@@ -851,6 +851,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             nextVC.selectedMonth = self.selectedMonth
             nextVC.selectedMonthNumber = self.selectedMonthNumber
             nextVC.selectedYear = self.selectedYear
+            nextVC.inventory = inventory
+            nextVC.modelPemilik = modelPemilik
+            
         }
         else if segue.identifier == "segueToNewItem" {
             let nextVC = segue.destination as! newItemViewController
@@ -905,6 +908,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
         startWithCurrentDate = false
         dateCollection.reloadData()
+        self.QueryDatabase()
     }
     
     @objc func onClickDetailButton (_ sender: UIButton){

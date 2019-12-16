@@ -230,6 +230,8 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "employeeCell") as! EmployeeListCell
         let cellCode = tableView.dequeueReusableCell(withIdentifier: "cell")
+        cell.selectionStyle = .none
+        cellCode?.selectionStyle = .none
         
         if indexPath.section == 0 {
             let firstName = owner[indexPath.row].firstName
@@ -277,6 +279,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                 }
             }
         }
+        
         return cell
     }
     
@@ -289,7 +292,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                 print(modelPemilik?.role)
                 //modelPemilik = owner[idx]
                 idx = indexPath.row
-                performSegue(withIdentifier: "employeeProfileSegue", sender: owner[indexPath.row])
+                //performSegue(withIdentifier: "employeeProfileSegue", sender: owner[indexPath.row])
             } else {
                 
                 
@@ -303,7 +306,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                     print(modelPemilik?.role)
                     //modelPemilik = karyawan[indexPath.row]
                     idx = indexPath.row
-                    performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
+                    //performSegue(withIdentifier: "employeeProfileSegue", sender: karyawan[indexPath.row])
                 }else{
                     performSegue(withIdentifier: "code", sender: nil)
                 }

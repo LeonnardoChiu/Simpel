@@ -298,6 +298,7 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
         self.monthLabel.text = "\(selectedMonth) \(selectedYear)"
         startWithCurrentDate = false
         dateCollection.reloadData()
+        self.QueryDatabase()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
