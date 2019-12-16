@@ -19,13 +19,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var totalSales = 0
     var highestSales = ["Sabun Molto Orange 600 ml", "Sabun Molto", "indomie goreng"]
     var highestSalesLastUpdate = ["19.15", "19.16", "19.17"]
-//    var highestSalesUnit = [40, 50, 60]
-//    var newItem = ["Beras C4", "Rinso Anti Noda", "Sunglight 200ml"]
-//    var newItemLastUpdate = ["19.15", "18.00", "18.00"]
-//    var newItemUnit = [30, 35, 30]
-    var editItem = ["Beras C4", "Rinso Molto", "Piring plastik"]
-    var editItemLastUpdate = ["19.15", "19.14", "19.13"]
-    var editItemValue = [15000, 16000, 15000]
     var leapYearCounter = 2
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -72,10 +65,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         monthLabel.text = "\(selectedMonth) \(year)"
         scrollTo(item: selectedDay, section: 0)
         dateCollection.reloadData()
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
             modelPemilik = mainTabBar.modelPeople
         QueryDatabase()
-        print(barangBaru.count)
         
     }
     
@@ -111,7 +103,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         database.perform(barangBaru, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
                 
-            self.data = record
             /// append ke model
             self.initDataModelBarangBaru(record: record)
             print("jumlah barang baru : \(self.data.count)")
@@ -129,7 +120,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             database.perform(editBarangs, inZoneWith: nil) { (record, _) in
                 guard let record = record else {return}
                     
-                self.data = record
                 /// append ke model
                 self.initDataModelEditBarang(record: record)
                 print("jumlah EditBarang : \(self.data.count)")
@@ -146,7 +136,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             database.perform(inventory, inZoneWith: nil) { (record, _) in
                 guard let record = record else {return}
                     
-                self.data = record
                 /// append ke model
                 self.initDataModelInventory(record: record)
                 print("jumlah Inventory : \(self.data.count)")
@@ -158,7 +147,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         database.perform(laporan, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
             print(laporan)
-            self.data = record
             /// append ke model
             self.initSummaryPenjualan(record: record)
             print("jumlah Summary : \(self.data.count)")
@@ -174,12 +162,14 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         database.perform(itemTransaksi, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
                 
-            self.data = record
             /// append ke model
             self.initBarangPenjualan(record: record)
             print("jumlah itemTransaction : \(self.data.count)")
             
         }
+        
+        
+        print(barangTerjual.count)
         
       }
     
@@ -202,7 +192,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let id = countData.recordID
             var itemID:[String]?
             itemID = countData.value(forKey: "ItemID") as! [String]
-            print(itemID)
             let tokoID = countData.value(forKey: "TokoID") as! String
             let tanggal = countData.value(forKey: "tanggal") as! Int
             let bulan = countData.value(forKey: "bulan") as! Int
@@ -405,19 +394,16 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case 2:
             return "Barang Baru"
         default:
-            return "Barang Terakhir Diedit"
+            return "Barang Terakhir Diubah"
         }
     }
     
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath == [0,1] {
-            return 30
-        }
-        else{
-            return 61
-        }
+       
+        return 64
+        
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -431,19 +417,24 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             else{
                 return nil
             }
+        case 2:
+            if barangBaru.count == 0 {
+                return " "
+            }
+            else{
+                return nil
+            }
+        case 3:
+            if editBarang.count == 0 {
+                return " "
+            }
+            else{
+                return nil
+            }
         default:
             return nil
         }
     }
-    
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        if section == 0 {
-//            return 30
-//        }
-//        else{
-//            return .leastNormalMagnitude
-//        }
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -526,9 +517,16 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
         
         if indexPath == [0,0] {
-            total.chevron.isHidden = false
-            total.TotalPenjualan.text = "Rp. \(totalSales.commaRepresentation)"
-            total.cellView.frame.size.height = 57
+            if transactionSummary.count != 0 {
+                total.chevron.isHidden = false
+                total.TotalPenjualan.text = "Rp. \(totalSales.commaRepresentation)"
+            }
+            else{
+                total.chevron.isHidden = true
+                total.TotalPenjualan.text = "Tidak ada transaksi"
+            }
+            
+            total.cellView.frame.size.height = 60
             return total
         }
             
@@ -537,7 +535,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             if transactionSummary.count == 0 {
                 total.chevron.isHidden = true
-                total.TotalPenjualan.text = "No item"
+                total.TotalPenjualan.text = "Tidak ada transaksi"
                 total.cellView.frame.size.height = 60
                 return total
                
@@ -571,6 +569,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             else {
                 if indexPath.row < transactionSummary.count{
+                    
+                    #warning("INI MASIH ERROR GENGS")
                     for trans in transactionSummary{
                         for transaction in barangTerjual {
                             for x in trans.itemID{
@@ -602,7 +602,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             penjualan.chevron.isHidden = true
                 if barangBaru.count == 0 {
                     total.chevron.isHidden = true
-                    total.TotalPenjualan.text = "No item"
+                    total.TotalPenjualan.text = "Tidak ada Barang Baru hari ini"
                     total.cellView.frame.size.height = 60
                     return total
                    
@@ -641,7 +641,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 3 {
                 if editBarang.count == 0 {
                     total.chevron.isHidden = true
-                    total.TotalPenjualan.text = "No item"
+                    total.TotalPenjualan.text = "Tidak ada barang yang diubah"
                     total.cellView.frame.size.height = 60
                      return total
                    
@@ -693,13 +693,13 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedMonthNumber = month
-        if indexPath.section == 0 {
+        if indexPath.section == 0  && transactionSummary.count != 0{
             print(selectedMonthNumber)
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
-        else if indexPath.section == 3 {
+        else if indexPath.section == 3 && barangBaru.count != 0{
             if indexPath.row != 3 {
-                selectedEditedItem = editItem[indexPath.row]
+//                selectedEditedItem = editItem[indexPath.row]
             }
             performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
         }
@@ -795,6 +795,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             nextVC.selectedMonth = self.selectedMonth
             nextVC.selectedMonthNumber = self.selectedMonthNumber
             nextVC.selectedYear = self.selectedYear
+            nextVC.modelPemilik = modelPemilik
+            nextVC.inventory = inventory
+            nextVC.barangTerjual = barangTerjual
         }
         else if segue.identifier == "segueToHighestSales" {
             let nextVC = segue.destination as! highestSalesViewController
@@ -809,6 +812,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             nextVC.selectedMonth = self.selectedMonth
             nextVC.selectedMonthNumber = self.selectedMonthNumber
             nextVC.selectedYear = self.selectedYear
+            nextVC.modelPemilik = modelPemilik
+            nextVC.inventory = inventory
         }
         
         else if segue.identifier == "segueToEditItem" {
@@ -817,6 +822,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             nextVC.selectedMonth = self.selectedMonth
             nextVC.selectedMonthNumber = self.selectedMonthNumber
             nextVC.selectedYear = self.selectedYear
+            nextVC.modelPemilik = modelPemilik
+            nextVC.inventory = inventory
         }
     }
     

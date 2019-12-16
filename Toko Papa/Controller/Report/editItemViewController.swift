@@ -1,5 +1,6 @@
 
 import UIKit
+import CloudKit
 
 class editItemViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -24,6 +25,12 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
     var startWithCurrentDate = false
     var selectedIndexPath: IndexPath? = nil
     var leapYearCounter = 2
+    
+    let database = CKContainer.default().publicCloudDatabase
+    var modelPemilik: People?
+    var editBarang: [EditBarang] = []
+    var inventory: [Inventory] = []
+    var image: CKAsset?
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,5 +1,6 @@
 
 import UIKit
+import CloudKit
 
 class newItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -17,9 +18,11 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
     var selectedYear:Int = year
     var titleText = ""
     
-    var items = ["DVD Samsung", "TV Phillips 32\" LED", "Bluray Recorder Polytron", "Mesin Cuci Samsung 10 L"]
-    var units = [10, 20, 22, 11]
-    var times = ["20:00", "19:33", "13:41", "09:00"]
+    let database = CKContainer.default().publicCloudDatabase
+    var modelPemilik: People?
+    var barangBaru: [BarangBaru] = []
+    var inventory: [Inventory] = []
+    var image: CKAsset?
     
     var startWithCurrentDate = false
     var selectedIndexPath: IndexPath? = nil
@@ -44,31 +47,82 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
         scrollTo(item: selectedDay, section: 0)
         dateCollection.reloadData()
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         startWithCurrentDate = false
+        
+        QueryDatabase()
+    }
+    
+    //MARK: QUERY DATABASE
+    
+    @objc func QueryDatabase(){
+    
+        let tokoID = modelPemilik?.tokoID
+        
+        let barangBaru = CKQuery(recordType: "BarangBaru", predicate: NSPredicate(format: "tokoID == %@", tokoID!))
+        database.perform(barangBaru, inZoneWith: nil) { (record, _) in
+            guard let record = record else {return}
+                
+                /// append ke model
+            self.initDataModelBarangBaru(record: record)
+            DispatchQueue.main.async {
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+        
+    }
+    
+    func initDataModelBarangBaru(record: [CKRecord]) {
+     barangBaru.removeAll()
+     
+        for countData in record {
+             let id = countData.recordID
+             let namabarang = countData.value(forKey: "namaBarang") as! String
+             let stock = countData.value(forKey: "Stock") as! Int
+             let tokoID = countData.value(forKey: "tokoID") as! String
+             let tanggal = countData.value(forKey: "Tanggal") as! Int
+             let bulan = countData.value(forKey: "Bulan") as! Int
+             let tahun = countData.value(forKey: "Tahun") as! Int
+         
+             if tanggal == selectedDay && bulan == month && tahun == selectedYear {
+                barangBaru.append(BarangBaru(namabarang: namabarang, stock: stock, tokoid: tokoID, tanggal: tanggal, bulan: bulan, Tahun: tahun))
+             }
+        }
     }
     
     //MARK: TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return barangBaru.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newItemTableCellID", for: indexPath)
         
+        let imageView = cell.contentView.viewWithTag(1) as! UIImageView
         let itemNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         let itemUnitLabel = cell.contentView.viewWithTag(3) as! UILabel
         let itemTimeLabel = cell.contentView.viewWithTag(4) as! UILabel
         
         cell.selectionStyle = .none
         
-        itemNameLabel.text = items[indexPath.row]
-        itemUnitLabel.text = "\(units[indexPath.row]) Unit Masuk"
-        itemTimeLabel.text = times[indexPath.row]
+        for item in inventory {
+            if barangBaru[indexPath.row].namaBarang == item.namaItem {
+                imageView.image = item.imageItem
+            }
+        }
+        
+        itemNameLabel.text = barangBaru[indexPath.row].namaBarang
+        itemUnitLabel.text = "\(barangBaru[indexPath.row].stock) Unit Masuk"
+        itemTimeLabel.text = ""
         
         return cell
     }
@@ -127,6 +181,7 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
         selectedDateButton.setTitle("\(selectedDay) \(selectedMonth) \(selectedYear)", for: .normal)
         scrollTo(item: indexPath.row, section: 0)
         print(indexPath)
+        QueryDatabase()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

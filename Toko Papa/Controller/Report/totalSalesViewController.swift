@@ -41,6 +41,9 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
     var data = [CKRecord]()
     var modelPemilik: People?
     var transactionSummary: [SummaryTransaction] = []
+    var inventory:[Inventory] = []
+    var barangTerjual:[itemTransaction] = []
+    var selectedIndex = 0
     
     var itemCount = Int()
     
@@ -69,6 +72,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         refeeshControl.addTarget(self, action: #selector(QueryDatabase), for: .valueChanged)
         self.tableView.refreshControl = refeeshControl
         dateCollection.reloadData()
+        
     }
     
     @objc func refresh() {
@@ -151,7 +155,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
             cell.selectionStyle = .none
         }
         else{
-            sales.text = "\(transactionSummary[indexPath.row].totalPenjualan)"
+            sales.text = "Rp. \(transactionSummary[indexPath.row].totalPenjualan.commaRepresentation)"
             time.text = "\(transactionSummary[indexPath.row].metodePembayaran)"
             cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
             cell.selectionStyle = .default
@@ -162,11 +166,13 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        selectedItem = items[indexPath.row]
-        selectedTime = times[indexPath.row]
-        print(selectedItem)
-        
-        performSegue(withIdentifier: "segueToSalesDetailVC", sender: self)
+        if transactionSummary.count != 0{
+//            selectedItem = items[indexPath.row]
+//            selectedTime = times[indexPath.row]
+//            print(selectedItem)
+            selectedIndex = indexPath.row
+            performSegue(withIdentifier: "segueToSalesDetailVC", sender: self)
+        }
     }
     
     //MARK: COLLECTION VIEW
@@ -318,6 +324,15 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
             let nextVC = segue.destination as! salesDetailViewController
             nextVC.totalSales = selectedItem
             nextVC.time = selectedTime
+            nextVC.modelPemilik = modelPemilik
+            
+            nextVC.transactionSummary.append(transactionSummary[selectedIndex])
+            nextVC.barangTerjual = barangTerjual
+            nextVC.inventory = inventory
+            
+            nextVC.selectedDay = selectedDay
+            nextVC.selectedMonth = selectedMonth
+            nextVC.selectedYear = selectedYear
         }
     }
     

@@ -41,3 +41,16 @@ class Inventory {
     }
 
 }
+
+
+class DetailPenjualanList{
+    var namaBarang: String
+    var qty: Int
+    var harga: Int
+    
+    init(namabarang: String, qty: Int, harga: Int) {
+        self.namaBarang = namabarang
+        self.qty = qty
+        self.harga = harga
+    }
+}
