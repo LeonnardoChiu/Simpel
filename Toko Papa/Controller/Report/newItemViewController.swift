@@ -97,7 +97,21 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //MARK: TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return barangBaru.count
+        var count = 0
+        if barangBaru.count == 0 {
+             let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
+                       noDataLabel.text = "Tidak ada barang"
+                       noDataLabel.textColor = UIColor.systemRed
+                       noDataLabel.textAlignment = .center
+                       tableView.backgroundView = noDataLabel
+                       tableView.separatorStyle = .none
+        } else {
+            tableView.backgroundView = nil
+            count = barangBaru.count
+            return barangBaru.count
+        }
+        return count
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -113,7 +127,8 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
         let itemTimeLabel = cell.contentView.viewWithTag(4) as! UILabel
         
         cell.selectionStyle = .none
-        
+       
+        imageView.isHidden = false
         for item in inventory {
             if barangBaru[indexPath.row].namaBarang == item.namaItem {
                 imageView.image = item.imageItem
@@ -123,7 +138,7 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
         itemNameLabel.text = barangBaru[indexPath.row].namaBarang
         itemUnitLabel.text = "\(barangBaru[indexPath.row].stock) Unit Masuk"
         itemTimeLabel.text = ""
-        
+    
         return cell
     }
     

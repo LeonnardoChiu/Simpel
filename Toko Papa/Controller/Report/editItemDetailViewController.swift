@@ -12,6 +12,10 @@ class editItemDetailViewController: UIViewController, UITableViewDelegate, UITab
     var itemReason = "disuruh boss"
     var editorName = "Budi"
     
+    var modelPemilik: People?
+    var editBarang: [EditBarang] = []
+    var inventory: [Inventory] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,12 +25,24 @@ class editItemDetailViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        for item in inventory {
+            if editBarang[0].inventoryID == item.Id.recordName {
+                itemDetailImage.image = item.imageItem
+            }
+        }
+        print(editBarang[0].kategori)
+        print(editBarang[0].alasan)
+        tableView.reloadData()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -35,21 +51,20 @@ class editItemDetailViewController: UIViewController, UITableViewDelegate, UITab
         let valueLabel = cell.contentView.viewWithTag(2) as! UILabel
         
         if indexPath == [0,0] {
-            itemLabel.text = itemName
-            valueLabel.isHidden = true
+            itemLabel.text = "Nama"
+            for item in inventory {
+                if editBarang[0].inventoryID == item.Id.recordName {
+                    valueLabel.text = item.namaItem
+                }
+            }
         }
-        else if indexPath == [1,0] {
-            itemLabel.text = itemChanged
-            valueLabel.text = itemValueChanged
-            valueLabel.isHidden = false
+        else if indexPath == [0,1] {
+            itemLabel.text = editBarang[0].kategori
+            valueLabel.text = editBarang[0].value
         }
-        else if indexPath == [2,0] {
-            itemLabel.text = itemReason
-            valueLabel.isHidden = true
-        }
-        else if indexPath == [3,0] {
-            itemLabel.text = editorName
-            valueLabel.isHidden = true
+        else if indexPath == [0,2] {
+            itemLabel.text = "Alasan"
+            valueLabel.text = editBarang[0].alasan
         }
         
         return cell

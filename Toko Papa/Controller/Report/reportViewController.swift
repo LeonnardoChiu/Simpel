@@ -32,6 +32,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var selectedEditedItem = ""
     var startWithCurrentDate = false
     var selectedIndexPath: IndexPath? = nil
+    var selectedIndex = 0
     
     let database = CKContainer.default().publicCloudDatabase
     var data = [CKRecord]()
@@ -699,7 +700,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         else if indexPath.section == 3 && barangBaru.count != 0{
             if indexPath.row != 3 {
-//                selectedEditedItem = editItem[indexPath.row]
+                selectedIndex = indexPath.row
             }
             performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
         }
@@ -787,6 +788,10 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueToEditItemDetails"{
             let nextVC = segue.destination as! editItemDetailViewController
+            nextVC.editBarang.removeAll()
+            nextVC.editBarang.append(editBarang[selectedIndex])
+            nextVC.modelPemilik = modelPemilik
+            nextVC.inventory = inventory
             nextVC.itemName = selectedEditedItem
         }
         else if segue.identifier == "segueToTotalSalesVC" {
