@@ -198,7 +198,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         for countData in record {
             let id = countData.recordID
             var itemID:[String]?
-            itemID = countData.value(forKey: "ItemID") as! [String]
+            itemID = (countData.value(forKey: "ItemID") as! [String])
             let tokoID = countData.value(forKey: "TokoID") as! String
             let tanggal = countData.value(forKey: "tanggal") as! Int
             let bulan = countData.value(forKey: "bulan") as! Int
@@ -219,7 +219,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
            print(data.count)
            for countData in record {
-                let id = countData.recordID
+//                let id = countData.recordID
                 let namabarang = countData.value(forKey: "namaBarang") as! String
                 let stock = countData.value(forKey: "Stock") as! Int
                 let tokoID = countData.value(forKey: "tokoID") as! String
@@ -238,7 +238,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
      
         print(data.count)
         for countData in record {
-            let id = countData.recordID
+//            let id = countData.recordID
             let inventorid = countData.value(forKey: "InventoryID") as! String
             let profilID = countData.value(forKey: "ProfilID") as! String
             let tokoID = countData.value(forKey: "tokoID") as! String
@@ -443,9 +443,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return 4
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -463,9 +460,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       
         return 64
-        
+
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -558,32 +554,188 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - cellForRowAt
      
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
-        let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
-        let total = tableView.dequeueReusableCell(withIdentifier: "total") as! TotalPenjualan
-        let cells = UITableViewCell()
-        print(BarangPenjualan.count)
-        penjualan.selectionStyle = .none
-        penjualan.dropShadow()
-        penjualan.backgroundColor = .clear
+//     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
+//        let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
+//        let total = tableView.dequeueReusableCell(withIdentifier: "total") as! TotalPenjualan
+//        let cells = UITableViewCell()
+//        print(BarangPenjualan.count)
+//        penjualan.selectionStyle = .none
+//        penjualan.dropShadow()
+//        penjualan.backgroundColor = .clear
+//
+//        detail.selectionStyle = .none
+//        detail.dropShadow()
+//        detail.backgroundColor = .clear
+//
+//        total.selectionStyle = .none
+//        total.dropShadow()
+//        total.backgroundColor = .clear
+//
+//        penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//        total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//        detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//        detail.detailButton.tag = indexPath.section
+//        detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//
+//        //total penjualan
+//        if indexPath == [0,0] {
+//            if transactionSummary.count != 0 {
+//                total.chevron.isHidden = false
+//                total.TotalPenjualan.text = "Rp. \(totalSales.commaRepresentation)"
+//            }
+//            else{
+//                total.chevron.isHidden = true
+//                total.TotalPenjualan.text = "Tidak ada transaksi"
+//            }
+//
+//            total.cellView.frame.size.height = 60
+//            return total
+//        }
+//
+//        //penjualan terbanyak
+//        if indexPath.section == 1 {
+//            penjualan.chevron.isHidden = true
+//
+//            if BarangPenjualan.count == 0 {
+//                total.chevron.isHidden = true
+//                total.TotalPenjualan.text = "Tidak ada transaksi"
+//                total.cellView.frame.size.height = 60
+//                return total
+//
+//            }
+//            else if BarangPenjualan.count > 3{
+//                if indexPath.row < 3{
+//
+//                    penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
+//                    penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
+//                    penjualan.LastUpdate.text = ""
+//                    penjualan.cellView.frame.size.height = 60
+//                    return penjualan
+//
+//
+//                }else{
+////                    detail.cellVIew.frame.size.height = 31
+//                    return detail
+//                }
+//
+//            }
+//            else {
+//                if indexPath.row < BarangPenjualan.count{
+//
+//                    penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
+//                    penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
+//                    penjualan.LastUpdate.text = ""
+//                    penjualan.cellView.frame.size.height = 60
+//                    return penjualan
+//                }else{
+////                    detail.cellVIew.frame.size.height = 31
+//                    return detail
+//
+//                }
+//            }
+//
+//        }
+//
+//        //barang baru
+//        if indexPath.section == 2 {
+//            penjualan.chevron.isHidden = true
+//                if barangBaru.count == 0 {
+//                    total.chevron.isHidden = true
+//                    total.TotalPenjualan.text = "Tidak ada Barang Baru hari ini"
+//                    total.cellView.frame.size.height = 60
+//                    return total
+//
+//                }
+//                else if barangBaru.count > 3{
+//                    if indexPath.row < 3{
+//                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+//                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+//                        penjualan.LastUpdate.text = ""
+//                        penjualan.cellView.frame.size.height = 60
+//                        return penjualan
+//
+//
+//                    }else{
+////                        detail.cellVIew.frame.size.height = 31
+//                        return detail
+//                    }
+//
+//                }
+//                else {
+//                    if indexPath.row < barangBaru.count{
+//                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+//                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+//                        penjualan.LastUpdate.text = ""
+//                       penjualan.cellView.frame.size.height = 60
+//                       return penjualan
+//                    }else{
+////                        detail.cellVIew.frame.size.height = 31
+//                        return detail
+//
+//                    }
+//                }
+//
+//        }
+//
+//        //barang diubah
+//        if indexPath.section == 3 {
+//                if editBarang.count == 0 {
+//                    total.chevron.isHidden = true
+//                    total.TotalPenjualan.text = "Tidak ada barang yang diubah"
+//                    total.cellView.frame.size.height = 60
+//                     return total
+//
+//                }
+//                else if editBarang.count > 3{
+//                    if indexPath.row < 3{
+//                        for i in inventory{
+//                            if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+//                                namaBarangEdit = i.namaItem
+//                                stockBarangEdit = i.stock
+//                            }
+//                        }
+//
+//
+//                        penjualan.namaItem.text = "\(namaBarangEdit)"
+//                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+//                        penjualan.LastUpdate.text = ""
+//                        penjualan.cellView.frame.size.height = 60
+//                        return penjualan
+//                    }else{
+////                        detail.cellVIew.frame.size.height = 31
+//                        return detail
+//                    }
+//
+//                }
+//                else {
+//
+//                    if indexPath.row < editBarang.count{
+//                        for i in inventory{
+//                            if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+//                                namaBarangEdit = i.namaItem
+//                            }
+//                        }
+//                        penjualan.namaItem.text = "\(namaBarangEdit)"
+//                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+//                        penjualan.LastUpdate.text = ""
+//                        penjualan.cellView.frame.size.height = 60
+//                        return penjualan
+//                    }else{
+////                        detail.cellVIew.frame.size.height = 31
+//                        return detail
+//                    }
+//
+//                }
+//
+//        }
+//        return cells
+//     }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        detail.selectionStyle = .none
-        detail.dropShadow()
-        detail.backgroundColor = .clear
-        
-        total.selectionStyle = .none
-        total.dropShadow()
-        total.backgroundColor = .clear
-        
-        penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
-        detail.detailButton.tag = indexPath.section
-        detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
-        
-        //total penjualan
-        if indexPath == [0,0] {
+        if indexPath.section == 0 {
+            let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
             if transactionSummary.count != 0 {
                 total.chevron.isHidden = false
                 total.TotalPenjualan.text = "Rp. \(totalSales.commaRepresentation)"
@@ -592,149 +744,435 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 total.chevron.isHidden = true
                 total.TotalPenjualan.text = "Tidak ada transaksi"
             }
-            
-            total.cellView.frame.size.height = 60
+            total.selectionStyle = .none
+            total.backgroundColor = .clear
+            total.dropShadow()
+            total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
             return total
         }
-         
-        //penjualan terbanyak
-        if indexPath.section == 1 {
-            penjualan.chevron.isHidden = true
-            
+        
+        else if indexPath.section == 1 {
             if BarangPenjualan.count == 0 {
+                let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
                 total.chevron.isHidden = true
                 total.TotalPenjualan.text = "Tidak ada transaksi"
-                total.cellView.frame.size.height = 60
+                
+                total.selectionStyle = .none
+                total.backgroundColor = .clear
+                total.dropShadow()
+                total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
                 return total
-               
             }
-            else if BarangPenjualan.count > 3{
-                if indexPath.row < 3{
+            else{
+                if indexPath.row != BarangPenjualan.count && indexPath.row < 3 {
+                    let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
+                    penjualan.selectionStyle = .none
+                    penjualan.dropShadow()
+                    penjualan.backgroundColor = .clear
+                    penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                    
                     
                     penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
                     penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
                     penjualan.LastUpdate.text = ""
-                    penjualan.cellView.frame.size.height = 60
                     return penjualan
-                    
-                    
-                }else{
-                    detail.cellVIew.frame.size.height = 31
-                    return detail
                 }
-               
-            }
-            else {
-                if indexPath.row < BarangPenjualan.count{
-                    
-                    penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
-                    penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
-                    penjualan.LastUpdate.text = ""
-                    penjualan.cellView.frame.size.height = 60
-                    return penjualan
-                }else{
+                else{
+                    let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
+                    detail.detailButton.tag = indexPath.section
+                    detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+                    detail.selectionStyle = .none
+                    detail.backgroundColor = .clear
+                    detail.dropShadow()
+                    detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
                     detail.cellVIew.frame.size.height = 31
                     return detail
-                    
                 }
             }
             
         }
         
-        //barang baru
-        if indexPath.section == 2 {
-            penjualan.chevron.isHidden = true
-                if barangBaru.count == 0 {
-                    total.chevron.isHidden = true
-                    total.TotalPenjualan.text = "Tidak ada Barang Baru hari ini"
-                    total.cellView.frame.size.height = 60
-                    return total
-                   
+        else if indexPath.section == 2 {
+            if barangBaru.count == 0 {
+                let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
+                total.chevron.isHidden = true
+                total.TotalPenjualan.text = "Tidak ada transaksi"
+                
+                total.selectionStyle = .none
+                total.backgroundColor = .clear
+                total.cellView.dropShadow()
+                total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                return total
+            }
+            else{
+                if indexPath.row != barangBaru.count && indexPath.row < 3 {
+                    let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
+                    penjualan.selectionStyle = .none
+                    penjualan.dropShadow()
+                    penjualan.backgroundColor = .clear
+                    penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                    
+                    penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+                    penjualan.unitItem.text = "Unit masuk: \(barangBaru[indexPath.row].stock)"
+                    penjualan.LastUpdate.text = ""
+                    return penjualan
                 }
-                else if barangBaru.count > 3{
-                    if indexPath.row < 3{
-                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
-                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
-                        penjualan.LastUpdate.text = ""
-                        penjualan.cellView.frame.size.height = 60
-                        return penjualan
-                        
-                        
-                    }else{
-                        detail.cellVIew.frame.size.height = 31
-                        return detail
-                    }
-                   
+                else{
+                    let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
+                    detail.detailButton.tag = indexPath.section
+                    detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+                    detail.selectionStyle = .none
+                    detail.backgroundColor = .clear
+                    detail.dropShadow()
+                    detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                    detail.cellVIew.frame.size.height = 31
+                    return detail
                 }
-                else {
-                    if indexPath.row < barangBaru.count{
-                        penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
-                        penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
-                        penjualan.LastUpdate.text = ""
-                       penjualan.cellView.frame.size.height = 60
-                       return penjualan
-                    }else{
-                        detail.cellVIew.frame.size.height = 31
-                        return detail
-                        
-                    }
-                }
-            
-        }
+            }
         
-        //barang diubah
-        if indexPath.section == 3 {
-                if editBarang.count == 0 {
-                    total.chevron.isHidden = true
-                    total.TotalPenjualan.text = "Tidak ada barang yang diubah"
-                    total.cellView.frame.size.height = 60
-                     return total
-                   
-                }
-                else if editBarang.count > 3{
-                    if indexPath.row < 3{
-                        for i in inventory{
-                            if editBarang[indexPath.row].inventoryID == i.Id.recordName{
-                                namaBarangEdit = i.namaItem
-                                stockBarangEdit = i.stock
-                            }
-                        }
-                        
-                        
-                        penjualan.namaItem.text = "\(namaBarangEdit)"
-                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
-                        penjualan.LastUpdate.text = ""
-                        penjualan.cellView.frame.size.height = 60
-                        return penjualan
-                    }else{
-                        detail.cellVIew.frame.size.height = 31
-                        return detail
-                    }
-                   
-                }
-                else {
-                    
-                    if indexPath.row < editBarang.count{
-                        for i in inventory{
-                            if editBarang[indexPath.row].inventoryID == i.Id.recordName{
-                                namaBarangEdit = i.namaItem
-                            }
-                        }
-                        penjualan.namaItem.text = "\(namaBarangEdit)"
-                        penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
-                         penjualan.LastUpdate.text = ""
-                        penjualan.cellView.frame.size.height = 60
-                        return penjualan
-                    }else{
-                        detail.cellVIew.frame.size.height = 31
-                        return detail
-                    }
-                    
-                }
-            
         }
-        return cells
-     }
+        else if indexPath.section == 3 {
+            if editBarang.count == 0 {
+                let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
+                total.chevron.isHidden = true
+                total.TotalPenjualan.text = "Tidak ada transaksi"
+                
+                total.selectionStyle = .none
+                total.backgroundColor = .clear
+                total.dropShadow()
+                total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                return total
+            }
+            else{
+                if indexPath.row != editBarang.count && indexPath.row < 3 {
+                    let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan") as! PenjualandanPBarangBaru
+                    penjualan.selectionStyle = .none
+                    penjualan.dropShadow()
+                    penjualan.backgroundColor = .clear
+                    penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                    
+                    for i in inventory{
+                        if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+                            namaBarangEdit = i.namaItem
+                            stockBarangEdit = i.stock
+                        }
+                    }
+                    penjualan.namaItem.text = "\(namaBarangEdit)"
+                    penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+                    penjualan.LastUpdate.text = ""
+                    return penjualan
+                }
+                else{
+                    let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell") as! Detail
+                    detail.detailButton.tag = indexPath.section
+                    detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+                    detail.selectionStyle = .none
+                    detail.backgroundColor = .clear
+                    detail.dropShadow()
+                    detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+                    detail.cellVIew.frame.size.height = 31
+                    return detail
+                }
+            }
+        }
+        return UITableViewCell()
+    }
+    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//
+//
+//            let cells = UITableViewCell()
+//            print(BarangPenjualan.count)
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//            //total penjualan
+//            if indexPath == [0,0] {
+//                let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
+//                total.selectionStyle = .none
+//                total.dropShadow()
+//                total.backgroundColor = .clear
+//                total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                if transactionSummary.count != 0 {
+//                    total.chevron.isHidden = false
+//                    total.TotalPenjualan.text = "Rp. \(totalSales.commaRepresentation)"
+//                }
+//                else{
+//                    total.chevron.isHidden = true
+//                    total.TotalPenjualan.text = "Tidak ada transaksi"
+//                }
+//
+//                total.cellView.frame.size.height = 60
+//                return total
+//            }
+//
+//            //penjualan terbanyak
+//            if indexPath.section == 1 {
+//
+//
+//                if BarangPenjualan.count == 0 {
+//                    let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
+//                    total.selectionStyle = .none
+//                    total.dropShadow()
+//                    total.backgroundColor = .clear
+//                    total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                    total.chevron.isHidden = true
+//                    total.TotalPenjualan.text = "Tidak ada transaksi"
+//                    total.cellView.frame.size.height = 60
+//                    return total
+//
+//                }
+//                else if BarangPenjualan.count > 3{
+//                    if indexPath.row < 3{
+//
+//                        let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan", for: indexPath) as! PenjualandanPBarangBaru
+//                        penjualan.selectionStyle = .none
+//                        penjualan.dropShadow()
+//                        penjualan.backgroundColor = .clear
+//                        penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                        penjualan.chevron.isHidden = true
+//
+//                        penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
+//                        penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
+//                        penjualan.LastUpdate.text = ""
+//                        penjualan.cellView.frame.size.height = 60
+//                        return penjualan
+//
+//
+//                    }else{
+//
+//                        let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell", for: indexPath) as! Detail
+//                        detail.selectionStyle = .none
+//                        detail.dropShadow()
+//                        detail.backgroundColor = .clear
+//                        detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//                        detail.detailButton.tag = indexPath.section
+//                        detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//                        detail.cellVIew.frame.size.height = 31
+//
+//                        return detail
+//                    }
+//
+//                }
+//                else {
+//                    if indexPath.row < BarangPenjualan.count{
+//
+//                        let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan", for: indexPath) as! PenjualandanPBarangBaru
+//                        penjualan.selectionStyle = .none
+//                        penjualan.dropShadow()
+//                        penjualan.backgroundColor = .clear
+//                        penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                        penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
+//                        penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
+//                        penjualan.LastUpdate.text = ""
+//                        penjualan.cellView.frame.size.height = 60
+//                        return penjualan
+//                    }else{
+//
+//                        let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell", for: indexPath) as! Detail
+//                        detail.selectionStyle = .none
+//                        detail.dropShadow()
+//                        detail.backgroundColor = .clear
+//                        detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//                        detail.detailButton.tag = indexPath.section
+//                        detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//
+//                        detail.cellVIew.frame.size.height = 31
+//
+//                        return detail
+//
+//                    }
+//                }
+//
+//            }
+//
+//            //barang baru
+//            if indexPath.section == 2 {
+//
+//                    if barangBaru.count == 0 {
+//                        let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
+//                        total.selectionStyle = .none
+//                        total.dropShadow()
+//                        total.backgroundColor = .clear
+//                        total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                        total.chevron.isHidden = true
+//                        total.TotalPenjualan.text = "Tidak ada Barang Baru hari ini"
+//                        total.cellView.frame.size.height = 60
+//                        return total
+//
+//                    }
+//                    else if barangBaru.count > 3{
+//                        if indexPath.row < 3{
+//                            let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan", for: indexPath) as! PenjualandanPBarangBaru
+//                            penjualan.selectionStyle = .none
+//                            penjualan.dropShadow()
+//                            penjualan.backgroundColor = .clear
+//                            penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                            penjualan.chevron.isHidden = true
+//
+//                            penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+//                            penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+//                            penjualan.LastUpdate.text = ""
+//                            penjualan.cellView.frame.size.height = 60
+//                            return penjualan
+//
+//
+//                        }else{
+//
+//                            let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell", for: indexPath) as! Detail
+//                            detail.selectionStyle = .none
+//                            detail.dropShadow()
+//                            detail.backgroundColor = .clear
+//                            detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//                            detail.detailButton.tag = indexPath.section
+//                            detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//                            detail.cellVIew.frame.size.height = 31
+//
+//                            return detail
+//                        }
+//
+//                    }
+//                    else {
+//                        if indexPath.row < barangBaru.count{
+//
+//                            let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan", for: indexPath) as! PenjualandanPBarangBaru
+//                            penjualan.selectionStyle = .none
+//                            penjualan.dropShadow()
+//                            penjualan.backgroundColor = .clear
+//                            penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                            penjualan.chevron.isHidden = true
+//
+//                            penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
+//                            penjualan.unitItem.text = "Unit Masuk: \(barangBaru[indexPath.row].stock)"
+//                            penjualan.LastUpdate.text = ""
+//                           penjualan.cellView.frame.size.height = 60
+//                           return penjualan
+//                        }else{
+//
+//                            let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell", for: indexPath) as! Detail
+//                            detail.selectionStyle = .none
+//                            detail.dropShadow()
+//                            detail.backgroundColor = .clear
+//                            detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//                            detail.detailButton.tag = indexPath.section
+//                            detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//
+//                            detail.cellVIew.frame.size.height = 31
+//
+//                            return detail
+//
+//                        }
+//                    }
+//
+//            }
+//
+//            //barang diubah
+//            if indexPath.section == 3 {
+//                    if editBarang.count == 0 {
+//                        let total = tableView.dequeueReusableCell(withIdentifier: "total", for: indexPath) as! TotalPenjualan
+//                        total.selectionStyle = .none
+//                        total.dropShadow()
+//                        total.backgroundColor = .clear
+//                        total.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                        total.chevron.isHidden = true
+//                        total.TotalPenjualan.text = "Tidak ada barang yang diubah"
+//                        total.cellView.frame.size.height = 60
+//                         return total
+//
+//                    }
+//                    else if editBarang.count > 3{
+//                        if indexPath.row < 3{
+//                            for i in inventory{
+//                                if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+//                                    namaBarangEdit = i.namaItem
+//                                    stockBarangEdit = i.stock
+//                                }
+//                            }
+//
+//                            let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan", for: indexPath) as! PenjualandanPBarangBaru
+//                            penjualan.selectionStyle = .none
+//                            penjualan.dropShadow()
+//                            penjualan.backgroundColor = .clear
+//                            penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//
+//                            penjualan.namaItem.text = "\(namaBarangEdit)"
+//                            penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+//                            penjualan.LastUpdate.text = ""
+//                            penjualan.cellView.frame.size.height = 60
+//                            return penjualan
+//                        }else{
+//
+//                            let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell", for: indexPath) as! Detail
+//                            detail.selectionStyle = .none
+//                            detail.dropShadow()
+//                            detail.backgroundColor = .clear
+//                            detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//                            detail.detailButton.tag = indexPath.section
+//                            detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//
+//                            detail.cellVIew.frame.size.height = 31
+//
+//                            return detail
+//                        }
+//
+//                    }
+//                    else {
+//
+//                        if indexPath.row < editBarang.count{
+//                            for i in inventory{
+//                                if editBarang[indexPath.row].inventoryID == i.Id.recordName{
+//                                    namaBarangEdit = i.namaItem
+//                                }
+//                            }
+//
+//                            let penjualan = tableView.dequeueReusableCell(withIdentifier: "Penjualan", for: indexPath) as! PenjualandanPBarangBaru
+//                            penjualan.selectionStyle = .none
+//                            penjualan.dropShadow()
+//                            penjualan.backgroundColor = .clear
+//                            penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//
+//                            penjualan.namaItem.text = "\(namaBarangEdit)"
+//                            penjualan.unitItem.text = "\(editBarang[indexPath.row].kategori): \(editBarang[indexPath.row].value)"
+//                             penjualan.LastUpdate.text = ""
+//                            penjualan.cellView.frame.size.height = 60
+//                            return penjualan
+//                        }else{
+//
+//                            let detail = tableView.dequeueReusableCell(withIdentifier: "detailcell", for: indexPath) as! Detail
+//                            detail.selectionStyle = .none
+//                            detail.dropShadow()
+//                            detail.backgroundColor = .clear
+//                            detail.cellVIew.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
+//                            detail.detailButton.tag = indexPath.section
+//                            detail.detailButton.addTarget(self, action: #selector(onClickDetailButton(_:)), for: .touchUpInside)
+//
+//                            detail.cellVIew.frame.size.height = 31
+//
+//                            return detail
+//                        }
+//
+//                    }
+//
+//            }
+//            return cells
+//         }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedMonthNumber = month
@@ -742,7 +1180,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             print(selectedMonthNumber)
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
-        else if indexPath.section == 3 && barangBaru.count != 0{
+        else if indexPath.section == 3 {
             if indexPath.row != 3 {
                 selectedIndex = indexPath.row
             }

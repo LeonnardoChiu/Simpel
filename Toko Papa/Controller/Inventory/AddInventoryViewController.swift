@@ -135,7 +135,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
              return cells
         }
         
-        return cells
+//        return cells
     }
     
     //MARK: -prepare segue
@@ -169,7 +169,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
             guard let vc = segue.destination as? KategoriTableViewController else {return}
             if let kategori = kategoriSekarang{
                 vc.selectedKategori = kategori
-                vc.pemilihVC = sender as! Int
+                vc.pemilihVC = sender as? Int
                 vc.modelPemilik = modelPemilik
             }
         }
@@ -200,7 +200,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
         tableView.reloadData()
 //        let indexPath = IndexPath(row: 0, section: 0)
 //        tableView.reloadRows(at: [indexPath], with: .automatic)
-        self.barcodeTemp = "\(barcode)"
+        self.barcodeTemp = "\(String(describing: barcode))"
         enabledDoneButton()
     }
   

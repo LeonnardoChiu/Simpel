@@ -69,7 +69,6 @@
 		FE01DFA82383A2750098E54C /* QRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE01DFA72383A2750098E54C /* QRData.swift */; };
 		FE3ABBC92372756700E19665 /* CalendarVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBC82372756700E19665 /* CalendarVars.swift */; };
 		FE3ABBCD237278D400E19665 /* calendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABBCC237278D400E19665 /* calendarViewController.swift */; };
-		FE5EB8E32375149F00DB1986 /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5EB8E22375149F00DB1986 /* profileViewController.swift */; };
 		FE5EB8E72378FF5C00DB1986 /* editProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5EB8E62378FF5C00DB1986 /* editProfileViewController.swift */; };
 		FE6ED9FE23A233B600024874 /* itemTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6ED9FD23A233B600024874 /* itemTransaction.swift */; };
 		FE88AB82238271CB00FCA480 /* selectRoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88AB81238271CB00FCA480 /* selectRoleViewController.swift */; };
@@ -154,7 +153,6 @@
 		FE01DFA72383A2750098E54C /* QRData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRData.swift; sourceTree = "<group>"; };
 		FE3ABBC82372756700E19665 /* CalendarVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVars.swift; sourceTree = "<group>"; };
 		FE3ABBCC237278D400E19665 /* calendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calendarViewController.swift; sourceTree = "<group>"; };
-		FE5EB8E22375149F00DB1986 /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		FE5EB8E62378FF5C00DB1986 /* editProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editProfileViewController.swift; sourceTree = "<group>"; };
 		FE6ED9FD23A233B600024874 /* itemTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = itemTransaction.swift; sourceTree = "<group>"; };
 		FE88AB81238271CB00FCA480 /* selectRoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectRoleViewController.swift; sourceTree = "<group>"; };
@@ -245,7 +243,6 @@
 				FE906418237129F5002F3463 /* reportViewController.swift */,
 				FE3ABBC82372756700E19665 /* CalendarVars.swift */,
 				FE3ABBCC237278D400E19665 /* calendarViewController.swift */,
-				FE5EB8E22375149F00DB1986 /* profileViewController.swift */,
 				FE5EB8E62378FF5C00DB1986 /* editProfileViewController.swift */,
 				FEB1D524237BDAD90082F13A /* totalSalesViewController.swift */,
 				FEB1D526237CF81C0082F13A /* salesDetailViewController.swift */,
@@ -476,7 +473,6 @@
 				FE01DFA82383A2750098E54C /* QRData.swift in Sources */,
 				FE88AB82238271CB00FCA480 /* selectRoleViewController.swift in Sources */,
 				687B5501238F8D3400137901 /* PairingKarywanViewController.swift in Sources */,
-				FE5EB8E32375149F00DB1986 /* profileViewController.swift in Sources */,
 				FE92867F238F960D0071CD9C /* highestSalesScrollCalendarCell.swift in Sources */,
 				BDB738D52394DC5A003943D6 /* NavigationViewController.swift in Sources */,
 				BDA38F3E237BC3C300FCD5BC /* CashierCell.swift in Sources */,

@@ -58,7 +58,7 @@ class EditBarangViewController: UIViewController{
 //           img = (editCKrecord.value(forKey: "Images") as? [CKAsset])?.first
         img = editItem?.imageItem as? CKAsset
         if let image = img, let url = image.fileURL, let data = NSData(contentsOf: url) {
-        images.append(UIImage(data: data as Data) as! UIImage)
+            images.append(UIImage(data: data as Data)!)
             self.collection.reloadData()
         }
     }
@@ -159,18 +159,21 @@ class EditBarangViewController: UIViewController{
     var alasanTextField = UITextField()
     @IBAction func doneEditButton(_ sender: Any) {
         
-        if hargaTemp != prevHargaTemp {
+        if hargaTemp != prevHargaTemp && stokTemp != prevStockTemp {
+            kategori = "Harga & Stok"
+//            value = "Harga: Rp.\(prevHargaTemp.commaRepresentation) to Rp.\(hargaTemp!.commaRepresentation) | stok: From \(prevStockTemp) to \(stokTemp!)"
+            value = "Harga dan Stok Berubah"
+        }
+        else if hargaTemp != prevHargaTemp {
             kategori = "Harga"
             value = "From Rp.\(prevHargaTemp.commaRepresentation) to Rp.\(hargaTemp!.commaRepresentation)"
             
         }
-        
-        if stokTemp != prevStockTemp {
+        else if stokTemp != prevStockTemp {
             kategori = "Stok"
             value = "From \(prevStockTemp) to \(stokTemp!)"
         }
-        
-        if kategori == "Harga" || kategori == "Stok" {
+        else {
             kategori = "Data"
             value = "Data barang berubah"
         }
@@ -369,7 +372,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
         default:
             return cells
         }
-        return cells
+//        return cells
 }
     
     
@@ -410,7 +413,7 @@ extension EditBarangViewController: UITableViewDelegate,UITableViewDataSource{
             guard let vc = segue.destination as? KategoriTableViewController else {return}
             if let kategori = kategoriSekarang{
                 vc.selectedKategori = kategori
-                vc.pemilihVC = sender as! Int
+                vc.pemilihVC = sender as? Int
                 vc.modelPemilik = modelPemilik
             }
         }
