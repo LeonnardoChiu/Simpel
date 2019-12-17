@@ -38,7 +38,7 @@ class ChooseRoleViewController: UIViewController {
         // or declare like this
         let gestureKaryawan: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Karyawan))
 
-        modelPemilik?.appleID
+        //modelPemilik?.appleID
        
         self.ownerView.addGestureRecognizer(gestureOwner)
         self.karyawanView.addGestureRecognizer(gestureKaryawan)

@@ -25,7 +25,6 @@ class PairingKarywanViewController: UIViewController {
     
     @IBAction func pairingButton(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
-        var alert2: UIAlertController = UIAlertController()
         
         var tokoString: String?
         var tokoIDs: String?

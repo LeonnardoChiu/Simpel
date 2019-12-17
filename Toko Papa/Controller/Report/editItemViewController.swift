@@ -74,7 +74,7 @@ class editItemViewController: UIViewController, UITableViewDelegate, UITableView
      editBarang.removeAll()
         
         for countData in record {
-            let id = countData.recordID
+//            let id = countData.recordID
             let inventorid = countData.value(forKey: "InventoryID") as! String
             let profilID = countData.value(forKey: "ProfilID") as! String
             let tokoID = countData.value(forKey: "tokoID") as! String

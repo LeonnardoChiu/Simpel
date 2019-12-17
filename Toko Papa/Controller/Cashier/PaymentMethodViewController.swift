@@ -43,7 +43,7 @@ extension PaymentMethodViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell", for: indexPath) as! PaymentMethodCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell", for: indexPath) as! PaymentMethodCell
         
         if tableView.cellForRow(at: indexPath)?.accessoryType == UITableViewCell.AccessoryType.none {
              tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark

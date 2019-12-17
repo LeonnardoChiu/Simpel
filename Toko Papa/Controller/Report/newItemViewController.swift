@@ -81,7 +81,7 @@ class newItemViewController: UIViewController, UITableViewDataSource, UITableVie
      barangBaru.removeAll()
      
         for countData in record {
-             let id = countData.recordID
+//             let id = countData.recordID
              let namabarang = countData.value(forKey: "namaBarang") as! String
              let stock = countData.value(forKey: "Stock") as! Int
              let tokoID = countData.value(forKey: "tokoID") as! String

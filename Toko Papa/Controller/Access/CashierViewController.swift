@@ -279,7 +279,7 @@ class CashierViewController: UIViewController {
     @IBAction func unwindFromBarcodeScanner(_ unwindSegue: UIStoryboardSegue) {
         guard let BarcodeScanVC = unwindSegue.source as? BarcodeScannerController else { return }
         self.barcode = BarcodeScanVC.qrData
-        self.barcodeTemp = "\(barcode?.codeString)"
+        self.barcodeTemp = "\(barcode?.codeString ?? "")"
         print(barcodeTemp)
         getScanItem = true
     }
@@ -408,7 +408,6 @@ extension CashierViewController: UITableViewDelegate, UITableViewDataSource {
             //print("Total dari cell for row at \(totalPrice)")
             GrandTotal += myItem[indexPath.row].price * myItem[indexPath.row].stock
             itemTemp.append(myItem[indexPath.row])
-            print(itemTemp.first?.namaItem)
             
             return itemAddedCell
         }
