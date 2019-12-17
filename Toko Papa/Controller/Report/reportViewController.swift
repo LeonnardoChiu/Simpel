@@ -771,7 +771,7 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     penjualan.backgroundColor = .clear
                     penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
                     
-                    
+                    penjualan.chevron.isHidden = true
                     penjualan.namaItem.text = "\(BarangPenjualan[indexPath.row].nama)"
                     penjualan.unitItem.text = "Unit terjual: \(BarangPenjualan[indexPath.row].qty)"
                     penjualan.LastUpdate.text = ""
@@ -812,6 +812,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     penjualan.backgroundColor = .clear
                     penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
                     
+                    penjualan.chevron.isHidden = true
+                    
                     penjualan.namaItem.text = "\(barangBaru[indexPath.row].namaBarang)"
                     penjualan.unitItem.text = "Unit masuk: \(barangBaru[indexPath.row].stock)"
                     penjualan.LastUpdate.text = ""
@@ -851,6 +853,8 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     penjualan.backgroundColor = .clear
                     penjualan.cellView.applyConfig(for: indexPath, numberOfCellsInSection: tableView.numberOfRows(inSection: indexPath.section))
                     
+                    penjualan.chevron.isHidden = false
+                    
                     for i in inventory{
                         if editBarang[indexPath.row].inventoryID == i.Id.recordName{
                             namaBarangEdit = i.namaItem
@@ -884,11 +888,14 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             print(selectedMonthNumber)
             performSegue(withIdentifier: "segueToTotalSalesVC", sender: self)
         }
-        else if indexPath.section == 3 {
-            if indexPath.row != 3 {
+        else if indexPath.section == 3 && editBarang.count != 0 {
+            if indexPath.row != tableView.numberOfRows(inSection: indexPath.section) - 1 {
+                print(tableView.numberOfRows(inSection: indexPath.section))
+                print(indexPath.row)
                 selectedIndex = indexPath.row
+                performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
             }
-            performSegue(withIdentifier: "segueToEditItemDetails", sender: self)
+            
         }
         
     }
