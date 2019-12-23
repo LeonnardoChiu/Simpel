@@ -98,10 +98,10 @@ class CashierViewController: UIViewController {
         //print(data.first)
         //GrandTotal = 0
         if myItem.count != 0 {
-            print("ID : ", stockTemp[0].Id.recordName)
-            print("ID :", stockTemp.count)
-            print("ID STOCK : ", stockTemp[0].stock)
-            print(stockTemp)
+            //print("ID : ", stockTemp[0].Id.recordName)
+            //print("ID :", stockTemp.count)
+            //print("ID STOCK : ", stockTemp[0].stock)
+            //print(stockTemp)
             finishBtnOutlet.isEnabled = true
         } else {
             finishBtnOutlet.isEnabled = false
