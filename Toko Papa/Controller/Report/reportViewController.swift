@@ -176,7 +176,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         }
         
-//        getPenjualan()
         
       }
     
@@ -184,10 +183,9 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         barangTerjual.removeAll()
         for countData in record {
             let id = countData.recordID
-           let inventoryID = countData.value(forKey: "InventoryID") as! String
-           let qty = countData.value(forKey: "qty") as! Int
-           
-            
+            let inventoryID = countData.value(forKey: "InventoryID") as! String
+            let qty = countData.value(forKey: "qty") as! Int
+
             barangTerjual.append(itemTransaction(id: id, inventoryid: inventoryID, qty: qty))
         }
     }
@@ -258,7 +256,6 @@ class reportViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func initDataModelInventory(record: [CKRecord]) {
         inventory.removeAll()
         
-        print(data.count)
         for countData in record {
             let id = countData.recordID
             let namaItem = countData.value(forKey: "NameProduct") as! String
