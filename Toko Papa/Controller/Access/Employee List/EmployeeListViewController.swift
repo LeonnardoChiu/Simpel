@@ -71,7 +71,7 @@ class EmployeeListViewController: UIViewController {
    
     // MARK: - obj function untuk nampilin data Query Database
     @objc func QueryDatabaseKaryawan(){
-        var mainTabBar = self.tabBarController as! MainTabBarController
+        let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
         
         let tokoID = modelPemilik?.tokoID
@@ -147,7 +147,7 @@ class EmployeeListViewController: UIViewController {
                 profileImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
             }
-            let refr = CKRecord.ID(recordName: "-")
+//            let refr = CKRecord.ID(recordName: "-")
             owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
