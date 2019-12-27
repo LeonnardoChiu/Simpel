@@ -96,7 +96,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "160"
             endingLineNumber = "160"
-            landmarkName = "ModelOwner()"
+            landmarkName = "ModelKaryawan()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -496,8 +496,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "159"
             endingLineNumber = "159"
-            landmarkName = "ModelOwner()"
-            landmarkType = "7">
+            landmarkName = "EmployeeListViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -512,8 +512,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
             endingLineNumber = "72"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
+            landmarkName = "EmployeeListViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -528,7 +528,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
             endingLineNumber = "73"
-            landmarkName = "viewWillAppear(_:)"
+            landmarkName = "QueryDatabaseKaryawan()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -560,40 +560,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "268"
             endingLineNumber = "268"
-            landmarkName = "createTransactionSummary()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "136F75B0-EDB3-491E-BBB8-1F778A4D71FB - bdd8402e0cca52a3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Simple.CashierViewController.createTransactionSummary() -&gt; ()"
-                  moduleName = "Simple"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rickyerdiansyah/Desktop/toko-papa/Toko%20Papa/Controller/Access/CashierViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "268"
-                  endingLineNumber = "268"
-                  offsetFromSymbolStart = "2200">
-               </Location>
-               <Location
-                  uuid = "136F75B0-EDB3-491E-BBB8-1F778A4D71FB - 3413fabdacf1d4c9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.CKRecord&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Simple.CashierViewController.createTransactionSummary() -&gt; ()"
-                  moduleName = "Simple"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rickyerdiansyah/Desktop/toko-papa/Toko%20Papa/Controller/Access/CashierViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "269"
-                  endingLineNumber = "269"
-                  offsetFromSymbolStart = "100">
-               </Location>
-            </Locations>
+            landmarkName = "CashierViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -109,7 +109,7 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
     }
     
     @IBAction func unwindFromSatuanBarang(segue: UIStoryboardSegue){
-        guard let satuanVC = segue.source as? TambahSatuanViewController else { return }
+        guard let _ = segue.source as? TambahSatuanViewController else { return }
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -134,7 +134,8 @@ class SatuanBarangTableViewController: UITableViewController,UINavigationControl
 
               case .destructive:
                     print("destructive")
-
+              default :
+                break
 
         }}))
         alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))

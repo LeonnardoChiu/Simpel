@@ -141,11 +141,12 @@ class EmployeeListViewController: UIViewController {
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
         
-            var profileImage: UIImage?
+            //var profileImage: UIImage?
             image = (countData.value(forKey: "Images") as? [CKAsset])?.first
             if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-                profileImage = UIImage(data: data as Data)
+                //profileImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
+                images = UIImage(data: data as Data)
             }
 //            let refr = CKRecord.ID(recordName: "-")
             owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
@@ -170,10 +171,10 @@ class EmployeeListViewController: UIViewController {
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
             
-            var profileImage: UIImage?
+            //var profileImage: UIImage?
             image = (countData.value(forKey: "Images") as? [CKAsset])?.first
             if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-                profileImage = UIImage(data: data as Data)
+                //profileImage = UIImage(data: data as Data)
                 //itemImage.contentMode = .scaleAspectFill
                 images = UIImage(data: data as Data)
             }

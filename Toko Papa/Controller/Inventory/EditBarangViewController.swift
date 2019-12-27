@@ -150,6 +150,7 @@ class EditBarangViewController: UIViewController{
         self.barcode = barcodeVC.qrData
         let indexPath = IndexPath(item: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
+        guard let barcode = barcode else { return }
         barcodeTemp = "\(barcode)"
         enabledDoneButton()
         
@@ -427,7 +428,7 @@ extension EditBarangViewController: UICollectionViewDataSource,UICollectionViewD
     func collectionView(_ collection: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if images.count > 3{
             while(images.count > 3){
-                images.popLast()
+                images.removeLast(1)
             }
         }
         return images.count

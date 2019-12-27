@@ -269,7 +269,7 @@ class CashierViewController: UIViewController {
     // MARK: - Unwind list
     /// unwind dari search page
     @IBAction func unwindFromItemSearch(_ unwindSegue: UIStoryboardSegue) {
-        guard let SearchItemVC = unwindSegue.source as? CashierItemListViewController else { return }
+        guard let _ = unwindSegue.source as? CashierItemListViewController else { return }
         // Use data from the view controller which initiated the unwind segue
         getSearchItem = true
         
