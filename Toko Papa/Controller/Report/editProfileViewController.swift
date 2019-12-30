@@ -28,7 +28,7 @@ class editProfileViewController: UIViewController, UITableViewDelegate, UITableV
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        //let tappedImage = tapGestureRecognizer.view as! UIImageView
 
         ImagePickerManager().pickImage(self) { image in
             self.image = image

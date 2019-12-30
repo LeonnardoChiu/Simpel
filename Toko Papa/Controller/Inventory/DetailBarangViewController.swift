@@ -125,7 +125,7 @@ class DetailBarangViewController: UIViewController,UITableViewDelegate, UITableV
     }
     
     @IBAction func unwindToDetailtVC(_ unwindSegue: UIStoryboardSegue) {
-       guard let sourceViewController = unwindSegue.source as? DetailBarangViewController else { return }
+       guard let _ = unwindSegue.source as? DetailBarangViewController else { return }
         // Use data from the view controller which initiated the unwind segue
     }
     

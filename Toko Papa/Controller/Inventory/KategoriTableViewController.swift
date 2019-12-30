@@ -106,7 +106,7 @@ class KategoriTableViewController: UITableViewController {
     }
     
     @IBAction func unwindFromKategoriBarang(segue: UIStoryboardSegue){
-        guard let satuanVC = segue.source as? TambahCategoryViewController else { return }
+        guard let _ = segue.source as? TambahCategoryViewController else { return }
     }
     
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -132,6 +132,8 @@ class KategoriTableViewController: UITableViewController {
                   case .destructive:
                         print("destructive")
 
+                  default:
+                        break
 
             }}))
             alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))

@@ -286,7 +286,7 @@ class AddInventoryViewController: UIViewController,UITableViewDelegate,UITableVi
     func collectionView(_ collection: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if images.count > 3{
             while(images.count > 3){
-                images.popLast()
+                images.removeLast(1)
             }
         }
         return images.count

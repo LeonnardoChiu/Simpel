@@ -113,7 +113,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
         transactionSummary.removeAll()
         for countData in record {
             let id = countData.recordID
-            var itemID:[String]?
+            var itemID:[String]
             itemID = countData.value(forKey: "ItemID") as! [String]
             let tokoID = countData.value(forKey: "TokoID") as! String
             let tanggal = countData.value(forKey: "tanggal") as! Int
@@ -124,7 +124,7 @@ class totalSalesViewController: UIViewController, UITableViewDelegate, UITableVi
 
             
             if tanggal == selectedDay && bulan == month && tahun == selectedYear {
-                transactionSummary.append(SummaryTransaction(id: id, tokoID: tokoID, itemID: itemID ?? [], tanggal: tanggal, bulan: bulan, tahun: tahun, metodePembayaran: metodeBayar, totalPenjualan: totalPenjualan))
+                transactionSummary.append(SummaryTransaction(id: id, tokoID: tokoID, itemID: itemID , tanggal: tanggal, bulan: bulan, tahun: tahun, metodePembayaran: metodeBayar, totalPenjualan: totalPenjualan))
 
 //                self.tableView.reloadData()
             }

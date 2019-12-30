@@ -134,6 +134,9 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
 
               case .destructive:
                     print("destructive")
+                
+              default:
+                    break
 
 
         }}))
@@ -203,7 +206,7 @@ class InventoryViewController: UIViewController, UITableViewDelegate,UITableView
     }
     
     @IBAction func unwindToVCInventory(_ unwindSegue: UIStoryboardSegue) {
-        guard let sourceViewController = unwindSegue.source as? InventoryViewController else { return }
+        guard let _ = unwindSegue.source as? InventoryViewController else { return }
         // Use data from the view controller which initiated the unwind segue
     }
     

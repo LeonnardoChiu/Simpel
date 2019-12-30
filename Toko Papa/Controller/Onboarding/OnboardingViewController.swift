@@ -31,7 +31,7 @@ class OnboardingViewController: UIViewController {
        
     }
     @IBAction func unwindFromLoginVC(segue: UIStoryboardSegue){
-        guard let satuanVC = segue.source as? RegisterViewController else { return }
+        guard let _ = segue.source as? RegisterViewController else { return }
             QueryDatabase()
     }
     
