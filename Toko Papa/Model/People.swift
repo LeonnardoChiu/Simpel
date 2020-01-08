@@ -28,35 +28,25 @@ struct User {
 
 class People {
     var firstName: String
-    var lastName: String
-    var phone: String
     var role: String
     var Id: CKRecord.ID
     var tokoID: String
     
-    var email: String
+
     var appleID: String
-    var image: UIImage?
     
-    init(id: CKRecord.ID, appleid: String, email: String, firstName: String, lastName: String, phone: String, rolee: String, toko:String, profileImage: UIImage) {
+    init(id: CKRecord.ID, appleid: String, firstName: String, rolee: String, toko:String) {
         self.Id = id
-        self.email = email
         self.appleID = appleid
         self.firstName = firstName
-        self.lastName = lastName
-        self.phone = phone
         self.role = rolee
         self.tokoID = toko
-        self.image = profileImage
     }
     
     func prints(){
         print(Id)
-        print(email)
         print(appleID)
         print(firstName)
-        print(lastName)
-        print(phone)
     }
 }
 

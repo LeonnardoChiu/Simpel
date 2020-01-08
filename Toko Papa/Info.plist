@@ -17,13 +17,13 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Aplikasi ini membutuhkan Acces untuk membuka kamera</string>
+	<string>Aplikasi ini membutuhkan akses kamera untuk mengambil gambar produk dan scan barcode</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Aplikasi ini Membutuh access ke Gallery</string>
+	<string>Aplikasi ini Membutuh akese ke Gallery untuk mengambil gambar produk dan scan barcode</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

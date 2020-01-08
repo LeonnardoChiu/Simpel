@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -303,8 +303,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="o2h-r1-XwD">
-                                <rect key="frame" x="0.0" y="301" width="414" height="561"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="561" id="J8N-xs-YhD"/>
+                                    <constraint firstAttribute="width" constant="414" id="oaA-yA-Pky"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="registerCell" id="sEo-w6-pXI" customClass="RegisterViewCell" customModule="Simple" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
@@ -342,40 +346,12 @@
                                     <outlet property="delegate" destination="I3e-9D-o6q" id="as1-hT-BJN"/>
                                 </connections>
                             </tableView>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Import Image" translatesAutoresizingMaskIntoConstraints="NO" id="E8g-eR-fYT">
-                                <rect key="frame" x="147" y="119.66666666666669" width="120" height="120"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="E8g-eR-fYT" secondAttribute="height" multiplier="1:1" id="ZBX-4X-zSr"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="60"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Foto tidak boleh kosong" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lh1-QF-rzz">
-                                <rect key="frame" x="20" y="248.33333333333337" width="374" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="ByX-7n-Pt2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Lh1-QF-rzz" firstAttribute="leading" secondItem="ynx-LI-p94" secondAttribute="leading" constant="20" id="0Ul-Vg-gxq"/>
-                            <constraint firstItem="E8g-eR-fYT" firstAttribute="top" secondItem="ynx-LI-p94" secondAttribute="top" constant="31.670000000000002" id="8Nu-5X-i8J"/>
-                            <constraint firstItem="o2h-r1-XwD" firstAttribute="leading" secondItem="ynx-LI-p94" secondAttribute="leading" id="APK-LN-Wpx"/>
-                            <constraint firstItem="ynx-LI-p94" firstAttribute="trailing" secondItem="E8g-eR-fYT" secondAttribute="trailing" constant="147" id="AXu-F6-kui"/>
-                            <constraint firstItem="o2h-r1-XwD" firstAttribute="bottom" secondItem="ynx-LI-p94" secondAttribute="bottom" id="Smv-Pv-ZLK"/>
-                            <constraint firstItem="Lh1-QF-rzz" firstAttribute="top" secondItem="E8g-eR-fYT" secondAttribute="bottom" constant="8.5" id="auz-dw-74G"/>
-                            <constraint firstItem="o2h-r1-XwD" firstAttribute="trailing" secondItem="ynx-LI-p94" secondAttribute="trailing" id="iSf-7d-55d"/>
-                            <constraint firstItem="o2h-r1-XwD" firstAttribute="top" secondItem="Lh1-QF-rzz" secondAttribute="bottom" constant="31.670000000000002" id="mh7-3K-AhH"/>
-                            <constraint firstItem="ynx-LI-p94" firstAttribute="trailing" secondItem="Lh1-QF-rzz" secondAttribute="trailing" constant="20" id="pdK-eY-gY6"/>
-                            <constraint firstItem="E8g-eR-fYT" firstAttribute="leading" secondItem="ynx-LI-p94" secondAttribute="leading" constant="147" id="z0y-dH-ugr"/>
+                            <constraint firstItem="o2h-r1-XwD" firstAttribute="leading" secondItem="ynx-LI-p94" secondAttribute="leading" id="107-Ib-Lfc"/>
+                            <constraint firstItem="o2h-r1-XwD" firstAttribute="trailing" secondItem="ynx-LI-p94" secondAttribute="trailing" id="3jE-ek-aWQ"/>
+                            <constraint firstItem="o2h-r1-XwD" firstAttribute="top" secondItem="ynx-LI-p94" secondAttribute="top" id="ebB-2X-qW4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ynx-LI-p94"/>
                     </view>
@@ -389,8 +365,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="doneButton" destination="mTP-cc-5NC" id="ZhK-Sy-tr3"/>
-                        <outlet property="errorLabel" destination="Lh1-QF-rzz" id="U1q-P5-9dg"/>
-                        <outlet property="profileImages" destination="E8g-eR-fYT" id="jJg-zS-4Cf"/>
                         <outlet property="selesai" destination="mTP-cc-5NC" id="iNR-Xl-zWu"/>
                         <outlet property="tableView" destination="o2h-r1-XwD" id="Ufv-D4-2a3"/>
                         <segue destination="iKt-g6-fMQ" kind="unwind" identifier="backtoLogin" unwindAction="unwindFromLoginVCWithSegue:" id="5Ve-5M-3PH"/>
@@ -404,12 +378,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Import Image" width="214" height="214"/>
         <image name="Pegawai" width="374" height="220"/>
         <image name="Pemilik" width="374" height="220"/>
         <image name="logo S" width="453" height="771"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iVP-rl-aH9"/>
+        <segue reference="DWs-r2-eSw"/>
     </inferredMetricsTieBreakers>
 </document>
