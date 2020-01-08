@@ -25,7 +25,6 @@ class EmployeeListViewController: UIViewController {
     var data = [CKRecord]()
     var modelPemilik: People?
     var idx: Int = 0
-    var image: CKAsset?
     
     // MARK: - IBOutlet list
     @IBOutlet weak var tableList: UITableView! {
@@ -63,7 +62,6 @@ class EmployeeListViewController: UIViewController {
         let mainTabBar = self.tabBarController as! MainTabBarController
         modelPemilik = mainTabBar.modelPeople
        
-        images = modelPemilik?.image
         
       
     }
@@ -134,22 +132,10 @@ class EmployeeListViewController: UIViewController {
        for countData in data {
             let id = countData.recordID
             let appleid = countData.value(forKey: "AppleID") as! String
-            let email = countData.value(forKey: "Email") as! String
             let firstName = countData.value(forKey: "firstName") as! String
-            let lastName = countData.value(forKey: "lastName") as! String
-            let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
-        
-            //var profileImage: UIImage?
-            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
-            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-                //profileImage = UIImage(data: data as Data)
-                //itemImage.contentMode = .scaleAspectFill
-                images = UIImage(data: data as Data)
-            }
-//            let refr = CKRecord.ID(recordName: "-")
-            owner.append(People(id: id, appleid: appleid, email: email, firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
+            owner.append(People(id: id, appleid: appleid, firstName: firstName, rolee: roleee, toko: tokoID))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowOwner.append(true)
             }else{
@@ -164,23 +150,11 @@ class EmployeeListViewController: UIViewController {
         for countData in data {
             let id = countData.recordID
             let appleid = countData.value(forKey: "AppleID") as! String
-            let email = countData.value(forKey: "Email") as! String
             let firstName = countData.value(forKey: "firstName") as! String
-            let lastName = countData.value(forKey: "lastName") as! String
-            let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
             
-            //var profileImage: UIImage?
-            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
-            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-                //profileImage = UIImage(data: data as Data)
-                //itemImage.contentMode = .scaleAspectFill
-                images = UIImage(data: data as Data)
-            }
-            
-            karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: images!))
-            //karyawan.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
+            karyawan.append(People(id: id, appleid: appleid, firstName: firstName, rolee: roleee, toko: tokoID))
             if id.recordName == modelPemilik?.Id.recordName{
                 rowKaryawan.append(true)
             }else{
@@ -225,9 +199,8 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         
         if indexPath.section == 0 {
             let firstName = owner[indexPath.row].firstName
-            let lastName = owner[indexPath.row].lastName
             let role = owner[indexPath.row].role
-            cell.namaLbl.text = "\(firstName) \(lastName)"
+            cell.namaLbl.text = "\(firstName)"
             cell.accessLbl.text = "\(role)"
             if rowOwner[indexPath.row] == true{
                 cell.namaLbl.textColor = UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
@@ -240,9 +213,8 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             if modelPemilik?.role == "Karyawan"{
                 
                 let firstName = karyawan[indexPath.row].firstName
-                let lastName = karyawan[indexPath.row].lastName
                 let role = karyawan[indexPath.row].role
-                cell.namaLbl.text = "\(firstName) \(lastName)"
+                cell.namaLbl.text = "\(firstName)"
                 cell.accessLbl.text = "\(role)"
                 if rowKaryawan[indexPath.row] == true{
                     cell.namaLbl.textColor = UIColor(displayP3Red: 0/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1)
@@ -258,9 +230,8 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                     if indexPath.row < karyawan.count{
                         print(indexPath.row)
                         let firstName = karyawan[indexPath.row].firstName
-                        let lastName = karyawan[indexPath.row].lastName
                         let role = karyawan[indexPath.row].role
-                        cell.namaLbl.text = "\(firstName) \(lastName)"
+                        cell.namaLbl.text = "\(firstName)"
                         cell.accessLbl.text = "\(role)"
                         return cell
                     }else{

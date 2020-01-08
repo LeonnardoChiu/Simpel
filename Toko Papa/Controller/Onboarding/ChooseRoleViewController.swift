@@ -67,21 +67,13 @@ class ChooseRoleViewController: UIViewController {
         for countData in data {
             let id = countData.recordID
             let appleid = countData.value(forKey: "AppleID") as! String
-            let email = countData.value(forKey: "Email") as! String
             let firstName = countData.value(forKey: "firstName") as! String
-            let lastName = countData.value(forKey: "lastName") as! String
-            let phone = countData.value(forKey: "phoneNumber") as! String
             let roleee = countData.value(forKey: "role") as! String
             let tokoID = countData.value(forKey: "TokoID") as! String
             
-            var profileImage: UIImage?
-            image = (countData.value(forKey: "Images") as? [CKAsset])?.first
-            if let image = image, let url = image.fileURL, let data = NSData(contentsOf: url) {
-                profileImage = UIImage(data: data as Data)
-                //itemImage.contentMode = .scaleAspectFill
-            }
             
-            people.append(People(id: id, appleid: appleid, email: email,  firstName: firstName, lastName: lastName, phone: phone, rolee: roleee, toko: tokoID, profileImage: UIImage(systemName: "camera.fill")!))
+            
+            people.append(People(id: id, appleid: appleid, firstName: firstName, rolee: roleee, toko: tokoID))
         }
     }
     

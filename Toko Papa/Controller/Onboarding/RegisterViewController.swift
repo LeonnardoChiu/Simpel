@@ -12,7 +12,7 @@ import CloudKit
 class RegisterViewController: UIViewController {
     
     // MARK: - Variable
-    var placeHolders: [String] = ["Nama Depan", "Nama Belakang","Email","Nomor telp"]
+    var placeHolders: [String] = ["Nama Lengkap"]
     var isiCellforRow: [String] = []
     var user: User?
     var id: String = ""
@@ -27,19 +27,13 @@ class RegisterViewController: UIViewController {
     var usernameTemp = ""
     var passwordTemp = ""
     var namaDepanTemp = ""
-    var namaBelakangTemp = ""
-    var emailTemp = ""
-    var nomorHpTemp = ""
+
     
     var namaDepanValidTemp = ""
-    var namaBelakangValidTemp = ""
-    var emailValidTemp = ""
-    var nomorHpValidTemp = ""
     var cek = false
      var alert2: UIAlertController = UIAlertController()
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
-    @IBOutlet weak var errorLabel: UILabel!
     
     @IBOutlet weak var selesai: UIBarButtonItem!
     /// Database
@@ -52,7 +46,6 @@ class RegisterViewController: UIViewController {
             tableView.tableFooterView = UIView(frame: .zero)
         }
     }
-    @IBOutlet weak var profileImages: UIImageView!
     var counter = 0
     var timer = Timer()
 
@@ -69,7 +62,7 @@ class RegisterViewController: UIViewController {
             self.cek = false
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
            
-            //self.performSegue(withIdentifier: "toRole", sender: nil)
+            
         }
         
         
@@ -102,9 +95,6 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-//        doneButton.isEnabled = false
-        errorLabel.isHidden = true
-        initProfileImage()
     }
     
     // MARK: - View will appear
@@ -112,51 +102,23 @@ class RegisterViewController: UIViewController {
         super.viewWillAppear(animated)
         self.hideKeyboardWhenTappedAround()
         isiCellforRow.append(user!.firstName)
-        isiCellforRow.append(user!.lastName)
-        isiCellforRow.append(user!.email)
-        isiCellforRow.append("")
-        print(String(user?.debugDescription ?? ""))
-        print(id)
         navigationController?.setNavigationBarHidden(false, animated: true)
         namaDepanTemp = user!.firstName
-        namaBelakangTemp = user!.lastName
-        emailTemp = user!.email
         enabledDoneButton()
     }
     
     // MARK: - Function
-    func initProfileImage() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTap))
-        profileImages.addGestureRecognizer(tap)
-        profileImages.isUserInteractionEnabled = true
-        profileImages.image = UIImage(systemName: "camera.circle")
-    }
+    
     
     // MARK: - objc untuk profile image
-    @objc func imageTap() {
-        ImagePickerManager().pickImage(self) { image in
-            self.images = image
-            self.profileImages.image = self.images
-            self.profileImages.contentMode = .scaleAspectFill
-
-            self.enabledDoneButton()
-        }
-    }
+    
     
     // MARK: - Save to cloud function
-    func saveToCloud(img: UIImage, AppleID: String, Email: String, firstName: String, lastName: String, phoneNumber: String) {
+    func saveToCloud(AppleID: String, firstName: String) {
+        print("mulai save")
         let record = CKRecord(recordType: "Profile")
-        //#error("Profile imagenya masih gambar system")
-       // #warning("Profile imagenya masih gambar system")
-        let resizedImage = img.resizedTo1MB()
-        let asset = CKAsset(fileURL: getUrl(resizedImage!)!)
-        record.setValue(asset, forKey: "profileImage")
         record.setValue(AppleID, forKey: "AppleID")
-        record.setValue(Email, forKey: "Email")
         record.setValue(firstName, forKey: "firstName")
-        record.setValue(lastName, forKey: "lastName")
-//      record.setValue("", forKey: "role")
-        record.setValue(phoneNumber, forKey: "phoneNumber")
         record.setValue("-", forKey: "role")
         
         record.setValue("-", forKey: "TokoID")
@@ -185,39 +147,25 @@ class RegisterViewController: UIViewController {
     // MARK: - Append add
     func appendAdd() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
-        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
-        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
-        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
         //let role = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? RegisterViewCel
         
-        self.saveToCloud(img: profileImages.image!, AppleID: user!.id, Email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phoneNumber: phone!.textField.text!)
+        self.saveToCloud(AppleID: user!.id, firstName: firstName!.textField.text!)
     }
     
     func initDataModel() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
-        let lastName = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? RegisterViewCell
-        let email = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? RegisterViewCell
-        let phone = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? RegisterViewCell
-        images = profileImages.image!
-        modelRegister?.image = images
-        //modelRegister?.image = profileImages.image
-        print(images)
+        
         //model
         let tokoIDReference = CKRecord.ID(recordName: "-")
-        modelRegister = People(id: tokoIDReference, appleid: user!.id, email: email!.textField.text!, firstName: firstName!.textField.text!, lastName: lastName!.textField.text!, phone: phone!.textField.text!, rolee: "-", toko: "-", profileImage: profileImages.image!)
+        modelRegister = People(id: tokoIDReference, appleid: user!.id, firstName: firstName!.textField.text!, rolee: "-", toko: "-")
         
     }
     
     func enabledDoneButton() {
-        if namaDepanValidTemp == "" || namaBelakangValidTemp == "" || emailValidTemp == "" || nomorHpValidTemp == "" || isValidEmail(emailStr: emailValidTemp) == false {
-            doneButton.isEnabled = false
-        }
-        else if profileImages.image == UIImage(systemName: "camera.circle") {
-            errorLabel.isHidden = false
+        if namaDepanValidTemp == "" {
             doneButton.isEnabled = false
         }
         else{
-            errorLabel.isHidden = true
             doneButton.isEnabled = true
         }
     }
@@ -279,52 +227,14 @@ extension RegisterViewController: UITextFieldDelegate {
         
         if textFieldRow == 0 {
             if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Nama depan harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
+                textField.attributedPlaceholder = NSAttributedString(string: "Nama harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
             }
             namaDepanValidTemp = textField.text!
         }
-
-        if textFieldRow == 1{
-            if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Nama belakang harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
-            }
-            namaBelakangValidTemp = textField.text!
-        }
-
-        if textFieldRow == 2 {
-            if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Email harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
-            }
-            
-            if isValidEmail(emailStr: emailValidTemp) == false {
-                textField.textColor = UIColor.systemRed
-            }
-            else {
-                textField.textColor = UIColor.label
-            }
-            emailValidTemp = textField.text!
-        }
-
-        if textFieldRow == 3 {
-            if textField.text == "" {
-                textField.attributedPlaceholder = NSAttributedString(string: "Nomor Handphone harus diisi", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemRed])
-            }
-            nomorHpValidTemp = textField.text!
-        }
         
         print(namaDepanValidTemp)
-        print(namaBelakangValidTemp)
-        print(emailValidTemp)
-        print(nomorHpValidTemp)
         
         enabledDoneButton()
 
-    }
-    
-     func isValidEmail(emailStr:String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: emailStr)
     }
 }
