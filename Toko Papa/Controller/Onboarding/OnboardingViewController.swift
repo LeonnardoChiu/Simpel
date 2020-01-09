@@ -248,6 +248,14 @@ class OnboardingViewController: UIViewController {
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             
             if self.textfieldpassword == "1234"{
+                
+                for ppl in self.people{
+                    if ppl.appleID == "000199.53be12a7a93d4d749a7d907e94e99b6a.0307"{
+                         
+                        self.model = ppl
+                         break
+                     }
+                 }
                 if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                     vc.peopleMaintab = self.people
                     vc.modelPeople = self.model
