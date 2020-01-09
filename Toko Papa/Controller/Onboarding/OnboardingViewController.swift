@@ -259,7 +259,7 @@ class OnboardingViewController: UIViewController {
                 if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                     vc.peopleMaintab = self.people
                     vc.modelPeople = self.model
-                    vc.appleid = "000199.53be12a7a93d4d749a7d907e94e99b6a.0307"
+                    vc.appleid = ""
                     //navigationController?.setNavigationBarHidden(false, animated: true)
                     let appDelegate = UIApplication.shared.windows
                     appDelegate.first?.rootViewController = vc
