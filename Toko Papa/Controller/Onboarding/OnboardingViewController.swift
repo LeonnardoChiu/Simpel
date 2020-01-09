@@ -24,6 +24,11 @@ class OnboardingViewController: UIViewController {
     
     var loginStatus = UserDefaults.standard.bool(forKey: "userLogin")
     var cek = false
+
+    var textfieldpassword: String?
+    
+    @IBOutlet weak var forDeveloperButton: UIButton!
+    
     // MARK: - IBOutlet list
     @IBOutlet weak var signInAppleBtn: UIStackView!
     
@@ -66,7 +71,7 @@ class OnboardingViewController: UIViewController {
 //        loginStatus = false
           cek = false
         print(loginStatus)
-        
+        forDeveloperButton.isHidden = true
         if let appleID = UserDefaults.standard.string(forKey: "appleId") {
            
         }else{
@@ -96,6 +101,7 @@ class OnboardingViewController: UIViewController {
             counter = 0
             timer.invalidate()
             initAppleSignInButton()
+            forDeveloperButton.isHidden = false
           
         }
         
@@ -228,7 +234,49 @@ class OnboardingViewController: UIViewController {
     }
 
     
+    @IBAction func forDeveloperPurpose(_ sender: Any) {
+        var alert: UIAlertController = UIAlertController()
+        alert = UIAlertController(title: "Password", message: "Input password Devolper", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Masukan Password"
+            textField.keyboardType = .numberPad
+            textField.isSecureTextEntry = true
+            textField.tag = 1
+            textField.delegate = self
+        }
+        let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
+            
+            if self.textfieldpassword == "1234"{
+                if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                    vc.peopleMaintab = self.people
+                    vc.modelPeople = self.model
+                    vc.appleid = "000199.53be12a7a93d4d749a7d907e94e99b6a.0307"
+                    //navigationController?.setNavigationBarHidden(false, animated: true)
+                    let appDelegate = UIApplication.shared.windows
+                    appDelegate.first?.rootViewController = vc
+                    self.present(vc, animated: true, completion: nil)
+                    
+                }
+            }else{
+                var alert2: UIAlertController = UIAlertController()
+                alert2 = UIAlertController(title: "Password Salah", message: "Kamu bukan developer", preferredStyle: .alert)
+                let cancel2 = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                alert2.addAction(cancel2)
+                self.present(alert2, animated: true, completion: nil)
+            }
+        
+        }
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        present(alert, animated: true, completion: nil)
+    
+    }
 }
+
+
+
+
 
 // MARK: - EXTENSION
 extension OnboardingViewController: ASAuthorizationControllerDelegate {
@@ -253,5 +301,16 @@ extension OnboardingViewController: ASAuthorizationControllerDelegate {
 extension OnboardingViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
+    }
+}
+
+extension OnboardingViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let textFIeldRow = textField.tag
+        
+        if textFIeldRow == 1 {
+            textfieldpassword = textField.text
+            print(textfieldpassword)
+        }
     }
 }

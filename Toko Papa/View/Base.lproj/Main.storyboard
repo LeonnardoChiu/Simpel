@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjz-OG-coP">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -129,12 +129,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znO-3j-qi8">
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znO-3j-qi8">
                                 <rect key="frame" x="80" y="686" width="254" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="ZIK-Z8-DeS"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0GI-dP-xEP">
+                                <rect key="frame" x="176" y="729" width="62" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <state key="normal" title="For Developer"/>
+                                <connections>
+                                    <action selector="forDeveloperPurpose:" destination="b6a-9g-dw7" eventType="touchUpInside" id="tqm-YV-ywt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -142,11 +149,8 @@
                             <constraint firstItem="8tS-uJ-x45" firstAttribute="trailing" secondItem="e45-Yp-Fbz" secondAttribute="trailing" constant="157" id="Bne-fQ-okZ"/>
                             <constraint firstItem="j7a-b5-Pfy" firstAttribute="top" secondItem="e45-Yp-Fbz" secondAttribute="bottom" constant="20" id="Lvr-RA-wGm"/>
                             <constraint firstItem="e45-Yp-Fbz" firstAttribute="top" secondItem="8tS-uJ-x45" secondAttribute="top" constant="112" id="Med-pJ-GUi"/>
-                            <constraint firstItem="8tS-uJ-x45" firstAttribute="trailing" secondItem="znO-3j-qi8" secondAttribute="trailing" constant="80" id="VDy-yO-t3N"/>
                             <constraint firstItem="8tS-uJ-x45" firstAttribute="trailing" secondItem="j7a-b5-Pfy" secondAttribute="trailing" constant="80" id="dfv-t3-4RH"/>
-                            <constraint firstItem="8tS-uJ-x45" firstAttribute="bottom" secondItem="znO-3j-qi8" secondAttribute="bottom" constant="136" id="i84-GK-09N"/>
                             <constraint firstItem="j7a-b5-Pfy" firstAttribute="leading" secondItem="8tS-uJ-x45" secondAttribute="leading" constant="80" id="mGO-yX-3yf"/>
-                            <constraint firstItem="znO-3j-qi8" firstAttribute="leading" secondItem="8tS-uJ-x45" secondAttribute="leading" constant="80" id="piE-OO-gHi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tS-uJ-x45"/>
                     </view>
@@ -154,14 +158,32 @@
                         <barButtonItem key="backBarButtonItem" title="Kembali" id="kuy-2v-MVe"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="forDeveloperButton" destination="0GI-dP-xEP" id="jSv-xd-TZn"/>
                         <outlet property="signInAppleBtn" destination="znO-3j-qi8" id="6eV-Jt-rRq"/>
                         <segue destination="Sa8-dk-dfs" kind="show" identifier="toChooseRole" id="DWs-r2-eSw"/>
                         <segue destination="I3e-9D-o6q" kind="show" identifier="toRegister" id="f4Q-9f-Bc9"/>
+                        <segue destination="FaC-Yj-88K" kind="show" id="jZg-Rh-sBJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gU8-Hi-UJN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-810.14492753623199" y="-1434.375"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="3Gc-1w-pBo">
+            <objects>
+                <viewController id="FaC-Yj-88K" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="edY-38-1IF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="h5n-xR-KH2"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Wfu-aK-SGk"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nEP-qi-jF7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97" y="-1432"/>
         </scene>
         <!--Karyawan-->
         <scene sceneID="rrr-T4-6kf">
