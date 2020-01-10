@@ -44,7 +44,7 @@ class TokoViewController: UIViewController {
     var kontertoko = 0
     var cekupdatetocloud = false
     var konterupdate = 0
-    
+     var Idss: String?
     @IBAction func doneBtn(_ sender: Any) {
         
         var alert: UIAlertController = UIAlertController()
@@ -58,28 +58,26 @@ class TokoViewController: UIViewController {
             self.cekupdatetocloud = false
            alert2 = UIAlertController(title: "mohon menunggu", message: "tunggu beberapa detik", preferredStyle: .alert)
            self.present(alert2, animated: true, completion: nil)
-            var Idss: String?
+           
             self.saveToCloud(namaToko: self.namaTokotextField.text!) { (status) in
                 if status == true {
+                    print(self.tempBuatCekToko)
                     self.QueryDatabaseToko(uniqcode: self.tempBuatCekToko!) { (status) in
-                       for i in self.dataToko{
-                            if i.value(forKey: "UniqCode") as! String == self.tempBuatCekToko{
-                                Idss = i.recordID.recordName
-                                break
-                            }
-                        }
-                        self.QueryDatabaseProfile(appleid: self.modelPemilik!.appleID) { (status) in
-                            self.updateToCloudProfil(tokoID: Idss!) { (status) in
-                                DispatchQueue.main.sync {
-                                    if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                                        vc.modelPeople = self.modelPemilik
-                                         vc.appleid = ""
-                                        let appDelegate = UIApplication.shared.windows
-                                        appDelegate.first?.rootViewController = vc
-                                        self.present(vc, animated: true, completion: nil)
+                        if status == true{
+                            print(self.Idss)
+                            self.QueryDatabaseProfile(appleid: self.modelPemilik!.appleID) { (status) in
+                                self.updateToCloudProfil(tokoID: self.Idss!) { (status) in
+                                    DispatchQueue.main.sync {
+                                        if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                                            vc.modelPeople = self.modelPemilik
+                                             vc.appleid = ""
+                                            let appDelegate = UIApplication.shared.windows
+                                            appDelegate.first?.rootViewController = vc
+                                            self.present(vc, animated: true, completion: nil)
+                                        }
                                     }
+                                    
                                 }
-                                
                             }
                         }
                         
@@ -106,7 +104,9 @@ class TokoViewController: UIViewController {
             guard let record = record else {return}
                 
             self.dataToko = record
+            self.Idss = self.dataToko.first?.recordID.recordName
             completion(true)
+             print("jumlah toko : \(self.dataToko.count)")
         }
     }
     

@@ -219,22 +219,26 @@ class OnboardingViewController: UIViewController {
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             
             if self.textfieldpassword == "1234"{
+                
                 self.QueryDatabase(appleid: "000199.53be12a7a93d4d749a7d907e94e99b6a.0307") { (status) in
                     self.model = self.people.first
-                    DispatchQueue.main.sync {
-                        if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                        vc.peopleMaintab = self.people
-                        vc.modelPeople = self.model
-                        vc.appleid = ""
-                        //navigationController?.setNavigationBarHidden(false, animated: true)
-                        let appDelegate = UIApplication.shared.windows
-                        appDelegate.first?.rootViewController = vc
-                        self.present(vc, animated: true, completion: nil)
+                    if self.model?.role == "-" || self.model?.tokoID == "-" {
+                         DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "toChooseRole", sender: nil)
+                        }
+                    }else{
+                        DispatchQueue.main.sync {
+                            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                            vc.peopleMaintab = self.people
+                            vc.modelPeople = self.model
+                            vc.appleid = ""
+                            //navigationController?.setNavigationBarHidden(false, animated: true)
+                            let appDelegate = UIApplication.shared.windows
+                            appDelegate.first?.rootViewController = vc
+                            self.present(vc, animated: true, completion: nil)
+                            }
                         }
                     }
-
-                
-                    
                 }
             }else{
                 var alert2: UIAlertController = UIAlertController()

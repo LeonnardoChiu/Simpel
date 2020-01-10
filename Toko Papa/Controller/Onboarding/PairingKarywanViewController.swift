@@ -23,18 +23,24 @@ class PairingKarywanViewController: UIViewController {
     }
     
    
-    
+    var tokoString: String?
+    var tokoIDs: String?
     @IBAction func pairingButton(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
+        
+        
+        
         self.QueryDatabaseToko(uniq: pairingTextField.text!) { (status) in
             if status == true{
+                self.tokoIDs = self.datatoko.first?.recordID.recordName
+                self.tokoString = self.datatoko.first?.value(forKey: "NamaToko") as! String
                 DispatchQueue.main.async {
-                    alert = UIAlertController(title: "Apakah Toko Tepat?", message: "Toko : \(self.pairingTextField.text!) sudah bener? \n kalo sudah silahkan tekan ok", preferredStyle: .alert)
+                    alert = UIAlertController(title: "Apakah Toko Tepat?", message: "Toko : \(self.tokoString!) sudah bener? \n kalo sudah silahkan tekan ok", preferredStyle: .alert)
                     let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
                     let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
                         
                         self.QueryDatabaseProfile(appleid: self.modelPemilik!.appleID) { (status) in
-                            self.updateToCloudProfil(tokoID: self.pairingTextField.text!) { (status) in
+                            self.updateToCloudProfil(tokoID: self.tokoIDs!) { (status) in
                                 DispatchQueue.main.async {
                                     if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
                                         vc.modelPeople = self.modelPemilik
@@ -62,16 +68,19 @@ class PairingKarywanViewController: UIViewController {
     }
     
     @objc func QueryDatabaseToko(uniq: String, completion: @escaping (Bool)-> Void){
+            
            let query = CKQuery(recordType: "Toko", predicate: NSPredicate(format: "UniqCode == %@", uniq))
            database.perform(query, inZoneWith: nil) { (record, _) in
                guard let record = record else {return}
                self.datatoko = record
                print("jumlah toko : \(self.datatoko.count)")
+                
            }
             if datatoko.count != 0{
                   completion(true)
+                
             }else{
-                  completion(false)
+                completion(false)
             }
         
        }
