@@ -135,11 +135,15 @@ class OnboardingViewController: UIViewController {
         self.QueryDatabase(appleid: user.id) {
             status in
             if self.people.count == 0{
+                 DispatchQueue.main.async {
                  self.performSegue(withIdentifier: "toRegister", sender: user)
+                }
             }else{
                 self.model = self.people.first
                 if self.model?.role == "-" || self.model?.tokoID == "-" {
+                     DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "toChooseRole", sender: nil)
+                    }
                 }else{
                     /// ke main storyboard
                     DispatchQueue.main.sync {

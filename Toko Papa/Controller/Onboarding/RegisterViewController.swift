@@ -59,8 +59,8 @@ class RegisterViewController: UIViewController {
             self.alert2 = UIAlertController(title: "mohon menunggu", message: "tunggu beberapa detik", preferredStyle: .alert)
           
             self.present(self.alert2, animated: true, completion: nil)
-            self.cek = false
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+            self.appendAdd()
+//            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
            
             
         }
@@ -74,22 +74,21 @@ class RegisterViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func timerAction() {
-        counter += 1
-        print(counter)
-        
-        if counter == 1 {
-            self.appendAdd()
-            //initDataModel()
-        }
-        if cek == true {
-            counter = 0
-            timer.invalidate()
-            //performSegue(withIdentifier: "backtoLogin", sender: nil)
-            alert2.dismiss(animated: true, completion: nil)
-            performSegue(withIdentifier: "toRole", sender: nil)
-        }
-    }
+//    @objc func timerAction() {
+//        counter += 1
+//        print(counter)
+//
+//        if counter == 1 {
+//
+//            //initDataModel()
+//        }
+//        if cek == true {
+//            counter = 0
+//            timer.invalidate()
+//            //performSegue(withIdentifier: "backtoLogin", sender: nil)
+//
+//        }
+//    }
     
     // MARK: - View did load
     override func viewDidLoad() {
@@ -114,7 +113,7 @@ class RegisterViewController: UIViewController {
     
     
     // MARK: - Save to cloud function
-    func saveToCloud(AppleID: String, firstName: String) {
+    func saveToCloud(AppleID: String, firstName: String,completion: @escaping (Bool)-> Void) {
         print("mulai save")
         let record = CKRecord(recordType: "Profile")
         record.setValue(AppleID, forKey: "AppleID")
@@ -126,7 +125,7 @@ class RegisterViewController: UIViewController {
         database.save(record) { (record, _) in
             guard record != nil else { return }
             print("Data saved to Cloud!")
-            self.cek = true
+            completion(true)
         }
     }
     
@@ -148,8 +147,14 @@ class RegisterViewController: UIViewController {
     func appendAdd() {
         let firstName = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegisterViewCell
         //let role = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as? RegisterViewCel
+        self.saveToCloud(AppleID: user!.id, firstName: firstName!.textField.text!) { (status) in
+            DispatchQueue.main.sync {
+                self.alert2.dismiss(animated: true, completion: nil)
+                self.performSegue(withIdentifier: "toRole", sender: nil)
+            }
+           
+        }
         
-        self.saveToCloud(AppleID: user!.id, firstName: firstName!.textField.text!)
     }
     
     func initDataModel() {
