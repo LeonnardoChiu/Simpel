@@ -13,78 +13,91 @@ class PairingKarywanViewController: UIViewController {
     var modelPemilik: People?
     var toko: [Toko] = []
     var dataProfil = [CKRecord]()
+    var datatoko = [CKRecord]()
     let database = CKContainer.default().publicCloudDatabase
     @IBOutlet weak var pairingTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        QueryDatabaseProfile()
+        
         // Do any additional setup after loading the view.
     }
     
    
-    
+    var tokoString: String?
+    var tokoIDs: String?
     @IBAction func pairingButton(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
         
-        var tokoString: String?
-        var tokoIDs: String?
-        var cekToko = false
-        for i in toko {
-            if i.uniqcode == Int(pairingTextField.text!)! {
-                tokoString = i.namaToko
-                tokoIDs = i.Id.recordName
-                cekToko = true
-                break
-            }
-        }
         
         
-        if cekToko == true {
-            alert = UIAlertController(title: "Apakah Toko Tepat?", message: "Toko : \(tokoString!) sudah bener? \n kalo sudah silahkan tekan ok", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
-            let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
-                self.updateToCloudProfil(tokoID: tokoIDs!)
-                if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                    vc.modelPeople = self.modelPemilik
-                    vc.appleid = ""
-                    let appDelegate = UIApplication.shared.windows
-                    appDelegate.first?.rootViewController = vc
-                    self.present(vc, animated: true, completion: nil)
+        self.QueryDatabaseToko(uniq: pairingTextField.text!) { (status) in
+            if status == true{
+                self.tokoIDs = self.datatoko.first?.recordID.recordName
+                self.tokoString = self.datatoko.first?.value(forKey: "NamaToko") as! String
+                DispatchQueue.main.async {
+                    alert = UIAlertController(title: "Apakah Toko Tepat?", message: "Toko : \(self.tokoString!) sudah bener? \n kalo sudah silahkan tekan ok", preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
+                    let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
+                        
+                        self.QueryDatabaseProfile(appleid: self.modelPemilik!.appleID) { (status) in
+                            self.updateToCloudProfil(tokoID: self.tokoIDs!) { (status) in
+                                DispatchQueue.main.async {
+                                    if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                                        vc.modelPeople = self.modelPemilik
+                                        vc.appleid = ""
+                                        let appDelegate = UIApplication.shared.windows
+                                        appDelegate.first?.rootViewController = vc
+                                        self.present(vc, animated: true, completion: nil)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    alert.addAction(cancel)
+                    alert.addAction(confirm)
+                    self.present(alert, animated: true, completion: nil)
                 }
-              
+                
+            }else{
+                alert = UIAlertController(title: "Gagal", message: "kode yang di masukan salah", preferredStyle: .alert)
+                let oke = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                alert.addAction(oke)
+                self.present(alert, animated: true, completion: nil)
             }
-            alert.addAction(cancel)
-            alert.addAction(confirm)
-            present(alert, animated: true, completion: nil)
-        }else{
-            alert = UIAlertController(title: "Gagal", message: "kode yang di masukan salah", preferredStyle: .alert)
-            let oke = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-            alert.addAction(oke)
-            present(alert, animated: true, completion: nil)
         }
-      
     }
     
-    @objc func QueryDatabaseProfile(){
-        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
+    @objc func QueryDatabaseToko(uniq: String, completion: @escaping (Bool)-> Void){
+            
+           let query = CKQuery(recordType: "Toko", predicate: NSPredicate(format: "UniqCode == %@", uniq))
+           database.perform(query, inZoneWith: nil) { (record, _) in
+               guard let record = record else {return}
+               self.datatoko = record
+               print("jumlah toko : \(self.datatoko.count)")
+                
+           }
+            if datatoko.count != 0{
+                  completion(true)
+                
+            }else{
+                completion(false)
+            }
+        
+       }
+    
+    @objc func QueryDatabaseProfile(appleid: String, completion: @escaping (Bool)-> Void){
+        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(format: "AppleID == %@", appleid))
         database.perform(query, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
-                
             self.dataProfil = record
+             completion(true)
         }
         print("Profilnya ada : \(dataProfil.count)")
     }
     
-    func updateToCloudProfil(tokoID: String){
+    func updateToCloudProfil(tokoID: String, completion: @escaping (Bool)-> Void){
         var editNote: CKRecord?
-        
-        for edit in dataProfil{
-            if modelPemilik!.appleID == edit.value(forKey: "AppleID") as! String{
-            editNote = edit
-            break
-            }
-        }
-        
+        editNote = dataProfil.first
         modelPemilik?.tokoID = tokoID
         modelPemilik?.role = "Karyawan"
         editNote?.setValue(tokoID, forKey: "TokoID")
@@ -95,18 +108,8 @@ class PairingKarywanViewController: UIViewController {
          //print(error)
          guard record != nil else { return}
          print("update")
+        completion(true)
      }
-   
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.x
-    }
-    */
 
 }
 }

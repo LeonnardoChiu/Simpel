@@ -33,33 +33,18 @@ class ChooseRoleViewController: UIViewController {
     // MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
-        QueryDatabaseKaryawan()
+
         let gestureOwner: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Owner))
-        // or declare like this
         let gestureKaryawan: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Karyawan))
 
-        //modelPemilik?.appleID
+        
        
         self.ownerView.addGestureRecognizer(gestureOwner)
         self.karyawanView.addGestureRecognizer(gestureKaryawan)
 
     }
     
-    @objc func QueryDatabaseKaryawan(){
-        
-        let query = CKQuery(recordType: "Toko", predicate: NSPredicate(value: true))
-    
-        database.perform(query, inZoneWith: nil) { (record, _) in
-            guard let record = record else {return}
-                
-            self.data = record
-            self.ModelToko()
-            /// append ke model
-            print("jumlah toko : \(self.data.count)")
-        }
-        
-
-    }
+   
     
     
     func initDataModel() {
@@ -83,7 +68,7 @@ class ChooseRoleViewController: UIViewController {
         for countData in data {
             let id = countData.recordID
             let namaToko = countData.value(forKey: "NamaToko") as! String
-            let Uniq = countData.value(forKey: "UniqCode") as! Int
+            let Uniq = countData.value(forKey: "UniqCode") as! String
             
             toko.append(Toko(id: id, namatoko: namaToko,uniq: Uniq))
         }

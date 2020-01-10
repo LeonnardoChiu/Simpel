@@ -17,7 +17,7 @@ class TokoViewController: UIViewController {
     var modelProfile: [People] = []
     var dataProfil = [CKRecord]()
     var dataToko = [CKRecord]()
-    var tempBuatCekToko: Int?
+    var tempBuatCekToko: String?
     var image: CKAsset?
     var people: [People] = []
     // MARK: - IBOutlet
@@ -34,8 +34,7 @@ class TokoViewController: UIViewController {
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        QueryDatabaseProfile()
-        QueryDatabaseToko()
+        
         
     }
     
@@ -45,7 +44,7 @@ class TokoViewController: UIViewController {
     var kontertoko = 0
     var cekupdatetocloud = false
     var konterupdate = 0
-    
+     var Idss: String?
     @IBAction func doneBtn(_ sender: Any) {
         
         var alert: UIAlertController = UIAlertController()
@@ -59,8 +58,35 @@ class TokoViewController: UIViewController {
             self.cekupdatetocloud = false
            alert2 = UIAlertController(title: "mohon menunggu", message: "tunggu beberapa detik", preferredStyle: .alert)
            self.present(alert2, animated: true, completion: nil)
-          
-           self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+           
+            self.saveToCloud(namaToko: self.namaTokotextField.text!) { (status) in
+                if status == true {
+                    print(self.tempBuatCekToko)
+                    self.QueryDatabaseToko(uniqcode: self.tempBuatCekToko!) { (status) in
+                        if status == true{
+                            print(self.Idss)
+                            self.QueryDatabaseProfile(appleid: self.modelPemilik!.appleID) { (status) in
+                                self.updateToCloudProfil(tokoID: self.Idss!) { (status) in
+                                    DispatchQueue.main.sync {
+                                        if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                                            vc.modelPeople = self.modelPemilik
+                                             vc.appleid = ""
+                                            let appDelegate = UIApplication.shared.windows
+                                            appDelegate.first?.rootViewController = vc
+                                            self.present(vc, animated: true, completion: nil)
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                
+                
+            }
+           
         }
         alert = UIAlertController(title: "Nama Toko sudah benar?", message: "Jika sudah bener tekan ok", preferredStyle: .alert)
         alert.addAction(cancel)
@@ -69,78 +95,49 @@ class TokoViewController: UIViewController {
         
         
     }
-    
-    
-    @objc func timerAction() {
-        counter += 1
-        QueryDatabaseToko()
-        QueryDatabaseProfile()
-        print(counter)
-        if counter == 1 {
-            saveToCloud(namaToko: namaTokotextField.text!)
-        }
-        if ceknamatoko == true && counter == kontertoko {
-            var Idss: String?
-            for i in dataToko{
-                if Int(i.value(forKey: "UniqCode") as! Int) == tempBuatCekToko{
-                    Idss = i.recordID.recordName
-                    break
-                }
-            }
-           
-            modelPemilik?.tokoID = Idss!
-            modelPemilik?.role = "Owner"
-            updateToCloudProfil(tokoID: Idss!)
-        }
-        
-        if cekupdatetocloud == true && counter == konterupdate{
-            counter = 0
-            timer.invalidate()
-           if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-               vc.modelPeople = modelPemilik
-                vc.appleid = ""
-               let appDelegate = UIApplication.shared.windows
-               appDelegate.first?.rootViewController = vc
-               self.present(vc, animated: true, completion: nil)
-           }
-        }
-    }
-    
     // MARK: - Function
     /// save
     
-    @objc func QueryDatabaseToko(){
-        let query = CKQuery(recordType: "Toko", predicate: NSPredicate(value: true))
+    @objc func QueryDatabaseToko(uniqcode: String, completion: @escaping (Bool)-> Void){
+        let query = CKQuery(recordType: "Toko", predicate: NSPredicate(format: "UniqCode == %@", uniqcode))
         database.perform(query, inZoneWith: nil) { (record, _) in
             guard let record = record else {return}
                 
             self.dataToko = record
-            print(self.dataToko.count)
+            self.Idss = self.dataToko.first?.recordID.recordName
+            completion(true)
+             print("jumlah toko : \(self.dataToko.count)")
         }
     }
     
     
-    func saveToCloud(namaToko: String){
+    func saveToCloud(namaToko: String, completion: @escaping (Bool)-> Void){
+        print("test")
         let NewNote = CKRecord(recordType: "Toko")//ini buat data base baru
         NewNote.setValue(namaToko, forKey: "NamaToko")//ini ke tablenya
         let unicode = Int(generateRandomDigits(6))!
         print(unicode)
-        tempBuatCekToko = unicode
-        NewNote.setValue(unicode, forKey: "UniqCode")
+        tempBuatCekToko = String(unicode)
+        NewNote.setValue(tempBuatCekToko, forKey: "UniqCode")
         database.save(NewNote) { (record, error) in
+            if error == nil {
              guard record != nil else { return}
              print("savaedddd")
-            self.ceknamatoko = true
-            self.kontertoko = self.counter + 5
+            completion(true)
+            }
+            else{
+                print(error)
+            }
          }
+        
     }
     
     
     
     
     /// update
-    @objc func QueryDatabaseProfile(){
-        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
+    @objc func QueryDatabaseProfile(appleid: String, completion: @escaping (Bool)-> Void){
+        let query = CKQuery(__recordType: "Profile", predicate: NSPredicate(format: "AppleID == %@", appleid))
         database.perform(query, inZoneWith: nil) { (record, _) in
             guard let record = record else { return }
             //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
@@ -150,24 +147,15 @@ class TokoViewController: UIViewController {
                 print(i.appleID)
                 print(i.firstName)
            }
+            completion(true)
             print("Total Employee dalam database : \(self.dataProfil.count)")
         }
     }
     
     
-    func updateToCloudProfil(tokoID: String){
+    func updateToCloudProfil(tokoID: String,completion: @escaping (Bool)-> Void){
             var editNote: CKRecord?
-       
-            for edit in dataProfil{
-                let aaaa = edit.value(forKey: "AppleID") as? String
-                print(aaaa!)
-                print(modelPemilik!.appleID)
-                if modelPemilik!.appleID == aaaa!{
-                editNote = edit
-                break
-                }
-            }
-            
+            editNote = dataProfil.first
             editNote?.setValue(tokoID, forKey: "TokoID")
             editNote?.setValue("Owner", forKey: "role")//ini ke tablenya
             
@@ -176,8 +164,7 @@ class TokoViewController: UIViewController {
              //print(error)
              guard record != nil else { return}
              print("savaedddd")
-            self.cekupdatetocloud = true
-            self.konterupdate = self.counter + 5
+            completion(true)
          }
     }
     

@@ -120,7 +120,7 @@ class EmployeeListViewController: UIViewController {
         for countData in data {
             let id = countData.recordID
             let namaToko = countData.value(forKey: "NamaToko") as! String
-            let Uniq = countData.value(forKey: "UniqCode") as! Int
+            let Uniq = countData.value(forKey: "UniqCode") as! String
             toko.append(Toko(id: id, namatoko: namaToko,uniq: Uniq))
         }
     }

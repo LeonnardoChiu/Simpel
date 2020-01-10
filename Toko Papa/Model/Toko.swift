@@ -11,10 +11,10 @@ import CloudKit
 
 class Toko {
     var namaToko: String?
-    var uniqcode: Int?
+    var uniqcode: String?
     var Id: CKRecord.ID
     
-    init(id:CKRecord.ID, namatoko: String, uniq: Int) {
+    init(id:CKRecord.ID, namatoko: String, uniq: String) {
         self.Id = id
         self.namaToko = namatoko
         self.uniqcode = uniq
