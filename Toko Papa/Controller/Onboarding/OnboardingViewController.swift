@@ -37,28 +37,12 @@ class OnboardingViewController: UIViewController {
     }
     @IBAction func unwindFromLoginVC(segue: UIStoryboardSegue){
         guard let _ = segue.source as? RegisterViewController else { return }
-            QueryDatabase()
-    }
-    
-    
-    
-    // MARK: - obj function untuk nampilin data Query Database
-    @objc func QueryDatabase(){
-        let query = CKQuery(recordType: "Profile", predicate: NSPredicate(value: true))
         
-        database.perform(query, inZoneWith: nil) { (record, _) in
-            guard let record = record else { return }
-            //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
-            self.data = record
-            self.initDataModel()
-            for i in self.people{
-                print(i.appleID)
-                print(i.firstName)
-           }
-            self.cek = true
-            print("Total Employee dalam database : \(self.data.count)")
-        }
     }
+    
+    
+    
+   
     
     var counter = 0
     var timer = Timer()
@@ -71,65 +55,36 @@ class OnboardingViewController: UIViewController {
 //        loginStatus = false
           cek = false
         print(loginStatus)
-        forDeveloperButton.isHidden = true
+//        forDeveloperButton.isHidden = true
+       
         if let appleID = UserDefaults.standard.string(forKey: "appleId") {
            
         }else{
            
         }
         if loginStatus == false {
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionBelomLogin), userInfo: nil, repeats: true)
-            
+             initAppleSignInButton()
         }
         else{
             appleId = UserDefaults.standard.string(forKey: "appleId")!
             print(appleId)
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerActionSudahLogin), userInfo: nil, repeats: true)
-            /// ke main storyboard
+            self.QueryDatabase(appleid: appleId) { (status) in
+                DispatchQueue.main.sync {
+                if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                    vc.peopleMaintab = self.people
+                    vc.modelPeople = self.model
+                    vc.appleid = self.appleId
+                    //navigationController?.setNavigationBarHidden(false, animated: true)
+                    let appDelegate = UIApplication.shared.windows
+                    appDelegate.first?.rootViewController = vc
+                    self.present(vc, animated: true, completion: nil)
+                    
+                }
+                }
+            }
            
         }
         self.hideKeyboardWhenTappedAround()
-    }
-    
-    @objc func timerActionBelomLogin() {
-        counter += 1
-        print(counter)
-        if counter == 1{
-            self.QueryDatabase()
-        }
-        if cek == true {
-            counter = 0
-            timer.invalidate()
-            initAppleSignInButton()
-            forDeveloperButton.isHidden = false
-          
-        }
-        
-    }
-    
-    @objc func timerActionSudahLogin() {
-        counter += 1
-        print(counter)
-        if counter == 1{
-            self.QueryDatabase()
-        }
-        if cek == true {
-            counter = 0
-            timer.invalidate()
-            if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                           print("bentot", people.count)
-               vc.peopleMaintab = people
-               vc.modelPeople = model
-               vc.appleid = appleId
-               //navigationController?.setNavigationBarHidden(false, animated: true)
-               let appDelegate = UIApplication.shared.windows
-               appDelegate.first?.rootViewController = vc
-               self.present(vc, animated: true, completion: nil)
-               
-           }
-          
-        }
-        
     }
     
     
@@ -137,8 +92,6 @@ class OnboardingViewController: UIViewController {
     // MARK: - View will appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.QueryDatabase()
-        
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -158,40 +111,54 @@ class OnboardingViewController: UIViewController {
         }
     }
     
+    // MARK: - obj function untuk nampilin data Query Database
+    @objc func QueryDatabase(appleid: String, completion: @escaping (Bool)-> Void) {
+           let query = CKQuery(recordType: "Profile", predicate: NSPredicate(format: "AppleID == %@", appleid))
+        
+           database.perform(query, inZoneWith: nil) { (record, _) in
+               guard let record = record else { return }
+               //let sortedRecord = record.sorted(by: {$0.creationDate! > $1.creationDate!})
+               self.data = record
+               self.initDataModel()
+               for i in self.people{
+                   print(i.appleID)
+                   print(i.firstName)
+              }
+               print("Total Employee dalam database : \(self.data.count)")
+        
+            completion(true)
+           }
+       }
+    
     // MARK: - Function Check Form
     func checkForm(user: User) {
-        var cek = false
-        print("hai : \(user.id)")
-        for ppl in people{
-            if ppl.appleID == user.id{
-                cek = true
-                model = ppl
-                break
-            }
-        }
-        if cek == true{
-            
-            if model?.role == "-" || model?.tokoID == "-" {
-                performSegue(withIdentifier: "toChooseRole", sender: nil)
+        self.QueryDatabase(appleid: user.id) {
+            status in
+            if self.people.count == 0{
+                 self.performSegue(withIdentifier: "toRegister", sender: user)
             }else{
-                /// ke main storyboard
-                if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                    vc.peopleMaintab = people
-                    vc.modelPeople = model
-                    vc.appleid = ""
-                    //navigationController?.setNavigationBarHidden(false, animated: true)
-                    let appDelegate = UIApplication.shared.windows
-                    appDelegate.first?.rootViewController = vc
-                    self.present(vc, animated: true, completion: nil)
+                self.model = self.people.first
+                if self.model?.role == "-" || self.model?.tokoID == "-" {
+                    self.performSegue(withIdentifier: "toChooseRole", sender: nil)
+                }else{
+                    /// ke main storyboard
+                    DispatchQueue.main.sync {
+                        if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                                vc.peopleMaintab = self.people
+                                vc.modelPeople = self.model
+                                vc.appleid = ""
+                                //navigationController?.setNavigationBarHidden(false, animated: true)
+                                let appDelegate = UIApplication.shared.windows
+                                appDelegate.first?.rootViewController = vc
+                                self.present(vc, animated: true, completion: nil)
+                                
+                            }
+                            
+                        self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    }
                     
                 }
-                
-            navigationController?.setNavigationBarHidden(false, animated: true)
             }
-        }else{
-             
-             // perform segue here
-             performSegue(withIdentifier: "toRegister", sender: user)
         }
     }
     
@@ -233,7 +200,7 @@ class OnboardingViewController: UIViewController {
         }
     }
 
-    
+    // MARK: for developer
     @IBAction func forDeveloperPurpose(_ sender: Any) {
         var alert: UIAlertController = UIAlertController()
         alert = UIAlertController(title: "Password", message: "Input password Devolper", preferredStyle: .alert)
@@ -248,22 +215,21 @@ class OnboardingViewController: UIViewController {
         let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
             
             if self.textfieldpassword == "1234"{
+                self.QueryDatabase(appleid: "000199.53be12a7a93d4d749a7d907e94e99b6a.0307") { (status) in
+                    self.model = self.people.first
+                    DispatchQueue.main.sync {
+                        if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
+                        vc.peopleMaintab = self.people
+                        vc.modelPeople = self.model
+                        vc.appleid = ""
+                        //navigationController?.setNavigationBarHidden(false, animated: true)
+                        let appDelegate = UIApplication.shared.windows
+                        appDelegate.first?.rootViewController = vc
+                        self.present(vc, animated: true, completion: nil)
+                        }
+                    }
+
                 
-                for ppl in self.people{
-                    if ppl.appleID == "000199.53be12a7a93d4d749a7d907e94e99b6a.0307"{
-                         
-                        self.model = ppl
-                         break
-                     }
-                 }
-                if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
-                    vc.peopleMaintab = self.people
-                    vc.modelPeople = self.model
-                    vc.appleid = ""
-                    //navigationController?.setNavigationBarHidden(false, animated: true)
-                    let appDelegate = UIApplication.shared.windows
-                    appDelegate.first?.rootViewController = vc
-                    self.present(vc, animated: true, completion: nil)
                     
                 }
             }else{
