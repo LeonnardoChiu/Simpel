@@ -28,7 +28,7 @@ class PairingKarywanViewController: UIViewController {
         var alert: UIAlertController = UIAlertController()
         self.QueryDatabaseToko(uniq: pairingTextField.text!) { (status) in
             if status == true{
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     alert = UIAlertController(title: "Apakah Toko Tepat?", message: "Toko : \(self.pairingTextField.text!) sudah bener? \n kalo sudah silahkan tekan ok", preferredStyle: .alert)
                     let cancel = UIAlertAction(title: "Batal", style: .cancel, handler: nil)
                     let confirm = UIAlertAction(title: "OK", style: .default) { ACTION in
