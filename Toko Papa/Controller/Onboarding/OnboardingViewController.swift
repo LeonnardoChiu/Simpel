@@ -68,6 +68,7 @@ class OnboardingViewController: UIViewController {
         else{
             appleId = UserDefaults.standard.string(forKey: "appleId")!
             print(appleId)
+            forDeveloperButton.isHidden = true
             self.QueryDatabase(appleid: appleId) { (status) in
                 DispatchQueue.main.sync {
                 if let vc: MainTabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MainStoryboard") as? MainTabBarController {
